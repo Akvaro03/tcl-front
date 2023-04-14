@@ -1,0 +1,128 @@
+.Form {
+    display: flex;
+    justify-content: center;
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+}
+
+.ContentForm {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 85%;
+}
+
+.PartLeft {
+    width: 100%;
+}
+
+.PartRight {
+    width: 100%;
+}
+
+.SelectClient {
+    margin-bottom: 10px;
+}
+
+.TittleClient {
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 1%;
+}
+
+.ClientData {
+    display: flex;
+    width: 97%;
+}
+
+.ClientDataContent {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    gap: 7px;
+}
+
+.InputDisabled {
+    width: 50%;
+}
+
+.TittleData {
+    width: 30%;
+}
+
+.DataInput {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.Input {
+    width: 70%;
+}
+
+.Identification{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.SelectType{
+    margin: 10px 0;
+}
+.TittleType{
+    margin: 7px 0;
+}
+
+.DataInputLarge{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+.TittleDataLarge{
+    width: 60%;
+}
+.ButtonDescription{
+    margin: 5% 0;
+}
+.ButtonSave{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+.Content{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.DescriptionContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.DescriptionTittle{
+    font-size: 22px;
+}
+.Description{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4,1fr);
+    justify-items: center;
+    row-gap: 7px;
+    width: 80%;
+    margin: 2% 0 0 0;
+}
+.ItemTable{
+    width: 40%;
+}
+.ImportTable{
+    width: 50%;
+}
+.InputIdentification{
+    width: 70%;
+}
+.InputLarge{
+    width: 31%;
+}
+.FieldObser{
+    margin: 5% 0 0 0;
+}

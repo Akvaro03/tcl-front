@@ -1,0 +1,76 @@
+.ContentListOt {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    transition: all .7s;
+    position: relative;
+    overflow: hidden;
+}
+
+.ContentListOtMini {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    overflow: hidden;
+    transition: all .7s;
+    position: relative;
+}
+
+.DataGrid {
+    width: 90%;
+    transition: all .7s;
+    height: 90%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 15px;
+}
+
+.DataGridMini {
+    width: 70%;
+    height: 90%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 15px;
+    transition: all .7s;
+    margin-right: 20%;
+}
+
+.DatUsers,
+.DatUsersClosed {
+    height: 90%;
+    width: 20%;
+    position: absolute;
+    top: 5%;
+    right: 2%;
+}
+
+.DatUsers {
+    animation: slideoff .7s;
+}
+
+.DatUsersClosed {
+    animation: slidein .7s;
+}
+
+@keyframes slidein {
+    from {
+        right: 2%;
+    }
+
+    to {
+        right: -25%;
+    }
+}
+
+@keyframes slideoff {
+    from {
+        right: -25%;
+    }
+
+    to {
+        right: 2%;
+    }
+}

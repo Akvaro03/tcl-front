@@ -1,0 +1,34 @@
+.ContentLogin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 89vh;
+    font-family: Segoe UI,Roboto,Helvetica Neue,Ubuntu,sans-serif;
+}
+
+.Login{
+    width: 45%;
+    height: 85%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Tittle{
+    font-size: 21px;
+    margin: 15% 0 8% 0;
+    width: 80%;
+}
+.FormLogin{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 40%;
+    gap: 29%;
+}
+.ContentEmail, .ContentPassword, .ContentButton{
+    width: 80%;
+}

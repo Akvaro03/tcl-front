@@ -1,0 +1,41 @@
+.containerAlert {
+    z-index: -10;
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    right: 60px;
+    bottom: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    color: white;
+    animation-name: moveAlert;
+    animation-duration: 1s;
+    transition-timing-function: ease-out;
+    transform: translateY(0);
+}
+
+.containerForm {
+    z-index: 100;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(155, 155, 155, 0.404);
+}
+
+@keyframes moveAlert {
+    from {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

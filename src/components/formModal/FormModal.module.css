@@ -1,0 +1,78 @@
+.ContentForm {
+    width: 80%;
+    height: 40%;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+}
+
+.ContentDescription,
+.ContentObser {
+    margin: 2% 0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.ContentDescription {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.TableDescription {
+    height: 80%;
+    width: 100%;
+    margin: 4% 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.TableDescription {
+    height: 80%;
+}
+
+.Headers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+
+}
+
+.Table {
+    height: 100%;
+    margin: 2% 0 0 0;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    row-gap: 10px;
+    justify-items: center;
+}
+
+.TableItem{
+    width: 30%;
+}
+
+.TableImport{
+    width: 50%;
+}
+
+.ContentObser{
+    display: flex;
+    flex-direction: column;
+}
+
+.FieldObser{
+    margin: 1% 0;
+    height: 80%;
+    width: 80%;
+}
+
+.ButtonSave{
+    width: 70%;
+    margin-bottom: 1%;
+}
