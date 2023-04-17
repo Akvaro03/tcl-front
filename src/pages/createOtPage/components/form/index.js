@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "@emotion/styled";
 import Style from './formCreateOt.module.css'
 import InputUnstyled from '@mui/base/InputUnstyled';
 import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
 import ModalPortal from '../../../../components/modelPortal';
 import Alerts from '../../../../components/alerts';
+import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 
 function FormCreateOt({ Date }) {
-    const [ClientObjet, setClientObjet] = useState(top100Films[0])
+    const [Clients, setClients] = useState([{ label: "Seleccione" }])
+    const [ClientObjet, setClientObjet] = useState(Clients[0])
     const [RazonSocial, setRazonSocial] = useState("")
     const [Producto, setProducto] = useState("")
     const [Marca, setMarca] = useState("")
@@ -33,7 +35,6 @@ function FormCreateOt({ Date }) {
     const [Observaciones, setObservaciones] = useState("")
 
     const [Result, setResult] = useState(null)
-
     const handleSubmit = () => {
         let Client = ClientObjet.label;
         const OT = {
@@ -60,6 +61,20 @@ function FormCreateOt({ Date }) {
 
     }
 
+    useEffect(() => {
+        getDataFromUrl('http://localhost:4000/getClients')
+            .then(json => {
+                let newJson = []
+                json.forEach(element => {
+                    let data = { label: element.Name, id: element.id, KeyUnique: element.KeyUnique };
+                    newJson.push(data)
+                });
+                setClients(newJson)
+            })
+    }, [])
+
+    const options = ['The Godfather', 'Pulp Fiction'];
+
     return (
         <form className={Style.Form}>
             <div className={Style.ContentForm}>
@@ -74,9 +89,9 @@ function FormCreateOt({ Date }) {
                                 onChange={(event, newValue) => {
                                     setClientObjet(newValue);
                                 }}
-
+                                
                                 id="combo-box-demo"
-                                options={top100Films}
+                                options={Clients}
                                 sx={{ width: 300 }}
                                 renderInput={(params) => <TextField {...params} label="Cliente" />}
                             />
@@ -85,13 +100,13 @@ function FormCreateOt({ Date }) {
                             <div className={Style.ClientDataContent}>
                                 <p >Client N°</p>
                                 <div className={Style.InputDisabled}>
-                                    <BootstrapInput value={ClientObjet.year} disabled id="outlined-basic" variant="outlined" />
+                                    <BootstrapInput value={ClientObjet.id} disabled id="outlined-basic" variant="outlined" />
                                 </div>
                             </div>
                             <div className={Style.ClientDataContent}>
                                 <p >Clave Unica</p>
                                 <div className={Style.InputDisabled}>
-                                    <BootstrapInput value={ClientObjet.year} disabled id="outlined-basic" variant="outlined" />
+                                    <BootstrapInput value={ClientObjet.KeyUnique} disabled id="outlined-basic" variant="outlined" />
                                 </div>
                             </div>
                         </div>
@@ -217,7 +232,7 @@ function FormCreateOt({ Date }) {
             </div>
             {Result && (
                 <ModalPortal type={"alert"}>
-                    <Alerts Result={Result.result}/>
+                    <Alerts Result={Result.result} />
                 </ModalPortal>
             )}
         </form>

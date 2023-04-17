@@ -4,8 +4,28 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const Pages = [{
+  "name": "CreateOt",
+  "url": "/createOt"
+},
+{
+  "name": "OT asignadas",
+  "url": "/OtAsingPages"
+},
+{
+  "name": "OT pendientes",
+  "url": "/OtPendingPages"
+},
+{
+  "name": "Todos los usuarios",
+  "url": "/AllUser"
+},
+{
+  "name": "Create Client",
+  "url": "/createClient"
+}
+];
 
 function ResponsiveAppBar() {
   const userNameLogin = useSelector(userLogin => userLogin.userLogin.name);
@@ -80,18 +100,11 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem onClick={(e) => { handleCloseNavMenu("/createOt") }}>
-                <Typography textAlign="center">Create OT</Typography>
-              </MenuItem>
-              <MenuItem onClick={(e) => { handleCloseNavMenu("/OtAsingPages") }}>
-                <Typography textAlign="center">OT asignadas</Typography>
-              </MenuItem>
-              <MenuItem onClick={(e) => { handleCloseNavMenu("/OtPendingPages") }}>
-                <Typography textAlign="center">OT pendientes</Typography>
-              </MenuItem>
-              <MenuItem onClick={(e) => { handleCloseNavMenu("/AllUser") }}>
-                <Typography textAlign="center">Todos los usuarios</Typography>
-              </MenuItem>
+              {Pages.map((pageUrl, key) => (
+                <MenuItem key={key} onClick={(e) => { handleCloseNavMenu(pageUrl.url) }}>
+                  <Typography key={key} textAlign="center">{pageUrl.name}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
           <Typography
@@ -113,7 +126,16 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button
+            {Pages.map((pageUrl, key) => (
+              <Button
+                onClick={(e) => { handleCloseNavMenu(pageUrl.url) }}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {pageUrl.name}
+              </Button>
+            ))}
+
+            {/* <Button
               onClick={(e) => { handleCloseNavMenu("/createOt") }}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
@@ -136,7 +158,7 @@ function ResponsiveAppBar() {
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
               {"Todos los usuarios"}
-            </Button>
+            </Button> */}
           </Box>
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>

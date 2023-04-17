@@ -28,7 +28,7 @@ function LoginPage() {
             .then(response => response.json())
             .then(json => checkResult(SetResult, json,Dispatch))
         setTimeout(() => {
-            navigate("/createOt");
+            navigate("/OtAsingPages");
         }, "1500");
     }
     const onChangeEmail = ({ target }) => {
@@ -53,7 +53,7 @@ function LoginPage() {
                             <TextField onChange={onChangePassword} fullWidth id="outlined-basic" label="Password" variant="outlined" />
                         </div>
                         <div className={Style.ContentButton}>
-                            <Button onClick={onLogin} fullWidth variant="contained">Contained</Button>
+                            <Button onClick={onLogin} fullWidth variant="contained">Iniciar Sesion</Button>
                         </div>
                     </div>
                 </div>

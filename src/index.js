@@ -17,6 +17,7 @@ import OtPendingPages from './pages/otPending';
 import { store } from './store/store';
 import AllUser from './pages/allUsers';
 import { Navigate } from "react-router-dom";
+import CreateClients from './pages/createClients';
 
 const router = createBrowserRouter([
   {
@@ -55,7 +56,13 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <AllUser />
        </ProtectedRoute>
-
+  },
+  {
+    path: "/createClient",
+    element:
+      <ProtectedRoute>
+        <CreateClients />
+       </ProtectedRoute>
   }
 ]);
 

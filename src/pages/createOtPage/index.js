@@ -5,9 +5,11 @@ import FormCreateOt from "./components/form";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs';
 
 function CreateOtPage() {
-    const [Date, setDate] = useState(null)
+    const [DateForm, setDateForm] = useState(dayjs)
+
     return (
         <>
             <ResponsiveAppBar />
@@ -15,15 +17,16 @@ function CreateOtPage() {
                 <div className={Style.ContentCreateOt}>
                     <div className={Style.ContentTittle}>
                         <div className={Style.ContentTime}>
-                            <LocalizationProvider sx={{ height: 10 }} dateAdapter={AdapterDayjs} >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
+                                    format="DD/MM/YYYY"
                                     slotProps={{ textField: { size: 'small' } }}
-                                    value={Date} onChange={(newValue) => setDate(newValue)} />
+                                    value={DateForm} onChange={(newValue) => setDateForm(newValue)} />
                             </LocalizationProvider>
                         </div>
                         <p>Crear nuevas OT</p>
                     </div>
-                    <FormCreateOt Date={Date} />
+                    <FormCreateOt Date={DateForm} />
                 </div>
             </div>
         </>
