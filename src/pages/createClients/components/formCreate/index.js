@@ -10,6 +10,7 @@ function FormCreateClient() {
     const [Key, setKey] = useState("")
     const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }])
     const [setResult] = useState()
+    const [BusinessName, SetBusinessName] = useState('')
     let numberContacts = [0, 1, 2];
 
     const handleSubmit = () => {
@@ -24,7 +25,8 @@ function FormCreateClient() {
             nameClient,
             Document,
             Key,
-            ContactVerificate
+            ContactVerificate,
+            BusinessName
         }
         fetch('http://localhost:4000/postClients', {
             method: "POST",
@@ -83,6 +85,12 @@ function FormCreateClient() {
                             <p>Identificacion</p>
                         </div>
                         <CustomInput value={Key} onChange={setKey} />
+                    </div>
+                    <div className={Style.Input}>
+                        <div className={Style.InputTittle}>
+                            <p>Razon social</p>
+                        </div>
+                        <CustomInput value={BusinessName} onChange={SetBusinessName} />
                     </div>
                 </div>
                 <div className={Style.DataContacts}>

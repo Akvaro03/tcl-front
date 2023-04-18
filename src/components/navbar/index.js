@@ -128,6 +128,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {Pages.map((pageUrl, key) => (
               <Button
+                key={key}
                 onClick={(e) => { handleCloseNavMenu(pageUrl.url) }}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
@@ -135,30 +136,6 @@ function ResponsiveAppBar() {
               </Button>
             ))}
 
-            {/* <Button
-              onClick={(e) => { handleCloseNavMenu("/createOt") }}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              {"Create OT"}
-            </Button>
-            <Button
-              onClick={(e) => { handleCloseNavMenu("/OtAsingPages") }}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              {"OT asignadas"}
-            </Button>
-            <Button
-              onClick={(e) => { handleCloseNavMenu("/OtPendingPages") }}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              {"OT pendientes"}
-            </Button>
-            <Button
-              onClick={(e) => { handleCloseNavMenu("/AllUser") }}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              {"Todos los usuarios"}
-            </Button> */}
           </Box>
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>

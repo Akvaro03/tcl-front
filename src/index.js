@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
@@ -7,18 +7,21 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import LoginPage from './pages/login';
 import {
+  Await,
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import CreateOtPage from './pages/createOtPage';
-import ProtectedRoute from './components/ProtectedRoute';
-import OtAsingPages from './pages/otAsignados';
-import OtPendingPages from './pages/otPending';
-import { store } from './store/store';
-import AllUser from './pages/allUsers';
-import { Navigate } from "react-router-dom";
-import CreateClients from './pages/createClients';
 
+import ProtectedRoute from './components/ProtectedRoute';
+import { store } from './store/store';
+import { Navigate } from "react-router-dom";
+import LoadingCircle from './pages/Loading';
+
+const OtAsingPages = React.lazy(() => import('./pages/otAsignados')); // Lazy-loaded
+const OtPendingPages = React.lazy(() => import('./pages/otPending')); // Lazy-loaded
+const AllUser = React.lazy(() => import('./pages/allUsers')); // Lazy-loaded
+const CreateClients = React.lazy(() => import('./pages/createClients')); // Lazy-loaded
+const CreateOtPage = React.lazy(() => import('./pages/createOtPage')); // Lazy-loaded
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,36 +36,56 @@ const router = createBrowserRouter([
     path: "/createOt",
     element:
       <ProtectedRoute>
-        <CreateOtPage />
+        <Suspense fallback={<LoadingCircle />}>
+          <Await resolve={CreateOtPage}>
+            <CreateOtPage />
+          </Await>
+        </Suspense>
       </ProtectedRoute>
   },
   {
     path: "/OtAsingPages",
     element:
       <ProtectedRoute>
-        <OtAsingPages />
+        <Suspense fallback={<LoadingCircle />}>
+          <Await resolve={OtAsingPages}>
+            <OtAsingPages />
+          </Await>
+        </Suspense>
       </ProtectedRoute>
   },
   {
     path: "/OtPendingPages",
     element:
       <ProtectedRoute>
-        <OtPendingPages />
+        <Suspense fallback={<LoadingCircle />}>
+          <Await resolve={OtPendingPages}>
+            <OtPendingPages />
+          </Await>
+        </Suspense>
       </ProtectedRoute>
   },
   {
     path: "/AllUser",
     element:
       <ProtectedRoute>
-        <AllUser />
-       </ProtectedRoute>
+        <Suspense fallback={<LoadingCircle />}>
+          <Await resolve={AllUser}>
+            <AllUser />
+          </Await>
+        </Suspense>
+      </ProtectedRoute>
   },
   {
     path: "/createClient",
     element:
       <ProtectedRoute>
-        <CreateClients />
-       </ProtectedRoute>
+        <Suspense fallback={<LoadingCircle />}>
+          <Await resolve={CreateClients}>
+            <CreateClients />
+          </Await>
+        </Suspense>
+      </ProtectedRoute>
   }
 ]);
 

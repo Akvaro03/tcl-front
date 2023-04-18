@@ -53,6 +53,15 @@
     width: 40%;
 }
 
+.InputContact .NDocument .CustomInput {
+    display: flex;
+    width: 120%;
+}
+.InputContact .TypeDocument .CustomInput {
+    display: flex;
+    width: 25%;
+}
+
 .DataInputs {
     display: flex;
     flex-direction: column;
@@ -67,10 +76,11 @@
     font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
 }
 
-.ContentContacts{
+.ContentContacts {
     margin: 2% 0 2% 0;
 }
-.InputContact{
+
+.InputContact {
     display: flex;
     margin: 2% 0;
 }

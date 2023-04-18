@@ -6,7 +6,7 @@ import ModalPortal from "../../components/modelPortal";
 import Alerts from "../../components/alerts";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addUser } from "../../features/userLogin/userLoginSlice";
+import saveLogin from "../../hooks/saveLogin";
 
 function LoginPage() {
     const [Email, SetEmail] = useState("")
@@ -67,9 +67,8 @@ function LoginPage() {
     );
 }
 const checkResult = (SetResult, result, Dispatch) => {
-    console.log(result)
     SetResult(result);
-    Dispatch(addUser(result.user))
+    saveLogin(result.user)
 }
 
 export default LoginPage;

@@ -28,7 +28,6 @@ function ListOt() {
         const getData = async () => {
             getDataFromUrl('http://localhost:4000/getOT')
                 .then(json => {
-                    console.log(json)
                     json = formatDataToTable(json, setOts)
                 })
             getDataFromUrl('http://localhost:4000/getUsers')
