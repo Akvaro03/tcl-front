@@ -2,14 +2,30 @@ import { useEffect, useState } from "react";
 import CardOt from "./components/cardOt";
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import Style from "./listCards.module.css"
-import { useSelector } from "react-redux";
+import getUser from "../../../../components/getUser";
 function ListCards() {
-    const nameUserLogin = useSelector(userLogin => userLogin.userLogin.name);
+    const user = JSON.parse(JSON.parse(getUser()).userString);
+    const nameUserLogin = user.name;
+
     const [Ots, setOts] = useState()
-    let handleState = (index, string) => {
+    let handleState = (index, string, type) => {
+
+        let typeOt = {
+            Reducido: 0.5,
+            'Verif. Identidad': 0.7,
+            Ampliado: 1.3,
+            'Ensayo Eficiencia': 1,
+            'Ensayo Completo': 1.5,
+            "Otra actividad": 0.5
+
+        }
         let newOts = [];
         Ots.forEach(element => {
             if (element.id === index) {
+                if (type) {
+                    element.score = parseFloat(typeOt[type])
+                    console.log(element)
+                }
                 element.StateProcess = string
             }
             newOts.push(element)
@@ -50,4 +66,5 @@ const filterByName = (json, name) => {
     })
     return jsonFiltered;
 }
+
 export default ListCards;

@@ -1,10 +1,11 @@
 const CryptoJS = require("crypto-js");
 function saveLogin(user) {
     // Dispatch(addUser(user))
-    let userString = JSON.stringify(user); 
-    const key = "consultar";
-    const encrypted = CryptoJS.AES.encrypt(userString, key);
-    localStorage.setItem("user",encrypted)
+    let userString = JSON.stringify(user);
+    const key = 'consultar';
+    const encryptedCP = CryptoJS.AES.encrypt(JSON.stringify({ userString }), key).toString();
+
+    localStorage.setItem("user", encryptedCP)
 }
 
 export default saveLogin;

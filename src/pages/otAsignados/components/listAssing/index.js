@@ -3,7 +3,6 @@ import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import { DataGrid } from "@mui/x-data-grid";
 import formatDataToTable from "../../../../hooks/formatDataToTable";
 import Style from './listAssing.module.css'
-import { useSelector } from "react-redux";
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
@@ -20,7 +19,9 @@ const columns = [
 
 function ListAssing() {
     const [Ots, setOts] = useState([{ id: 1, Date: "", Client: '', Type: '', Marca: '', Modelo: "" }])
-    const nameUserLogin = useSelector(userLogin => userLogin.userLogin.name);
+    const user = JSON.parse(JSON.parse(getUser()).userString);
+    const nameUserLogin = user.name;
+
     useEffect(() => {
         const getData = async () => {
             getDataFromUrl('http://localhost:4000/getOT')

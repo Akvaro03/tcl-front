@@ -16,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { store } from './store/store';
 import { Navigate } from "react-router-dom";
 import LoadingCircle from './pages/Loading';
+import StatisticsPage from './pages/statisticsPage';
 
 const OtAsingPages = React.lazy(() => import('./pages/otAsignados')); // Lazy-loaded
 const OtPendingPages = React.lazy(() => import('./pages/otPending')); // Lazy-loaded
@@ -83,6 +84,17 @@ const router = createBrowserRouter([
         <Suspense fallback={<LoadingCircle />}>
           <Await resolve={CreateClients}>
             <CreateClients />
+          </Await>
+        </Suspense>
+      </ProtectedRoute>
+  },
+  {
+    path: "/estadisticas",
+    element:
+      <ProtectedRoute>
+        <Suspense fallback={<LoadingCircle />}>
+          <Await resolve={CreateClients}>
+            <StatisticsPage />
           </Await>
         </Suspense>
       </ProtectedRoute>

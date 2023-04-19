@@ -1,13 +1,11 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import getUser from "../getUser";
 
 function ProtectedRoute({ children }) {
-    const user = useSelector(userLogin => userLogin.userLogin.name)
-    console.log(getUser())
-    if(user){
+    const user = JSON.parse(JSON.parse(getUser()).userString);
+    if (user) {
         return children
-    } else{
+    } else {
         return <Navigate to="/login" />;
     }
 }

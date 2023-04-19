@@ -2,7 +2,7 @@ import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Too
 import * as React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import getUser from '../getUser';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Pages = [{
@@ -28,7 +28,8 @@ const Pages = [{
 ];
 
 function ResponsiveAppBar() {
-  const userNameLogin = useSelector(userLogin => userLogin.userLogin.name);
+  const user = JSON.parse(JSON.parse(getUser()).userString);
+  const userNameLogin = user.name;
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ function ResponsiveAppBar() {
 
   const handleCloseNavMenu = (url) => {
     setAnchorElNav(null);
+    // window.location.href = url;
     navigate(url);
   };
 
