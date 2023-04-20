@@ -8,7 +8,7 @@ const columns = [
     { field: 'type', headerName: 'Tipo', width: 120 },
     {
         field: 'otAssign',
-        headerName: 'Trabajos asignados', width: 160, valueGetter: (params) =>
+        headerName: 'Trabajos asignados', width: 200, valueGetter: (params) =>
             `${params.row.otAssign}`,
     }
 ];
@@ -47,10 +47,14 @@ function ListUsers() {
 let getOts = (json, ots) => {
     json.forEach((user, index) => {
         let stringOt = "";
-        let otAssing = JSON.parse(user.otAssign).data;
-        otAssing.forEach((numberOt, indexOt) => {
-            stringOt += otAssing.length === indexOt + 1 ? numberOt : numberOt + ", "
-        })
+        if (user.otAssign !== null) {
+            let otAssing = JSON.parse(user.otAssign).data;
+            otAssing.forEach((numberOt, indexOt) => {
+                stringOt += otAssing.length === indexOt + 1 ? numberOt : numberOt + ", "
+            })
+        } else {
+            stringOt = "Ningun trabajo asignado"
+        }
         json[index].otAssign = stringOt;
     });
 

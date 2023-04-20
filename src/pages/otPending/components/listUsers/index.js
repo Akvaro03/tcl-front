@@ -19,8 +19,14 @@ function ListUsers({ Users, SelectOt, setUsers, setOts }) {
     useEffect(() => {
         let usuarios = [];
         Users.forEach((user, index) => {
-            let Ots = JSON.parse(user.otAssign).data
-            let result = SearchForEqueal(Ots, SelectOt.id)
+            let Ots;
+            let result;
+            if (user.otAssign !== null) {
+                Ots = JSON.parse(user.otAssign).data
+                result = SearchForEqueal(Ots, SelectOt.id)
+            } else {
+                result = false
+            }
             user.state = result
             usuarios.push(user)
         });

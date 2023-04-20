@@ -24,12 +24,21 @@ const Pages = [{
 {
   "name": "Create Client",
   "url": "/createClient"
+},
+{
+  "name": "Estadisticas",
+  "url": "/estadisticas"
 }
 ];
 
 function ResponsiveAppBar() {
-  const user = JSON.parse(JSON.parse(getUser()).userString);
-  const userNameLogin = user.name;
+  let user;
+  let userNameLogin;
+  try {
+    user = JSON.parse(JSON.parse(getUser()).userString);
+    userNameLogin = user.name;
+  } catch (error) {
+  }
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();

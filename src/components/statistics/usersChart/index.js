@@ -5,6 +5,9 @@ export default class UsersChart extends PureComponent {
     static demoUrl = 'https://codesandbox.io/s/simple-area-chart-4ujxw';
     render() {
         const data = this.props.data;
+        data.forEach(element => {
+            element.puntuacion = element.score;
+        });
         return (
             <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
@@ -22,7 +25,7 @@ export default class UsersChart extends PureComponent {
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
-                    <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+                    <Area type="monotone" dataKey="puntuacion" stroke="#8884d8" fill="#8884d8" />
                 </AreaChart>
             </ResponsiveContainer>
         );

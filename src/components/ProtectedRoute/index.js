@@ -2,7 +2,13 @@ import { Navigate } from "react-router-dom";
 import getUser from "../getUser";
 
 function ProtectedRoute({ children }) {
-    const user = JSON.parse(JSON.parse(getUser()).userString);
+    let user;
+    try {
+        
+        user = JSON.parse(JSON.parse(getUser()).userString);
+    } catch (error) {
+        console.log(error)
+    }
     if (user) {
         return children
     } else {
