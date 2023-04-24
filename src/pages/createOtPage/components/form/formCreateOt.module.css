@@ -20,7 +20,7 @@
 }
 
 .SelectClient {
-    margin-bottom: 10px;
+    margin: 0% 0 3% 0;
 }
 
 .TittleClient {
@@ -32,6 +32,7 @@
 .ClientData {
     display: flex;
     width: 97%;
+    margin: 3% 0;
 }
 
 .ClientDataContent {
@@ -54,7 +55,7 @@
     align-items: center;
     gap: 5px;
     width: 100%;
-    margin: 10px 0;
+    margin: 3% 0;
 }
 
 .Input {
@@ -89,6 +90,7 @@
 .ButtonSave{
     grid-column-start: 1;
     grid-column-end: 2;
+    margin: 2% 0 2% 0;
 }
 .Content{
     display: grid;

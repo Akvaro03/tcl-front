@@ -6,6 +6,7 @@ import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@m
 import ModalPortal from '../../../../components/modelPortal';
 import Alerts from '../../../../components/alerts';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
+import postData from '../../../../hooks/postData';
 
 function FormCreateOt({ Date }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
@@ -18,6 +19,7 @@ function FormCreateOt({ Date }) {
     const [Cotizacion, setCotizacion] = useState("")
     const [FechaVencimiento, setFechaVencimiento] = useState("")
     const [FechaEstimada, setFechaEstimada] = useState("")
+    const [Contacts, setContacts] = useState("")
 
     const [Identificación] = useState("Identificacion")
     const [Type, SetType] = useState("")
@@ -37,6 +39,7 @@ function FormCreateOt({ Date }) {
     const [Result, setResult] = useState(null)
     const handleSubmit = () => {
         let Client = ClientObjet.label;
+        let ContactSelect = ClientObjet.Contacts[Contacts];
         const OT = {
             Date,
             Client,
@@ -50,16 +53,11 @@ function FormCreateOt({ Date }) {
             FechaEstimada,
             Type,
             Description,
-            Observaciones
+            Observaciones,
+            ContactSelect
         }
-        fetch('http://localhost:4000/createOT', {
-            method: "POST",
-            body: JSON.stringify(OT),
-            headers: { "Content-type": "application/json; charset=UTF-8" }
-        })
-            .then(response => response.json())
+        postData('http://localhost:4000/postOT', OT)
             .then(json => setResult(json));
-
     }
 
     useEffect(() => {
@@ -67,7 +65,8 @@ function FormCreateOt({ Date }) {
             .then(json => {
                 let newJson = []
                 json.forEach(element => {
-                    let data = { label: element.Name, id: element.id, KeyUnique: element.KeyUnique, businessName: element.businessName};
+                    console.log()
+                    let data = { label: element.Name, id: element.id, KeyUnique: element.KeyUnique, businessName: element.businessName, Contacts: JSON.parse(element.Contacts) };
                     newJson.push(data)
                 });
                 setClients(newJson)
@@ -221,6 +220,15 @@ function FormCreateOt({ Date }) {
                                 maxRows={3}
                             />
                         </div>
+                        <div className={Style.SelectType}>
+                            <p className={Style.TittleType}>Seleccionar Contacto</p>
+                            <Select sx={{ height: "45px" }} fullWidth onChange={({ target: { value } }) => setContacts(value)} defaultValue={""}>
+                                {ClientObjet.Contacts && ClientObjet.Contacts.map((ContactClient, key) => (
+                                    <MenuItem key={key} value={ContactClient.id}>{ContactClient.type + ": " + ContactClient.value}</MenuItem >
+                                ))}
+                            </Select>
+                        </div>
+
                     </div>
                 </div>
                 <div className={Style.ButtonSave}>

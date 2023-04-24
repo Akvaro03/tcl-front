@@ -1,6 +1,8 @@
-import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
 import Style from "./cardOt.module.css"
+import { useState } from "react";
 function CardOt({ Ot, handleState }) {
+    const [Observaciones, setObservaciones] = useState("")
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
@@ -34,11 +36,29 @@ function CardOt({ Ot, handleState }) {
             </Typography>
             <CardActions>
                 {Ot.StateProcess === "Created" ? (
-                    <Button variant="contained" onClick={() => { handleState(Ot.id, "Started") }}>Start</Button>
-                ) : Ot.StateProcess === "Started" && (
-                    <Button variant="contained" onClick={() => { handleState(Ot.id, "Terminado", Ot.Type) }}>End</Button>
+                    <Button variant="contained" onClick={() => { handleState(Ot.id, "Started", Observaciones); setObservaciones(""); }}>Start</Button>
+                ) : Ot.StateProcess === "Started" ? (
+                    <>
+                        <Button variant="contained" onClick={() => { handleState(Ot.id, "Terminado", Observaciones, Ot.Type); setObservaciones(""); }}>End</Button>
+                        <Button variant="contained" onClick={() => { handleState(Ot.id, "Created", Observaciones, Ot.Type); setObservaciones(""); }}>PrevState</Button>
+                    </>
+                ) : Ot.StateProcess === "Terminado" && (
+                    <Button variant="contained" onClick={() => { handleState(Ot.id, "Started", Observaciones, Ot.Type); setObservaciones(""); }}>PrevState</Button>
                 )}
             </CardActions>
+            <div className={Style.FieldObser}>
+                <p>Comentarios</p>
+                <TextField
+                    fullWidth
+                    value={Observaciones}
+                    onChange={({ target: { value } }) => setObservaciones(value)}
+                    sx={{ marginTop: 2 }}
+                    id="outlined-multiline-flexible"
+                    multiline
+                    maxRows={3}
+                />
+            </div>
+
         </Card>
     );
 }

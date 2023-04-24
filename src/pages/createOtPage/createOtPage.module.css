@@ -2,12 +2,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 89vh;
     width: 100%;
     font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
 }
 
 .ContentCreateOt {
+    margin-top: 2%;
     height: 92%;
     width: 85%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -87,4 +87,5 @@
 }
 .ContentTime{
     width: 47%;
+    margin: 3% 0 3% 0;
 }

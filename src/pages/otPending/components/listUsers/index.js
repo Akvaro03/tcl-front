@@ -52,7 +52,7 @@ function ListUsers({ Users, SelectOt, setUsers, setOts }) {
                 .then(json => {
                     json = formatDataToTable(json, setOts);
                 })
-        }, 1000);
+        }, 300);
     }
     return (
         <FormGroup>

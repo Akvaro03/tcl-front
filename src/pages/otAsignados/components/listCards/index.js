@@ -8,14 +8,10 @@ function ListCards() {
     const [User, setUser] = useState()
 
     const [Ots, setOts] = useState()
-    let handleState = async (index, string, type) => {
-        let newOts = [];
-        Ots.forEach(element => {
-            if (element.id === index) {
-                element = handleChangeStateOt(element, type, string, User, setUser)
-            }
-            newOts.push(element)
-        });
+    let handleState = async (index, string, comment, type) => {
+        let newOts = [...Ots];
+        let OtsFound = Ots.findIndex(element => element.id === index)
+        await handleChangeStateOt(Ots[OtsFound], type, string, User, setUser, comment)
         setOts(newOts)
     }
     useEffect(() => {
@@ -65,12 +61,22 @@ const filterByName = (json, name) => {
     })
     return jsonFiltered;
 }
-const handleChangeStateOt = (ot, type, state, userLogin, setUser) => {
+const handleChangeStateOt = async (ot, type, state, userLogin, setUser, comment) => {
+
     if (type) {
         let prevScore = userLogin.score
         userLogin.score = prevScore + typeOt[type];
-        postData("http://localhost:4000/editScoreUser", userLogin)
+        postData('http://localhost:4000/editScoreUser', userLogin)
     }
+    postData('http://localhost:4000/editOtState', { state, idOt: ot.id })
+    let Changes = {
+        user: userLogin.id,
+        stateChange: true,
+        newState: state,
+        date: Date.now(),
+        comment
+    }
+    postData('http://localhost:4000/postHistory', { idOt: ot.id, Changes })
     ot.StateProcess = state
     setUser(userLogin)
     return ot;

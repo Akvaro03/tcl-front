@@ -1,11 +1,16 @@
 function postData(url, dataToSend) {
-        let data = fetch(url, {
-            method: "POST",
-            body: JSON.stringify(dataToSend),
-            headers: { "Content-type": "application/json; charset=UTF-8" }
-        })
-            .then(response => response.json())
-        return data;
+    return new Promise((resolve, reject) => {
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open('POST', url, true);
+        xhr1.setRequestHeader('Content-type', 'application/json');
+        xhr1.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let response = JSON.parse(this.responseText);
+                resolve(response);
+            }
+        };
+        xhr1.send(JSON.stringify(dataToSend));
+    })
 }
 
 export default postData;

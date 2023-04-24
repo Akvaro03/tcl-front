@@ -10,7 +10,7 @@ function FormCreateClient() {
     const [Document, setDocument] = useState({ type: "", value: "" })
     const [Key, setKey] = useState("")
     const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }])
-    const [Result, setResult] = useState()
+    // const [Result, setResult] = useState()
     const [BusinessName, SetBusinessName] = useState('')
     let numberContacts = [0, 1, 2];
 
@@ -29,13 +29,7 @@ function FormCreateClient() {
             ContactVerificate,
             BusinessName
         }
-        // postData('http://localhost:4000/getOneUser', "hola")
-        //     .then(json => console.log(json))
-        fetch('http://localhost:4000/getOneUser', {
-            method: "POST",
-            body: JSON.stringify(Client),
-            headers: { "Content-type": "application/json; charset=UTF-8" }
-        })
+        postData("http://localhost:4000/postClients", Client)
     }
     const handleChangeDocument = (e, type) => {
         let updateValue = {};

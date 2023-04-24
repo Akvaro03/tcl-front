@@ -17,6 +17,7 @@ import { store } from './store/store';
 import { Navigate } from "react-router-dom";
 import LoadingCircle from './pages/Loading';
 import StatisticsPage from './pages/statisticsPage';
+import OtAllData from './pages/otAllData';
 
 const OtAsingPages = React.lazy(() => import('./pages/otAsignados')); // Lazy-loaded
 const OtPendingPages = React.lazy(() => import('./pages/otPending')); // Lazy-loaded
@@ -98,7 +99,18 @@ const router = createBrowserRouter([
           </Await>
         </Suspense>
       </ProtectedRoute>
-  }
+  },
+  {
+    path: "/events/:id",
+    element:
+      <ProtectedRoute>
+        <Suspense fallback={<LoadingCircle />}>
+          <Await resolve={CreateClients}>
+            <OtAllData />
+          </Await>
+        </Suspense>
+      </ProtectedRoute>
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

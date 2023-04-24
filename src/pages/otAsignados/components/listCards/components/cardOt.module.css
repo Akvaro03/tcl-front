@@ -1,10 +1,18 @@
-.HeaderCard{
+.HeaderCard {
     display: flex;
     justify-content: space-between;
 }
 
-.ContentCard{
+.ContentCard {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+}
+
+.FieldObser {
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin: 5%;
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+
 }
