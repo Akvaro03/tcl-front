@@ -6,10 +6,6 @@ export default class CircleStatistics extends PureComponent {
 
   render() {
     let CountTypes = []
-    let example = [
-      { name: 'Terminadas', value: 40 },
-      { name: 'Pendientes', value: 20 },
-    ]
     const data = this.props.data;
     if (data) {
       data.forEach(ot => {

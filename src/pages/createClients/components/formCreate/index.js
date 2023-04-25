@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Style from './formCreateClient.module.css'
 import { blue, grey } from '@mui/material/colors';
 import { forwardRef, useState } from 'react';
-import { InputUnstyled } from '@mui/base';
+import Input from '@mui/base/Input';
 import { Button } from '@mui/material';
 import postData from '../../../../hooks/postData';
 function FormCreateClient() {
@@ -157,7 +157,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
     let value = props.value;
     let onChange = props.onChange;
     return (
-        <InputUnstyled
+        <Input
             value={value}
             onChange={({ target: { value } }) => {
                 onChange(value)

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from "@emotion/styled";
 import Style from './formCreateOt.module.css'
-import InputUnstyled from '@mui/base/InputUnstyled';
+import Input from '@mui/base/Input';
+// import InputUnstyled from '@mui/base/InputUnstyled';
 import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
 import ModalPortal from '../../../../components/modelPortal';
 import Alerts from '../../../../components/alerts';
@@ -297,7 +298,7 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
     let value = props.value;
     let onChange = props.onChange;
     return (
-        <InputUnstyled
+        <Input 
             value={value}
             onChange={({ target: { value } }) => {
                 onChange(value)
@@ -311,7 +312,7 @@ const CustomInputTable = React.forwardRef(function CustomInput(props, ref) {
     let position = props.position;
     let onChange = props.onChange;
     return (
-        <InputUnstyled
+        <Input 
             onChange={({ target: { value } }) => {
                 let json = {}
                 json[position] = value;
