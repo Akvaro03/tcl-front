@@ -4,14 +4,16 @@ import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import Style from "./listCards.module.css"
 import getUser from "../../../../components/getUser";
 import postData from "../../../../hooks/postData";
+import ModalPortal from "../../../../components/modelPortal";
+import FormCommit from "../formCommit";
 function ListCards() {
     const [User, setUser] = useState()
-
+    const [DataToSend, setDataToSend] = useState()
     const [Ots, setOts] = useState()
     let handleState = async (index, string, comment, type) => {
         let newOts = [...Ots];
         let OtsFound = Ots.findIndex(element => element.id === index)
-        await handleChangeStateOt(Ots[OtsFound], type, string, User, setUser, comment)
+        await handleChangeStateOt(Ots[OtsFound], type, string, User, setUser, comment, setDataToSend)
         setOts(newOts)
     }
     useEffect(() => {
@@ -35,6 +37,16 @@ function ListCards() {
                     return <CardOt key={key} Ot={Ot} handleState={handleState} />
                 })
             )}
+            {DataToSend && (
+                <ModalPortal type={"form"}>
+                    <FormCommit 
+                    DataHistory={DataToSend.History}
+                    DataScore={DataToSend.Score} 
+                    DataState={DataToSend.State} 
+                    setUser={setUser}
+                    setDataToSend={setDataToSend}/>
+                </ModalPortal>
+            )}
         </div>
     );
 }
@@ -47,7 +59,6 @@ let typeOt = {
     "Otra actividad": 0.5
 
 }
-
 const filterByName = (json, name) => {
     let jsonFiltered = json.filter(ot => {
         if (ot.Users !== null) {
@@ -61,24 +72,21 @@ const filterByName = (json, name) => {
     })
     return jsonFiltered;
 }
-const handleChangeStateOt = async (ot, type, state, userLogin, setUser, comment) => {
+const handleChangeStateOt = async (ot, type, state, userLogin, setUser, comment, setDataToSend) => {
 
     if (type) {
         let prevScore = userLogin.score
         userLogin.score = prevScore + typeOt[type];
-        postData('http://localhost:4000/editScoreUser', userLogin)
     }
-    postData('http://localhost:4000/editOtState', { state, idOt: ot.id })
     let Changes = {
-        user: userLogin.id,
-        stateChange: true,
-        newState: state,
+        userId: userLogin.id,
+        userName: userLogin.name,
+        ChangeDescription: `Se cambio el estado a ${state}`,
         date: Date.now(),
         comment
     }
-    postData('http://localhost:4000/postHistory', { idOt: ot.id, Changes })
     ot.StateProcess = state
-    setUser(userLogin)
+    setDataToSend({History: { idOt: ot.id, Changes }, State: { state, idOt: ot.id }, Score: userLogin})
     return ot;
 }
 export default ListCards;

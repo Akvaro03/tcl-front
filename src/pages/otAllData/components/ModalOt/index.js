@@ -37,63 +37,65 @@ function ModalOt() {
 
     return (
         <div className={Style.ModalOtContent}>
-            <div className={Style.ModelHeader}>
-                <p>{otSelected.id}</p>
-                <p className={Style.TittleModel}>{otSelected.Modelo}</p>
-                <p>{new Date(Date.parse(otSelected.Date)).toLocaleDateString("en-GB")}</p>
-            </div>
-            <div className={Style.ModalDescription}>
-                <div className={Style.DescriptionData}>
-                    <p className={Style.Client}>{otSelected.Client}</p>
-                    <div className={Style.ContentDescription}>
-                        <p className={Style.nameProperty}>Estado del Ot: </p>
-                        <p><span className={Style.Property}>{otSelected.StateProcess}</span></p>
-                    </div>
-                    <div className={Style.ContentDescription}>
-                        <p className={Style.nameProperty}>Tipo de Ot: </p>
-                        <p><span className={Style.Property}>{otSelected.Type}</span></p>
-                    </div>
-                    <div className={Style.ContentDescription}>
-                        <p className={Style.nameProperty}>Observaciones</p>
-                        <p><span className={Style.Property}>{otSelected.Observations}</span></p>
-                    </div>
-                    <div className={Style.ContentDescription}>
-                        <p className={Style.nameProperty}>Usuarios Asignados: </p>
-                        <p><span className={Style.Property}>{otSelected.Users}</span></p>
-                    </div>
-                    <div className={Style.ContentDescription}>
-                        <p className={Style.nameProperty}>Observaciones:</p>
-                        <p><span className={Style.Property}>{otSelected.Observations}</span></p>
-                    </div>
-                    <div className={Style.ContentDescription}>
-                        <p className={Style.nameProperty}>{`${otSelected.ContactType}: `}</p>
-                        <p><span className={Style.Property}>{otSelected.ContactValue}</span></p>
-                    </div>
+            <div className={Style.ModalDescriptionContent}>
+                <div className={Style.ModelHeader}>
+                    <p>{otSelected.id}</p>
+                    <p className={Style.TittleModel}>{otSelected.Modelo}</p>
+                    <p>{new Date(Date.parse(otSelected.Date)).toLocaleDateString("en-GB")}</p>
                 </div>
-                <div className={Style.DescriptionTable}>
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 350 }} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center">Item</TableCell>
-                                    <TableCell align="center">Descripcion</TableCell>
-                                    <TableCell align="center">Importe</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows.map((row, key) => (
-                                    <TableRow
-                                        key={key}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell align="center">{row.calories}</TableCell>
-                                        <TableCell align="center">{row.fat}</TableCell>
-                                        <TableCell align="center">{row.carbs}</TableCell>
+                <div className={Style.ModalDescription}>
+                    <div className={Style.DescriptionData}>
+                        <p className={Style.Client}>{otSelected.Client}</p>
+                        <div className={Style.ContentDescription}>
+                            <p className={Style.nameProperty}>Estado del Ot: </p>
+                            <p><span className={Style.Property}>{otSelected.StateProcess}</span></p>
+                        </div>
+                        <div className={Style.ContentDescription}>
+                            <p className={Style.nameProperty}>Tipo de Ot: </p>
+                            <p><span className={Style.Property}>{otSelected.Type}</span></p>
+                        </div>
+                        <div className={Style.ContentDescription}>
+                            <p className={Style.nameProperty}>Observaciones</p>
+                            <p><span className={Style.Property}>{otSelected.Observations}</span></p>
+                        </div>
+                        <div className={Style.ContentDescription}>
+                            <p className={Style.nameProperty}>Usuarios Asignados: </p>
+                            <p><span className={Style.Property}>{otSelected.Users}</span></p>
+                        </div>
+                        <div className={Style.ContentDescription}>
+                            <p className={Style.nameProperty}>Observaciones:</p>
+                            <p><span className={Style.Property}>{otSelected.Observations}</span></p>
+                        </div>
+                        <div className={Style.ContentDescription}>
+                            <p className={Style.nameProperty}>{`${otSelected.ContactType}: `}</p>
+                            <p><span className={Style.Property}>{otSelected.ContactValue}</span></p>
+                        </div>
+                    </div>
+                    <div className={Style.DescriptionTable}>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 350 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">Item</TableCell>
+                                        <TableCell align="center">Descripcion</TableCell>
+                                        <TableCell align="center">Importe</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row, key) => (
+                                        <TableRow
+                                            key={key}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell align="center">{row.calories}</TableCell>
+                                            <TableCell align="center">{row.fat}</TableCell>
+                                            <TableCell align="center">{row.carbs}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
                 </div>
             </div>
             <div className={Style.ContentHistory}>
@@ -105,6 +107,7 @@ function ModalOt() {
                         <History />
                     </StyledEngineProvider>
                 </div>
+                
             </div>
         </div>
     );

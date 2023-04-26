@@ -5,22 +5,23 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
-// import LaptopMacIcon from '@mui/icons-material/LaptopMac';
-// import HotelIcon from '@mui/icons-material/Hotel';
-// import RepeatIcon from '@mui/icons-material/Repeat';
 import Typography from '@mui/material/Typography';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import postData from '../../../../hooks/postData';
 
+
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 export default function History() {
     let { id } = useParams();
     const [History, setHistory] = useState([{}])
     useEffect(() => {
         let getData = () => {
             postData('http://localhost:4000/getOneHistory', { id: id })
-                .then(data => setHistory(JSON.parse(data[0].Changes)))
+                .then(data => JSON.parse(data[0].Changes))
+                .then(data => {
+                    setHistory(OrderChanges(data));
+                })
         }
         getData()
     }, [id])
@@ -28,7 +29,6 @@ export default function History() {
     return (
         <Timeline position="alternate">
             {History.map((Change, key) => {
-                console.log(Change)
                 return <TimelineItem key={key}>
                     <TimelineOppositeContent
                         sx={{ m: 'auto 0' }}
@@ -41,18 +41,36 @@ export default function History() {
                     <TimelineSeparator>
                         <TimelineConnector />
                         <TimelineDot>
-                            <FastfoodIcon />
+                            <BookmarksIcon />
                         </TimelineDot>
                         <TimelineConnector />
                     </TimelineSeparator>
                     <TimelineContent sx={{ py: '12px', px: 2 }}>
                         <Typography variant="h6" component="span">
-                            Eat
+                            {Change.userName}
                         </Typography>
-                        <Typography>Comentario: {Change.comment}</Typography>
+                        <Typography variant="h10" component="p" color={"#9d9d9d"}>
+                            {Change.ChangeDescription}
+                        </Typography>
+                        <Typography variant="h10" color={"#9d9d9d"}>Comentario:      </Typography>
+                        <Typography component="span">
+                            {Change.comment}
+                        </Typography>
                     </TimelineContent>
                 </TimelineItem>
             })}
         </Timeline>
     );
+}
+
+
+let OrderChanges = (Changes) => {
+    let newChanges = Changes.sort((dat1, dat2) => {
+        if (new Date(dat1.date).getTime() < new Date(dat2.date).getTime()) {
+            return -1
+        } else {
+            return 1
+        }
+    })
+    return newChanges
 }

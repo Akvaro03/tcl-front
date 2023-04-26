@@ -1,13 +1,13 @@
 .ModalOtContent {
-    display: flex;
+    /* display: flex; */
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 15px;
     width: 90%;
     height: 90%;
     margin-top: 2%;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
-    flex-direction: column;
-    align-items: center;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    /* flex-direction: column;
+    align-items: center; */
 }
 
 .ModelHeader {
@@ -18,15 +18,23 @@
     width: 94%;
 }
 
-.TittleModel{
+.TittleModel {
     font-weight: 400;
     font-size: 1.5rem;
 }
-.ModalDescription{
+
+.ModalDescription {
     display: flex;
     width: 94%;
 }
-.DescriptionData{
+
+.ModalDescriptionContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.DescriptionData {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -34,41 +42,50 @@
     gap: 15px;
 }
 
-.Client{
+.Client {
     color: rgba(0, 0, 0, 0.6);
     font-size: 20px;
 }
 
-.nameProperty{
+.nameProperty {
     color: rgba(0, 0, 0, 0.603);
     margin-right: 1%;
     width: 40%;
 }
-.Property{
+
+.Property {
     font-size: 18px;
     font-weight: 400;
 }
-.ContentDescription{
+
+.ContentDescription {
     display: flex;
     align-items: center;
 }
 
-.DescriptionTable{
+.DescriptionTable {
     margin-top: 4%;
     width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.ContentHistory{
+
+.ContentHistory {
     width: 94%;
 }
 
-.HistoryHeader{
+.HistoryHeader {
     display: flex;
     height: 3rem;
     align-items: flex-end;
     width: 100%;
     justify-content: center;
     margin-top: 4%;
+}
+
+.History {
+    display: flex;
+    justify-content: baseline;
+    margin-bottom: 10%;
 }
