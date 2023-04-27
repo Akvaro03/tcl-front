@@ -10,67 +10,149 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import postData from '../../../../hooks/postData';
 
-
+import Style from './history.module.css'
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import SelectMultiple from '../selectMultiple';
+import getDataFromUrl from '../../../../hooks/getDataFromUrl';
 export default function History() {
+    const [History, setHistory] = useState()
+    const [Users, setUsers] = useState()
+    const [Order, setOrder] = useState("Ascendente")
+    const [userSelect, setUserSelect] = useState("all")
     let { id } = useParams();
-    const [History, setHistory] = useState([{}])
     useEffect(() => {
-        let getData = () => {
-            postData('http://localhost:4000/getOneHistory', { id: id })
-                .then(data => JSON.parse(data[0].Changes))
-                .then(data => {
-                    setHistory(OrderChanges(data));
-                })
-        }
-        getData()
+        const fetchHistory = async () => {
+            try {
+                const response = await postData('http://localhost:4000/getOneHistory', { id });
+                const data = response[0];
+                if (data) {
+                    const changes = JSON.parse(data.Changes);
+                    setHistory(orderChanges(changes));
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        const fetchUsers = async () => {
+            try {
+                const response = await getDataFromUrl('http://localhost:4000/getUsers');
+                const usersName = [] 
+                response.forEach(element => {usersName.push(element.name)});
+                setUsers(usersName)
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchUsers();
+        fetchHistory();
     }, [id])
 
+    let onChangeOrder = (event) => {
+        let value = event.target.value
+        let TypeOrders = {
+            Ascendente: true,
+            Descendente: false
+        }
+        setOrder(value)
+        const changesOrdened = orderChanges(History, TypeOrders[value]);
+        const changesFiltered = filterbByUsers(changesOrdened, userSelect);
+        setHistory(changesFiltered);
+    }
     return (
-        <Timeline position="alternate">
-            {History.map((Change, key) => {
-                return <TimelineItem key={key}>
-                    <TimelineOppositeContent
-                        sx={{ m: 'auto 0' }}
-                        align="right"
-                        variant="body2"
-                        color="text.secondary"
+        <>
+            {History ? (
+                <>
+                    <div className={Style.Filters}>
+                        {/* <FormControl fullWidth sx={{ width: "7%", margin: "0 1%" }}>
+                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Age"
                     >
-                        {new Date(Change.date).toLocaleDateString("en-GB")}
-                    </TimelineOppositeContent>
-                    <TimelineSeparator>
-                        <TimelineConnector />
-                        <TimelineDot>
-                            <BookmarksIcon />
-                        </TimelineDot>
-                        <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent sx={{ py: '12px', px: 2 }}>
-                        <Typography variant="h6" component="span">
-                            {Change.userName}
-                        </Typography>
-                        <Typography variant="h10" component="p" color={"#9d9d9d"}>
-                            {Change.ChangeDescription}
-                        </Typography>
-                        <Typography variant="h10" color={"#9d9d9d"}>Comentario:      </Typography>
-                        <Typography component="span">
-                            {Change.comment}
-                        </Typography>
-                    </TimelineContent>
-                </TimelineItem>
-            })}
-        </Timeline>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                </FormControl> */}
+                        {/* <FormControl fullWidth sx={{ width: "7%", margin: "0 1%" }}>
+                            <InputLabel id="demo-simple-select-label">Usuarios</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                label="Usuarios"
+                            >
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                        </FormControl> */}
+                        <SelectMultiple Users={Users} setUser={setUserSelect}/>
+                        <FormControl fullWidth sx={{ width: "15%", margin: "0 1%" }}>
+                            <InputLabel id="demo-simple-select-label">Orden</InputLabel>
+                            <Select
+                                value={Order}
+                                onChange={onChangeOrder}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                label="Age"
+                            >
+                                <MenuItem value={"Ascendente"}>Ascendente</MenuItem>
+                                <MenuItem value={"Descendente"}>Descendente</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <Timeline position="alternate" sx={{ mb: 15, mt: 2 }}>
+                        {History.map((Change, key) => {
+                            return <TimelineItem key={key}>
+                                <TimelineOppositeContent
+                                    sx={{ m: 'auto 0' }}
+                                    align="right"
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    {new Date(Change.date).toLocaleDateString("en-GB")}
+                                </TimelineOppositeContent>
+                                <TimelineSeparator>
+                                    <TimelineConnector />
+                                    <TimelineDot>
+                                        <BookmarksIcon />
+                                    </TimelineDot>
+                                    <TimelineConnector />
+                                </TimelineSeparator>
+                                <TimelineContent sx={{ py: '12px', px: 2 }}>
+                                    <Typography variant="h6" component="span">
+                                        {Change.userName}
+                                    </Typography>
+                                    <Typography variant="h10" component="p" color={"#9d9d9d"}>
+                                        {Change.ChangeDescription}
+                                    </Typography>
+                                    <Typography variant="h10" color={"#9d9d9d"}>Comentario:      </Typography>
+                                    <Typography component="span">
+                                        {Change.comment}
+                                    </Typography>
+                                </TimelineContent>
+                            </TimelineItem>
+                        })}
+                    </Timeline>
+                </>
+            ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', margin: `9% 0%`, width: "100%" }}>
+                    <Typography variant="h10" color={"#9d9d9d"}>No existen cambios en el Ot</Typography>
+                </div>
+            )}
+        </>
     );
 }
 
-
-let OrderChanges = (Changes) => {
-    let newChanges = Changes.sort((dat1, dat2) => {
-        if (new Date(dat1.date).getTime() < new Date(dat2.date).getTime()) {
-            return -1
-        } else {
-            return 1
-        }
-    })
-    return newChanges
+const orderChanges = (changes, ascending = true) => {
+    return changes.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return ascending ? dateA - dateB : dateB - dateA;
+    });
+}
+const filterbByUsers = (changes, userSelect = "all") => {
+    return changes.filter(change => userSelect !== "all" ? change.userName === userSelect[0] : true)
 }

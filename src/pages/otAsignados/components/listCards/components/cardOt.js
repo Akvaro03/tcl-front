@@ -1,8 +1,11 @@
-import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import Style from "./cardOt.module.css"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 function CardOt({ Ot, handleState }) {
     const [Observaciones, setObservaciones] = useState("")
+    const navigate = useNavigate();
+    console.log(Ot)
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
@@ -46,19 +49,9 @@ function CardOt({ Ot, handleState }) {
                     <Button variant="contained" onClick={() => { handleState(Ot.id, "Started", Observaciones, Ot.Type); setObservaciones(""); }}>PrevState</Button>
                 )}
             </CardActions>
-            <div className={Style.FieldObser}>
-                <p>Comentarios</p>
-                <TextField
-                    fullWidth
-                    value={Observaciones}
-                    onChange={({ target: { value } }) => setObservaciones(value)}
-                    sx={{ marginTop: 2 }}
-                    id="outlined-multiline-flexible"
-                    multiline
-                    maxRows={3}
-                />
+            <div className={Style.ButtonHistory}>
+                <Button variant="text" onClick={() => {navigate(`/events/${Ot.id}`)}}>Ver todos los datos</Button>
             </div>
-
         </Card>
     );
 }

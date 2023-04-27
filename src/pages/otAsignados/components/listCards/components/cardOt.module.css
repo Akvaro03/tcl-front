@@ -9,10 +9,10 @@
     align-items: flex-end;
 }
 
-.FieldObser {
+.ButtonHistory {
     font-weight: 500;
     font-size: 1.1rem;
-    margin: 5%;
+    margin: 3%;
     font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
 
 }

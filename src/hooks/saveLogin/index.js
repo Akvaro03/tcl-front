@@ -1,6 +1,5 @@
 const CryptoJS = require("crypto-js");
 function saveLogin(user) {
-    // Dispatch(addUser(user))
     let userString = JSON.stringify(user);
     const key = 'consultar';
     const encryptedCP = CryptoJS.AES.encrypt(JSON.stringify({ userString }), key).toString();
