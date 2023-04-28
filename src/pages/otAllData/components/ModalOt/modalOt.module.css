@@ -77,11 +77,11 @@
 
 .HistoryHeader {
     display: flex;
-    height: 3rem;
-    align-items: flex-end;
-    width: 100%;
+    align-items: center;
     justify-content: center;
     margin-top: 4%;
+    height: 3rem;
+    width: 100%;
 }
 
 .History {

@@ -7,6 +7,7 @@ import postData from '../../../../hooks/postData';
 
 function FormCommit({ DataHistory, DataScore, DataState, setDataToSend, setUser}) {
     let handleSubmit = () => {
+        DataHistory.Changes.date = new Date(DataHistory.Changes.date).getTime();
         setUser(DataScore)
         postData('http://localhost:4000/editScoreUser', DataScore)
         postData('http://localhost:4000/editOtState', DataState)

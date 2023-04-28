@@ -1,7 +1,6 @@
 import { FormControl, InputLabel, MenuItem, OutlinedInput, Select, useTheme } from "@mui/material";
 import React from "react";
-
-function SelectMultiple({ Users, setUser}) {
+function SelectMultiple({ Users, setUser }) {
     const theme = useTheme();
     const [personName, setPersonName] = React.useState([]);
 
@@ -18,7 +17,7 @@ function SelectMultiple({ Users, setUser}) {
     return (
         <div>
             <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+                <InputLabel id="demo-multiple-name-label">Usuarios</InputLabel>
                 <Select
                     labelId="demo-multiple-name-label"
                     id="demo-multiple-name"

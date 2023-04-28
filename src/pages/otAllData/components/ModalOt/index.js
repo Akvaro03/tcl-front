@@ -10,11 +10,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import History from '../history';
-import { StyledEngineProvider } from '@mui/material';
+import { Button, StyledEngineProvider } from '@mui/material';
+import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 
 
 function ModalOt() {
     const [otSelected, setOtSelected] = useState({})
+    const [isConfig, setIsConfig] = useState(false)
     let params = useParams();
     useEffect(() => {
         let getData = () => {
@@ -101,13 +103,16 @@ function ModalOt() {
             <div className={Style.ContentHistory}>
                 <div className={Style.HistoryHeader}>
                     <p className={Style.TittleModel}>Historial</p>
+                    <Button color='info' onClick={() => setIsConfig(!isConfig)} sx={{fontSize: 30, position: 'absolute', marginLeft: '20%', width: "8%" }} variant="outlined">
+                        <ManageHistoryIcon/>
+                    </Button>
                 </div>
                 <div className={Style.History}>
                     <StyledEngineProvider injectFirst>
-                        <History />
+                        <History isConfig={isConfig}/>
                     </StyledEngineProvider>
                 </div>
-                
+
             </div>
         </div>
     );

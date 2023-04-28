@@ -12,14 +12,20 @@ import postData from '../../../../hooks/postData';
 
 import Style from './history.module.css'
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Fade, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import SelectMultiple from '../selectMultiple';
 import getDataFromUrl from '../../../../hooks/getDataFromUrl';
-export default function History() {
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import formatDate from '../../../../hooks/formatDate';
+export default function History({ isConfig }) {
     const [History, setHistory] = useState()
+    const [HistoryModified, setHistoryModified] = useState()
     const [Users, setUsers] = useState()
     const [Order, setOrder] = useState("Ascendente")
-    const [userSelect, setUserSelect] = useState("all")
+    const [firstDate, setFirstDate] = useState(dayjs('2017-04-10'))
+    const [endDate, setEndDate] = useState(dayjs('2024-04-17'))
     let { id } = useParams();
     useEffect(() => {
         const fetchHistory = async () => {
@@ -28,7 +34,9 @@ export default function History() {
                 const data = response[0];
                 if (data) {
                     const changes = JSON.parse(data.Changes);
-                    setHistory(orderChanges(changes));
+                    const changesOrdened = orderChanges(changes);
+                    setHistory(changesOrdened);
+                    setHistoryModified(changesOrdened);
                 }
             } catch (error) {
                 console.error(error);
@@ -37,8 +45,8 @@ export default function History() {
         const fetchUsers = async () => {
             try {
                 const response = await getDataFromUrl('http://localhost:4000/getUsers');
-                const usersName = [] 
-                response.forEach(element => {usersName.push(element.name)});
+                const usersName = []
+                response.forEach(element => { usersName.push(element.name) });
                 setUsers(usersName)
             } catch (error) {
                 console.error(error);
@@ -47,64 +55,66 @@ export default function History() {
         fetchUsers();
         fetchHistory();
     }, [id])
-
-    let onChangeOrder = (event) => {
-        let value = event.target.value
-        let TypeOrders = {
+    const onChangeName = (event) => {
+        const data = filterbByUsers(History, event)
+        setHistoryModified(data);
+    }
+    const onChangeOrder = (event) => {
+        const value = event.target.value
+        const typeOrders = {
             Ascendente: true,
             Descendente: false
         }
+        const order = typeOrders[value];
         setOrder(value)
-        const changesOrdened = orderChanges(History, TypeOrders[value]);
-        const changesFiltered = filterbByUsers(changesOrdened, userSelect);
-        setHistory(changesFiltered);
+        setHistoryModified(orderChanges(History, order));
+    }
+    const onChangeDate = (FirstDate, EndDate) => {
+        setFirstDate(FirstDate)
+        setEndDate(EndDate)
+        setHistoryModified(filterByDates(History, FirstDate, EndDate))
     }
     return (
         <>
-            {History ? (
+            {HistoryModified ? (
                 <>
-                    <div className={Style.Filters}>
-                        {/* <FormControl fullWidth sx={{ width: "7%", margin: "0 1%" }}>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Age"
-                    >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl> */}
-                        {/* <FormControl fullWidth sx={{ width: "7%", margin: "0 1%" }}>
-                            <InputLabel id="demo-simple-select-label">Usuarios</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                label="Usuarios"
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl> */}
-                        <SelectMultiple Users={Users} setUser={setUserSelect}/>
-                        <FormControl fullWidth sx={{ width: "15%", margin: "0 1%" }}>
-                            <InputLabel id="demo-simple-select-label">Orden</InputLabel>
-                            <Select
-                                value={Order}
-                                onChange={onChangeOrder}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                label="Age"
-                            >
-                                <MenuItem value={"Ascendente"}>Ascendente</MenuItem>
-                                <MenuItem value={"Descendente"}>Descendente</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
+                    {isConfig && (
+                        <Fade in={isConfig}>
+                            <div className={Style.Filters}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        format="DD/MM/YYYY"
+                                        sx={{ width: "18%", margin: "0 1%" }}
+                                        value={firstDate} onChange={(newValue) => onChangeDate(newValue, endDate)}
+                                    />
+                                </LocalizationProvider>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        format="DD/MM/YYYY"
+                                        sx={{ width: "18%", margin: "0 1%" }}
+                                        value={endDate} onChange={(newValue) => onChangeDate(firstDate, newValue)}
+                                    />
+                                </LocalizationProvider>
+
+                                <SelectMultiple Users={Users} setUser={onChangeName} />
+                                <FormControl fullWidth sx={{ width: "15%", margin: "0 1%" }}>
+                                    <InputLabel id="demo-simple-select-label">Orden</InputLabel>
+                                    <Select
+                                        value={Order}
+                                        onChange={onChangeOrder}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        label="Age"
+                                    >
+                                        <MenuItem value={"Ascendente"}>Ascendente</MenuItem>
+                                        <MenuItem value={"Descendente"}>Descendente</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                        </Fade>
+                    )}
                     <Timeline position="alternate" sx={{ mb: 15, mt: 2 }}>
-                        {History.map((Change, key) => {
+                        {HistoryModified.map((Change, key) => {
                             return <TimelineItem key={key}>
                                 <TimelineOppositeContent
                                     sx={{ m: 'auto 0' }}
@@ -153,6 +163,15 @@ const orderChanges = (changes, ascending = true) => {
         return ascending ? dateA - dateB : dateB - dateA;
     });
 }
-const filterbByUsers = (changes, userSelect = "all") => {
-    return changes.filter(change => userSelect !== "all" ? change.userName === userSelect[0] : true)
+const filterbByUsers = (changes, userSelect = "[]") => {
+    const UsersString = JSON.stringify(userSelect)
+    return changes.filter(change => UsersString !== "[]" ? userSelect.includes(change.userName) : true)
+}
+const filterByDates = (changes, firstDate, endDate) => {
+    const firstMiliseconds = formatDate(firstDate);
+    const endMiliseconds = formatDate(endDate);
+    return changes.filter(a => {
+        const formatDate = new Date(a.date).getTime();
+        return (firstMiliseconds <= formatDate && formatDate <= endMiliseconds)
+    })
 }

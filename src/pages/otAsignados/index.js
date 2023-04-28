@@ -8,7 +8,6 @@ function OtAsingPages() {
         <>
             <ResponsiveAppBar /> 
             <div className={Style.ContentAssing}>
-                {/* <ListAssing /> */}
                 <ListCards />
             </div>
         </>

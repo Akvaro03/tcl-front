@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 function CardOt({ Ot, handleState }) {
     const [Observaciones, setObservaciones] = useState("")
     const navigate = useNavigate();
-    console.log(Ot)
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>

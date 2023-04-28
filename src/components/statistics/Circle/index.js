@@ -16,7 +16,6 @@ export default class CircleStatistics extends PureComponent {
           CountTypes.push({ name: ot.StateProcess, value: 1 })
         }
       });
-      console.log(CountTypes)
     }
     return (
       <ResponsiveContainer width="100%" height="100%">
