@@ -13,7 +13,7 @@ function CardOt({ Ot, handleState }) {
                         {Ot.id}
                     </Typography>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        {new Date(Date.parse(Ot.Date)).toLocaleDateString("en-GB")}
+                        {new Date(Ot.Date).toLocaleDateString("en-GB")}
                     </Typography>
                 </div>
                 <Typography variant="h5" component="div">

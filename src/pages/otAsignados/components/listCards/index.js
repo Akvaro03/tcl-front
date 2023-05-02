@@ -11,10 +11,8 @@ function ListCards() {
     const [DataToSend, setDataToSend] = useState()
     const [Ots, setOts] = useState()
     let handleState = async (index, string, comment, type) => {
-        let newOts = [...Ots];
         let OtsFound = Ots.findIndex(element => element.id === index)
         await handleChangeStateOt(Ots[OtsFound], type, string, User, setUser, comment, setDataToSend)
-        setOts(newOts)
     }
     useEffect(() => {
         const getData = async () => {
@@ -28,7 +26,7 @@ function ListCards() {
                 })
         }
         getData()
-    }, [])
+    }, [DataToSend])
 
     return (
         <div className={Style.GridCards}>
@@ -82,11 +80,10 @@ const handleChangeStateOt = async (ot, type, state, userLogin, setUser, comment,
         userId: userLogin.id,
         userName: userLogin.name,
         ChangeDescription: `Se cambio el estado a ${state}`,
-        date: Date.now(),
+        date:  new Date(Date.now()).getTime(),
         comment
     }
-    ot.StateProcess = state
     setDataToSend({History: { idOt: ot.id, Changes }, State: { state, idOt: ot.id }, Score: userLogin})
-    return ot;
+    console.log("first")
 }
 export default ListCards;

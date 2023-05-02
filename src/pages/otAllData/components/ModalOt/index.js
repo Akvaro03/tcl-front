@@ -43,7 +43,7 @@ function ModalOt() {
                 <div className={Style.ModelHeader}>
                     <p>{otSelected.id}</p>
                     <p className={Style.TittleModel}>{otSelected.Modelo}</p>
-                    <p>{new Date(Date.parse(otSelected.Date)).toLocaleDateString("en-GB")}</p>
+                    <p>{new Date(otSelected.Date).toLocaleDateString("en-GB")}</p>
                 </div>
                 <div className={Style.ModalDescription}>
                     <div className={Style.DescriptionData}>
@@ -103,13 +103,15 @@ function ModalOt() {
             <div className={Style.ContentHistory}>
                 <div className={Style.HistoryHeader}>
                     <p className={Style.TittleModel}>Historial</p>
-                    <Button color='info' onClick={() => setIsConfig(!isConfig)} sx={{fontSize: 30, position: 'absolute', marginLeft: '20%', width: "8%" }} variant="outlined">
-                        <ManageHistoryIcon/>
+                    <Button color='info' onClick={() => setIsConfig(!isConfig)} sx={{ fontSize: 30, position: 'absolute', marginLeft: '20%', width: "8%" }} variant="outlined">
+                        <ManageHistoryIcon />
                     </Button>
                 </div>
                 <div className={Style.History}>
                     <StyledEngineProvider injectFirst>
-                        <History isConfig={isConfig}/>
+                        {otSelected.Changes && (
+                            <History isConfig={isConfig} history={otSelected.Changes} />
+                        )}
                     </StyledEngineProvider>
                 </div>
 

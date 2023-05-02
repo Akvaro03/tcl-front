@@ -5,13 +5,13 @@ import { Button, TextField } from '@mui/material';
 import dayjs from 'dayjs';
 import postData from '../../../../hooks/postData';
 
-function FormCommit({ DataHistory, DataScore, DataState, setDataToSend, setUser}) {
+function FormCommit({ DataHistory, DataScore, DataState, setDataToSend, setUser }) {
     let handleSubmit = () => {
         DataHistory.Changes.date = new Date(DataHistory.Changes.date).getTime();
         setUser(DataScore)
         postData('http://localhost:4000/editScoreUser', DataScore)
         postData('http://localhost:4000/editOtState', DataState)
-        postData('http://localhost:4000/postHistory', DataHistory)
+        postData('http://localhost:4000/editOtChanges', { Changes:DataHistory, idOt: DataState.idOt })
         setDataToSend()
     }
 
@@ -44,7 +44,7 @@ function FormCommit({ DataHistory, DataScore, DataState, setDataToSend, setUser}
                         sx={{ marginTop: 1, height: 1 }}
                         id="outlined-multiline-flexible"
                         multiline
-                        onChange={({ target : {value}}) =>  DataHistory.Changes.comment = value}
+                        onChange={({ target: { value } }) => DataHistory.Changes.comment = value}
                         maxRows={3}
                     />
                 </div>

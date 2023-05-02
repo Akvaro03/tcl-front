@@ -26,7 +26,7 @@ function CreateOtPage() {
                         </div>
                         <p>Crear nuevas OT</p>
                     </div>
-                    <FormCreateOt Date={DateForm} />
+                    <FormCreateOt DateCreate={DateForm} />
                 </div>
             </div>
         </>

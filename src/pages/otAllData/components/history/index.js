@@ -6,10 +6,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import Typography from '@mui/material/Typography';
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import postData from '../../../../hooks/postData';
-
 import Style from './history.module.css'
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { Fade, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
@@ -19,25 +16,24 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import formatDate from '../../../../hooks/formatDate';
-export default function History({ isConfig }) {
+export default function History({ isConfig, history }) {
     const [History, setHistory] = useState()
     const [HistoryModified, setHistoryModified] = useState()
     const [Users, setUsers] = useState()
     const [Order, setOrder] = useState("Ascendente")
     const [firstDate, setFirstDate] = useState(dayjs('2017-04-10'))
     const [endDate, setEndDate] = useState(dayjs('2024-04-17'))
-    let { id } = useParams();
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const response = await postData('http://localhost:4000/getOneHistory', { id });
-                const data = response[0];
-                if (data) {
-                    const changes = JSON.parse(data.Changes);
+                    const changes = JSON.parse(history);
+                    console.log(changes)
                     const changesOrdened = orderChanges(changes);
+                    setFirstDate(dayjs(getFirstDate(changes)))
+                    setEndDate(dayjs(getLastDate(changes)))
+                    console.log(changesOrdened)
                     setHistory(changesOrdened);
                     setHistoryModified(changesOrdened);
-                }
             } catch (error) {
                 console.error(error);
             }
@@ -54,7 +50,7 @@ export default function History({ isConfig }) {
         };
         fetchUsers();
         fetchHistory();
-    }, [id])
+    }, [history])
     const onChangeName = (event) => {
         const data = filterbByUsers(History, event)
         setHistoryModified(data);
@@ -76,7 +72,7 @@ export default function History({ isConfig }) {
     }
     return (
         <>
-            {HistoryModified ? (
+            {History ? (
                 <>
                     {isConfig && (
                         <Fade in={isConfig}>
@@ -174,4 +170,10 @@ const filterByDates = (changes, firstDate, endDate) => {
         const formatDate = new Date(a.date).getTime();
         return (firstMiliseconds <= formatDate && formatDate <= endMiliseconds)
     })
+}
+const getFirstDate = (array) => {
+    return array.reduce((acc, value) => acc = (value.date < acc ? value.date : acc), array[0].date);
+}
+const getLastDate = (array) => {
+    return array.reduce((acc, value) => acc = (value.date > acc ? value.date : acc), 0);
 }

@@ -1,6 +1,5 @@
 function formatDataToTable(json, setOts) {
     json.forEach((element, index) => {
-        element.Date = Date.parse(element.Date)
         let UsersJson = element.Users !== null ? JSON.parse(element.Users) : { data: [] };
         if (UsersJson.data.length > 0) {
             element.Users = "";
