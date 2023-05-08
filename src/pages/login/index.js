@@ -1,39 +1,48 @@
 import { Button, TextField } from "@mui/material";
 import ResponsiveAppBar from "../../components/navbar";
-import Style from './login.module.css'
-import { useState } from "react";
-import ModalPortal from "../../components/modelPortal";
-import Alerts from "../../components/alerts";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import ModalPortal from "../../components/modelPortal";
+import { useState } from "react";
 import saveLogin from "../../hooks/saveLogin";
+import Alerts from "../../components/alerts";
+import Style from './login.module.css'
+import postData from "../../hooks/postData";
 
 function LoginPage() {
     const [Email, SetEmail] = useState("")
     const [Password, setPassword] = useState("")
     const [Result, SetResult] = useState(null)
-    const Dispatch = useDispatch();
     const navigate = useNavigate();
+    /**
+     * Iniciar Sesion con el usuario
+     * @param {Event} e 
+     */
     const onLogin = (e) => {
         e.preventDefault();
+        /**
+         * usuario a iniciar sesion
+         */
         let user = {
             email: Email,
             password: Password
         }
-        fetch('http://localhost:4000/login', {
-            method: "POST",
-            body: JSON.stringify(user),
-            headers: { "Content-type": "application/json; charset=UTF-8" }
-        })
-            .then(response => response.json())
-            .then(json => checkResult(SetResult, json,Dispatch))
+        postData('http://localhost:4000/login', user)
+            .then(json => checkResult(SetResult, json))
         setTimeout(() => {
             navigate("/OtAsingPages");
         }, "1500");
     }
+    /**
+     * Manejar state email
+     * @param {HTMLElement} param0 
+     */
     const onChangeEmail = ({ target }) => {
         SetEmail(target.value)
     }
+    /**
+     * Manejar state password
+     * @param {HTMLElement} param0 
+     */
     const onChangePassword = ({ target }) => {
         setPassword(target.value)
     }
@@ -66,7 +75,7 @@ function LoginPage() {
         </>
     );
 }
-const checkResult = (SetResult, result, Dispatch) => {
+const checkResult = (SetResult, result) => {
     SetResult(result);
     saveLogin(result.user)
 }

@@ -7,7 +7,7 @@ import deleteLogin from '../../hooks/deleteLogin';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Pages = [{
-  "name": "CreateOt",
+  "name": "Crear Ot",
   "url": "/createOt"
 },
 {
@@ -23,12 +23,16 @@ const Pages = [{
   "url": "/AllUser"
 },
 {
-  "name": "Create Client",
+  "name": "Crear Cliente",
   "url": "/createClient"
 },
 {
   "name": "Estadisticas",
   "url": "/estadisticas"
+},
+{
+  "name": "Crear usuario",
+  "url": "/crearUsuario"
 }
 ];
 

@@ -22,30 +22,36 @@ function ListCards() {
             getDataFromUrl('http://localhost:4000/getOT')
                 .then(json => {
                     json = filterByName(json, user.name);
-                    setOts(json)
+                    setOts(json.length > 0 ? json : undefined)
                 })
         }
         getData()
     }, [DataToSend])
 
     return (
-        <div className={Style.GridCards}>
-            {Ots && (
-                Ots.map((Ot, key) => {
-                    return <CardOt key={key} Ot={Ot} handleState={handleState} />
-                })
+        <>
+            {Ots ? (
+                <div className={Style.GridCards}>
+                    {Ots.map((Ot, key) => {
+                        return <CardOt key={key} Ot={Ot} handleState={handleState} />
+                    })}
+                    {DataToSend && (
+                        <ModalPortal type={"form"}>
+                            <FormCommit
+                                DataHistory={DataToSend.History}
+                                DataScore={DataToSend.Score}
+                                DataState={DataToSend.State}
+                                setUser={setUser}
+                                setDataToSend={setDataToSend} />
+                        </ModalPortal>
+                    )}
+                </div>
+            ) : (
+                <div className={Style.NoGrids}>
+                    No hay Ots asignadas
+                </div>
             )}
-            {DataToSend && (
-                <ModalPortal type={"form"}>
-                    <FormCommit 
-                    DataHistory={DataToSend.History}
-                    DataScore={DataToSend.Score} 
-                    DataState={DataToSend.State} 
-                    setUser={setUser}
-                    setDataToSend={setDataToSend}/>
-                </ModalPortal>
-            )}
-        </div>
+        </>
     );
 }
 let typeOt = {
@@ -80,10 +86,10 @@ const handleChangeStateOt = async (ot, type, state, userLogin, setUser, comment,
         userId: userLogin.id,
         userName: userLogin.name,
         ChangeDescription: `Se cambio el estado a ${state}`,
-        date:  new Date(Date.now()).getTime(),
+        date: new Date(Date.now()).getTime(),
         comment
     }
-    setDataToSend({History: { idOt: ot.id, Changes }, State: { state, idOt: ot.id }, Score: userLogin})
+    setDataToSend({ History: { idOt: ot.id, Changes }, State: { state, idOt: ot.id }, Score: userLogin })
     console.log("first")
 }
 export default ListCards;

@@ -1,6 +1,12 @@
 import ReactDOM from "react-dom";
 import Styles from "./modelPortal.module.css"
 
+/**
+ * 
+ * @param {ComponentElement} children 
+ * @param {string} type 
+ * @returns component
+ */
 function ModalPortal({ children, type }) {
     if (type === "alert") {
         return ReactDOM.createPortal(

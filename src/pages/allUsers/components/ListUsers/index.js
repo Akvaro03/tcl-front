@@ -2,10 +2,14 @@ import { DataGrid } from "@mui/x-data-grid";
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import { useEffect, useState } from "react";
 import Style from "./listUsers.module.css"
+import resetTablet from "../../../../hooks/searchReplaceText";
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'name', headerName: 'Nombre', width: 130 },
-    { field: 'type', headerName: 'Tipo', width: 120 },
+    {
+        field: 'type', headerName: 'Tipo', width: 420, valueGetter: (params) =>
+            `${params.row.type}`
+    },
     {
         field: 'otAssign',
         headerName: 'Trabajos asignados', width: 200, valueGetter: (params) =>
@@ -19,10 +23,11 @@ function ListUsers() {
         const getData = async () => {
             let jsonOts;
             await getDataFromUrl('http://localhost:4000/getOT')
-                .then(json => { jsonOts = json })
+                .then(json => { jsonOts = json ;})
             getDataFromUrl('http://localhost:4000/getUsers')
                 .then(json => {
-                    getOts(json, jsonOts)
+                    json = getOts(json, jsonOts)
+                    resetTablet("No hay Usuarios")
                     setUsers(json)
                 })
 
@@ -44,20 +49,13 @@ function ListUsers() {
         </div>
     );
 }
-let getOts = (json, ots) => {
-    json.forEach((user, index) => {
-        let stringOt = "";
-        if (user.otAssign !== null) {
-            let otAssing = JSON.parse(user.otAssign).data;
-            otAssing.forEach((numberOt, indexOt) => {
-                stringOt += otAssing.length === indexOt + 1 ? numberOt : numberOt + ", "
-            })
-        } else {
-            stringOt = "Ningun trabajo asignado"
-        }
-        json[index].otAssign = stringOt;
-    });
 
-    return json
-}
+const getOts = (json) => {
+    return json.map(user => {
+        const otAssign = user.otAssign ? JSON.parse(user.otAssign).data.join(", ") : "Ningun trabajo asignado";
+        const type = JSON.parse(user.type).join(", ");
+        return { ...user, otAssign, type };
+    })
+};
+
 export default ListUsers;

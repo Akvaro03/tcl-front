@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ListUsers from '../listUsers';
 import getDataFromUrl from '../../../../hooks/getDataFromUrl';
 import formatDataToTable from '../../../../hooks/formatDataToTable';
+import resetTablet from '../../../../hooks/searchReplaceText';
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
@@ -19,7 +20,7 @@ const columns = [
 ];
 
 function ListOt() {
-    const [Ots, setOts] = useState([{ id: 1, Date: "", Client: '', Type: '', Marca: '', Modelo: "" }])
+    const [Ots, setOts] = useState([])
     const [Users, setUsers] = useState({})
     const [Open, setOpen] = useState(false)
     const [Closed, setClosed] = useState(true)
@@ -29,9 +30,12 @@ function ListOt() {
             getDataFromUrl('http://localhost:4000/getOT')
                 .then(json => {
                     json = formatDataToTable(json, setOts)
+                    resetTablet("No hay Ots")
                 })
             getDataFromUrl('http://localhost:4000/getUsers')
-                .then(data => setUsers(data))
+                .then(data => {
+                    setUsers(data)
+                })
         }
         getData()
     }, [])
@@ -78,6 +82,7 @@ function ListOt() {
         </div>
     );
 }
+
 
 
 export default ListOt;

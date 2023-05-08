@@ -1,3 +1,9 @@
+/**
+ * Subir data a una url
+ * @param {string} url 
+ * @param {Object} dataToSend 
+ * @returns 
+ */
 function postData(url, dataToSend) {
     return new Promise((resolve, reject) => {
         const xhr1 = new XMLHttpRequest();

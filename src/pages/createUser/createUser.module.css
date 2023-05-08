@@ -1,0 +1,8 @@
+.contentCreateUser{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 89vh;
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+}
