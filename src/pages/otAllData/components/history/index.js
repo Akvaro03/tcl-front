@@ -26,14 +26,13 @@ export default function History({ isConfig, history }) {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                    const changes = JSON.parse(history);
-                    console.log(changes)
-                    const changesOrdened = orderChanges(changes);
-                    setFirstDate(dayjs(getFirstDate(changes)))
-                    setEndDate(dayjs(getLastDate(changes)))
-                    console.log(changesOrdened)
-                    setHistory(changesOrdened);
-                    setHistoryModified(changesOrdened);
+                const changes = JSON.parse(history);
+                const changesOrdened = orderChanges(changes);
+                setFirstDate(dayjs(getFirstDate(changes)))
+                setEndDate(dayjs(getLastDate(changes)))
+                console.log(changesOrdened)
+                setHistory(changesOrdened);
+                setHistoryModified(changesOrdened);
             } catch (error) {
                 console.error(error);
             }
@@ -134,10 +133,15 @@ export default function History({ isConfig, history }) {
                                     <Typography variant="h10" component="p" color={"#9d9d9d"}>
                                         {Change.ChangeDescription}
                                     </Typography>
-                                    <Typography variant="h10" color={"#9d9d9d"}>Comentario:      </Typography>
-                                    <Typography component="span">
-                                        {Change.comment}
-                                    </Typography>
+                                    {/* {console.log(Change.comment.length)} */}
+                                    {Change.comment.length > 0 && (
+                                        <>
+                                            <Typography variant="h10" color={"#9d9d9d"}>Comentario:      </Typography>
+                                            <Typography component="span">
+                                                {Change.comment}
+                                            </Typography>
+                                        </>
+                                    )}
                                 </TimelineContent>
                             </TimelineItem>
                         })}

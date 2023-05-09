@@ -1,12 +1,12 @@
-import Style from "./formCreateUser.module.css"
-import styled from '@emotion/styled';
-import { blue, grey } from '@mui/material/colors';
-import { forwardRef, useState } from 'react';
-import Input from '@mui/base/Input';
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup } from "@mui/material";
-import postData from "../../../../hooks/postData";
 import ModalPortal from "../../../../components/modelPortal";
-import AlertsCreateUser from "../alertsCreateUser";
+import Alerts from "../../../../components/alerts";
+import { blue, grey } from '@mui/material/colors';
+import postData from "../../../../hooks/postData";
+import Style from "./formCreateUser.module.css"
+import { forwardRef, useState } from 'react';
+import styled from '@emotion/styled';
+import Input from '@mui/base/Input';
 function FormCreateUser() {
     const [Roles, SetRoles] = useState(rolesUser.map(datoos => { return { name: datoos, state: false } }))
     const [nameUser, setNameUser] = useState("")
@@ -90,7 +90,7 @@ function FormCreateUser() {
             </div>
             {Result && (
                 <ModalPortal type={"alert"}>
-                    <AlertsCreateUser Result={Result} />
+                    <Alerts Result={Result.result} />
                 </ModalPortal>
             )}
         </div>

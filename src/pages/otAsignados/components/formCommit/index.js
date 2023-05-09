@@ -5,13 +5,17 @@ import { Button, TextField } from '@mui/material';
 import dayjs from 'dayjs';
 import postData from '../../../../hooks/postData';
 
-function FormCommit({ DataHistory, DataScore, DataState, setDataToSend, setUser }) {
-    let handleSubmit = () => {
+function FormCommit({ DataHistory, DataScore, DataState, setDataToSend, setResult, setUser }) {
+    let handleSubmit = async () => {
         DataHistory.Changes.date = new Date(DataHistory.Changes.date).getTime();
         setUser(DataScore)
         postData('http://localhost:4000/editScoreUser', DataScore)
         postData('http://localhost:4000/editOtState', DataState)
-        postData('http://localhost:4000/editOtChanges', { Changes:DataHistory, idOt: DataState.idOt })
+        const resultChange = await postData('http://localhost:4000/editOtChanges', { Changes: DataHistory, idOt: DataState.idOt })
+        setResult(resultChange.result)
+        setTimeout(() => {
+            setResult()
+        }, 3200);
         setDataToSend()
     }
 

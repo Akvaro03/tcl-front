@@ -6,10 +6,13 @@ import getUser from "../../../../components/getUser";
 import postData from "../../../../hooks/postData";
 import ModalPortal from "../../../../components/modelPortal";
 import FormCommit from "../formCommit";
+import Alerts from '../../../../components/alerts';
+
 function ListCards() {
     const [User, setUser] = useState()
     const [DataToSend, setDataToSend] = useState()
     const [Ots, setOts] = useState()
+    const [Result, setResult] = useState()
     let handleState = async (index, string, comment, type) => {
         let OtsFound = Ots.findIndex(element => element.id === index)
         await handleChangeStateOt(Ots[OtsFound], type, string, User, setUser, comment, setDataToSend)
@@ -42,6 +45,7 @@ function ListCards() {
                                 DataScore={DataToSend.Score}
                                 DataState={DataToSend.State}
                                 setUser={setUser}
+                                setResult={setResult}
                                 setDataToSend={setDataToSend} />
                         </ModalPortal>
                     )}
@@ -50,6 +54,11 @@ function ListCards() {
                 <div className={Style.NoGrids}>
                     No hay Ots asignadas
                 </div>
+            )}
+            {Result && (
+                <ModalPortal type={"alert"}>
+                    <Alerts Result={Result} />
+                </ModalPortal>
             )}
         </>
     );
@@ -90,6 +99,5 @@ const handleChangeStateOt = async (ot, type, state, userLogin, setUser, comment,
         comment
     }
     setDataToSend({ History: { idOt: ot.id, Changes }, State: { state, idOt: ot.id }, Score: userLogin })
-    console.log("first")
 }
 export default ListCards;

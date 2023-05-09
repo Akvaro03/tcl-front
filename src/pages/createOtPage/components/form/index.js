@@ -68,8 +68,23 @@ function FormCreateOt({ DateCreate }) {
             ContactSelect,
             Changes
         }
-        const resultPost = postData('http://localhost:4000/postOT', OT)
+        const resultPost = await postData('http://localhost:4000/postOT', OT)
+        const resets = [
+            setProducto,
+            setMarca,
+            setModelo,
+            setNormaAplicar,
+            setCotizacion,
+            setFechaEstimada,
+            setFechaVencimiento,
+        ]
+        if (resultPost.result === "ok ot") {
+            resetInputs(resets)
+        }
         setResult(resultPost)
+        setTimeout(() => {
+            setResult()            
+        }, 3200);
     }
 
     useEffect(() => {
@@ -365,5 +380,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         ].join(','),
     },
 }));
-
+const resetInputs = (resets) => {
+    resets.forEach(reset => reset(""))
+}
 export default FormCreateOt;
