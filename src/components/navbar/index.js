@@ -157,7 +157,7 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>
             {userNameLogin ? <p>{userNameLogin}</p> : <p>Iniciar Sesion</p>}
-            {userNameLogin && <p onClick={handleCloseAccount}>Cerrar Sesion</p>}
+            {userNameLogin && <p style={{cursor: 'pointer'}} onClick={handleCloseAccount}>Cerrar Sesion</p>}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

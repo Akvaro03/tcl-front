@@ -1,9 +1,9 @@
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import Style from './formCommit.module.css'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Button, TextField } from '@mui/material';
-import dayjs from 'dayjs';
 import postData from '../../../../hooks/postData';
+import Style from './formCommit.module.css'
+import dayjs from 'dayjs';
 
 function FormCommit({ DataHistory, DataScore, DataState, setDataToSend, setResult, setUser }) {
     let handleSubmit = async () => {

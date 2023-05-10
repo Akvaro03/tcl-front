@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import CardOt from "./components/cardOt";
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
-import Style from "./listCards.module.css"
-import getUser from "../../../../components/getUser";
-import postData from "../../../../hooks/postData";
 import ModalPortal from "../../../../components/modelPortal";
-import FormCommit from "../formCommit";
+import getUser from "../../../../components/getUser";
 import Alerts from '../../../../components/alerts';
+import postData from "../../../../hooks/postData";
+import { useEffect, useState } from "react";
+import Style from "./listCards.module.css"
+import CardOt from "./components/cardOt";
+import FormCommit from "../formCommit";
 
 function ListCards() {
     const [User, setUser] = useState()

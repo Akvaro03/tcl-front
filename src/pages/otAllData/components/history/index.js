@@ -1,28 +1,31 @@
-import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
+import { Fade, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import getDataFromUrl from '../../../../hooks/getDataFromUrl';
+import ModalPortal from '../../../../components/modelPortal';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
-import TimelineDot from '@mui/lab/TimelineDot';
-import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
-import Style from './history.module.css'
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import { Fade, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import SelectMultiple from '../selectMultiple';
-import getDataFromUrl from '../../../../hooks/getDataFromUrl';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import TimelineContent from '@mui/lab/TimelineContent';
 import formatDate from '../../../../hooks/formatDate';
+import Typography from '@mui/material/Typography';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineDot from '@mui/lab/TimelineDot';
+import SelectMultiple from '../selectMultiple';
+import { useEffect, useState } from 'react';
+import Timeline from '@mui/lab/Timeline';
+import Style from './history.module.css';
+import FormChange from '../formChange';
+import dayjs from 'dayjs';
 export default function History({ isConfig, history }) {
-    const [History, setHistory] = useState()
-    const [HistoryModified, setHistoryModified] = useState()
-    const [Users, setUsers] = useState()
-    const [Order, setOrder] = useState("Ascendente")
-    const [firstDate, setFirstDate] = useState(dayjs('2017-04-10'))
-    const [endDate, setEndDate] = useState(dayjs('2024-04-17'))
+    const [firstDate, setFirstDate] = useState(dayjs('2017-04-10'));
+    const [endDate, setEndDate] = useState(dayjs('2024-04-17'));
+    const [HistoryModified, setHistoryModified] = useState();
+    const [Order, setOrder] = useState("Ascendente");
+    const [ModalChange, setModalChange] = useState();
+    const [History, setHistory] = useState();
+    const [Users, setUsers] = useState();
     useEffect(() => {
         const fetchHistory = async () => {
             try {
@@ -30,7 +33,6 @@ export default function History({ isConfig, history }) {
                 const changesOrdened = orderChanges(changes);
                 setFirstDate(dayjs(getFirstDate(changes)))
                 setEndDate(dayjs(getLastDate(changes)))
-                console.log(changesOrdened)
                 setHistory(changesOrdened);
                 setHistoryModified(changesOrdened);
             } catch (error) {
@@ -68,6 +70,9 @@ export default function History({ isConfig, history }) {
         setFirstDate(FirstDate)
         setEndDate(EndDate)
         setHistoryModified(filterByDates(History, FirstDate, EndDate))
+    }
+    const handleModalChange = (data) => {
+        setModalChange((prevValue) => prevValue ? undefined : data)
     }
     return (
         <>
@@ -110,7 +115,7 @@ export default function History({ isConfig, history }) {
                     )}
                     <Timeline position="alternate" sx={{ mb: 15, mt: 2 }}>
                         {HistoryModified.map((Change, key) => {
-                            return <TimelineItem key={key}>
+                            return <TimelineItem key={key} >
                                 <TimelineOppositeContent
                                     sx={{ m: 'auto 0' }}
                                     align="right"
@@ -126,7 +131,7 @@ export default function History({ isConfig, history }) {
                                     </TimelineDot>
                                     <TimelineConnector />
                                 </TimelineSeparator>
-                                <TimelineContent sx={{ py: '12px', px: 2 }}>
+                                <TimelineContent sx={{ py: '12px', px: 2 }} onClick={() => handleModalChange(Change)}>
                                     <Typography variant="h6" component="span">
                                         {Change.userName}
                                     </Typography>
@@ -151,6 +156,11 @@ export default function History({ isConfig, history }) {
                 <div style={{ display: 'flex', justifyContent: 'center', margin: `9% 0%`, width: "100%" }}>
                     <Typography variant="h10" color={"#9d9d9d"}>No existen cambios en el Ot</Typography>
                 </div>
+            )}
+            {ModalChange && (
+                <ModalPortal type={"form"}>
+                    <FormChange Change={ModalChange} CloseModal={handleModalChange}/>
+                </ModalPortal>
             )}
         </>
     );

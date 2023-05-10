@@ -39,27 +39,51 @@ function ListOt() {
         }
         getData()
     }, [])
+
     const handleEvent = (
         params, // GridRowParams
         event, // MuiEvent<React.MouseEvent<HTMLElement>>
-        details, // GridCallbackDetails
     ) => {
-        if (event.target.getAttribute("data-field") === "Users" || event.target.parentElement.getAttribute("data-field") === "Users") {
+        const target = event.target.getAttribute("data-field") || event.target.parentElement.getAttribute("data-field");
+
+        if (target === "Users") {
             if (SelectOt === params.row.id || SelectOt === undefined) {
-                setClosed(!Closed)
-                setSelectOt(params.row.id)
-                if (Open === true) {
-                    setTimeout(function () {
-                        setOpen(!Open)
-                    }, 500);
+                setClosed(closed => !closed);
+                setSelectOt(params.row.id);
+
+                if (Open) {
+                    setTimeout(() => setOpen(false), 500);
                 } else {
-                    setOpen(!Open)
+                    setOpen(true);
                 }
             } else {
-                setSelectOt(params.row.id)
+                setSelectOt(params.row.id);
             }
         }
     };
+
+
+    // const handleEvent = (
+    //     params, // GridRowParams
+    //     event, // MuiEvent<React.MouseEvent<HTMLElement>>
+    //     details, // GridCallbackDetails
+    // ) => {
+    //     if (event.target.getAttribute("data-field") === "Users" || event.target.parentElement.getAttribute("data-field") === "Users") {
+    //         if (SelectOt === params.row.id || SelectOt === undefined) {
+    //             setClosed(!Closed)
+    //             setSelectOt(params.row.id)
+    //             if (Open === true) {
+    //                 setTimeout(function () {
+    //                     setOpen(!Open)
+    //                 }, 500);
+    //             } else {
+    //                 setOpen(!Open)
+    //             }
+    //         } else {
+    //             setSelectOt(params.row.id)
+    //         }
+    //     }
+    // };
 
     return (
         <div className={Closed ? Style.ContentListOt : Style.ContentListOtMini}>

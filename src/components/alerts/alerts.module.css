@@ -1,11 +1,13 @@
-.AlertStyle {
+.AlertStyleMove {
+    width: 16%;
     animation-name: moveAlert;
     animation-duration: 1s;
     animation-fill-mode: forwards;
     transition-timing-function: ease-out;
-    transform: translateY(200px);
 }
-
+.AlertStyleDefault{
+    width: 16%;
+}
 @keyframes moveAlert {
 
     from {

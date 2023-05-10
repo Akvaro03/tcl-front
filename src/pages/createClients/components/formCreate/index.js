@@ -1,20 +1,22 @@
-import styled from '@emotion/styled';
-import Style from './formCreateClient.module.css'
+import ModalPortal from '../../../../components/modelPortal';
+import Alerts from '../../../../components/alerts';
 import { blue, grey } from '@mui/material/colors';
-import { forwardRef, useState } from 'react';
-import Input from '@mui/base/Input';
-import { Button } from '@mui/material';
 import postData from '../../../../hooks/postData';
+import Style from './formCreateClient.module.css';
+import { forwardRef, useState } from 'react';
+import { Button } from '@mui/material';
+import styled from '@emotion/styled';
+import Input from '@mui/base/Input';
 function FormCreateClient() {
-    const [nameClient, setNameClient] = useState("")
-    const [Document, setDocument] = useState({ type: "", value: "" })
-    const [Key, setKey] = useState("")
-    const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }])
-    // const [Result, setResult] = useState()
-    const [BusinessName, SetBusinessName] = useState('')
+    const [nameClient, setNameClient] = useState("");
+    const [Document, setDocument] = useState({ type: "", value: "" });
+    const [Key, setKey] = useState("");
+    const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }]);
+    const [Result, setResult] = useState();
+    const [BusinessName, SetBusinessName] = useState('');
     let numberContacts = [0, 1, 2];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         let isFull = (Contacts) => {
             let newContacts = Contacts.filter(e => (
                 e.type.length > 0 && e.value.length > 0
@@ -29,8 +31,12 @@ function FormCreateClient() {
             ContactVerificate,
             BusinessName
         }
-        postData("http://localhost:4000/postClients", Client)
-    }
+        const resultClient = await postData("http://localhost:4000/postClients", Client)
+        setResult(resultClient.result)
+        setTimeout(() => {
+            setResult()
+        }, 3400);
+    };
     const handleChangeDocument = (e, type) => {
         let updateValue = {};
         updateValue[type] = e
@@ -38,12 +44,12 @@ function FormCreateClient() {
             ...Document,
             ...updateValue
         }))
-    }
+    };
     const handleChangeContacts = (e, number, type) => {
         let copy = [...Contacts]
         copy[number][type] = e;
         setContacts(copy)
-    }
+    };
     return (
         <div className={Style.ContentForm}>
             <div className={Style.TittleForm}>
@@ -119,6 +125,11 @@ function FormCreateClient() {
                     <Button onClick={handleSubmit} fullWidth color='success' variant="contained">Guardar OT</Button>
                 </div>
             </form>
+            {Result && (
+                <ModalPortal type={"alert"}>
+                    <Alerts Result={Result} />
+                </ModalPortal>
+            )}
         </div>
     );
 }
