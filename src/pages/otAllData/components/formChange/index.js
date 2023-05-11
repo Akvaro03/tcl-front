@@ -6,7 +6,7 @@ import { Fade } from '@mui/material';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-function FormChange({ Change, CloseModal }) {
+function FormChange({ Change, CloseModal, changeHistoryAndSubmit}) {
     const [NewChange, setNewChange] = useState([{ ...Change }])
     const handleChange = (event) => {
         const { target } = event;
@@ -19,9 +19,8 @@ function FormChange({ Change, CloseModal }) {
         }
         setNewChange(copy);
     };
-    const handleSubmit = () => {
-        // const resultChange = await postData('http://localhost:4000/editOtChanges', { Changes: DataHistory, idOt: DataState.idOt })
-        console.log(NewChange[0])
+    const handleSubmit = async () => {
+        changeHistoryAndSubmit(NewChange[0])
     }
     return (
         <Fade style={{ animationDuration: 5000 }} in={isObject(Change)}>

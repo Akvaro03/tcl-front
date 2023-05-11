@@ -110,7 +110,7 @@ function ModalOt() {
                 <div className={Style.History}>
                     <StyledEngineProvider injectFirst>
                         {otSelected.Changes && (
-                            <History isConfig={isConfig} history={otSelected.Changes} />
+                            <History isConfig={isConfig} history={otSelected.Changes} idOt={otSelected.id}/>
                         )}
                     </StyledEngineProvider>
                 </div>

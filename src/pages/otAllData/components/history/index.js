@@ -18,13 +18,15 @@ import Timeline from '@mui/lab/Timeline';
 import Style from './history.module.css';
 import FormChange from '../formChange';
 import dayjs from 'dayjs';
-export default function History({ isConfig, history }) {
+import postData from '../../../../hooks/postData';
+export default function History({ isConfig, history, idOt }) {
     const [firstDate, setFirstDate] = useState(dayjs('2017-04-10'));
     const [endDate, setEndDate] = useState(dayjs('2024-04-17'));
     const [HistoryModified, setHistoryModified] = useState();
     const [Order, setOrder] = useState("Ascendente");
     const [ModalChange, setModalChange] = useState();
     const [History, setHistory] = useState();
+    const [UserSelect, setUserSelect] = useState()
     const [Users, setUsers] = useState();
     useEffect(() => {
         const fetchHistory = async () => {
@@ -53,27 +55,33 @@ export default function History({ isConfig, history }) {
         fetchHistory();
     }, [history])
     const onChangeName = (event) => {
-        const data = filterbByUsers(History, event)
-        setHistoryModified(data);
+        setUserSelect(event)
+        setHistoryModified(filterbByUsers(History, event));
     }
     const onChangeOrder = (event) => {
-        const value = event.target.value
-        const typeOrders = {
-            Ascendente: true,
-            Descendente: false
-        }
-        const order = typeOrders[value];
+        const { value } = event.target
         setOrder(value)
-        setHistoryModified(orderChanges(History, order));
+        setHistoryModified(applyAllFilters(History, value, UserSelect, firstDate, endDate))
     }
     const onChangeDate = (FirstDate, EndDate) => {
         setFirstDate(FirstDate)
         setEndDate(EndDate)
-        setHistoryModified(filterByDates(History, FirstDate, EndDate))
+        setHistoryModified(applyAllFilters(History, Order, UserSelect, FirstDate, EndDate))
     }
     const handleModalChange = (data) => {
         setModalChange((prevValue) => prevValue ? undefined : data)
     }
+    const changeHistoryAndSubmit = async (newHistory) => {
+        const newCopyHistory = History.map(historyItem => historyItem.date === newHistory.date ? newHistory : historyItem);
+        try {
+            await postData('http://localhost:4000/editOneOtChanges', { Changes: newCopyHistory, idOt });
+
+            setHistory(newCopyHistory)
+            setHistoryModified(applyAllFilters(newCopyHistory, Order, UserSelect, firstDate, endDate))
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <>
             {History ? (
@@ -83,6 +91,7 @@ export default function History({ isConfig, history }) {
                             <div className={Style.Filters}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
+                                        label="Desde"
                                         format="DD/MM/YYYY"
                                         sx={{ width: "18%", margin: "0 1%" }}
                                         value={firstDate} onChange={(newValue) => onChangeDate(newValue, endDate)}
@@ -90,6 +99,7 @@ export default function History({ isConfig, history }) {
                                 </LocalizationProvider>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
+                                        label="Hasta"
                                         format="DD/MM/YYYY"
                                         sx={{ width: "18%", margin: "0 1%" }}
                                         value={endDate} onChange={(newValue) => onChangeDate(firstDate, newValue)}
@@ -138,7 +148,6 @@ export default function History({ isConfig, history }) {
                                     <Typography variant="h10" component="p" color={"#9d9d9d"}>
                                         {Change.ChangeDescription}
                                     </Typography>
-                                    {/* {console.log(Change.comment.length)} */}
                                     {Change.comment.length > 0 && (
                                         <>
                                             <Typography variant="h10" color={"#9d9d9d"}>Comentario:      </Typography>
@@ -159,13 +168,23 @@ export default function History({ isConfig, history }) {
             )}
             {ModalChange && (
                 <ModalPortal type={"form"}>
-                    <FormChange Change={ModalChange} CloseModal={handleModalChange}/>
+                    <FormChange changeHistoryAndSubmit={changeHistoryAndSubmit} Change={ModalChange} CloseModal={handleModalChange} />
                 </ModalPortal>
             )}
         </>
     );
 }
 
+const typeOrders = {
+    Ascendente: true,
+    Descendente: false
+}
+const applyAllFilters = (Changes, ascending, userSelect, firstDate, endDate) => {
+    Changes = orderChanges(Changes, typeOrders[ascending])
+    Changes = filterbByUsers(Changes, userSelect)
+    Changes = filterByDates(Changes, firstDate, endDate)
+    return Changes;
+}
 const orderChanges = (changes, ascending = true) => {
     return changes.sort((a, b) => {
         const dateA = new Date(a.date).getTime();
@@ -173,9 +192,9 @@ const orderChanges = (changes, ascending = true) => {
         return ascending ? dateA - dateB : dateB - dateA;
     });
 }
-const filterbByUsers = (changes, userSelect = "[]") => {
+const filterbByUsers = (changes, userSelect = []) => {
     const UsersString = JSON.stringify(userSelect)
-    return changes.filter(change => UsersString !== "[]" ? userSelect.includes(change.userName) : true)
+    return UsersString !== "[]" ? changes.filter(change => userSelect.includes(change.userName)) : changes
 }
 const filterByDates = (changes, firstDate, endDate) => {
     const firstMiliseconds = formatDate(firstDate);
