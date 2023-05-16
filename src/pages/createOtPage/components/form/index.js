@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from "@emotion/styled";
 import Style from './formCreateOt.module.css'
 import Input from '@mui/base/Input';
-// import InputUnstyled from '@mui/base/InputUnstyled';
 import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
 import ModalPortal from '../../../../components/modelPortal';
 import Alerts from '../../../../components/alerts';
@@ -83,9 +82,10 @@ function FormCreateOt({ DateCreate }) {
         }
         setResult(resultPost)
         setTimeout(() => {
-            setResult()            
+            setResult()
         }, 3200);
     }
+
 
     useEffect(() => {
         getDataFromUrl('http://localhost:4000/getClients')

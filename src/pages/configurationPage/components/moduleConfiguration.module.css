@@ -28,10 +28,11 @@
 .input {
     display: flex;
     align-items: center;
-    width: 80%;
+    width: 100%;
     margin: 2% 0;
 }
 
 .inputTittle {
     margin-right: 5%;
 }
+

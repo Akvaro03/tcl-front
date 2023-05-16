@@ -3,6 +3,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import LoadingCircle from '../pages/Loading';
 import { Navigate } from "react-router-dom";
 import React, { Suspense } from 'react';
+import Remito from "../templatesPdf/remito";
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
@@ -125,5 +126,14 @@ export const routes = createBrowserRouter([
                     <ConfigurationPage />
                 </Await>
             </Suspense>
-    }
+    },
+    {
+        path: "/Remito",
+        element:
+            <Suspense fallback={<LoadingCircle />}>
+                <Await resolve={Remito}>
+                    <Remito />
+                </Await>
+            </Suspense>
+    },
 ]);

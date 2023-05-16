@@ -1,9 +1,13 @@
-import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
-import * as React from 'react';
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import deleteLogin from '../../hooks/deleteLogin';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+// import { Helmet } from 'react-helmet';
 import getUser from '../getUser';
-import deleteLogin from '../../hooks/deleteLogin';
+import * as React from 'react';
+import { useEffect } from 'react';
+import getDataFromUrl from '../../hooks/getDataFromUrl';
+import { useState } from 'react';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Pages = [{
@@ -37,6 +41,31 @@ const Pages = [{
 ];
 
 function ResponsiveAppBar() {
+  const [Config, setConfig] = useState()
+  useEffect(() => {
+    const getConfig = async () => {
+      const responseConfig = await getDataFromUrl('http://localhost:4000/getConfig')
+      if (responseConfig.result !== "no hay") {
+
+        setConfig(responseConfig)
+        const faviconLink = document.createElement('link');
+        faviconLink.type = 'image/x-icon';
+        faviconLink.rel = 'icon';
+        faviconLink.href = "http://localhost:4000/getBrowserLogo";
+
+        const head = document.head || document.getElementsByTagName('head')[0];
+        const existingIcon = head.querySelector('link[rel="icon"]');
+        if (existingIcon) {
+          head.removeChild(existingIcon);
+        }
+
+        console.log(head)
+        head.appendChild(faviconLink);
+      }
+    }
+    getConfig()
+  }, [])
+
   let user;
   let userNameLogin;
   try {
@@ -51,9 +80,9 @@ function ResponsiveAppBar() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
   const handleCloseNavMenu = (url) => {
     setAnchorElNav(null);
     navigate(url);
@@ -66,6 +95,7 @@ function ResponsiveAppBar() {
     deleteLogin()
     window.location.reload()
   }
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -85,8 +115,10 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            Consultar
+            {Config ? Config : "Cargando"}
           </Typography>
+          {Config && <img src='http://localhost:4000/getCompanyLogo'
+            alt='company logo' style={{ height: "2%", width: "5%" }} />}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -157,12 +189,12 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>
             {userNameLogin ? <p>{userNameLogin}</p> : <p>Iniciar Sesion</p>}
-            {userNameLogin && <p style={{cursor: 'pointer'}} onClick={handleCloseAccount}>Cerrar Sesion</p>}
-            <Tooltip title="Open settings">
+            {userNameLogin && <p style={{ cursor: 'pointer' }} onClick={handleCloseAccount}>Cerrar Sesion</p>}
+            {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -191,4 +223,5 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;

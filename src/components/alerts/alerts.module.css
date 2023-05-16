@@ -4,6 +4,7 @@
     animation-duration: 1s;
     animation-fill-mode: forwards;
     transition-timing-function: ease-out;
+    z-index: -100;
 }
 .AlertStyleDefault{
     width: 16%;
