@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom";
 import Styles from "./modelPortal.module.css"
+import { Fade } from "@mui/material";
 
 /**
  * 
@@ -17,9 +18,12 @@ function ModalPortal({ children, type }) {
         )
     } else if (type === "form") {
         return ReactDOM.createPortal(
-            <div className={Styles.containerForm}>
-                {children}
-            </div>,
+            <Fade in={true}>
+                <div className={Styles.containerForm}>
+                    {children}
+                </div>
+            </Fade>,
+
             document.getElementById('portal')
         )
     }

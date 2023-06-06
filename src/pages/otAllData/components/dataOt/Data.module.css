@@ -1,0 +1,27 @@
+.contentData {
+    grid-template-columns: 1fr 3fr;
+    background: white;
+    display: grid;
+    height: 90%;
+    width: 60%;
+    margin-right: 7%;
+}
+
+.tittlesCategories {
+    background: rgb(240, 240, 240);
+}
+
+.contentTittle {
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.tittlesCategories .contentTittle {
+    justify-content: flex-end;
+    margin-right: 10%;
+}
+
+.dataCategories .contentTittle {
+    margin-left: 5%;
+}

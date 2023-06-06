@@ -13,6 +13,7 @@
     animation-duration: 1s;
     transition-timing-function: ease-out;
     transform: translateY(0);
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 
 .containerForm {
@@ -26,6 +27,7 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(155, 155, 155, 0.404);
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 
 @keyframes moveAlert {

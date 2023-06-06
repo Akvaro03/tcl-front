@@ -1,0 +1,199 @@
+body {
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+    margin: 30px 50px 20px 80px;
+
+}
+
+.container {
+    border: 1px solid black;
+}
+
+.header {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
+}
+
+.tittle {
+    display: flex;
+    justify-content: space-around;
+}
+
+.dateNumber {
+    width: 23%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.companyData {
+    border-bottom: 1px solid black;
+    width: 100%;
+    display: flex;
+    padding: 5px 0;
+}
+
+.data {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contactData {
+    width: 50%;
+}
+
+.numberOrder {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 1%;
+}
+
+.dataContent {
+    justify-content: space-between;
+    display: flex;
+    margin: 5px;
+    width: 60%;
+}
+
+.productData {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+
+.productDiv {
+    height: 100%;
+    padding: 20px 0;
+    width: 100%;
+    padding: 20px;
+}
+
+.productDiv h1 {
+    font-weight: 600;
+}
+
+.productDiv:nth-child(1),
+.productDiv:nth-child(2) {
+    border-right: 1px solid black;
+}
+
+.estimatedDate {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+
+.estimatedDate .date,
+.estimatedDate .price {
+    display: flex;
+}
+.estimatedDateTittle{
+    padding-right: 20px;
+}
+.observations{
+    margin: 30px;
+}
+.observationsContent{
+    margin: 30px;
+}
+.formatSend {
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+
+.formatSend h1 {
+    font-weight: 600;
+}
+
+.dateTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    border-bottom: 1px solid black;
+}
+
+.dateTable div {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.cellInside {
+    border-right: 1px solid black;
+}
+
+.cellInsideRow2 {
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.cellRightRow2 {
+    border-top: 1px solid black;
+}
+
+.voidCell {
+    border-right: 1px solid black;
+}
+
+.note {
+    background: black;
+    padding: 10px;
+    color: white;
+    font-size: 15px;
+}
+
+.firms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.firmContent {
+    border-right: 1px solid black;
+}
+
+.firmContent div {
+    display: flex;
+    justify-content: center;
+}
+
+.firmTittle {
+    border-bottom: 1px solid black;
+    padding: 5px;
+}
+
+.firm {
+    height: 70px;
+}
+
+.firmNote {
+    border-top: 1px solid black;
+    padding: 5px;
+    font-size: 15px;
+}
+
+.items {
+    border-bottom: 1px solid black;
+}
+
+.itemHeader {
+    padding: 5px 20px;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.itemHeader p:nth-child(1) {
+    width: 15%;
+}
+
+.product {
+    padding: 5px 20px;
+    display: flex;
+}
+.product p:nth-child(1) {
+    width: 15%;
+}

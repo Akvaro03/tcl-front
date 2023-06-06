@@ -4,10 +4,10 @@ import Style from './formCreateOt.module.css'
 import Input from '@mui/base/Input';
 import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
 import ModalPortal from '../../../../components/modelPortal';
-import Alerts from '../../../../components/alerts';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import postData from '../../../../hooks/postData';
 import getUser from '../../../../components/getUser';
+import ModalCallback from '../ModalCallback';
 
 function FormCreateOt({ DateCreate }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
@@ -77,15 +77,11 @@ function FormCreateOt({ DateCreate }) {
             setFechaEstimada,
             setFechaVencimiento,
         ]
-        if (resultPost.result === "ok ot") {
+        if (resultPost.result.substring(0, 5) === "ok ot") {
             resetInputs(resets)
         }
-        setResult(resultPost)
-        setTimeout(() => {
-            setResult()
-        }, 3200);
+        setResult(resultPost.result.substring(6, 7))
     }
-
 
     useEffect(() => {
         getDataFromUrl('http://localhost:4000/getClients')
@@ -263,13 +259,16 @@ function FormCreateOt({ DateCreate }) {
                 </div>
             </div>
             {Result && (
-                <ModalPortal type={"alert"}>
-                    <Alerts Result={Result.result} />
+                <ModalPortal type={"form"}>
+                    <ModalCallback Result={Result} setResult={setResult} />
                 </ModalPortal>
             )}
         </form>
     );
 }
+
+
+
 const blue = {
     100: '#DAECFF',
     200: '#99CCF3',

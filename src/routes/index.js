@@ -3,19 +3,21 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import LoadingCircle from '../pages/Loading';
 import { Navigate } from "react-router-dom";
 import React, { Suspense } from 'react';
-import Remito from "../templatesPdf/remito";
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
 const StatisticsPage = React.lazy(() => import('../pages/statisticsPage')); // Lazy-loaded
 const CreateClients = React.lazy(() => import('../pages/createClients')); // Lazy-loaded
 const CreateOtPage = React.lazy(() => import('../pages/createOtPage')); // Lazy-loaded
+const CreateTypeOt = React.lazy(() => import('../pages/createTypeOt')); // Lazy-loaded
 const OtAsingPages = React.lazy(() => import('../pages/otAsignados')); // Lazy-loaded
 const OtPendingPages = React.lazy(() => import('../pages/otPending')); // Lazy-loaded
 const CreateUser = React.lazy(() => import('../pages/createUser')); // Lazy-loaded
 const OtAllData = React.lazy(() => import('../pages/otAllData')); // Lazy-loaded
 const AllUser = React.lazy(() => import('../pages/allUsers')); // Lazy-loaded
+const Etiquetas = React.lazy(() => import('../pdf/Etiqueta')); // Lazy-loaded
 const LoginPage = React.lazy(() => import('../pages/login')); // Lazy-loaded
+const Remito = React.lazy(() => import('../pdf/Remito')); // Lazy-loaded
 
 export const routes = createBrowserRouter([
     {
@@ -128,11 +130,38 @@ export const routes = createBrowserRouter([
             </Suspense>
     },
     {
-        path: "/Remito",
+        path: "/Remito/:id",
         element:
             <Suspense fallback={<LoadingCircle />}>
                 <Await resolve={Remito}>
                     <Remito />
+                </Await>
+            </Suspense>
+    },
+    {
+        path: "/Etiqueta/:id/:count",
+        element:
+            <Suspense fallback={<LoadingCircle />}>
+                <Await resolve={Etiquetas}>
+                    <Etiquetas />
+                </Await>
+            </Suspense>
+    },
+    {
+        path: "/Etiqueta/:id",
+        element:
+            <Suspense fallback={<LoadingCircle />}>
+                <Await resolve={Etiquetas}>
+                    <Etiquetas />
+                </Await>
+            </Suspense>
+    },
+    {
+        path: "/createTypeOt",
+        element:
+            <Suspense fallback={<LoadingCircle />}>
+                <Await resolve={CreateTypeOt}>
+                    <CreateTypeOt />
                 </Await>
             </Suspense>
     },

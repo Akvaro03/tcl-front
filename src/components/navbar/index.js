@@ -37,7 +37,11 @@ const Pages = [{
 {
   "name": "Crear usuario",
   "url": "/crearUsuario"
-}
+},
+{
+  "name": "Crear type",
+  "url": "/createTypeOt"
+},
 ];
 
 function ResponsiveAppBar() {
@@ -59,7 +63,6 @@ function ResponsiveAppBar() {
           head.removeChild(existingIcon);
         }
 
-        console.log(head)
         head.appendChild(faviconLink);
       }
     }
