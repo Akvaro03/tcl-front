@@ -1,0 +1,18 @@
+.contentHistory {
+    width: 25%;
+    background: white;
+    height: 50%;
+    overflow: auto;
+    padding: 1% 0;
+    position: sticky;
+    top: 30px;
+}
+
+.contentHistory::-webkit-scrollbar {
+    width: 18px;
+    /* Tamaño del scroll en vertical */
+    height: 18px;
+    /* Tamaño del scroll en horizontal */
+    display: none;
+    /* Ocultar scroll */
+}

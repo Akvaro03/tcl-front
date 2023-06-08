@@ -22,6 +22,7 @@ function FormCreateOt({ DateCreate }) {
     const [FechaEstimada, setFechaEstimada] = useState("")
     const [Contacts, setContacts] = useState("")
 
+    const [allTypes, setAllTypes] = useState([])
     const [Identificación] = useState("Identificacion")
     const [Type, SetType] = useState("")
     const [Description, setDescription] = useState({
@@ -43,6 +44,7 @@ function FormCreateOt({ DateCreate }) {
     const handleSubmit = async () => {
         let Client = ClientObjet.label;
         let ContactSelect = ClientObjet.Contacts[Contacts];
+        const activities = allTypes[Type].activities;
         const Changes = {
             userId: userLogin.id,
             userName: userLogin.name,
@@ -53,6 +55,7 @@ function FormCreateOt({ DateCreate }) {
         const OT = {
             Date: new Date(DateCreate).getTime(),
             Client,
+            IdClient: ClientObjet.id,
             RazonSocial,
             Producto,
             Marca,
@@ -65,7 +68,8 @@ function FormCreateOt({ DateCreate }) {
             Description,
             Observaciones,
             ContactSelect,
-            Changes
+            Changes,
+            activities
         }
         const resultPost = await postData('http://localhost:4000/postOT', OT)
         const resets = [
@@ -93,6 +97,10 @@ function FormCreateOt({ DateCreate }) {
                     newJson.push(data)
                 });
                 setClients(newJson)
+            })
+        getDataFromUrl('http://localhost:4000/getTypeOt')
+            .then(json => {
+                setAllTypes(json)
             })
     }, [])
 
@@ -188,12 +196,15 @@ function FormCreateOt({ DateCreate }) {
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar tipo de OT</p>
                             <Select sx={{ height: "45px" }} fullWidth onChange={({ target: { value } }) => SetType(value)} placeholder='Selecciona el tipo de OT' defaultValue={""}>
-                                <MenuItem value={"Reducido"}>Reducido</MenuItem >
+                                {allTypes.map((type, index) => (
+                                    <MenuItem key={index} value={index}>{type.nameType}</MenuItem >
+                                ))}
+                                {/* <MenuItem value={"Reducido"}>Reducido</MenuItem >
                                 <MenuItem value={"Verif. Identidad"} >Verif. Identidad</MenuItem >
                                 <MenuItem value={"Ampliado"} >Ampliado</MenuItem >
                                 <MenuItem value={"Ensayo Eficiencia"} >Ensayo Eficiencia</MenuItem >
                                 <MenuItem value={"Ensayo Completo"} >Ensayo Completo</MenuItem >
-                                <MenuItem value={"Otra actividad"} >Otra actividad</MenuItem >
+                                <MenuItem value={"Otra actividad"} >Otra actividad</MenuItem > */}
                             </Select>
                         </div>
                         <div className={Style.DescriptionContent}>
