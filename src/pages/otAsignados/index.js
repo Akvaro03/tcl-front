@@ -5,27 +5,24 @@ import ListCards from "./components/listCards";
 import SelectView from "./components/selectView";
 import { Box } from "@mui/material";
 import ListItems from "./components/lisItems";
-import getUser from "../../components/getUser";
-import postData from "../../hooks/postData";
 import getDataFromUrl from "../../hooks/getDataFromUrl";
+import getUser from "../../hooks/getUser";
 function OtAsingPages() {
     const [format, SetFormat] = useState("list")
     const [User, setUser] = useState()
     const [Ots, setOts] = useState()
-
     const handleSetUser = (newUser) => {
         setUser(newUser)
     }
 
     useEffect(() => {
         const getData = async () => {
-            let user = JSON.parse(JSON.parse(getUser()).userString);
-            let userLogin = await postData('http://localhost:4000/getOneUser', { name: user.name }).then(res => res[0])
-            setUser(userLogin)
+            let user = getUser();
+            setUser(getUser())
             getDataFromUrl('http://localhost:4000/getOT')
                 .then(json => {
                     json = filterByName(json, user.name);
-                    setOts(json.length > 0 ? json : undefined)
+                    setOts(json.length > 0 ? json : null)
                 })
         }
         getData()
@@ -34,7 +31,7 @@ function OtAsingPages() {
     return (
         <>
             <ResponsiveAppBar />
-            <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+            <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", position: "fixed" }}>
                 <SelectView SetFormat={SetFormat} format={format} />
             </Box>
             {Ots ? (
@@ -43,7 +40,7 @@ function OtAsingPages() {
                         <ListCards User={User} Ots={Ots} setUser={handleSetUser} />
                     </div>
                 ) : (
-                    <Box sx={{ width: "100%", height: "76vh", display: "flex", justifyContent: "center" }}>
+                    <Box sx={{ width: "100%", height: "76vh", display: "flex", justifyContent: "center", marginTop: "40px" }}>
                         <ListItems User={User} Ots={Ots} />
                     </Box>
                 )
@@ -54,17 +51,10 @@ function OtAsingPages() {
     );
 }
 const filterByName = (json, name) => {
-    let jsonFiltered = json.filter(ot => {
-        if (ot.Users !== null) {
-            let users = JSON.parse(ot.Users).data;
-            let found = users.find(e => e === name)
-            if (found === name) {
-                return true
-            }
-        }
-        return false
-    })
-    return jsonFiltered;
+    return json.filter(ot =>
+        JSON.parse(ot.Activities).every(Activity =>
+            JSON.parse(Activity.users)
+                .includes(name)))
 }
 const HandleNoOT = () => {
     setTimeout(() => {

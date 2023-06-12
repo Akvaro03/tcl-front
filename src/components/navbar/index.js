@@ -3,11 +3,11 @@ import deleteLogin from '../../hooks/deleteLogin';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 // import { Helmet } from 'react-helmet';
-import getUser from '../getUser';
 import * as React from 'react';
 import { useEffect } from 'react';
 import getDataFromUrl from '../../hooks/getDataFromUrl';
 import { useState } from 'react';
+import getUser from '../../hooks/getUser';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Pages = [{
@@ -15,12 +15,12 @@ const Pages = [{
   "url": "/createOt"
 },
 {
-  "name": "OT asignadas",
-  "url": "/OtAsingPages"
+  "name": "Ot",
+  "url": "/OtList"
 },
 {
-  "name": "OT pendientes",
-  "url": "/OtPendingPages"
+  "name": "OT asignadas",
+  "url": "/OtAsingPages"
 },
 {
   "name": "Todos los usuarios",
@@ -72,7 +72,7 @@ function ResponsiveAppBar() {
   let user;
   let userNameLogin;
   try {
-    user = JSON.parse(JSON.parse(getUser()).userString);
+    user = getUser();
     userNameLogin = user.name;
   } catch (error) {
   }

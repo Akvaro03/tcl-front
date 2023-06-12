@@ -6,8 +6,8 @@ import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@m
 import ModalPortal from '../../../../components/modelPortal';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import postData from '../../../../hooks/postData';
-import getUser from '../../../../components/getUser';
 import ModalCallback from '../ModalCallback';
+import getUser from '../../../../hooks/getUser';
 
 function FormCreateOt({ DateCreate }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
@@ -45,6 +45,7 @@ function FormCreateOt({ DateCreate }) {
         let Client = ClientObjet.label;
         let ContactSelect = ClientObjet.Contacts[Contacts];
         const activities = allTypes[Type].activities;
+        const TypeString = allTypes[Type];
         const Changes = {
             userId: userLogin.id,
             userName: userLogin.name,
@@ -64,7 +65,7 @@ function FormCreateOt({ DateCreate }) {
             Cotizacion,
             FechaVencimiento,
             FechaEstimada,
-            Type,
+            Type: TypeString.nameType,
             Description,
             Observaciones,
             ContactSelect,
@@ -90,7 +91,7 @@ function FormCreateOt({ DateCreate }) {
     useEffect(() => {
         getDataFromUrl('http://localhost:4000/getClients')
             .then(json => {
-                setUserLogin(JSON.parse(JSON.parse(getUser()).userString))
+                setUserLogin(getUser())
                 let newJson = []
                 json.forEach(element => {
                     let data = { label: element.Name, id: element.id, KeyUnique: element.KeyUnique, businessName: element.businessName, Contacts: JSON.parse(element.Contacts) };
@@ -361,11 +362,10 @@ const CustomInputTable = React.forwardRef(function CustomInput(props, ref) {
 const top100Films = [
     {
         id: "",
-        Name: "",
-        Document: "",
         KeyUnique: "",
         businessName: "",
-        Contacts: ""
+        Contacts: "",
+        label: ""
     }
 ];
 const BootstrapInput = styled(InputBase)(({ theme }) => ({

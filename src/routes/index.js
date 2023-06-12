@@ -11,12 +11,12 @@ const CreateClients = React.lazy(() => import('../pages/createClients')); // Laz
 const CreateOtPage = React.lazy(() => import('../pages/createOtPage')); // Lazy-loaded
 const CreateTypeOt = React.lazy(() => import('../pages/createTypeOt')); // Lazy-loaded
 const OtAsingPages = React.lazy(() => import('../pages/otAsignados')); // Lazy-loaded
-const OtPendingPages = React.lazy(() => import('../pages/otPending')); // Lazy-loaded
 const CreateUser = React.lazy(() => import('../pages/createUser')); // Lazy-loaded
 const OtAllData = React.lazy(() => import('../pages/otAllData')); // Lazy-loaded
 const AllUser = React.lazy(() => import('../pages/allUsers')); // Lazy-loaded
 const Etiquetas = React.lazy(() => import('../pdf/Etiqueta')); // Lazy-loaded
 const LoginPage = React.lazy(() => import('../pages/login')); // Lazy-loaded
+const OtPage = React.lazy(() => import('../pages/otPage')); // Lazy-loaded
 const Remito = React.lazy(() => import('../pdf/Remito')); // Lazy-loaded
 
 export const routes = createBrowserRouter([
@@ -57,12 +57,12 @@ export const routes = createBrowserRouter([
             </ProtectedRoute>
     },
     {
-        path: "/OtPendingPages",
+        path: "/OtList",
         element:
             <ProtectedRoute>
                 <Suspense fallback={<LoadingCircle />}>
-                    <Await resolve={OtPendingPages}>
-                        <OtPendingPages />
+                    <Await resolve={OtPage}>
+                        <OtPage />
                     </Await>
                 </Suspense>
             </ProtectedRoute>

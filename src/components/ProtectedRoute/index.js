@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom";
-import getUser from "../getUser";
+import getUser from "../../hooks/getUser";
 
 function ProtectedRoute({ children }) {
     let user;
     try {
         
-        user = JSON.parse(JSON.parse(getUser()).userString);
+        user = getUser();
     } catch (error) {
         console.log(error)
     }

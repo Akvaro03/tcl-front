@@ -133,3 +133,17 @@
     border-radius: 15px;
     background-color: #ff7373;
 }
+
+.auth {
+    height: 30px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+    border: 1px solid black;
+    width: 125px;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 15px;
+    background-color: #a1ff75;
+}
