@@ -19,4 +19,20 @@
 .ColumOt:hover {
     background: #ebebeb73;
     transition: all .2s;
+
+}
+
+.ColumOt:hover .buttonAuth {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0s, opacity 0.1s linear;
+}
+
+.buttonAuth {
+    opacity: 0;
+    width: 35%;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
 }

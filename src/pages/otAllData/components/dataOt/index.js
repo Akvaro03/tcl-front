@@ -1,17 +1,19 @@
 import ModalPortal from "../../../../components/modelPortal";
 import formatDateM from "../../../../hooks/formatDateM";
-import changeAuth from "../../../../hooks/changeAuth";
-import postData from "../../../../hooks/postData";
+import changeActOt from "../../../../db/changeActOt";
+import changeAuth from "../../../../db/changeAuth";
+import AddActivity from "../addActivity";
 import SelectUsers from "../selectUsers";
 import { Button } from "@mui/material";
 import Style from "./Data.module.css"
 import { useState } from "react";
 
-function DataOt({ otSelected }) {
+function DataOt({ otSelected, reload }) {
     const [activities, setActivities] = useState(JSON.parse(otSelected.Activities))
     const [activitySelected, setActivitySelected] = useState()
     const [userSelect, setUserSelect] = useState(false)
-    const [auth, setAuth] = useState(otSelected.Aut)
+    const [addActivity, setAddActivity] = useState(false)
+    const [auth, setAuth] = useState(otSelected.Auth)
     const selectUsers = (activity) => {
         setUserSelect(true)
         setActivitySelected(activity)
@@ -22,9 +24,26 @@ function DataOt({ otSelected }) {
     const handleUsers = (users) => {
         try {
             const newActivities = activities.map(act => act === activitySelected ? { ...activitySelected, users: JSON.stringify(users) } : act);
-            postData("http://localhost:4000/editOtActivities", { id: otSelected.id, activity: newActivities })
+            changeActOt({ id: otSelected.id, activity: newActivities }, otSelected.id, "Se editaron los usuarios", `${activitySelected.name} Usuarios: ${users.join(", ")}`)
             setActivities(newActivities)
             closeForm()
+            reload()
+        } catch (error) {
+        }
+    }
+    const handleActivities = (newActivities) => {
+        try {
+            const added = getDifference(newActivities, activities);
+            const eliminated = getDifference(activities, newActivities);
+            const addedText = added.length > 0 && `Se agregó ${added.map(activity => activity.name).join(", ")}`;
+            const eliminatedText = eliminated.length > 0 && `Se eliminó ${eliminated.map(activity => activity.name).join(", ")}`;
+            const comment = (addedText && eliminatedText) ? addedText + " y " + eliminatedText : addedText || eliminatedText;
+            setActivities(newActivities)
+            changeActOt({ id: otSelected.id, activity: newActivities }, otSelected.id, "Se editaron las actividades", comment)
+            setAddActivity(false)
+            setTimeout(() => {
+                reload()
+            }, 5000);
         } catch (error) {
         }
     }
@@ -40,6 +59,9 @@ function DataOt({ otSelected }) {
                         <h1 className={Style.tittlePage}>OT Seleccionada</h1>
                     </div>
                     <div className={Style.contentTittle}>
+                        <h1>Autorización</h1>
+                    </div>
+                    <div className={Style.contentTittle}>
                         <h1>Id de OT</h1>
                     </div>
                     <div className={Style.contentTittle}>
@@ -53,9 +75,6 @@ function DataOt({ otSelected }) {
                     </div>
                     <div className={Style.addButton}>
                         <Button size="small" variant="outlined" sx={{ visibility: "hidden", paddingBottom: "10px" }}>Add activity</Button>
-                    </div>
-                    <div className={Style.contentTittle}>
-                        <h1>Autorización</h1>
                     </div>
                     <div className={Style.ProductTittle}>
                         Producto
@@ -94,6 +113,22 @@ function DataOt({ otSelected }) {
                 <div className={Style.dataCategories}>
                     <div className={Style.contentTittle}>
                     </div>
+                    {auth === "1" ? (
+                        <div className={Style.auth} onClick={changeAuthButton}>
+                            <h1>
+                                Autorizado
+                            </h1>
+                        </div>
+
+                    ) : (
+                        <div className={Style.authNone} onClick={changeAuthButton}>
+                            <h1>
+                                No Autorizado
+                            </h1>
+                        </div>
+
+                    )}
+
                     <div className={Style.contentTittle}>
                         <h1>{otSelected.id}</h1>
                     </div>
@@ -113,23 +148,8 @@ function DataOt({ otSelected }) {
                         )}
                     </div>
                     <div className={Style.addButton}>
-                        <Button size="small" variant="outlined">Añadir actividad</Button>
+                        <Button size="small" variant="outlined" onClick={setAddActivity}>Editar actividades</Button>
                     </div>
-                    {auth === "1" ? (
-                        <div className={Style.auth} onClick={changeAuthButton}>
-                            <h1>
-                                Autorizado
-                            </h1>
-                        </div>
-
-                    ) : (
-                        <div className={Style.authNone} onClick={changeAuthButton}>
-                            <h1>
-                                No Autorizado
-                            </h1>
-                        </div>
-
-                    )}
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
@@ -169,12 +189,22 @@ function DataOt({ otSelected }) {
                     <SelectUsers handleUsers={handleUsers} closeForm={closeForm} activitySelected={activitySelected} />
                 </ModalPortal>
             )}
+            {addActivity && (
+                <ModalPortal type={"form"}>
+                    <AddActivity ot={otSelected} handleActivities={handleActivities} setOtActivities={setActivities} otActivities={activities} setAddActivity={setAddActivity} />
+                </ModalPortal>
+            )}
         </>
     );
 }
 
 const getUserActivity = (activity) => {
     return JSON.parse(activity.users)[0]
+}
+function getDifference(a, b) {
+    return a.filter(element => {
+        return !b.includes(element);
+    });
 }
 
 export default DataOt;

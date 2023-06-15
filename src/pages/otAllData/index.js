@@ -1,31 +1,40 @@
-import Style from './otAllData.module.css'
 import ResponsiveAppBar from "../../components/navbar";
-import DataOt from './components/dataOt';
 import HistoryOt from './components/histoyOt';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import postData from '../../hooks/postData';
+import Style from './otAllData.module.css'
+import DataOt from './components/dataOt';
 
 function OtAllData() {
     const [otSelected, setOtSelected] = useState()
+    const [Changes, setChanges] = useState()
     let params = useParams();
     useEffect(() => {
-        let getData = () => {
-            postData('http://localhost:4000/getOneOt', { id: params.id })
+        let getData = async () => {
+            let data = await postData('http://localhost:4000/getOneOt', { id: params.id })
                 .then(resolve => resolve[0])
                 .then(resolve => resolve = formatData(resolve))
-                .then(resolve => setOtSelected(resolve))
+            setOtSelected(data)
+            setChanges(data.Changes)
         }
         getData();
     }, [params])
+    const reload = async () => {
+        let data = await postData('http://localhost:4000/getOneOt', { id: params.id })
+            .then(resolve => resolve[0])
+            .then(resolve => resolve = formatData(resolve))
+        setOtSelected(data)
+        setChanges(data.Changes)
+    }
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentAllData}>
-                {otSelected && (
+                {otSelected && Changes && (
                     <>
-                        <DataOt otSelected={otSelected} />
-                        <HistoryOt history={otSelected.Changes} />
+                        <DataOt otSelected={otSelected} reload={reload} />
+                        <HistoryOt history={Changes} />
                     </>
                 )}
             </div>

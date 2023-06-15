@@ -45,9 +45,13 @@ function FormStep({ setIsFormStep, addStep, typeForm, stepSelected, editStep }) 
     useEffect(() => {
         if (typeForm) {
             setNameStep(stepSelected.nameStep)
-            SetRoles(prevValues => prevValues.map(rol => (
-                stepSelected.roles.includes(rol.name) ? { ...rol, state: true } : rol
-            )))
+            SetRoles(prevValues => prevValues.map(rol => {
+                if (stepSelected.roles.includes(rol.name)) {
+                    return { ...rol, state: true }
+                } else {
+                    return rol
+                }
+            }))
         }
     }, [stepSelected, typeForm])
 

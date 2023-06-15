@@ -1,17 +1,10 @@
 .contentData {
-    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 15px;
-    width: 90%;
-    height: 90%;
-    margin-top: 2%;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif; */
-
     display: grid;
     grid-template-columns: 1fr 3fr;
     background: white;
     height: 90%;
     width: 60%;
-    margin-right: 7%;
+    margin-right: 5%;
 }
 
 .tittlePage {

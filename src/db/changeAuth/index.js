@@ -1,6 +1,6 @@
-import addChange from "../../hooks/addChange";
-import getUser from "../getUser";
 import postData from "../../hooks/postData";
+import addChange from "../../db/addChange";
+import getUser from "../../hooks/getUser";
 
 function changeAuth(OT) {
     const userLogin = getUser();

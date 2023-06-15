@@ -34,7 +34,7 @@ function OtAsingPages() {
             <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", position: "fixed" }}>
                 <SelectView SetFormat={SetFormat} format={format} />
             </Box>
-            {Ots ? (
+            {Ots && Ots[0] ? (
                 format === "cards" ? (
                     <div className={Style.ContentAssing}>
                         <ListCards User={User} Ots={Ots} setUser={handleSetUser} />
@@ -51,16 +51,22 @@ function OtAsingPages() {
     );
 }
 const filterByName = (json, name) => {
-    return json.filter(ot =>
-        JSON.parse(ot.Activities).every(Activity =>
-            JSON.parse(Activity.users)
-                .includes(name)))
-}
+    return json.filter(ot => {
+        const activities = JSON.parse(ot.Activities);
+        return activities.every(Activity => {
+            const users = JSON.parse(Activity.users);
+            if (Array.isArray(users)) {
+                return users.includes(name);
+            }
+            return false;
+        });
+    });
+};
 const HandleNoOT = () => {
-    setTimeout(() => {
-        return <div className={Style.NoGrids}>
-            No hay Ots asignadas
-        </div>
-    }, 2000);
+    return (
+        <Box sx={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", height: "70vh", fontSize: "35px" }}>
+            No hay OT asignadas
+        </Box>
+    )
 }
 export default OtAsingPages;

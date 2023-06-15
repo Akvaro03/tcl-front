@@ -14,7 +14,7 @@ function OtPage() {
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentOt}>
-                <ListOt listOt={listOt} />
+                <ListOt listOt={listOt} setListOt={setListOt} />
             </div>
         </>
     );
