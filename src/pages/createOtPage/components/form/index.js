@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import styled from "@emotion/styled";
-import Style from './formCreateOt.module.css'
-import Input from '@mui/base/Input';
 import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
 import ModalPortal from '../../../../components/modelPortal';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
+import React, { useEffect, useState } from 'react';
+import Alerts from '../../../../components/alerts';
 import postData from '../../../../hooks/postData';
-import ModalCallback from '../ModalCallback';
 import getUser from '../../../../hooks/getUser';
+import Style from './formCreateOt.module.css';
+import ModalCallback from '../ModalCallback';
+import styled from "@emotion/styled";
+import Input from '@mui/base/Input';
+import MultipleSelect from '../../../../components/multipleSelect';
 
 function FormCreateOt({ DateCreate }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
@@ -37,56 +39,71 @@ function FormCreateOt({ DateCreate }) {
         Importe3: "",
     })
     const [Observaciones, setObservaciones] = useState("")
-
+    const [error, setError] = useState()
     const [Result, setResult] = useState(null)
     const [userLogin, setUserLogin] = useState()
 
     const handleSubmit = async () => {
-        let Client = ClientObjet.label;
-        let ContactSelect = ClientObjet.Contacts[Contacts];
-        const activities = allTypes[Type].activities;
-        const TypeString = allTypes[Type];
-        const Changes = {
-            userId: userLogin.id,
-            userName: userLogin.name,
-            ChangeDescription: `Se creo el Ot`,
-            date: new Date(DateCreate).getTime(),
-            comment: ""
+        try {
+            if (!Contacts || !Observaciones || !Description || !FechaEstimada || !FechaVencimiento || !Cotizacion || !NormaAplicar || !Modelo || !Marca || !allTypes[Type].activities || !ClientObjet || !Producto) {
+                setError("missed data");
+                setTimeout(() => {
+                    setError();
+                }, 3000);
+                return
+            }
+            const ContactSelect = Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]);
+            const { label: Client } = ClientObjet;
+            const activities = allTypes[Type].activities;
+            const TypeString = allTypes[Type];
+            const Changes = {
+                userId: userLogin.id,
+                userName: userLogin.name,
+                ChangeDescription: `Se creó el Ot`,
+                date: new Date(DateCreate).getTime(),
+                comment: ""
+            };
+            const OT = {
+                Date: new Date(DateCreate).getTime(),
+                Client,
+                IdClient: ClientObjet.id,
+                RazonSocial,
+                Producto,
+                Marca,
+                Modelo,
+                NormaAplicar,
+                Cotizacion,
+                FechaVencimiento,
+                FechaEstimada,
+                Type: TypeString.nameType,
+                Description,
+                Observaciones,
+                ContactSelect,
+                Changes,
+                activities
+            };
+            const resultPost = await postData('http://localhost:4000/postOT', OT);
+            const resets = [
+                setProducto,
+                setMarca,
+                setModelo,
+                setNormaAplicar,
+                setCotizacion,
+                setFechaEstimada,
+                setFechaVencimiento
+            ];
+
+            if (resultPost.result.substring(0, 5) === "ok ot") {
+                resetInputs(resets);
+            }
+            setResult(resultPost.result.substring(6, 7));
+        } catch (error) {
+            setError("missed data");
+            setTimeout(() => {
+                setError();
+            }, 3000);
         }
-        const OT = {
-            Date: new Date(DateCreate).getTime(),
-            Client,
-            IdClient: ClientObjet.id,
-            RazonSocial,
-            Producto,
-            Marca,
-            Modelo,
-            NormaAplicar,
-            Cotizacion,
-            FechaVencimiento,
-            FechaEstimada,
-            Type: TypeString.nameType,
-            Description,
-            Observaciones,
-            ContactSelect,
-            Changes,
-            activities
-        }
-        const resultPost = await postData('http://localhost:4000/postOT', OT)
-        const resets = [
-            setProducto,
-            setMarca,
-            setModelo,
-            setNormaAplicar,
-            setCotizacion,
-            setFechaEstimada,
-            setFechaVencimiento,
-        ]
-        if (resultPost.result.substring(0, 5) === "ok ot") {
-            resetInputs(resets)
-        }
-        setResult(resultPost.result.substring(6, 7))
-    }
+    };
 
     useEffect(() => {
         getDataFromUrl('http://localhost:4000/getClients')
@@ -257,11 +274,9 @@ function FormCreateOt({ DateCreate }) {
                         </div>
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar Contacto</p>
-                            <Select sx={{ height: "45px" }} fullWidth onChange={({ target: { value } }) => setContacts(value)} defaultValue={""}>
-                                {ClientObjet.Contacts && ClientObjet.Contacts.map((ContactClient, key) => (
-                                    <MenuItem key={key} value={ContactClient.id}>{ContactClient.type + ": " + ContactClient.value}</MenuItem >
-                                ))}
-                            </Select>
+                            {ClientObjet.Contacts && (
+                                <MultipleSelect onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Clientes seleccionados"} />
+                            )}
                         </div>
 
                     </div>
@@ -273,6 +288,11 @@ function FormCreateOt({ DateCreate }) {
             {Result && (
                 <ModalPortal type={"form"}>
                     <ModalCallback Result={Result} setResult={setResult} />
+                </ModalPortal>
+            )}
+            {error && (
+                <ModalPortal type={"alert"} >
+                    <Alerts Result={error} />
                 </ModalPortal>
             )}
         </form>
@@ -303,7 +323,7 @@ const grey = {
 };
 const StyledInputElement = styled('input')(
     ({ theme }) => `
-    width: 80%;
+    width: 100%;
     height: 5px;
     font-family: IBM Plex Sans, sans-serif;
     font-size: 0.875rem;

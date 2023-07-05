@@ -4,15 +4,27 @@
     background: white;
     height: 90%;
     width: 60%;
-    margin-right: 5%;
+    margin-right: 3%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 15px;
 }
 
 .tittlePage {
     font-size: 19px;
 }
 
+.line {
+    margin: 30px 10px;
+}
+
+.tittlesCategories .line {
+    visibility: hidden;
+}
+
 .tittlesCategories {
     background: rgb(240, 240, 240);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
 }
 
 .contentTittle {
@@ -33,7 +45,7 @@
     margin-right: 10%;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 25px;
     margin-bottom: 4px;
 }
 
@@ -42,7 +54,6 @@
 }
 
 .Activities {
-    margin-top: 50px;
     margin-left: 5%;
     height: 9%;
     display: flex;
@@ -57,9 +68,11 @@
     border-radius: 15px;
     padding: 5px 9px;
     cursor: pointer;
+    transition: all ease-in-out .3s;
 }
 
 .activityEnd {
+    transition: all ease-in-out .3s;
     border: 1px solid black;
     border-radius: 15px;
     padding: 5px 9px;
@@ -73,6 +86,20 @@
     padding: 5px 9px;
     background-color: rgb(255, 255, 127);
     cursor: pointer;
+    transition: all ease-in-out .3s;
+}
+
+.activityProcess:hover,
+.activityEnd:hover,
+.activity:hover,
+.auth:hover {
+    transform: scale(1.01);
+    transition: all ease-in-out .4s;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.activityProcess:hover {
+    background-color: rgb(255, 255, 0);
 }
 
 .tittlesCategories {
@@ -86,7 +113,7 @@
     justify-content: flex-end;
     align-items: center;
     font-size: 18px;
-    margin-top: 60px;
+    margin-top: 30px;
 }
 
 
@@ -139,4 +166,5 @@
     cursor: pointer;
     border-radius: 15px;
     background-color: #a1ff75;
+    transition: all ease-in-out .3s;
 }

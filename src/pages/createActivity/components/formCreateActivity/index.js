@@ -1,0 +1,78 @@
+import InputMui from "../../../../components/inputMui";
+import { Box, Button, Checkbox } from "@mui/material";
+import postData from "../../../../hooks/postData";
+import Style from "./formCreate.module.css"
+import { useState } from "react";
+import ModalPortal from "../../../../components/modelPortal";
+import Alerts from "../../../../components/alerts";
+function FormCreateActivity() {
+    const [name, setName] = useState("")
+    const [score, setScore] = useState("")
+    const [time, setTime] = useState("")
+    const [emit, setEmit] = useState(false)
+    const [msg, setMsg] = useState()
+    const saveActivities = () => {
+        if (name && score && time) {
+            setMsg(postData("http://localhost:4000/postActivity", { name, score, time, emit }))
+        } else {
+            setMsg("missed data")
+            setTimeout(() => {
+                setMsg()
+            }, 4000);
+        }
+    }
+    return (
+        <Box component={"div"} sx={{ alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "80%", height: "50%", borderRadius: "15px" }}>
+            <Box component={"div"} sx={{ fontWeight: 600, fontSize: "20px", width: "100%", height: "20%", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+                Crear nueva actividad
+            </Box>
+            <div className={Style.form}>
+                <div className={Style.inputFormContent}>
+                    <p className={Style.TittleInput}>
+                        Tipo de actividad
+                    </p>
+                    <div className={Style.input}>
+                        <InputMui value={name} onChange={setName} />
+                    </div>
+                </div>
+                <div className={Style.inputFormContent}>
+                    <p className={Style.TittleInput}>
+                        Score
+                    </p>
+                    <div className={Style.input}>
+                        <InputMui value={score} onChange={setScore} />
+                    </div>
+                </div>
+                <div className={Style.inputFormContent}>
+                    <p className={Style.TittleInput}>
+                        Tiempo estimado
+                    </p>
+                    <div className={Style.input}>
+                        <InputMui value={time} onChange={setTime} />
+                    </div>
+                </div>
+                <div className={Style.inputFormContent}>
+                    <p className={Style.TittleInput}>
+                        Se emite?
+                    </p>
+                    <div className={Style.input}>
+                        <Checkbox checked={emit}
+                            onChange={({ target: { checked } }) => { setEmit(checked) }} />
+                    </div>
+                </div>
+            </div>
+            <div className={Style.buttonSave}>
+                <Button variant="contained" onClick={saveActivities}>
+                    Guardar tipo de OT
+                </Button>
+            </div>
+            {msg && (
+                <ModalPortal type={"alert"} >
+                    <Alerts Result={msg} />
+                </ModalPortal>
+            )}
+        </Box>
+    );
+}
+
+export default FormCreateActivity;

@@ -6,6 +6,7 @@ import React, { Suspense } from 'react';
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
+const CreateActivity = React.lazy(() => import('../pages/createActivity')); // Lazy-loaded
 const StatisticsPage = React.lazy(() => import('../pages/statisticsPage')); // Lazy-loaded
 const CreateClients = React.lazy(() => import('../pages/createClients')); // Lazy-loaded
 const CreateOtPage = React.lazy(() => import('../pages/createOtPage')); // Lazy-loaded
@@ -162,6 +163,15 @@ export const routes = createBrowserRouter([
             <Suspense fallback={<LoadingCircle />}>
                 <Await resolve={CreateTypeOt}>
                     <CreateTypeOt />
+                </Await>
+            </Suspense>
+    },
+    {
+        path: "/createActivity",
+        element:
+            <Suspense fallback={<LoadingCircle />}>
+                <Await resolve={CreateActivity}>
+                    <CreateActivity />
                 </Await>
             </Suspense>
     },

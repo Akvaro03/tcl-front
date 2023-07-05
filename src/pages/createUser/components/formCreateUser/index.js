@@ -29,12 +29,19 @@ function FormCreateUser() {
                 password: passwordUser
             })
                 .then(result => setResult(result))
+            resetAllData()
         } else {
             setResult({ result: "missed data" })
         }
         setTimeout(() => {
             setResult()
         }, 3200);
+    }
+    const resetAllData = () => {
+        setNameUser("")
+        setPasswordUser("")
+        setEmailUser("")
+        SetRoles(rolesUser.map(datoos => { return { name: datoos, state: false } }))
     }
     return (
         <div className={Style.formCreateUser}>

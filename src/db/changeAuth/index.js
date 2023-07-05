@@ -6,7 +6,7 @@ function changeAuth(OT) {
     const userLogin = getUser();
     const date = new Date().getTime();
     const change = {
-        ChangeDescription: "Se autorizo la OT",
+        ChangeDescription: OT.Auth === "0" ? "Se autorizo la OT" : "Se desautorizo la OT",
         comment: "",
         date,
         userId: userLogin.id,

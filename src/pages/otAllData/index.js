@@ -42,9 +42,7 @@ function OtAllData() {
     );
 }
 let formatData = (data) => {
-    let ContactFormat = JSON.parse(data.Contact)
-    data.ContactType = ContactFormat.type
-    data.ContactValue = ContactFormat.value
+    data.Contact = JSON.parse(data.Contact)
     return data
 }
 export default OtAllData;

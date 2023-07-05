@@ -27,7 +27,9 @@ function DataOt({ otSelected, reload }) {
             changeActOt({ id: otSelected.id, activity: newActivities }, otSelected.id, "Se editaron los usuarios", `${activitySelected.name} Usuarios: ${users.join(", ")}`)
             setActivities(newActivities)
             closeForm()
-            reload()
+            setTimeout(() => {
+                reload()
+            }, 2000);
         } catch (error) {
         }
     }
@@ -43,7 +45,7 @@ function DataOt({ otSelected, reload }) {
             setAddActivity(false)
             setTimeout(() => {
                 reload()
-            }, 5000);
+            }, 2000);
         } catch (error) {
         }
     }
@@ -70,12 +72,14 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                         <h1>Fecha</h1>
                     </div>
+                    <hr className={Style.line} />
                     <div className={Style.contentActivities}>
                         <h1>Actividades</h1>
                     </div>
                     <div className={Style.addButton}>
                         <Button size="small" variant="outlined" sx={{ visibility: "hidden", paddingBottom: "10px" }}>Add activity</Button>
                     </div>
+                    <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
                         Producto
                     </div>
@@ -106,9 +110,11 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductSection}>
                         <h1>N° Cliente</h1>
                     </div>
-                    <div className={Style.ProductSection}>
-                        <h1>Contacto</h1>
-                    </div>
+                    {otSelected.Contact.map((contact, key) => (
+                        <div className={Style.ProductSection}>
+                            {key === 0 && <h1>Contacto</h1>}
+                        </div>
+                    ))}
                 </div>
                 <div className={Style.dataCategories}>
                     <div className={Style.contentTittle}>
@@ -138,18 +144,21 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                         <h1>{formatDateM(otSelected.Date)}</h1>
                     </div>
+                    <hr className={Style.line} />
                     <div className={Style.Activities}>
                         {activities && (
-                            activities.map((activity, key) => {
-                                return <div key={key} className={getUserActivity(activity) ? Style.activityProcess : Style.activity} onClick={() => { selectUsers(activity) }}>
+                            activities.map((activity, key) => (
+                                <div key={key} className={activity.state === "End" ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity} onClick={() => { selectUsers(activity) }}>
                                     <h1>{activity.name}</h1>
                                 </div>
-                            })
+                            ))
                         )}
                     </div>
                     <div className={Style.addButton}>
                         <Button size="small" variant="outlined" onClick={setAddActivity}>Editar actividades</Button>
                     </div>
+                    <hr className={Style.line} />
+
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
@@ -178,22 +187,27 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductContent}>
                         <h1>26551</h1>
                     </div>
-                    <div className={Style.ProductContent}>
-                        <h1>34122151</h1>
-                    </div>
+                    {otSelected.Contact.map(contact => (
+                        <div className={Style.ProductContent}>
+                            <h1>{contact.type + ": " + contact.value} </h1>
+                        </div>
+                    ))}
 
                 </div>
-            </div>
+            </div >
             {userSelect && (
                 <ModalPortal type={"form"}>
                     <SelectUsers handleUsers={handleUsers} closeForm={closeForm} activitySelected={activitySelected} />
                 </ModalPortal>
-            )}
-            {addActivity && (
-                <ModalPortal type={"form"}>
-                    <AddActivity ot={otSelected} handleActivities={handleActivities} setOtActivities={setActivities} otActivities={activities} setAddActivity={setAddActivity} />
-                </ModalPortal>
-            )}
+            )
+            }
+            {
+                addActivity && (
+                    <ModalPortal type={"form"}>
+                        <AddActivity ot={otSelected} handleActivities={handleActivities} setOtActivities={setActivities} otActivities={activities} setAddActivity={setAddActivity} />
+                    </ModalPortal>
+                )
+            }
         </>
     );
 }

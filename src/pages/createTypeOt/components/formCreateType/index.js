@@ -4,18 +4,27 @@ import Style from "./formCreateType.module.css"
 import { Button, Checkbox, FormControlLabel } from "@mui/material";
 import postData from "../../../../hooks/postData";
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
+import ModalPortal from "../../../../components/modelPortal";
+import Alerts from "../../../../components/alerts";
 
 function FormCreateType() {
     const [nameType, setNameType] = useState("")
     const [activity, setActivity] = useState({})
+    const [result, setResult] = useState()
     useEffect(() => {
         searchAndSet()
     }, [])
     const saveTypeOt = () => {
-        const activitiesCopy = activity.filter((data) => data.select === true)
-        activitiesCopy.forEach(data => delete data.select)
-        postData("http://localhost:4000/postTypeOt", { nameType: nameType.trim(), activities: activitiesCopy })
-        searchAndSet()
+        const activitiesCopy = activity.filter((data) => data.select === true).map(({ select, ...rest }) => rest);
+        if (!nameType.trim() || !activitiesCopy[0]) {
+            setResult("missed data")
+            setTimeout(() => {
+                setResult()
+            }, 3000);
+        } else {
+            setResult(postData("http://localhost:4000/postTypeOt", { nameType: nameType.trim(), activities: activitiesCopy }))
+            searchAndSet()
+        }
     }
     const handleState = (user, checked) => {
         const copy = activity.map(activityUser => {
@@ -35,6 +44,7 @@ function FormCreateType() {
                 return data;
             })
             .then(data => setActivity(data));
+        setNameType("")
     }
     return (
         <div className={Style.FormCreateType}>
@@ -67,6 +77,12 @@ function FormCreateType() {
                     Guardar tipo de OT
                 </Button>
             </div>
+            {result && (
+                <ModalPortal type={"alert"} >
+                    <Alerts Result={result} />
+                </ModalPortal>
+            )}
+
         </div>
     );
 }

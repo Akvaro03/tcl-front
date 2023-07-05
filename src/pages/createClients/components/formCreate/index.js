@@ -8,12 +8,12 @@ import { Button } from '@mui/material';
 import styled from '@emotion/styled';
 import Input from '@mui/base/Input';
 function FormCreateClient() {
-    const [nameClient, setNameClient] = useState("");
-    const [Document, setDocument] = useState({ type: "", value: "" });
-    const [Key, setKey] = useState("");
     const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }]);
-    const [Result, setResult] = useState();
+    const [Document, setDocument] = useState({ type: "", value: "" });
     const [BusinessName, SetBusinessName] = useState('');
+    const [nameClient, setNameClient] = useState("");
+    const [Result, setResult] = useState();
+    const [Key, setKey] = useState("");
     let numberContacts = [0, 1, 2];
 
     const handleSubmit = async () => {
@@ -24,6 +24,13 @@ function FormCreateClient() {
             return newContacts
         }
         let ContactVerificate = isFull(Contacts)
+        if (!ContactVerificate[0] || !nameClient || !Document || !Key || !BusinessName) {
+            setResult("missed data")
+            setTimeout(() => {
+                setResult()
+            }, 3400);
+            return
+        }
         let Client = {
             nameClient,
             Document,
@@ -31,6 +38,7 @@ function FormCreateClient() {
             ContactVerificate,
             BusinessName
         }
+        resetAllData()
         const resultClient = await postData("http://localhost:4000/postClients", Client)
         setResult(resultClient.result)
         setTimeout(() => {
@@ -50,6 +58,13 @@ function FormCreateClient() {
         copy[number][type] = e;
         setContacts(copy)
     };
+    const resetAllData = () => {
+        setNameClient("")
+        setDocument({ type: "", value: "" })
+        setKey("")
+        setContacts([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }])
+        SetBusinessName("")
+    }
     return (
         <div className={Style.ContentForm}>
             <div className={Style.TittleForm}>

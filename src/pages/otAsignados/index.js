@@ -41,7 +41,7 @@ function OtAsingPages() {
                     </div>
                 ) : (
                     <Box sx={{ width: "100%", height: "76vh", display: "flex", justifyContent: "center", marginTop: "40px" }}>
-                        <ListItems User={User} Ots={Ots} />
+                        <ListItems User={User} Ots={Ots} setOts={setOts} />
                     </Box>
                 )
             ) : (
@@ -53,13 +53,13 @@ function OtAsingPages() {
 const filterByName = (json, name) => {
     return json.filter(ot => {
         const activities = JSON.parse(ot.Activities);
-        return activities.every(Activity => {
+        return activities.filter(Activity => {
             const users = JSON.parse(Activity.users);
             if (Array.isArray(users)) {
                 return users.includes(name);
             }
             return false;
-        });
+        }).length > 0; // Agregué .length > 0 para que devuelva un resultado booleano
     });
 };
 const HandleNoOT = () => {

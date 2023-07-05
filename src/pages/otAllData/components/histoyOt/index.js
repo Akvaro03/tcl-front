@@ -3,7 +3,6 @@ import TimelineConnector from "@mui/lab/TimelineConnector/TimelineConnector";
 import TimelineSeparator from "@mui/lab/TimelineSeparator/TimelineSeparator";
 import TimelineContent from "@mui/lab/TimelineContent/TimelineContent";
 import TimelineItem from "@mui/lab/TimelineItem/TimelineItem";
-import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import TimelineDot from "@mui/lab/TimelineDot/TimelineDot";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import Timeline from "@mui/lab/Timeline/Timeline";
@@ -19,23 +18,13 @@ function HistoryOt({ history }) {
         const fetchHistory = async () => {
             try {
                 const changes = JSON.parse(history);
-                const changesOrdened = orderChanges(changes);
+                const changesOrdened = orderChanges(changes, false);
                 setHistory(changesOrdened);
                 setHistoryModified(changesOrdened);
             } catch (error) {
                 console.error(error);
             }
         };
-        const fetchUsers = async () => {
-            try {
-                const response = await getDataFromUrl('http://localhost:4000/getUsers');
-                const usersName = []
-                response.forEach(element => { usersName.push(element.name) });
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchUsers();
         fetchHistory();
     }, [history])
     return (

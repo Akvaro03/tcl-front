@@ -42,6 +42,10 @@ const Pages = [{
   "name": "Crear type",
   "url": "/createTypeOt"
 },
+{
+  "name": "Crear Actividad",
+  "url": "/createActivity"
+},
 ];
 
 function ResponsiveAppBar() {
