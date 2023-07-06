@@ -7,6 +7,7 @@ function Alerts({ Result }) {
         setClassName(Style.AlertStyleMove)
     }, 3000);
     const states = {
+        "name used": <AlertCustomError text={"Ese nombre ya esta en uso"} />,
         "error password": <AlertCustomError text={"Error en la contraseña"} />,
         "error email": <AlertCustomError text={"Error en el email"} />,
         "missed data": <AlertCustomError text={"Completa todos los campos"} />,

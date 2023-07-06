@@ -6,6 +6,7 @@ import postData from "../../../../hooks/postData";
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import ModalPortal from "../../../../components/modelPortal";
 import Alerts from "../../../../components/alerts";
+import nameUsed from "../../../../db/nameUsed";
 
 function FormCreateType() {
     const [nameType, setNameType] = useState("")
@@ -14,18 +15,27 @@ function FormCreateType() {
     useEffect(() => {
         searchAndSet()
     }, [])
-    const saveTypeOt = () => {
+    const saveTypeOt = async () => {
         const activitiesCopy = activity.filter((data) => data.select === true).map(({ select, ...rest }) => rest);
-        if (!nameType.trim() || !activitiesCopy[0]) {
+        if (!nameType || !activitiesCopy[0]) {
             setResult("missed data")
             setTimeout(() => {
                 setResult()
             }, 3000);
-        } else {
+            return
+        }
+        const isNameUsed = await nameUsed(nameType, "typeOT")
+        if (!isNameUsed) {
             setResult(postData("http://localhost:4000/postTypeOt", { nameType: nameType.trim(), activities: activitiesCopy }))
             searchAndSet()
+            return
         }
+        setResult("name used")
+        setTimeout(() => {
+            setResult()
+        }, 3000);
     }
+
     const handleState = (user, checked) => {
         const copy = activity.map(activityUser => {
             if (activityUser === user) {

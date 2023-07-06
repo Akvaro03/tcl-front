@@ -5,21 +5,30 @@ import Style from "./formCreate.module.css"
 import { useState } from "react";
 import ModalPortal from "../../../../components/modelPortal";
 import Alerts from "../../../../components/alerts";
+import nameUsed from "../../../../db/nameUsed";
 function FormCreateActivity() {
     const [name, setName] = useState("")
     const [score, setScore] = useState("")
     const [time, setTime] = useState("")
     const [emit, setEmit] = useState(false)
     const [msg, setMsg] = useState()
-    const saveActivities = () => {
-        if (name && score && time) {
-            setMsg(postData("http://localhost:4000/postActivity", { name, score, time, emit }))
-        } else {
+    const saveActivities = async () => {
+        if (!name || !score || !time) {
             setMsg("missed data")
             setTimeout(() => {
                 setMsg()
             }, 4000);
+            return
         }
+        const isNameUsed = await nameUsed(name, "activity")
+        if (!isNameUsed) {
+            setMsg(postData("http://localhost:4000/postActivity", { name, score, time, emit }))
+            return
+        }
+        setMsg("name used")
+        setTimeout(() => {
+            setMsg()
+        }, 3000);
     }
     return (
         <Box component={"div"} sx={{ alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "80%", height: "50%", borderRadius: "15px" }}>

@@ -7,6 +7,7 @@ import Style from "./formCreateUser.module.css"
 import { forwardRef, useState } from 'react';
 import styled from '@emotion/styled';
 import Input from '@mui/base/Input';
+import nameUsed from "../../../../db/nameUsed";
 function FormCreateUser() {
     const [Roles, SetRoles] = useState(rolesUser.map(datoos => { return { name: datoos, state: false } }))
     const [nameUser, setNameUser] = useState("")
@@ -19,9 +20,14 @@ function FormCreateUser() {
             rol.name === name ? { ...rol, state: checked } : rol
         )))
     };
-    const onSubmit = () => {
+    const onSubmit = async () => {
         const rolesFormat = Roles.filter(({ state, name }) => state && name).map(({ name }) => name)
-        if (nameUser && emailUser && passwordUser && rolesFormat.length > 0) {
+        if (!nameUser || !emailUser || !passwordUser || !rolesFormat.length > 0) {
+            setResult({ result: "missed data" })
+            return
+        }
+        const isNameUsed = await nameUsed(nameUser, "user")
+        if (!isNameUsed) {
             postData("http://localhost:4000/postUsers", {
                 name: nameUser,
                 type: rolesFormat,
@@ -29,10 +35,13 @@ function FormCreateUser() {
                 password: passwordUser
             })
                 .then(result => setResult(result))
+            setTimeout(() => {
+                setResult()
+            }, 3200);
             resetAllData()
-        } else {
-            setResult({ result: "missed data" })
+            return
         }
+        setResult({ result: "name used" })
         setTimeout(() => {
             setResult()
         }, 3200);

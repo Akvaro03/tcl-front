@@ -7,6 +7,7 @@ import { forwardRef, useState } from 'react';
 import { Button } from '@mui/material';
 import styled from '@emotion/styled';
 import Input from '@mui/base/Input';
+import nameUsed from '../../../../db/nameUsed';
 function FormCreateClient() {
     const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }]);
     const [Document, setDocument] = useState({ type: "", value: "" });
@@ -38,9 +39,17 @@ function FormCreateClient() {
             ContactVerificate,
             BusinessName
         }
-        resetAllData()
-        const resultClient = await postData("http://localhost:4000/postClients", Client)
-        setResult(resultClient.result)
+        const isNameUsed = await nameUsed(nameClient, "client")
+        if (!isNameUsed) {
+            const resultClient = await postData("http://localhost:4000/postClients", Client)
+            setResult(resultClient.result)
+            setTimeout(() => {
+                setResult()
+            }, 3400);
+            resetAllData()
+            return
+        }
+        setResult("name used")
         setTimeout(() => {
             setResult()
         }, 3400);
