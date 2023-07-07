@@ -40,7 +40,7 @@
 }
 
 .contentActivities {
-    height: 9%;
+    height: 50px;
     display: flex;
     margin-right: 10%;
     justify-content: flex-end;
@@ -55,7 +55,7 @@
 
 .Activities {
     margin-left: 5%;
-    height: 9%;
+    height: 50px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

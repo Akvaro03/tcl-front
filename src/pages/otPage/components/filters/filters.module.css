@@ -1,0 +1,21 @@
+.tagSelect {
+    background: rgba(69, 255, 94, 0.562);
+    border-radius: 8px;
+    animation-duration: 1s;
+    animation-name: select;
+    width: 80%;
+}
+
+.tag {
+    cursor: pointer;
+}
+
+@keyframes select {
+    from {
+        background: none;
+    }
+
+    to {
+        background: rgba(69, 255, 94, 0.562);
+    }
+}

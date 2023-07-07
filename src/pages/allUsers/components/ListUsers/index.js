@@ -9,11 +9,6 @@ const columns = [
     {
         field: 'type', headerName: 'Tipo', width: 420, valueGetter: (params) =>
             `${params.row.type}`
-    },
-    {
-        field: 'otAssign',
-        headerName: 'Trabajos asignados', width: 200, valueGetter: (params) =>
-            `${params.row.otAssign}`,
     }
 ];
 

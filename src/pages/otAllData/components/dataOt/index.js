@@ -2,11 +2,14 @@ import ModalPortal from "../../../../components/modelPortal";
 import formatDateM from "../../../../hooks/formatDateM";
 import changeActOt from "../../../../db/changeActOt";
 import changeAuth from "../../../../db/changeAuth";
+import getUser from "../../../../hooks/getUser";
+import EditIcon from '@mui/icons-material/Edit';
+import { Button, Fab } from "@mui/material";
 import AddActivity from "../addActivity";
 import SelectUsers from "../selectUsers";
-import { Button } from "@mui/material";
 import Style from "./Data.module.css"
 import { useState } from "react";
+import InputMui from "../../../../components/inputMui";
 
 function DataOt({ otSelected, reload }) {
     const [activities, setActivities] = useState(JSON.parse(otSelected.Activities))
@@ -14,6 +17,9 @@ function DataOt({ otSelected, reload }) {
     const [userSelect, setUserSelect] = useState(false)
     const [addActivity, setAddActivity] = useState(false)
     const [auth, setAuth] = useState(otSelected.Auth)
+    const [edit, setEdit] = useState(false)
+    const rolesUser = getUser("roles")
+    console.log(rolesUser)
     const selectUsers = (activity) => {
         setUserSelect(true)
         setActivitySelected(activity)
@@ -93,6 +99,9 @@ function DataOt({ otSelected, reload }) {
                         <h1>Modelo</h1>
                     </div>
                     <div className={Style.ProductSection}>
+                        <h1>Cotización</h1>
+                    </div>
+                    <div className={Style.ProductSection}>
                         <h1>DFR</h1>
                     </div>
                     <div className={Style.ProductSection}>
@@ -102,19 +111,34 @@ function DataOt({ otSelected, reload }) {
                         <h1>Entrega</h1>
                     </div>
                     <div className={Style.ProductTittle}>
+                        Facturación
+                    </div>
+                    <div className={Style.ProductSection}>
+                        <h1>Dato N1</h1>
+                    </div>
+                    <div className={Style.ProductSection}>
+                        <h1>Dato N2</h1>
+                    </div>
+                    <div className={Style.ProductTittle}>
                         Cliente
                     </div>
                     <div className={Style.ProductSection}>
-                        <h1>Nombre</h1>
+                        <h1>Empresa</h1>
                     </div>
                     <div className={Style.ProductSection}>
                         <h1>N° Cliente</h1>
                     </div>
-                    {otSelected.Contact.map((contact, key) => (
+                    {otSelected.Contact[1] ? (
+                        otSelected.Contact.map((contact, key) => (
+                            <div className={Style.ProductSection}>
+                                {key === 0 && <h1>Contacto</h1>}
+                            </div>
+                        ))
+                    ) : (
                         <div className={Style.ProductSection}>
-                            {key === 0 && <h1>Contacto</h1>}
+                            <h1>Contacto</h1>
                         </div>
-                    ))}
+                    )}
                 </div>
                 <div className={Style.dataCategories}>
                     <div className={Style.contentTittle}>
@@ -142,7 +166,7 @@ function DataOt({ otSelected, reload }) {
                         <h1>{otSelected.Type}</h1>
                     </div>
                     <div className={Style.contentTittle}>
-                        <h1>{formatDateM(otSelected.Date)}</h1>
+                        {<H1Editable edit={edit} text={formatDateM(otSelected.Date)} />}
                     </div>
                     <hr className={Style.line} />
                     <div className={Style.Activities}>
@@ -162,13 +186,16 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
-                        <h1>{otSelected.Producto}</h1>
+                        <H1Editable edit={edit} text={otSelected.Producto} />
                     </div>
                     <div className={Style.ProductContent}>
-                        <h1>{otSelected.Marca}</h1>
+                        <H1Editable edit={edit} text={otSelected.Marca} />
                     </div>
                     <div className={Style.ProductContent}>
-                        <h1>{otSelected.Modelo}</h1>
+                        <H1Editable edit={edit} text={otSelected.Modelo} />
+                    </div>
+                    <div className={Style.ProductContent}>
+                        <H1Editable edit={edit} text={otSelected.Cotizacion} />
                     </div>
                     <div className={Style.ProductContent}>
                         <h1>14/15/2003</h1>
@@ -187,11 +214,25 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductContent}>
                         <h1>26551</h1>
                     </div>
-                    {otSelected.Contact.map(contact => (
+                    <div className={Style.ProductTittle}>
+                    </div>
+                    <div className={Style.ProductContent}>
+                        <H1Editable edit={edit} text={otSelected.Client} />
+                    </div>
+                    <div className={Style.ProductContent}>
+                        <h1>26551</h1>
+                    </div>
+                    {otSelected.Contact[1] ? (
+                        otSelected.Contact.map(contact => (
+                            <div className={Style.ProductContent}>
+                                <h1>{contact.type + ": " + contact.value} </h1>
+                            </div>
+                        ))
+                    ) : (
                         <div className={Style.ProductContent}>
-                            <h1>{contact.type + ": " + contact.value} </h1>
+                            <h1>{otSelected.Contact.type + ": " + otSelected.Contact.value} </h1>
                         </div>
-                    ))}
+                    )}
 
                 </div>
             </div >
@@ -208,6 +249,11 @@ function DataOt({ otSelected, reload }) {
                     </ModalPortal>
                 )
             }
+            {rolesUser.includes("Administrador") && (
+                <Fab color="primary" aria-label="add" onClick={() => { setEdit(prev => !prev) }} sx={{ position: "fixed", right: "40px", bottom: "40px" }}>
+                    <EditIcon />
+                </Fab>
+            )}
         </>
     );
 }
@@ -220,5 +266,17 @@ function getDifference(a, b) {
         return !b.includes(element);
     });
 }
+const formatNumber = (number) => {
+    if (Number(number)) {
+        return Number(number).toLocaleString("es-AR", { style: "currency", currency: "ARS" });
+    }
+    return "No se introdujo un numero"
+}
+const H1Editable = ({ edit, ot, text }) => {
+    if (edit) {
+        return <InputMui value={text} />
+    }
 
+    return <h1>{text}</h1>
+}
 export default DataOt;

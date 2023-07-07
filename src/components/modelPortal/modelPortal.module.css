@@ -13,21 +13,21 @@
     animation-duration: 1s;
     transition-timing-function: ease-out;
     transform: translateY(0);
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 .containerForm {
-    z-index: 100;
+    z-index: -100;
     position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    top: -10px;
+    left: -10px;
+    right: 80px;
+    bottom: 100px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
     background-color: rgba(155, 155, 155, 0.404);
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 @keyframes moveAlert {

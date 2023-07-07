@@ -61,7 +61,7 @@ function OtPage() {
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentOt}>
-                <Filters filterOt={filterOt} />
+                <Filters filterOt={filterOt} tag={tag} />
                 {otFilter && (
                     <ListOt listOt={otFilter} filterOt={filterOt} handleAuth={handleChangeAuth} />
                 )}
