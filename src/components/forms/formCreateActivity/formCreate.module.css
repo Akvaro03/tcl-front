@@ -1,0 +1,19 @@
+.form {
+    width: 90%;
+    display: flex;
+    margin-top: 5%;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.inputFormContent {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.buttonSave {
+    display: flex;
+    margin-top: 2%;
+    gap: 80px;
+}

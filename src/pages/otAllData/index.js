@@ -21,11 +21,13 @@ function OtAllData() {
         getData();
     }, [params])
     const reload = async () => {
-        let data = await postData('http://localhost:4000/getOneOt', { id: params.id })
-            .then(resolve => resolve[0])
-            .then(resolve => resolve = formatData(resolve))
-        setOtSelected(data)
-        setChanges(data.Changes)
+        setTimeout(async () => {
+            let data = await postData('http://localhost:4000/getOneOt', { id: params.id })
+                .then(resolve => resolve[0])
+                .then(resolve => resolve = formatData(resolve))
+            setOtSelected(data)
+            setChanges(data.Changes)
+        }, 1000);
     }
     return (
         <>

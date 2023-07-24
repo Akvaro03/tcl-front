@@ -1,5 +1,7 @@
-.bodyConfiguration{
-    display: flex;
+.bodyConfiguration {
+    background: rgb(218, 218, 218);
     justify-content: center;
-    height: 89vh;
+    align-items: center;
+    height: 89.5vh;
+    display: flex;
 }

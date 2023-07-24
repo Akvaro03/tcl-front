@@ -1,12 +1,12 @@
 import ResponsiveAppBar from "../../components/navbar";
-import ModuleConfiguration from "./components/moduleConfiguration";
+import SelectConfig from "./components/selectConfig";
 import Style from "./configurationPage.module.css"
 function ConfigurationPage() {
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.bodyConfiguration}>
-                <ModuleConfiguration />
+                <SelectConfig />
             </div>
         </>
     );

@@ -91,6 +91,7 @@
 
 .activityProcess:hover,
 .activityEnd:hover,
+.authNone:hover,
 .activity:hover,
 .auth:hover {
     transform: scale(1.01);
@@ -167,4 +168,36 @@
     border-radius: 15px;
     background-color: #a1ff75;
     transition: all ease-in-out .3s;
+}
+
+.availability {
+    background-color: #a1ff75;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    width: 150px;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: all ease-in-out .3s;
+}
+
+.availabilitySelect {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    width: 180px;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: all ease-in-out .3s;
+}
+
+.availability:hover,
+.availabilitySelect:hover {
+    transform: scale(1.01);
+    transition: all ease-in-out .4s;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

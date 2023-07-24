@@ -1,20 +1,31 @@
+import { useEffect, useState } from "react";
 import Style from "./Etiqueta.module.css"
 import { useParams } from "react-router-dom";
+import postData from "../../hooks/postData";
 
 function Etiquetas() {
-    let { count } = useParams();
+    const [OT, setOT] = useState()
+    let { count, id } = useParams();
     const steps = count ? count : 2;
-    const cards = Array.from({ length: steps }, (_, index) => (
-        <Label key={index} /> 
-    ))
+    useEffect(() => {
+        const getOt = async () => {
+            const ot = await postData("http://localhost:4000/getOneOt", { id }).then(response => response[0])
+            const cards = Array.from({ length: steps }, (_, index) => (
+                <Label OT={ot} key={index} />
+            ))
+            setOT(cards)
+        }
+        getOt()
+    }, [id])
+
     return (
         <div className={Style.container}>
-            {cards}
+            {OT}
         </div>
     );
 }
 
-const Label = () => {
+const Label = ({ OT }) => {
     return (
         <div className={Style.card}>
             <div className={Style.header}>
@@ -25,19 +36,19 @@ const Label = () => {
             <div className={Style.dataContent}>
                 <div className={Style.data}>
                     <p className={Style.field}>Marca:</p>
-                    <p className={Style.value}>WEI GUANG</p>
+                    <p className={Style.value}>{OT.Marca}</p>
                 </div>
                 <div className={Style.data}>
-                    <p className={Style.field}>Marca:</p>
-                    <p className={Style.value}>WEI GUANG</p>
+                    <p className={Style.field}>Modelo:</p>
+                    <p className={Style.value}>{OT.Modelo}</p>
                 </div>
                 <div className={Style.data}>
-                    <p className={Style.field}>Marca:</p>
-                    <p className={Style.value}>WEI GUANG</p>
+                    <p className={Style.field}>Actividad:</p>
+                    <p className={Style.value}>{OT.Type}</p>
                 </div>
                 <div className={Style.data}>
-                    <p className={Style.field}>Marca:</p>
-                    <p className={Style.value}>WEI GUANG</p>
+                    <p className={Style.field}>Norma:</p>
+                    <p className={Style.value}>{OT.NormaAplicar}</p>
                 </div>
             </div>
         </div>

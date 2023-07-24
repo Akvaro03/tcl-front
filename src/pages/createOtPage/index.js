@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import Style from './createOtPage.module.css'
-import ResponsiveAppBar from "../../components/navbar";
-import FormCreateOt from "./components/form";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import ResponsiveAppBar from "../../components/navbar";
+import Style from './createOtPage.module.css'
+import FormCreateOt from "./components/form";
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
+import { Fade } from '@mui/material';
 
 function CreateOtPage() {
     const [DateForm, setDateForm] = useState(dayjs)
@@ -14,20 +15,22 @@ function CreateOtPage() {
         <>
             <ResponsiveAppBar />
             <div className={Style.BodyCreateOt}>
-                <div className={Style.ContentCreateOt}>
-                    <div className={Style.ContentTittle}>
-                        <div className={Style.ContentTime}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    format="DD/MM/YYYY"
-                                    slotProps={{ textField: { size: 'small' } }}
-                                    value={DateForm} onChange={(newValue) => setDateForm(newValue)} />
-                            </LocalizationProvider>
+                <Fade in={true} >
+                    <div className={Style.ContentCreateOt}>
+                        <div className={Style.ContentTittle}>
+                            <div className={Style.ContentTime}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+                                        format="DD/MM/YYYY"
+                                        slotProps={{ textField: { size: 'small' } }}
+                                        value={DateForm} onChange={(newValue) => setDateForm(newValue)} />
+                                </LocalizationProvider>
+                            </div>
+                            <p>Crear nuevas OT</p>
                         </div>
-                        <p>Crear nuevas OT</p>
+                        <FormCreateOt DateCreate={DateForm} />
                     </div>
-                    <FormCreateOt DateCreate={DateForm} />
-                </div>
+                </Fade>
             </div>
         </>
     );

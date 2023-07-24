@@ -4,10 +4,11 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 15px;
     width: 90%;
-    height: 90%;
+    height: 70%;
     margin-top: 2%;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     align-items: center;
+    background: white;
 }
 
 .tittlePage {
@@ -36,3 +37,8 @@
     margin-right: 5%;
 }
 
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+}

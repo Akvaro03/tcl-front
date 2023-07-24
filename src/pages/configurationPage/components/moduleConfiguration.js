@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import Input from '@mui/base/Input';
 import axios from 'axios';
 
-function ModuleConfiguration() {
+function ModuleConfiguration({ close }) {
     const [nameCompany, setnameCompany] = useState("")
     const [browserLogo, setBrowserLogo] = useState()
     const [companyLogo, setCompanyLogo] = useState()
@@ -85,9 +85,12 @@ function ModuleConfiguration() {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className={Style.buttons}>
+                    <Button onClick={() => close()} variant="outlined" color="success">
+                        Cancelar
+                    </Button>
                     <Button onClick={handleSaveConfig} variant="contained" color="success">
-                        Success
+                        Guardar
                     </Button>
                 </div>
             </div >

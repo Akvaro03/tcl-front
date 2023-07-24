@@ -3,23 +3,21 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import LoadingCircle from '../pages/Loading';
 import { Navigate } from "react-router-dom";
 import React, { Suspense } from 'react';
+import typesUsers from "../classes/typesUsers";
+import ListClients from "../pages/listClients";
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
-const CreateActivity = React.lazy(() => import('../pages/createActivity')); // Lazy-loaded
 const StatisticsPage = React.lazy(() => import('../pages/statisticsPage')); // Lazy-loaded
-const CreateClients = React.lazy(() => import('../pages/createClients')); // Lazy-loaded
 const CreateOtPage = React.lazy(() => import('../pages/createOtPage')); // Lazy-loaded
-const CreateTypeOt = React.lazy(() => import('../pages/createTypeOt')); // Lazy-loaded
 const OtAsingPages = React.lazy(() => import('../pages/otAsignados')); // Lazy-loaded
-const CreateUser = React.lazy(() => import('../pages/createUser')); // Lazy-loaded
+const CreateFact = React.lazy(() => import('../pages/createFact')); // Lazy-loaded
 const OtAllData = React.lazy(() => import('../pages/otAllData')); // Lazy-loaded
 const AllUser = React.lazy(() => import('../pages/allUsers')); // Lazy-loaded
 const Etiquetas = React.lazy(() => import('../pdf/Etiqueta')); // Lazy-loaded
 const LoginPage = React.lazy(() => import('../pages/login')); // Lazy-loaded
 const OtPage = React.lazy(() => import('../pages/otPage')); // Lazy-loaded
 const Remito = React.lazy(() => import('../pdf/Remito')); // Lazy-loaded
-
 export const routes = createBrowserRouter([
     {
         path: "/",
@@ -38,7 +36,7 @@ export const routes = createBrowserRouter([
     {
         path: "/createOt",
         element:
-            <ProtectedRoute >
+            <ProtectedRoute type={typesUsers.Administrador} newPage={"/OtAsingPages"}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={CreateOtPage}>
                         <CreateOtPage />
@@ -47,9 +45,27 @@ export const routes = createBrowserRouter([
             </ProtectedRoute>
     },
     {
+        path: "/listClients",
+        element:
+            <ProtectedRoute type={typesUsers.Administrador} newPage={"/OtAsingPages"}>
+                <ListClients />
+            </ProtectedRoute>
+    },
+    {
+        path: "/createFact",
+        element:
+            <ProtectedRoute type={typesUsers.Administrador} newPage={"/OtAsingPages"}>
+                <Suspense fallback={<LoadingCircle />}>
+                    <Await resolve={CreateFact}>
+                        <CreateFact />
+                    </Await>
+                </Suspense>
+            </ProtectedRoute>
+    },
+    {
         path: "/OtAsingPages",
         element:
-            <ProtectedRoute>
+            <ProtectedRoute type={typesUsers.Trabajador} newPage={"/OtList"}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={OtAsingPages}>
                         <OtAsingPages />
@@ -60,7 +76,7 @@ export const routes = createBrowserRouter([
     {
         path: "/OtList",
         element:
-            <ProtectedRoute>
+            <ProtectedRoute type={typesUsers.Administrador} newPage={"/OtAsingPages"}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={OtPage}>
                         <OtPage />
@@ -71,7 +87,7 @@ export const routes = createBrowserRouter([
     {
         path: "/AllUser",
         element:
-            <ProtectedRoute>
+            <ProtectedRoute type={typesUsers.Administrador} newPage={"/OtAsingPages"}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={AllUser}>
                         <AllUser />
@@ -80,20 +96,9 @@ export const routes = createBrowserRouter([
             </ProtectedRoute>
     },
     {
-        path: "/createClient",
-        element:
-            <ProtectedRoute>
-                <Suspense fallback={<LoadingCircle />}>
-                    <Await resolve={CreateClients}>
-                        <CreateClients />
-                    </Await>
-                </Suspense>
-            </ProtectedRoute>
-    },
-    {
         path: "/estadisticas",
         element:
-            <ProtectedRoute>
+            <ProtectedRoute type={typesUsers.Administrador} newPage={"/OtAsingPages"}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={StatisticsPage}>
                         <StatisticsPage />
@@ -113,66 +118,47 @@ export const routes = createBrowserRouter([
             </ProtectedRoute>
     },
     {
-        path: "/crearUsuario",
-        element:
-            <Suspense fallback={<LoadingCircle />}>
-                <Await resolve={CreateUser}>
-                    <CreateUser />
-                </Await>
-            </Suspense>
-    },
-    {
         path: "/configuración",
         element:
-            <Suspense fallback={<LoadingCircle />}>
-                <Await resolve={ConfigurationPage}>
-                    <ConfigurationPage />
-                </Await>
-            </Suspense>
+            <ProtectedRoute type={typesUsers.Administrador} newPage={"/OtAsingPages"}>
+                <Suspense fallback={<LoadingCircle />}>
+                    <Await resolve={ConfigurationPage}>
+                        <ConfigurationPage />
+                    </Await>
+                </Suspense>
+            </ProtectedRoute>
     },
     {
         path: "/Remito/:id",
         element:
-            <Suspense fallback={<LoadingCircle />}>
-                <Await resolve={Remito}>
-                    <Remito />
-                </Await>
-            </Suspense>
+            <ProtectedRoute>
+                <Suspense fallback={<LoadingCircle />}>
+                    <Await resolve={Remito}>
+                        <Remito />
+                    </Await>
+                </Suspense>
+            </ProtectedRoute>
     },
     {
         path: "/Etiqueta/:id/:count",
         element:
-            <Suspense fallback={<LoadingCircle />}>
-                <Await resolve={Etiquetas}>
-                    <Etiquetas />
-                </Await>
-            </Suspense>
+            <ProtectedRoute>
+                <Suspense fallback={<LoadingCircle />}>
+                    <Await resolve={Etiquetas}>
+                        <Etiquetas />
+                    </Await>
+                </Suspense>
+            </ProtectedRoute>
     },
     {
         path: "/Etiqueta/:id",
         element:
-            <Suspense fallback={<LoadingCircle />}>
-                <Await resolve={Etiquetas}>
-                    <Etiquetas />
-                </Await>
-            </Suspense>
-    },
-    {
-        path: "/createTypeOt",
-        element:
-            <Suspense fallback={<LoadingCircle />}>
-                <Await resolve={CreateTypeOt}>
-                    <CreateTypeOt />
-                </Await>
-            </Suspense>
-    },
-    {
-        path: "/createActivity",
-        element:
-            <Suspense fallback={<LoadingCircle />}>
-                <Await resolve={CreateActivity}>
-                    <CreateActivity />
-                </Await>
-            </Suspense>
+            <ProtectedRoute>
+                <Suspense fallback={<LoadingCircle />}>
+                    <Await resolve={Etiquetas}>
+                        <Etiquetas />
+                    </Await>
+                </Suspense>
+            </ProtectedRoute>
     },
 ]);

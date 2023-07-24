@@ -1,12 +1,15 @@
+import changeActOt from "../../../../db/changeActOt";
+import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 import Style from "./listItems.module.css"
-import changeActOt from "../../../../db/changeActOt";
 
-function ListItems({ Users, Ots, setOts }) {
+function ListItems({ Ots, setOts }) {
     const handleStateActivity = (newState, activity, OT) => {
         setOts(prev => prev.map(ot => ot === OT ? { ...OT, Activities: changeAct(OT.Activities, newState, activity) } : ot))
         changeActOt({ id: OT.id, activity: [{ ...activity, state: newState }] }, OT.id, "Se cambio el estado")
     }
+    const navigate = useNavigate();
+
     return (
         <div className={Style.contentListOt}>
             <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
@@ -18,9 +21,10 @@ function ListItems({ Users, Ots, setOts }) {
                 </Box>
             </Box>
             {Ots && Ots[0] ? (
-                Ots.map((OT) => (
-                    JSON.parse(OT.Activities).map((activity, key) => (
-                        <div key={key} className={Style.ColumOt}>
+                Ots.map((OT) => {
+                    const activities = JSON.parse(OT.Activities);
+                    return activities.map((activity, key) => (
+                        <div key={key} className={Style.ColumOt} onDoubleClick={() => navigate(`/events/${OT.id}`)}>
                             <Colum data={OT.id} />
                             <Colum data={activity.name} />
                             <Colum data={(activity.emit === 1 ? "Se" : "No se") + " emite"} />
@@ -48,14 +52,13 @@ function ListItems({ Users, Ots, setOts }) {
                                 </Box>
                             )}
                         </div>
-                    ))
-                ))
+                    ));
+                })
             ) : (
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "25px" }}>
                     <h1>No hay OT</h1>
                 </Box>
-            )
-            }
+            )}
         </div >
     );
 }

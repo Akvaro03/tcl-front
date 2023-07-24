@@ -1,6 +1,7 @@
-.ContentAssing{
-    display: flex;
-    align-items: center;
+.ContentAssing {
+    background: rgb(218, 218, 218);
     justify-content: center;
+    align-items: center;
+    display: flex;
     /* height: 89vh; */
 }

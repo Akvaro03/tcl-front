@@ -1,0 +1,9 @@
+.BodyCreateOt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 89.6vh;
+    background: rgb(218, 218, 218);
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+}

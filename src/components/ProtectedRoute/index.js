@@ -1,18 +1,17 @@
 import { Navigate } from "react-router-dom";
 import getUser from "../../hooks/getUser";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, type = "Todos", newPage = "/login" }) {
     let user;
     try {
-        
-        user = getUser();
+        user = getUser("roles");
+        if (user && (user.includes(type) || type === "Todos")) {
+            return children
+        } else {
+            return <Navigate to={newPage} />;
+        }
     } catch (error) {
-        console.log(error)
-    }
-    if (user) {
-        return children
-    } else {
-        return <Navigate to="/login" />;
+        return <Navigate to={newPage} />;
     }
 }
 

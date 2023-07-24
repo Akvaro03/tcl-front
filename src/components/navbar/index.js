@@ -8,45 +8,10 @@ import { useEffect } from 'react';
 import getDataFromUrl from '../../hooks/getDataFromUrl';
 import { useState } from 'react';
 import getUser from '../../hooks/getUser';
+import typesUsers from '../../classes/typesUsers';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const Pages = [{
-  "name": "Crear Ot",
-  "url": "/createOt"
-},
-{
-  "name": "Ot",
-  "url": "/OtList"
-},
-{
-  "name": "OT asignadas",
-  "url": "/OtAsingPages"
-},
-{
-  "name": "Todos los usuarios",
-  "url": "/AllUser"
-},
-{
-  "name": "Crear Cliente",
-  "url": "/createClient"
-},
-{
-  "name": "Estadisticas",
-  "url": "/estadisticas"
-},
-{
-  "name": "Crear usuario",
-  "url": "/crearUsuario"
-},
-{
-  "name": "Crear type",
-  "url": "/createTypeOt"
-},
-{
-  "name": "Crear Actividad",
-  "url": "/createActivity"
-},
-];
+
 
 function ResponsiveAppBar() {
   const [Config, setConfig] = useState()
@@ -72,13 +37,17 @@ function ResponsiveAppBar() {
     }
     getConfig()
   }, [])
-
+  let Pages = [];
   let user;
   let userNameLogin;
+  let roles
   try {
     user = getUser();
+    roles = getUser("roles")
+    Pages = roles.includes(typesUsers.Administrador) ? linkAdmin : linkTrabajador;
     userNameLogin = user.name;
   } catch (error) {
+    console.log(error)
   }
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -87,9 +56,6 @@ function ResponsiveAppBar() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  // const handleOpenUserMenu = (event) => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
   const handleCloseNavMenu = (url) => {
     setAnchorElNav(null);
     navigate(url);
@@ -231,4 +197,74 @@ function ResponsiveAppBar() {
   );
 }
 
+const linkAdmin = [
+  {
+    "name": "Lista OT",
+    "url": "/OtList"
+  },
+  {
+    "name": "Crear OT",
+    "url": "/createOt"
+  },
+  {
+    "name": "Crear FACT",
+    "url": "/createFact"
+  },
+  {
+    "name": "Clientes",
+    "url": "/listClients"
+  },
+  {
+    "name": "Usuarios",
+    "url": "/AllUser"
+  },
+  {
+    "name": "Estadisticas",
+    "url": "/estadisticas"
+  },
+  {
+    "name": "Config",
+    "url": "/configuración"
+  }]
+// const linkAdminPrev = [{
+//   "name": "Crear OT",
+//   "url": "/createOt"
+// },
+// {
+//   "name": "Ot",
+//   "url": "/OtList"
+// },
+// {
+//   "name": "OT asignadas",
+//   "url": "/OtAsingPages"
+// },
+// {
+//   "name": "Todos los usuarios",
+//   "url": "/AllUser"
+// },
+// {
+//   "name": "Crear Cliente",
+//   "url": "/createClient"
+// },
+// {
+//   "name": "Estadisticas",
+//   "url": "/estadisticas"
+// },
+// {
+//   "name": "Crear usuario",
+//   "url": "/crearUsuario"
+// },
+// {
+//   "name": "Crear type",
+//   "url": "/createTypeOt"
+// },
+// {
+//   "name": "Crear Actividad",
+//   "url": "/createActivity"
+// }]
+const linkTrabajador = [
+  {
+    "name": "Tareas asignadas",
+    "url": "/OtAsingPages"
+  }]
 export default ResponsiveAppBar;
