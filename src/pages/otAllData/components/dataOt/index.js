@@ -274,7 +274,7 @@ function DataOt({ otSelected, reload }) {
                         {availability ? (
                             <ButtonRadius onClick={() => permissions.editMuestra(rol) && setAddAvailability(true)} text={`${availability.type}  ${formatDateM(availability.date)}`} type={"success"} />
                         ) : (
-                            permissions.muestras(rol) ?
+                            permissions.editMuestra(rol) ?
                                 < ButtonRadius onClick={() => setAddAvailability(true)} text={"Agregar Disposición"} />
                                 :
                                 <h1>Pendiente</h1>
