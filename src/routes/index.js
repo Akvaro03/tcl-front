@@ -123,7 +123,7 @@ export const routes = createBrowserRouter([
     {
         path: "/configuración",
         element:
-            <ProtectedRoute type={typesUsers.Admin} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.config} newPage={"/OtAsingPages"}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={ConfigurationPage}>
                         <ConfigurationPage />

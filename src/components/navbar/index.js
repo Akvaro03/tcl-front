@@ -17,7 +17,7 @@ function ResponsiveAppBar() {
   useEffect(() => {
     const getConfig = async () => {
       const responseConfig = await getDataFromUrl('http://localhost:4000/getConfig')
-      if (responseConfig.result !== "no hay") {
+      if (responseConfig) {
 
         setConfig(responseConfig)
         const faviconLink = document.createElement('link');
@@ -30,7 +30,7 @@ function ResponsiveAppBar() {
         if (existingIcon) {
           head.removeChild(existingIcon);
         }
-
+        console.log(faviconLink)
         head.appendChild(faviconLink);
       }
     }
