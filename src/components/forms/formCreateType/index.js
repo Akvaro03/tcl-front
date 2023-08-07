@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import Style from "./formCreateType.module.css"
 import { Button, Checkbox, FormControlLabel } from "@mui/material";
 import nameUsed from "../../../db/nameUsed";
-import postData from "../../../hooks/postData";
 import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import InputMui from "../../inputMui";
 import ModalPortal from "../../modelPortal";
 import Alerts from "../../alerts";
+import postData from "../../../db/postData";
 
 function FormCreateType({ close }) {
     const [nameType, setNameType] = useState("")

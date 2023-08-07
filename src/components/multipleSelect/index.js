@@ -24,7 +24,7 @@ function getStyles(name, personName, theme) {
                 : theme.typography.fontWeightMedium,
     };
 }
-export default function MultipleSelect({ label, names, onchange }) {
+export default function MultipleSelect({ label, names, onchange, size = "small" }) {
     const theme = useTheme();
     const [personName, setPersonName] = React.useState([]);
     const handleChange = (event) => {
@@ -50,7 +50,7 @@ export default function MultipleSelect({ label, names, onchange }) {
                     onChange={handleChange}
                     input={<OutlinedInput label={label} />}
                     MenuProps={MenuProps}
-                    size='small'
+                    size={size}
                 >
                     {names.map((name) => (
                         <MenuItem

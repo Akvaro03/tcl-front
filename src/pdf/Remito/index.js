@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import Style from "./Remito.module.css"
-import postData from "../../hooks/postData";
 import { useEffect, useState } from "react";
 import formatDateM from "../../hooks/formatDateM";
+import postData from "../../db/postData";
 function Remito() {
     const { id } = useParams();
     const [ot, setOt] = useState()

@@ -1,12 +1,12 @@
 import formatDateM from "../../../hooks/formatDateM";
-import Style from "./listPays.module.css"
 import { Box, Fade } from "@mui/material";
+import Style from "./listPays.module.css";
 
 
 function ListPays({ pays }) {
     return (
         <Fade in={true}>
-            <Box sx={{ width: "100%", display: "flex", flexDirection: "column", height: "95%" }}>
+            <Box sx={{ width: "100%", display: "flex", flexDirection: "column", height: "100%", justifyContent: "center" }}>
                 <div className={Style.contentListOt}>
                     <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
                         <Colum data={"Id"} width="10%" />

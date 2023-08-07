@@ -54,12 +54,12 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    width: 100%;
+    width: 95%;
     margin: 3% 0;
 }
 
 .Input {
-    width: 70%;
+    width: 100%;
 }
 
 .Identification{
@@ -126,5 +126,5 @@
     width: 31%;
 }
 .FieldObser{
-    margin: 5% 0 0 0;
+    margin: 5% 0 5% 0;
 }

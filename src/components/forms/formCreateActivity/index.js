@@ -2,10 +2,10 @@ import { Box, Button, Checkbox } from "@mui/material";
 import Style from "./formCreate.module.css"
 import { useState } from "react";
 import nameUsed from "../../../db/nameUsed";
-import postData from "../../../hooks/postData";
 import InputMui from "../../inputMui";
 import ModalPortal from "../../modelPortal";
 import Alerts from "../../alerts";
+import postData from "../../../db/postData";
 function FormCreateActivity({ close }) {
     const [name, setName] = useState("")
     const [score, setScore] = useState("")

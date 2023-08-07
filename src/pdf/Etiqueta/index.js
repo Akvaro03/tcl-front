@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Style from "./Etiqueta.module.css"
 import { useParams } from "react-router-dom";
-import postData from "../../hooks/postData";
+import postData from "../../db/postData";
 
 function Etiquetas() {
     const [OT, setOT] = useState()
@@ -16,7 +16,7 @@ function Etiquetas() {
             setOT(cards)
         }
         getOt()
-    }, [id])
+    }, [id, steps])
 
     return (
         <div className={Style.container}>

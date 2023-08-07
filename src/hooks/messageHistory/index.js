@@ -3,7 +3,7 @@ class messageHistory {
     static tittleEditActivities = "Se editaron las actividades";
     static tittleEditaAuth = "Se modifico la autorizacion";
     static tittleEditPay = "Se modificaron las facturas";
-    static tittleEditUser = "Se editaron los usuarios";
+    static tittleEditUser = "Se edito la actividad";
     static tittleEditOT = "Se modificaron valores";
     static editUsersActivity(nameActivity, users) {
         try {

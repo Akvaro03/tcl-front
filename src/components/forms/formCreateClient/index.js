@@ -5,9 +5,9 @@ import { Button } from '@mui/material';
 import styled from '@emotion/styled';
 import Input from '@mui/base/Input';
 import nameUsed from '../../../db/nameUsed';
-import postData from '../../../hooks/postData';
 import ModalPortal from '../../modelPortal';
 import Alerts from '../../alerts';
+import postData from '../../../db/postData';
 function FormCreateClient({ close, reload }) {
     const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }]);
     const [Document, setDocument] = useState({ type: "", value: "" });

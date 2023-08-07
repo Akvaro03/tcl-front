@@ -7,7 +7,6 @@ import ModalPortal from "../../../../components/modelPortal";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import formatDateM from "../../../../hooks/formatDateM";
-import typesUsers from '../../../../classes/typesUsers';
 import InputMui from "../../../../components/inputMui";
 import formatDate from '../../../../hooks/formatDate';
 import changeActOt from "../../../../db/changeActOt";
@@ -27,6 +26,7 @@ import Style from "./Data.module.css"
 import EditPay from '../editPay';
 import AddPay from '../addPay';
 import dayjs from "dayjs";
+import permissions from '../../../../classes/permissions';
 function DataOt({ otSelected, reload }) {
     const [availability, setAvailability] = useState(JSON.parse(otSelected.Availability))
     const [addAvailability, setAddAvailability] = useState(false)
@@ -44,7 +44,7 @@ function DataOt({ otSelected, reload }) {
     const [auth, setAuth] = useState(otSelected.Auth)
     const [OT, SetOT] = useState(otSelected)
     const [edit, setEdit] = useState(false)
-    const rolesUser = getUser("roles")
+    const rol = getUser("roles")
     useEffect(() => {
         const searchData = async () => {
             const pays = await getDataFromUrl('http://localhost:4000/getPay')
@@ -54,16 +54,6 @@ function DataOt({ otSelected, reload }) {
         }
         searchData()
     }, [otSelected.Factura])
-    const isAdmin = (funct, data) => {
-        if (funct && rolesUser.includes(typesUsers.Administrador)) {
-            if (data) {
-                funct(data)
-                return
-            }
-            funct()
-        };
-        return rolesUser.includes(typesUsers.Administrador);
-    }
     const selectUsers = (activity) => {
         setUserSelect(true)
         setActivitySelected(activity)
@@ -71,9 +61,9 @@ function DataOt({ otSelected, reload }) {
     const closeForm = () => {
         setUserSelect(false)
     }
-    const handleUsers = (users) => {
+    const handleUsers = (users, score) => {
         try {
-            const newActivities = activities.map(act => act === activitySelected ? { ...activitySelected, users: JSON.stringify(users) } : act);
+            const newActivities = activities.map(act => act === activitySelected ? { ...activitySelected, users: JSON.stringify(users), score } : act);
             changeActOt({ id: otSelected.id, activity: newActivities }, otSelected.id, messageHistory.tittleEditUser, messageHistory.editUsersActivity(activitySelected.name, users.join(", ")))
             setActivities(newActivities)
             closeForm()
@@ -221,14 +211,14 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                     </div>
                     {auth === "1" ? (
-                        <div className={Style.auth} onClick={() => isAdmin(changeAuthButton)}>
+                        <div className={Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton}>
                             <h1>
                                 Autorizado
                             </h1>
                         </div>
 
                     ) : (
-                        <div className={Style.authNone} onClick={() => isAdmin(changeAuthButton)}>
+                        <div className={Style.authNone} onClick={() => permissions.editAuth(rol) && changeAuthButton}>
                             <h1>
                                 No Autorizado
                             </h1>
@@ -249,17 +239,20 @@ function DataOt({ otSelected, reload }) {
                         {activities && (
                             activities.map((activity, key) => {
                                 const users = JSON.parse(activity.users)
-                                return <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity} onClick={() => isAdmin(selectUsers, activity)}>
+                                return <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity}
+                                    onClick={() => permissions.editActv(rol) && selectUsers(activity)}>
                                     <h1>{activity.name}</h1>
                                 </div>
                             }))
                         }
                     </div>
                     <div className={Style.addButton}>
-                        {rolesUser.includes(typesUsers.Administrador) ? (
-                            <Button size="small" variant="outlined" onClick={setAddActivity}>Editar actividades</Button>
+                        {permissions.editActv(rol) ? (
+                            <Button size="small" variant="outlined"
+                                onClick={setAddActivity}>Editar actividades</Button>
                         ) : (
-                            <Button size="small" variant="outlined" sx={{ visibility: "hidden" }} onClick={setAddActivity}>Editar actividades</Button>
+                            <Button size="small" variant="outlined" sx={{ visibility: "hidden" }}
+                                onClick={setAddActivity}>Editar actividades</Button>
                         )}
                     </div>
                     <hr className={Style.line} />
@@ -279,9 +272,9 @@ function DataOt({ otSelected, reload }) {
                     </div>
                     <div className={Style.ProductContent}>
                         {availability ? (
-                            <ButtonRadius onClick={() => isAdmin(setAddAvailability, true)} text={`${availability.type}  ${formatDateM(availability.date)}`} type={"success"} />
+                            <ButtonRadius onClick={() => permissions.editMuestra(rol) && setAddAvailability(true)} text={`${availability.type}  ${formatDateM(availability.date)}`} type={"success"} />
                         ) : (
-                            isAdmin() ?
+                            permissions.muestras(rol) ?
                                 < ButtonRadius onClick={() => setAddAvailability(true)} text={"Agregar Disposición"} />
                                 :
                                 <h1>Pendiente</h1>
@@ -289,24 +282,32 @@ function DataOt({ otSelected, reload }) {
                     </div>
                     <div className={Style.ProductTittle}>
                     </div>
+
+
+
+
                     <div className={Style.ProductContent}>
                         {pay && (
                             <>
                                 {pay.map((pay, key) => (
                                     pay.state === "paid" ?
-                                        <ButtonRadius onClick={() => isAdmin(setEditPay, pay)} key={key} text={`${pay.id}`} type={"success"} />
+                                        <ButtonRadius onClick={() => permissions.editPay(rol) && setEditPay(pay)} key={key} text={`${pay.id}`} type={"success"} />
                                         :
-                                        <ButtonRadius onClick={() => isAdmin(setEditPay, pay)} key={key} text={`${pay.id}`} type={"error"} />
+                                        <ButtonRadius onClick={() => permissions.editPay(rol) && setEditPay(pay)} key={key} text={`${pay.id}`} type={"error"} />
                                 ))}
                             </>
                         )}
-                        {isAdmin() ?
+                        {permissions.editPay(rol) ?
                             <ButtonRadius text={"Agregar Factura"} onClick={() => setAddPay(true)} />
                             :
-                            !pay[0]
+                            !pay
                             &&
                             <h1>Pendiente</h1>}
                     </div>
+
+
+
+                    
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
@@ -353,7 +354,7 @@ function DataOt({ otSelected, reload }) {
                     <AddPay close={setAddPay} save={savePay} pay={pay} savePay={savePay} />
                 </ModalPortal>
             )}
-            {rolesUser.includes("Administrador") && (
+            {permissions.editOt(rol) && (
                 <>
                     {edit ? (
                         <>

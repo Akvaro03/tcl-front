@@ -3,26 +3,26 @@ import ModalPortal from '../../../../components/modelPortal';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import React, { useEffect, useState } from 'react';
 import Alerts from '../../../../components/alerts';
-import postData from '../../../../hooks/postData';
 import getUser from '../../../../hooks/getUser';
 import Style from './formCreateOt.module.css';
 import ModalCallback from '../ModalCallback';
 import styled from "@emotion/styled";
 import Input from '@mui/base/Input';
 import MultipleSelect from '../../../../components/multipleSelect';
+import postData from '../../../../db/postData';
 
 function FormCreateOt({ DateCreate }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
     const [ClientObjet, setClientObjet] = useState(top100Films[0])
-    const [RazonSocial] = useState("")
-    const [Producto, setProducto] = useState("")
-    const [Marca, setMarca] = useState("")
-    const [Modelo, setModelo] = useState("")
-    const [NormaAplicar, setNormaAplicar] = useState("")
-    const [Cotizacion, setCotizacion] = useState("")
     const [FechaVencimiento, setFechaVencimiento] = useState("")
     const [FechaEstimada, setFechaEstimada] = useState("")
+    const [NormaAplicar, setNormaAplicar] = useState("")
+    const [Cotizacion, setCotizacion] = useState("")
     const [Contacts, setContacts] = useState("")
+    const [Producto, setProducto] = useState("")
+    const [Modelo, setModelo] = useState("")
+    const [Marca, setMarca] = useState("")
+    const [RazonSocial] = useState("")
 
     const [allTypes, setAllTypes] = useState([])
     const [Identificación] = useState("Identificacion")
@@ -162,45 +162,38 @@ function FormCreateOt({ DateCreate }) {
                             </div>
                         </div>
                         <div className={Style.DataInput}>
-                            <p className={Style.TittleData}>Producto</p>
                             <div className={Style.Input}>
-                                <CustomInput value={Producto} onChange={setProducto} />
+                                <CustomInput value={Producto} onChange={setProducto} placeholder={"Producto"} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
-                            <p className={Style.TittleData}>Marca</p>
                             <div className={Style.Input}>
-                                <CustomInput value={Marca} onChange={setMarca} />
+                                <CustomInput placeholder={"Marca"} value={Marca} onChange={setMarca} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
-                            <p className={Style.TittleData}>Modelo</p>
                             <div className={Style.Input}>
-                                <CustomInput value={Modelo} onChange={setModelo} />
+                                <CustomInput placeholder={"Modelo"} value={Modelo} onChange={setModelo} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
-                            <p className={Style.TittleData}>Norma a aplicar</p>
                             <div className={Style.Input}>
-                                <CustomInput value={NormaAplicar} onChange={setNormaAplicar} />
+                                <CustomInput placeholder={"Norma a aplicar"} value={NormaAplicar} onChange={setNormaAplicar} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
-                            <p className={Style.TittleData}>Cotización</p>
                             <div className={Style.Input}>
-                                <CustomInput value={Cotizacion} onChange={setCotizacion} />
+                                <CustomInput placeholder={"Cotización"} value={Cotizacion} onChange={setCotizacion} />
                             </div>
                         </div>
-                        <div className={Style.DataInputLarge}>
-                            <p className={Style.TittleDataLarge}>Fecha de vencimiento del certificado</p>
-                            <div className={Style.InputLarge}>
-                                <CustomInput value={FechaVencimiento} onChange={setFechaVencimiento} />
+                        <div className={Style.DataInput}>
+                            <div className={Style.Input}>
+                                <CustomInput placeholder={"Fecha de vencimiento del certificado"} value={FechaVencimiento} onChange={setFechaVencimiento} />
                             </div>
                         </div>
-                        <div className={Style.DataInputLarge}>
-                            <p className={Style.TittleDataLarge}>Fecha de entrega estimada</p>
-                            <div className={Style.InputLarge}>
-                                <CustomInput value={FechaEstimada} onChange={setFechaEstimada} />
+                        <div className={Style.DataInput}>
+                            <div className={Style.Input}>
+                                <CustomInput placeholder={"Fecha de entrega estimada"} value={FechaEstimada} onChange={setFechaEstimada} />
                             </div>
                         </div>
                     </div>
@@ -217,12 +210,6 @@ function FormCreateOt({ DateCreate }) {
                                 {allTypes.map((type, index) => (
                                     <MenuItem key={index} value={index}>{type.nameType}</MenuItem >
                                 ))}
-                                {/* <MenuItem value={"Reducido"}>Reducido</MenuItem >
-                                <MenuItem value={"Verif. Identidad"} >Verif. Identidad</MenuItem >
-                                <MenuItem value={"Ampliado"} >Ampliado</MenuItem >
-                                <MenuItem value={"Ensayo Eficiencia"} >Ensayo Eficiencia</MenuItem >
-                                <MenuItem value={"Ensayo Completo"} >Ensayo Completo</MenuItem >
-                                <MenuItem value={"Otra actividad"} >Otra actividad</MenuItem > */}
                             </Select>
                         </div>
                         <div className={Style.DescriptionContent}>
@@ -261,8 +248,8 @@ function FormCreateOt({ DateCreate }) {
                             </div>
                         </div>
                         <div className={Style.FieldObser}>
-                            <p>Observaciones</p>
                             <TextField
+                                placeholder={"Observaciones"}
                                 fullWidth
                                 value={Observaciones}
                                 onChange={({ target: { value } }) => setObservaciones(value)}
@@ -275,7 +262,7 @@ function FormCreateOt({ DateCreate }) {
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar Contacto</p>
                             {ClientObjet.Contacts && (
-                                <MultipleSelect onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Clientes seleccionados"} />
+                                <MultipleSelect size={"medium"} onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Clientes seleccionados"} />
                             )}
                         </div>
 
@@ -324,12 +311,12 @@ const grey = {
 const StyledInputElement = styled('input')(
     ({ theme }) => `
     width: 100%;
-    height: 5px;
+    height: 20px;
     font-family: IBM Plex Sans, sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    padding: 12px;
+    padding: 17px;
     border-radius: 12px;
     color: ${grey[900]};
     background: ${'#fff'};
@@ -354,8 +341,10 @@ const StyledInputElement = styled('input')(
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
     let value = props.value;
     let onChange = props.onChange;
+    let placeholder = props.placeholder;
     return (
         <Input
+            placeholder={placeholder}
             value={value}
             onChange={({ target: { value } }) => {
                 onChange(value)
@@ -393,7 +382,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         borderRadius: 4,
         position: 'relative',
         backgroundColor: '#bed1d8',
-        height: "15px",
+        height: "20px",
         padding: '10px 12px',
         // Use the system font instead of the default Roboto font.
         fontFamily: [

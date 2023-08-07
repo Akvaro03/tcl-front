@@ -7,24 +7,22 @@ import styled from '@emotion/styled';
 import Input from '@mui/base/Input';
 import Alerts from "../../alerts";
 import nameUsed from "../../../db/nameUsed";
-import postData from "../../../hooks/postData";
 import ModalPortal from "../../modelPortal";
 import toUppercase from "../../../hooks/toUppercase";
+import postData from "../../../db/postData";
+import typesUsers from "../../../classes/typesUsers";
 function FormCreateUser({ close, reload }) {
-    const [Roles, SetRoles] = useState(rolesUser.map(datoos => { return { name: datoos, state: false } }))
-    const [nameUser, setNameUser] = useState("")
     const [passwordUser, setPasswordUser] = useState("")
+    const [rolSelect, setRolSelect] = useState("")
     const [emailUser, setEmailUser] = useState("")
+    const [nameUser, setNameUser] = useState("")
     const [Result, setResult] = useState()
     const handleChange = (event) => {
-        const { name, checked } = event.target
-        SetRoles(prevValues => prevValues.map(rol => (
-            rol.name === name ? { ...rol, state: checked } : rol
-        )))
+        const { name } = event.target
+        setRolSelect(name)
     };
     const onSubmit = async () => {
-        const rolesFormat = Roles.filter(({ state, name }) => state && name).map(({ name }) => name)
-        if (!nameUser || !emailUser || !passwordUser || !rolesFormat.length > 0) {
+        if (!nameUser || !emailUser || !passwordUser || !rolSelect) {
             setResult({ result: "missed data" })
             return
         }
@@ -32,7 +30,7 @@ function FormCreateUser({ close, reload }) {
         if (!isNameUsed) {
             postData("http://localhost:4000/postUsers", {
                 name: toUppercase(nameUser),
-                type: rolesFormat,
+                type: [rolSelect],
                 email: emailUser,
                 password: passwordUser
             })
@@ -54,7 +52,7 @@ function FormCreateUser({ close, reload }) {
         setNameUser("")
         setPasswordUser("")
         setEmailUser("")
-        SetRoles(rolesUser.map(datoos => { return { name: datoos, state: false } }))
+        setRolSelect(rolesUser.map(datoos => { return { name: datoos, state: false } }))
     }
     return (
         <div className={Style.formCreateUser}>
@@ -88,15 +86,13 @@ function FormCreateUser({ close, reload }) {
                     </div>
                     <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                         <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
-                            {Roles.map((nameRole, key) => {
-                                const { name } = nameRole
-                                const { state } = nameRole
+                            {rolesUser.map((nameRole, key) => {
                                 return <FormControlLabel
                                     key={key}
                                     control={
-                                        <Checkbox checked={state} onChange={handleChange} name={name} />
+                                        <Checkbox checked={nameRole === rolSelect} onChange={handleChange} name={nameRole} />
                                     }
-                                    label={name}
+                                    label={nameRole}
                                 />
                             }
 
@@ -163,6 +159,6 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
             ref={ref} />
     );
 });
-const rolesUser = ["Trabajador", "Administrador", "Jerente"]
+const rolesUser = [typesUsers.Admin, typesUsers.AdminSystem, typesUsers.Director, typesUsers.Trabajador]
 
 export default FormCreateUser;

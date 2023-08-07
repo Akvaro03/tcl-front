@@ -6,7 +6,7 @@ import { useState } from "react";
 import saveLogin from "../../hooks/saveLogin";
 import Alerts from "../../components/alerts";
 import Style from './login.module.css'
-import postData from "../../hooks/postData";
+import postData from "../../db/postData";
 
 function LoginPage() {
     const [Email, SetEmail] = useState("")

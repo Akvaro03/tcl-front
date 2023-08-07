@@ -1,5 +1,5 @@
-import postData from "../hooks/postData";
 import addChange from "../db/addChange";
+import postData from "../db/postData";
 import getUser from "../hooks/getUser";
 
 export default class editDb {
@@ -21,7 +21,7 @@ export default class editDb {
     }
     static postData(url, dataToSend) {
         try {
-            postData(`http://localhost:4000/${url}`, dataToSend)
+            return postData(`http://localhost:4000/${url}`, dataToSend)
         } catch (error) {
             console.log(error)
         }

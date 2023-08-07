@@ -2,7 +2,6 @@ import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Ty
 import deleteLogin from '../../hooks/deleteLogin';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-// import { Helmet } from 'react-helmet';
 import * as React from 'react';
 import { useEffect } from 'react';
 import getDataFromUrl from '../../hooks/getDataFromUrl';
@@ -44,8 +43,24 @@ function ResponsiveAppBar() {
   try {
     user = getUser();
     roles = getUser("roles")
-    Pages = roles.includes(typesUsers.Administrador) ? linkAdmin : linkTrabajador;
-    userNameLogin = user.name;
+    switch (roles) {
+      case typesUsers.Trabajador:
+        Pages = linkTrabajador
+        break;
+      case typesUsers.Admin:
+        Pages = linkAdmin
+        break;
+      case typesUsers.Director:
+        Pages = linkDirector
+        break;
+      case typesUsers.AdminSystem:
+        Pages = linkAdminSystem
+        break;
+
+      default:
+        break;
+    }
+    userNameLogin = user ? user.name : "";
   } catch (error) {
     console.log(error)
   }
@@ -77,7 +92,6 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -161,7 +175,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>
-            {userNameLogin ? <p>{userNameLogin}</p> : <p>Iniciar Sesion</p>}
+            {userNameLogin ? <p>{userNameLogin}</p> : <Box onClick={() => navigate("/login")} sx={{ cursor: "pointer" }}>Iniciar Sesion</Box>}
             {userNameLogin && <p style={{ cursor: 'pointer' }} onClick={handleCloseAccount}>Cerrar Sesion</p>}
             {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -196,6 +210,11 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
+const linkTrabajador = [
+  {
+    "name": "Tareas asignadas",
+    "url": "/OtAsingPages"
+  }]
 
 const linkAdmin = [
   {
@@ -203,68 +222,72 @@ const linkAdmin = [
     "url": "/OtList"
   },
   {
+    "name": "Crear FACT",
+    "url": "/createFact"
+  },
+  {
     "name": "Crear OT",
     "url": "/createOt"
+  },
+  {
+    "name": "Clientes",
+    "url": "/listClients"
+  },
+]
+const linkDirector = [
+  {
+    "name": "Lista OT",
+    "url": "/OtList"
   },
   {
     "name": "Crear FACT",
     "url": "/createFact"
   },
   {
-    "name": "Clientes",
-    "url": "/listClients"
+    "name": "Crear OT",
+    "url": "/createOt"
   },
-  {
-    "name": "Usuarios",
-    "url": "/AllUser"
-  },
-  {
-    "name": "Estadisticas",
-    "url": "/estadisticas"
-  },
-  {
-    "name": "Config",
-    "url": "/configuración"
-  }]
-// const linkAdminPrev = [{
-//   "name": "Crear OT",
-//   "url": "/createOt"
-// },
-// {
-//   "name": "Ot",
-//   "url": "/OtList"
-// },
-// {
-//   "name": "OT asignadas",
-//   "url": "/OtAsingPages"
-// },
-// {
-//   "name": "Todos los usuarios",
-//   "url": "/AllUser"
-// },
-// {
-//   "name": "Crear Cliente",
-//   "url": "/createClient"
-// },
-// {
-//   "name": "Estadisticas",
-//   "url": "/estadisticas"
-// },
-// {
-//   "name": "Crear usuario",
-//   "url": "/crearUsuario"
-// },
-// {
-//   "name": "Crear type",
-//   "url": "/createTypeOt"
-// },
-// {
-//   "name": "Crear Actividad",
-//   "url": "/createActivity"
-// }]
-const linkTrabajador = [
-  {
-    "name": "Tareas asignadas",
-    "url": "/OtAsingPages"
-  }]
+]
+const linkAdminSystem = [{
+  "name": "Usuarios",
+  "url": "/AllUser"
+},
+{
+  "name": "Config",
+  "url": "/configuración"
+}]
+// const linkAdmin = [
+//   {
+//     "name": "Lista OT",
+//     "url": "/OtList"
+//   },
+//   {
+//     "name": "Tareas asignadas",
+//     "url": "/OtAsingPages"
+//   },
+//   {
+//     "name": "Crear OT",
+//     "url": "/createOt"
+//   },
+//   {
+//     "name": "Crear FACT",
+//     "url": "/createFact"
+//   },
+//   {
+//     "name": "Clientes",
+//     "url": "/listClients"
+//   },
+//   {
+//     "name": "Usuarios",
+//     "url": "/AllUser"
+//   },
+//   {
+//     "name": "Estadisticas",
+//     "url": "/estadisticas"
+//   },
+//   {
+//     "name": "Config",
+//     "url": "/configuración"
+//   }]
+
 export default ResponsiveAppBar;
