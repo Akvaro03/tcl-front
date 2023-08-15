@@ -2,11 +2,11 @@ import isActivitiesEnd from "../../hooks/isActivitiesEnd";
 import isUserAssigned from "../../hooks/isUserAssigned";
 import getDataFromUrl from "../../hooks/getDataFromUrl";
 import ResponsiveAppBar from "../../components/navbar";
+import ListPays from "../../components/list/listPays";
+import ListOt from "../../components/list/listOt";
 import { useEffect, useState } from "react";
 import Filters from "./components/filters";
 import Style from "./otPage.module.css"
-import ListPays from "../../components/list/listPays";
-import ListOt from "../../components/list/listOt";
 function OtPage() {
     const [listOt, setListOt] = useState()
     const [otFilter, setOtFilter] = useState()

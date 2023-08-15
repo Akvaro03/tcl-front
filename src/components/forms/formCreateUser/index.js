@@ -1,40 +1,55 @@
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup } from "@mui/material";
 import { blue, grey } from '@mui/material/colors';
 
+import toUppercase from "../../../hooks/toUppercase";
+import typesUsers from "../../../classes/typesUsers";
 import Style from "./formCreateUser.module.css"
 import { forwardRef, useState } from 'react';
+import nameUsed from "../../../db/nameUsed";
+import ModalPortal from "../../modelPortal";
+import editUser from "../../../db/editUser";
+import addUser from "../../../db/addUser";
 import styled from '@emotion/styled';
 import Input from '@mui/base/Input';
 import Alerts from "../../alerts";
-import nameUsed from "../../../db/nameUsed";
-import ModalPortal from "../../modelPortal";
-import toUppercase from "../../../hooks/toUppercase";
-import postData from "../../../db/postData";
-import typesUsers from "../../../classes/typesUsers";
-function FormCreateUser({ close, reload }) {
+function FormCreateUser({ close, reload, user }) {
     const [passwordUser, setPasswordUser] = useState("")
-    const [rolSelect, setRolSelect] = useState("")
-    const [emailUser, setEmailUser] = useState("")
-    const [nameUser, setNameUser] = useState("")
+    const [rolSelect, setRolSelect] = useState(user ? JSON.parse(user.type)[0] : "")
+    const [emailUser, setEmailUser] = useState(user ? user.email : "")
+    const [nameUser, setNameUser] = useState(user ? user.name : "")
+    const [stateUser, setStateUser] = useState(user ? user.state : "")
     const [Result, setResult] = useState()
     const handleChange = (event) => {
         const { name } = event.target
         setRolSelect(name)
     };
+    const handleState = () => {
+        if (stateUser === "active") {
+            setStateUser("disable")
+            return
+        }
+        setStateUser("active")
+    }
     const onSubmit = async () => {
-        if (!nameUser || !emailUser || !passwordUser || !rolSelect) {
+        if ((!nameUser || !emailUser || !rolSelect) && (!user && !passwordUser)) {
             setResult({ result: "missed data" })
             return
         }
         const isNameUsed = await nameUsed(nameUser, "user")
-        if (!isNameUsed) {
-            postData("http://localhost:4000/postUsers", {
+        if (!isNameUsed || nameUser === user.name) {
+            const data = {
                 name: toUppercase(nameUser),
                 type: [rolSelect],
                 email: emailUser,
-                password: passwordUser
-            })
-                .then(result => setResult(result))
+                password: passwordUser,
+                state: stateUser
+            }
+            if (!user) {
+                addUser(data).then(result => setResult(result))
+            } else {
+                data.id = user.id
+                editUser(data)
+            }
             setTimeout(() => {
                 setResult()
             }, 3200);
@@ -57,32 +72,41 @@ function FormCreateUser({ close, reload }) {
     return (
         <div className={Style.formCreateUser}>
             <div className={Style.headerTittle}>
-                <p>Crear Nuevos usuarios</p>
+                <p>{user ? "Editar usuario" : "Crear Nuevos usuarios"}</p>
             </div>
             <div className={Style.formCreate}>
                 <div className={Style.inputsForm}>
                     <div className={Style.input}>
                         <div className={Style.inputTittle}>
-                            <p>Nombre del usuario</p>
+                            <p>Nombre</p>
                         </div>
                         <CustomInput value={nameUser} onChange={e => setNameUser(e)} />
                     </div>
                     <div className={Style.input}>
                         <div className={Style.inputTittle}>
-                            <p>Email del usuario</p>
+                            <p>Email</p>
                         </div>
                         <CustomInput value={emailUser} onChange={e => setEmailUser(e)} />
                     </div>
-                    <div className={Style.input}>
-                        <div className={Style.inputTittle}>
-                            <p>Contraseña del usuario</p>
+                    {!user ? (
+                        <div className={Style.input}>
+                            <div className={Style.inputTittle}>
+                                <p>Contraseña</p>
+                            </div>
+                            <CustomInput value={passwordUser} onChange={e => setPasswordUser(e)} />
                         </div>
-                        <CustomInput value={passwordUser} onChange={e => setPasswordUser(e)} />
-                    </div>
+                    ) : (
+                        <div className={Style.input}>
+                            <div className={Style.inputTittle}>
+                                <p>Estado</p>
+                            </div>
+                            <Checkbox sx={{ margin: "0px", padding: "0px" }} checked={stateUser === "active"} onChange={handleState} name={"Estado"} />
+                        </div>
+                    )}
                 </div>
                 <div className={Style.selectRoles}>
                     <div className={Style.tittleRoles}>
-                        <p>Selecciona los roles del usuario</p>
+                        <p>Selecciona los roles</p>
                     </div>
                     <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                         <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
@@ -102,7 +126,7 @@ function FormCreateUser({ close, reload }) {
                 </div>
                 <div className={Style.Buttons} >
                     <Button onClick={() => close(false)} variant="outlined" color="success" >Cancelar</Button>
-                    <Button onClick={onSubmit} variant="contained" color="success" >Crear usuario</Button>
+                    <Button onClick={() => onSubmit()} variant="contained" color="success" >{!user ? "Crear usuario" : "Guardar"}</Button>
                 </div>
             </div>
             {Result && (

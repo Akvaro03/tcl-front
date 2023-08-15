@@ -22,7 +22,6 @@ function SelectUsers({ closeForm, activitySelected, handleUsers }) {
             setUserAct(prev => prev.filter(item => item !== name))
         }
     }
-    console.log(activitySelected)
     return (
         <Fade in={true}>
             <Box sx={{ width: "40%", height: "40%", background: "white", borderRadius: "15px", display: "flex", flexDirection: "column", alignItems: "center" }}>

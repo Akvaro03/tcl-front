@@ -1,16 +1,21 @@
 import Style from "./moduleConfiguration.module.css"
-import { blue, grey } from '@mui/material/colors';
-import { forwardRef, useState } from 'react';
+import InputMui from "../../../components/inputMui";
 import Button from '@mui/material/Button';
-import styled from '@emotion/styled';
-import Input from '@mui/base/Input';
+import { useState } from "react";
 import axios from 'axios';
 
-function ModuleConfiguration({ close }) {
+function ModuleConfiguration({ close, menssage }) {
     const [nameCompany, setnameCompany] = useState("")
-    const [browserLogo, setBrowserLogo] = useState()
-    const [companyLogo, setCompanyLogo] = useState()
+    const [browserLogo, setBrowserLogo] = useState("")
+    const [companyLogo, setCompanyLogo] = useState("")
     const handleSaveConfig = async () => {
+        if (!nameCompany || !browserLogo || !companyLogo) {
+            menssage("missed data")
+            setTimeout(() => {
+                menssage()
+            }, 3000);
+            return
+        }
         const formData = new FormData();
         formData.append('file', browserLogo)
         formData.append('file', companyLogo)
@@ -21,7 +26,6 @@ function ModuleConfiguration({ close }) {
                 description: "image_description"
             })
         } catch (error) {
-            // Manejar el error aquí
             console.log(error);
         }
     }
@@ -35,7 +39,7 @@ function ModuleConfiguration({ close }) {
                     <div className={Style.inputTittle}>
                         <p>Nombre de la empresa</p>
                     </div>
-                    <CustomInput onChange={setnameCompany} />
+                    <InputMui value={nameCompany} onChange={setnameCompany} sendData={handleSaveConfig} />
                 </div>
                 <div className={Style.input}>
                     <div className={Style.inputTittle}>
@@ -97,50 +101,5 @@ function ModuleConfiguration({ close }) {
         </div >
     );
 }
-const StyledInputElement = styled('input')(
-    ({ theme }) => `
-    width: 80%;
-    height: 5px;
-    font-family: IBM Plex Sans, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px;
-    color: ${grey[900]};
-    background: ${'#fff'};
-    border: 1px solid ${grey[400]};
-    box-shadow: 0px 2px 2px ${grey[50]};
-  
-    &:hover {
-      border-color: ${blue[400]};
-    }
-  
-    &:focus {
-      border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${blue[200]};
-    }
-  
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `,
-);
-
-const CustomInput = forwardRef(function CustomInput(props, ref) {
-    let value = props.value;
-    let onChange = props.onChange;
-    return (
-        <Input
-            value={value}
-            onChange={({ target: { value } }) => {
-                onChange(value)
-            }}
-            slots={{ input: StyledInputElement }}
-            ref={ref} />
-    );
-});
-
 
 export default ModuleConfiguration;

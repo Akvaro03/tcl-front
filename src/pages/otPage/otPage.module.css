@@ -4,3 +4,9 @@
     background: rgb(218, 218, 218);
     height: 89.5vh;
 }
+
+@media only screen and (max-width: 950px) {
+    .ContentOt {
+        flex-direction: column;
+    }
+}

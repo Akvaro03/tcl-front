@@ -10,6 +10,8 @@ import FormCreateUser from "../../components/forms/formCreateUser";
 
 function AllUser() {
     const [isForm, setIsForm] = useState()
+    const [isEdit, setIsEdit] = useState()
+    const [isFormEdit, setIsFormEdit] = useState()
     const [Users, setUsers] = useState([{ id: 1, name: "", type: '', Team: "[]" }])
     useEffect(() => {
         const getData = async () => {
@@ -21,7 +23,7 @@ function AllUser() {
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentUsers}>
-                <ListUsersComponent Users={Users} reload={() => reload(setUsers, true)} />
+                <ListUsersComponent setEdit={setIsFormEdit} Users={Users} reload={() => reload(setUsers, true)} />
             </div>
             <Fab onClick={() => setIsForm(true)} color="primary" aria-label="add" sx={{ position: "fixed", right: "40px", bottom: "40px", zIndex: 1 }}>
                 <AddIcon />
@@ -29,6 +31,11 @@ function AllUser() {
             {isForm && (
                 <ModalPortal type={"form"}>
                     <FormCreateUser close={setIsForm} reload={() => reload(setUsers, true)} />
+                </ModalPortal>
+            )}
+            {isFormEdit && (
+                <ModalPortal type={"form"}>
+                    <FormCreateUser user={isFormEdit} close={setIsFormEdit} reload={() => reload(setUsers, true)} />
                 </ModalPortal>
             )}
         </>

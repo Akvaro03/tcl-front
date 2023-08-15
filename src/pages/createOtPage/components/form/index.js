@@ -137,7 +137,7 @@ function FormCreateOt({ DateCreate }) {
                                 }}
                                 id="combo-box-demo"
                                 options={Clients}
-                                sx={{ width: 300 }}
+                                sx={{ width: "80%" }}
                                 renderInput={(params) => <TextField {...params} label="Cliente" />}
                             />
                         </div>

@@ -58,9 +58,9 @@
 }
 
 .Buttons {
-    height: 20%;
-    display: flex;
     justify-content: center;
     align-items: center;
+    display: flex;
+    height: 20%;
     gap: 80px;
 }

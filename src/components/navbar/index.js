@@ -18,20 +18,13 @@ function ResponsiveAppBar() {
     const getConfig = async () => {
       const responseConfig = await getDataFromUrl('http://localhost:4000/getConfig')
       if (responseConfig) {
-
         setConfig(responseConfig)
-        const faviconLink = document.createElement('link');
-        faviconLink.type = 'image/x-icon';
-        faviconLink.rel = 'icon';
-        faviconLink.href = "http://localhost:4000/getBrowserLogo";
-
-        const head = document.head || document.getElementsByTagName('head')[0];
-        const existingIcon = head.querySelector('link[rel="icon"]');
-        if (existingIcon) {
-          head.removeChild(existingIcon);
-        }
-        console.log(faviconLink)
-        head.appendChild(faviconLink);
+        fetch('http://localhost:4000/getBrowserLogo')
+          .then(response => response.blob())
+          .then(blob => {
+            const url = URL.createObjectURL(blob);
+            changeFavicon(url);
+          });
       }
     }
     getConfig()
@@ -289,5 +282,9 @@ const linkAdminSystem = [{
 //     "name": "Config",
 //     "url": "/configuración"
 //   }]
+const changeFavicon = (url) => {
+  const favicon = document.querySelector('link[rel="icon"]');
+  favicon.href = url;
+};
 
 export default ResponsiveAppBar;

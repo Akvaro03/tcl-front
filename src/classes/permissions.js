@@ -60,5 +60,4 @@ export default class permissions {
             return false;
         }
     }
-
 }

@@ -1,11 +1,10 @@
 import { Await, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from '../components/ProtectedRoute';
+import permissions from "../classes/permissions";
+import ListClients from "../pages/listClients";
 import LoadingCircle from '../pages/Loading';
 import { Navigate } from "react-router-dom";
 import React, { Suspense } from 'react';
-import typesUsers from "../classes/typesUsers";
-import ListClients from "../pages/listClients";
-import permissions from "../classes/permissions";
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
@@ -28,7 +27,7 @@ export const routes = createBrowserRouter([
     {
         path: "/login",
         element:
-            <ProtectedRoute type={null} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={null}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={LoginPage}>
                         <LoginPage />
@@ -39,7 +38,7 @@ export const routes = createBrowserRouter([
     {
         path: "/createOt",
         element:
-            <ProtectedRoute type={permissions.createOt} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.createOt}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={CreateOtPage}>
                         <CreateOtPage />
@@ -50,14 +49,14 @@ export const routes = createBrowserRouter([
     {
         path: "/listClients",
         element:
-            <ProtectedRoute type={permissions.listClients} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.listClients}>
                 <ListClients />
             </ProtectedRoute>
     },
     {
         path: "/createFact",
         element:
-            <ProtectedRoute type={permissions.createFact} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.createFact}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={CreateFact}>
                         <CreateFact />
@@ -68,7 +67,7 @@ export const routes = createBrowserRouter([
     {
         path: "/OtAsingPages",
         element:
-            <ProtectedRoute type={permissions.asingActv} newPage={"/OtList"}>
+            <ProtectedRoute type={permissions.asingActv}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={OtAsingPages}>
                         <OtAsingPages />
@@ -79,7 +78,7 @@ export const routes = createBrowserRouter([
     {
         path: "/OtList",
         element:
-            <ProtectedRoute type={permissions.OtList} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.OtList}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={OtPage}>
                         <OtPage />
@@ -90,18 +89,16 @@ export const routes = createBrowserRouter([
     {
         path: "/AllUser",
         element:
-            <ProtectedRoute type={permissions.allUser} newPage={"/OtAsingPages"}>
-                <Suspense fallback={<LoadingCircle />}>
-                    <Await resolve={AllUser}>
-                        <AllUser />
-                    </Await>
-                </Suspense>
-            </ProtectedRoute>
+            <Suspense fallback={<LoadingCircle />}>
+                <Await resolve={AllUser}>
+                    <AllUser />
+                </Await>
+            </Suspense>
     },
     {
         path: "/estadisticas",
         element:
-            <ProtectedRoute type={permissions.statistics} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.statistics}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={StatisticsPage}>
                         <StatisticsPage />
@@ -112,7 +109,7 @@ export const routes = createBrowserRouter([
     {
         path: "/events/:id",
         element:
-            <ProtectedRoute type={permissions.seeOt} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.seeOt}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={OtAllData}>
                         <OtAllData />
@@ -123,7 +120,7 @@ export const routes = createBrowserRouter([
     {
         path: "/configuración",
         element:
-            <ProtectedRoute type={permissions.config} newPage={"/OtAsingPages"}>
+            <ProtectedRoute type={permissions.config}>
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={ConfigurationPage}>
                         <ConfigurationPage />

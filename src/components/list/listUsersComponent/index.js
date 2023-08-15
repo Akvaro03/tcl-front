@@ -4,7 +4,8 @@ import { Box, Button, Fade } from "@mui/material";
 import FormSelectUser from "./formSelectUser";
 import ModalPortal from "../../modelPortal";
 import { useState } from "react";
-export default function ListUsersComponent({ Users, reload }) {
+import InputMui from "../../inputMui";
+export default function ListUsersComponent({ Users, reload, setEdit }) {
     const [isModalUser, setIsModalUser] = useState()
     const [userSelect, setUserSelect] = useState()
     const handleUsers = (userTeam) => {
@@ -21,22 +22,22 @@ export default function ListUsersComponent({ Users, reload }) {
                 <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
                     <Colum data={"Id"} width="5%" />
                     <Colum data={"Nombre"} />
-                    <Colum data={"Roles"} width="22%" />
+                    <Colum data={"Roles"} width="25%" />
                     <Colum data={"Email"} />
-                    <Colum data={"Team"} width="22%" />
+                    <Colum data={"Team"} width="40%" />
                 </Box>
                 {Users && Users[0] ? (
                     Users.map((Pay, key) => (
-                        <div key={key} className={Style.ColumOt} >
-                            <Colum data={Pay.id} width="5%" />
-                            <Colum data={Pay.name} />
-                            <Colum data={getRoles(Pay.type)} width="22%" />
-                            <Colum data={Pay.email} />
-                            <Colum data={<Button variant="text" onClick={() => {
+                        <div key={key} className={Style.ColumOt} onDoubleClick={() => setEdit(Pay)}>
+                            <Colum state={Pay.state} data={Pay.id} width="5%" />
+                            <Colum state={Pay.state} data={Pay.name} />
+                            <Colum state={Pay.state} data={getRoles(Pay.type)} width="25%" />
+                            <Colum state={Pay.state} data={Pay.email} />
+                            <Colum state={Pay.state} data={<Button variant="text" onClick={() => {
                                 setIsModalUser(true)
                                 setUserSelect(Pay)
                             }}>{!JSON.parse(Pay.Team)[0] ? "Agregar Team" : JSON.parse(Pay.Team).join(", ")}</Button>}
-                                width="22%" />
+                                width="40%" />
                         </div>
                     ))
                 ) : (
@@ -53,9 +54,13 @@ export default function ListUsersComponent({ Users, reload }) {
         </Fade>
     );
 }
-const Colum = ({ data, width = "16%" }) => (
-    <Box sx={{ alignItems: "center", padding: "6px", width, display: "flex", justifyContent: "center" }}>
-        {data}
+const Colum = ({ data, width = "16%", edit, onChange, state }) => (
+    <Box sx={{ alignItems: "center", padding: "6px", width, display: "flex", justifyContent: "center", color: state === "disable" ? "rgb(117 117 117)" : "initial" }}>
+        {edit ? (
+            <InputMui value={data} onChange={onChange} />
+        ) : (
+            data
+        )}
     </Box>
 );
 

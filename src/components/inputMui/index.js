@@ -1,32 +1,36 @@
 import React from "react";
 import Input from '@mui/base/Input';
 import styled from "@emotion/styled";
+import { sendDataEnter } from "../../hooks/sendDataEnter";
 
-function InputMui({ value, onChange }) {
-  return <CustomInput value={value} onChange={onChange} />;
+function InputMui({ value, onChange, sendData }) {
+  return <CustomInput value={value} onChange={onChange} sendData={sendData} />;
 }
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
   let value = props.value;
   let onChange = props.onChange;
+  let sendData = props.sendData;
   return (
     <Input
       value={value}
       onChange={({ target: { value } }) => {
         onChange(value)
       }}
+      onKeyDown={(e) => sendDataEnter(e, sendData)}
       slots={{ input: StyledInputElement }}
       ref={ref} />
   );
 });
 const StyledInputElement = styled('input')(
   ({ theme }) => `
-    width: 80%;
+    width: 100%;
     height: 5px;
     font-family: IBM Plex Sans, sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
     padding: 12px;
+    margin: 0px;
     border-radius: 12px;
     color: ${grey[900]};
     background: ${'#fff'};

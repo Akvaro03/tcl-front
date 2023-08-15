@@ -1,13 +1,13 @@
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import typesUsers from '../../../../classes/typesUsers';
 import MuiAccordion from '@mui/material/Accordion';
 import getUser from "../../../../hooks/getUser";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Style from "./filters.module.css"
 import styled from "@emotion/styled";
 import { useState } from "react";
-import typesUsers from '../../../../classes/typesUsers';
 
 function Filters({ filterOt, tag }) {
     const [expanded, setExpanded] = useState('panel1');
@@ -21,7 +21,7 @@ function Filters({ filterOt, tag }) {
         setExpanded(newExpanded ? panel : false);
     };
     return (
-        <Box sx={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", display: "flex", padding: "5% 0 5% 0", flexDirection: "column", alignItems: "center", justifyContent: "space-evenly", width: "14%", height: "80%", background: "white", margin: "15px", borderRadius: "15px" }}>
+        <div className={Style.contentFilter}>
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" tag={tag}>
                     <Tag text={"Todas"} />
@@ -74,7 +74,7 @@ function Filters({ filterOt, tag }) {
                     </AccordionDetails>
                 </Accordion>
             )}
-        </Box>
+        </div>
     );
 }
 

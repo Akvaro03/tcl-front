@@ -1,9 +1,9 @@
-import { Box, Button, Fade } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { useState } from "react";
 import InputMui from "../../../../components/inputMui";
+import { Box, Button, Fade } from "@mui/material";
+import { useState } from "react";
+import dayjs from "dayjs";
 
 function AddPay({ close, save, pay = [] }) {
     const [dateExpiration, setDateExpiration] = useState(dayjs(Date.now()))
@@ -16,7 +16,7 @@ function AddPay({ close, save, pay = [] }) {
     }
     return (
         <Fade in={true}>
-            <Box sx={{ width: "40%", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
+            <Box sx={{ width: "60%", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "25%" }}>
                     <h1>
                         Agregar Facturas

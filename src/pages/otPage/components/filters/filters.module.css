@@ -1,3 +1,17 @@
+.contentFilter {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    padding: 5% 0 5% 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 14%;
+    height: 80%;
+    background: white;
+    margin: 15px;
+    border-radius: 15px;
+}
+
 .tagSelect {
     background: #3be57f30;
     transition: ".5s all";
@@ -13,6 +27,14 @@
     padding: 9px 5px;
 }
 
-.tag:hover{
+.tag:hover {
     background: #3be57f30;
+}
+
+@media only screen and (max-width: 950px) {
+    .contentFilter {
+        width: 95%;
+        height: auto;
+        padding: 0;
+    }
 }

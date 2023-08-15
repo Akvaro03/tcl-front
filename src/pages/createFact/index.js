@@ -1,7 +1,7 @@
 import ResponsiveAppBar from "../../components/navbar";
-import addPay from "../../db/addPay";
 import AddPay from "../otAllData/components/addPay";
 import Style from "./createFact.module.css"
+import addPay from "../../db/addPay";
 
 function CreateFact() {
     const savePay = (pay) => {

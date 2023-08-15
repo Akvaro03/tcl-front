@@ -1,39 +1,44 @@
 import { Box, Button, Checkbox } from "@mui/material";
+import postData from "../../../db/postData";
 import Style from "./formCreate.module.css"
-import { useState } from "react";
 import nameUsed from "../../../db/nameUsed";
 import InputMui from "../../inputMui";
-import ModalPortal from "../../modelPortal";
-import Alerts from "../../alerts";
-import postData from "../../../db/postData";
-function FormCreateActivity({ close }) {
-    const [name, setName] = useState("")
-    const [score, setScore] = useState("")
-    const [time, setTime] = useState("")
-    const [emit, setEmit] = useState(false)
-    const [msg, setMsg] = useState()
+import { useState } from "react";
+import editActivity from "../../../db/editActivity";
+function FormCreateActivity({ close, menssage, data, reload }) {
+    const [emit, setEmit] = useState(data ? data.emit === 1 ? true : false : false)
+    const [score, setScore] = useState(data ? data.score : "")
+    const [name, setName] = useState(data ? data.name : "")
+    const [time, setTime] = useState(data ? data.time : "")
+
     const saveActivities = async () => {
         if (!name || !score || !time) {
-            setMsg("missed data")
+            menssage("missed data")
             setTimeout(() => {
-                setMsg()
+                menssage()
             }, 4000);
             return
         }
         const isNameUsed = await nameUsed(name, "activity")
-        if (!isNameUsed) {
-            setMsg(postData("http://localhost:4000/postActivity", { name, score, time, emit }))
+        if (!isNameUsed || data) {
+            if (data) {
+                editActivity({ name, score, time, emit, id: data.id })
+            } else {
+                menssage(postData("http://localhost:4000/postActivity", { name, score, time, emit }))
+            }
+            reload()
+            close()
             return
         }
-        setMsg("name used")
+        menssage("name used")
         setTimeout(() => {
-            setMsg()
+            menssage()
         }, 3000);
     }
     return (
         <Box component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "80%", height: "50%", borderRadius: "15px" }}>
             <Box component={"div"} sx={{ fontWeight: 600, fontSize: "20px", width: "100%", height: "20%", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-                Crear nueva actividad
+                {data ? "Editar Actividad" : "Crear nueva actividad"}
             </Box>
             <div className={Style.form}>
                 <div className={Style.inputFormContent}>
@@ -41,7 +46,7 @@ function FormCreateActivity({ close }) {
                         Tipo de actividad
                     </p>
                     <div className={Style.input}>
-                        <InputMui value={name} onChange={setName} />
+                        <InputMui value={name} onChange={setName} sendData={saveActivities} />
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>
@@ -49,7 +54,7 @@ function FormCreateActivity({ close }) {
                         Score
                     </p>
                     <div className={Style.input}>
-                        <InputMui value={score} onChange={setScore} />
+                        <InputMui value={score} onChange={setScore} sendData={saveActivities} />
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>
@@ -57,7 +62,7 @@ function FormCreateActivity({ close }) {
                         Tiempo estimado
                     </p>
                     <div className={Style.input}>
-                        <InputMui value={time} onChange={setTime} />
+                        <InputMui value={time} onChange={setTime} sendData={saveActivities} />
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>
@@ -75,14 +80,9 @@ function FormCreateActivity({ close }) {
                     Cancelar
                 </Button>
                 <Button variant="contained" onClick={saveActivities}>
-                    Guardar tipo de OT
+                    Guardar actividad
                 </Button>
             </div>
-            {msg && (
-                <ModalPortal type={"alert"} >
-                    <Alerts Result={msg} />
-                </ModalPortal>
-            )}
         </Box>
     );
 }

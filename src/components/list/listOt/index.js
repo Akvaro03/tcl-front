@@ -1,14 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import isActivitiesEnd from "../../../hooks/isActivitiesEnd";
+import isUserAssigned from "../../../hooks/isUserAssigned";
+import getDataFromUrl from "../../../hooks/getDataFromUrl";
+import messageHistory from "../../../hooks/messageHistory";
+import formatDateM from "../../../hooks/formatDateM";
 import { Box, Button, Fade } from "@mui/material";
+import changeAuth from "../../../db/changeAuth";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Style from "./listOt.module.css"
 import FilterOT from "../filter";
-import getDataFromUrl from "../../../hooks/getDataFromUrl";
-import changeAuth from "../../../db/changeAuth";
-import messageHistory from "../../../hooks/messageHistory";
-import formatDateM from "../../../hooks/formatDateM";
-import isUserAssigned from "../../../hooks/isUserAssigned";
-import isActivitiesEnd from "../../../hooks/isActivitiesEnd";
 
 function ListOt({ listOt, handleAuth, filterOt }) {
     const [clients, setClients] = useState()
@@ -25,42 +25,42 @@ function ListOt({ listOt, handleAuth, filterOt }) {
         handleAuth(OT)
     }
     return (
-        <Box component={"div"} sx={{ width: "100%", display: "flex", flexDirection: "column", height: "95%" }}>
+        <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: "95%" }}>
             {clients && (
                 <>
                     <FilterOT filterOt={filterOt} namesMultiple={clients} />
                     <Fade in={true}>
                         <div className={Style.contentListOt}>
                             <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                                <Colum data={"Id"} />
+                                <Colum data={"Id"} width="10%"/>
                                 <Colum data={"Fecha"} />
                                 <Colum data={"Tipo"} />
                                 <Colum data={"Cliente"} />
                                 <Colum data={"Producto"} />
-                                <Colum data={"Estado"} />
+                                <Colum data={"Estado"} width="15%"/>
                             </Box>
                             {listOt && listOt[0] ? (
                                 listOt.map((OT, key) => (
                                     <div key={key} className={Style.ColumOt} onDoubleClick={() => navigate(`/events/${OT.id}`)}>
-                                        <Colum data={OT.id} />
+                                        <Colum data={OT.id} width="10%" />
                                         <Colum data={formatDateM(OT.Date)} />
                                         <Colum data={OT.Type} />
                                         <Colum data={OT.Client} />
                                         <Colum data={OT.Producto} />
                                         {OT.Auth === "0" ? (
-                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "10%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <h1>Sin Autorizar</h1>
                                             </Box>
                                         ) : !isUserAssigned(OT) ? (
-                                            <Box component="div" onClick={() => navigate(`/events/${OT.id}`)} sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "10%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <Box component="div" onClick={() => navigate(`/events/${OT.id}`)} sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <h1>Sin asignar</h1>
                                             </Box>
                                         ) : isActivitiesEnd(OT.Activities) ? (
-                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#92ff6c", width: "10%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#92ff6c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <h1>Terminada</h1>
                                             </Box>
                                         ) : (
-                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "10%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <h1>En Proceso</h1>
                                             </Box>
                                         )}
@@ -85,8 +85,8 @@ function ListOt({ listOt, handleAuth, filterOt }) {
     );
 }
 
-const Colum = ({ data }) => (
-    <Box sx={{ alignItems: "center", padding: "6px", width: "13%", display: "flex", justifyContent: "center" }}>
+const Colum = ({ data, width = "13%" }) => (
+    <Box sx={{ alignItems: "center", padding: "6px", width: width, display: "flex", justifyContent: "center" }}>
         {data}
     </Box>
 );
