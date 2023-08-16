@@ -1,5 +1,5 @@
-export const sendDataEnter = (event, sendData) => {
+export const sendDataEnter = (event, functToMake) => {
     if (event.key === 'Enter') {
-        sendData()
+        functToMake()
     }
 }
