@@ -9,7 +9,17 @@ import Filters from "./components/filters";
 import Style from "./otPage.module.css"
 function OtPage() {
     const [listOt, setListOt] = useState()
-    const [otFilter, setOtFilter] = useState()
+    const [otFilter, setOtFilter] = useState({})
+
+    const [otOnProcess, setOtOnProcess] = useState({})
+    const [otToAssing, setOtToAssing] = useState({})
+    const [otOnCurse, setOtOnCurse] = useState({})
+    const [otToAuth, setOtToAuth] = useState({})
+    const [otEnd, setOtEnd] = useState({})
+
+    const [otRetired, setOtRetired] = useState({})
+    const [otSend, setOtSend] = useState({})
+    const [otDFR, setOtDFR] = useState({})
 
     const [pays, setPays] = useState()
     const [paysEdit, setPaysEdit] = useState()
@@ -22,6 +32,7 @@ function OtPage() {
             .then(data => {
                 setListOt(data)
                 setOtFilter(data)
+                filterAllOt(data)
             });
         getDataFromUrl("http://localhost:4000/getPay")
             .then(data => data.reverse())
@@ -30,6 +41,7 @@ function OtPage() {
                 setPaysEdit(data)
             })
     }, [])
+ 
     const filterOt = (type, data) => {
         switch (type) {
             case "Todas":
@@ -39,23 +51,26 @@ function OtPage() {
             case "En proceso":
                 setOtFilter(listOt.filter(ot => getState(ot) === "En proceso"));
                 setOtFilter(listOt.filter(ot => !isUserAssigned(ot)));
+
                 setTag("En proceso");
                 break;
-            case "Asignar":
+            case "Sin Asignar":
                 setOtFilter(listOt.filter(ot => !isUserAssigned(ot)));
-                setTag("Asignar");
+
+                setTag("Sin Asignar");
                 break;
             case "En curso":
                 setOtFilter(listOt.filter(ot => !isActivitiesEnd(ot.Activities) && isUserAssigned(ot) && ot.Auth === "1"));
                 setTag("En curso");
                 break;
-            case "Autorizar":
+            case "Sin Autorizar":
                 setOtFilter(listOt.filter(ot => ot.Auth === "0"));
-                setTag("Autorizar");
+
+                setTag("Sin Autorizar");
                 break;
-            case "Terminar":
+            case "Terminadas":
                 setOtFilter(listOt.filter(ot => getState(ot) === "Terminada"));
-                setTag("Terminar");
+                setTag("Terminadas");
                 break;
 
             case "Retirados":
@@ -74,9 +89,9 @@ function OtPage() {
             case "Facturas":
                 filterOt("Pendientes")
                 break;
-            case "Sin facturar":
+            case "OT sin facturar":
                 setOtFilter(listOt.filter(OT => OT.Factura === null));
-                setTag("Sin facturar");
+                setTag("OT sin facturar");
                 break;
             case "Pendientes":
                 setPaysEdit(pays.filter(pay => pay.datePay === null));
@@ -114,11 +129,25 @@ function OtPage() {
         setOtFilter(prev => prev.map(otPrev => otPrev === OT ? { ...OT, Auth: 1 } : otPrev))
         setListOt(prev => prev.map(otPrev => otPrev === OT ? { ...OT, Auth: 1 } : otPrev))
     }
+    const filterAllOt = (OTList) => {
+        setOtFilter(OTList);
+        setTag("Todas");
+        setOtOnProcess(OTList.filter(ot => getState(ot) === "En proceso"))
+        setOtOnProcess(OTList.filter(ot => !isUserAssigned(ot)))
+        setOtToAssing(OTList.filter(ot => !isUserAssigned(ot)))
+        setOtOnCurse(OTList.filter(ot => !isActivitiesEnd(ot.Activities) && isUserAssigned(ot) && ot.Auth === "1"))
+        setOtToAuth(OTList.filter(ot => ot.Auth === "0"))
+        setOtEnd(OTList.filter(ot => getState(ot) === "Terminada"))
+
+        setOtRetired(OTList.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "Retiro"))
+        setOtSend(OTList.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "Entrega"))
+        setOtDFR(OTList.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "DFR"))
+    }
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentOt}>
-                <Filters filterOt={filterOt} tag={tag} />
+                <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
                 {otFilter && (
                     tag === "Facturas" || tag === "Pendientes" || tag === "Cobrados" || tag === "Vencidos" ?
                         <ListPays pays={paysEdit} />
@@ -130,20 +159,23 @@ function OtPage() {
     );
 }
 const getState = (ot) => {
-    const activities = JSON.parse(ot.Activities);
-    const auth = ot.Auth;
+    try {
+        const activities = JSON.parse(ot.Activities);
+        const auth = ot.Auth;
 
-    const allActivitiesEnded = activities.every(data => data.state === "End");
-    const allActivitiesInProgress = activities.every(data => data.state === "En proceso");
+        const allActivitiesEnded = activities.every(data => data.state === "End");
+        const allActivitiesInProgress = activities.every(data => data.state === "En proceso");
 
-    if (allActivitiesEnded && auth) {
+        if (allActivitiesEnded && auth) {
+            return "Terminada";
+        }
+
+        if (allActivitiesInProgress && auth) {
+            return "En curso";
+        }
+        return "No empezo";
+    } catch (error) {
         return "Terminada";
     }
-
-    if (allActivitiesInProgress && auth) {
-        return "En curso";
-    }
-
-    return "No empezo";
 }
 export default OtPage;

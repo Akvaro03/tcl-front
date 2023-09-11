@@ -1,7 +1,7 @@
 .ContentForm {
     width: 60%;
     transition: all .7s;
-    height: 80%;
+    height: 90%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 15px;
     display: flex;
@@ -21,7 +21,8 @@
 }
 
 .FormClient {
-    width: 80%;
+    width: 90%;
+    margin-left: 10%;
 }
 
 .Input {
@@ -40,6 +41,7 @@
 
 .InputDocument {
     display: flex;
+    width: 100%  ;
 }
 
 .TypeDocument,
@@ -61,15 +63,16 @@
 
 .InputContact .TypeDocument .CustomInput {
     display: flex;
-    width: 25%;
+    width: 40%;
+    padding-right: 5%;
 }
 
 .DataInputs {
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-    gap: 25px;
     vertical-align: middle;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    gap: 25px;
 }
 
 .TittleContacts {

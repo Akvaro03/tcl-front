@@ -1,8 +1,8 @@
+import { Box, Button, Checkbox, Fade, FormControlLabel } from "@mui/material";
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
+import inputClass from "../../../../classes/inputClass";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
-import { Box, Button, Checkbox, Fade, FormControlLabel } from "@mui/material";
-import InputMui from "../../../../components/inputMui";
 
 function SelectUsers({ closeForm, activitySelected, handleUsers }) {
     const [users, setUsers] = useState()
@@ -22,6 +22,7 @@ function SelectUsers({ closeForm, activitySelected, handleUsers }) {
             setUserAct(prev => prev.filter(item => item !== name))
         }
     }
+    const inputUsers = new inputClass(() => handleUsers(userAct, score))
     return (
         <Fade in={true}>
             <Box sx={{ width: "40%", height: "40%", background: "white", borderRadius: "15px", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -43,7 +44,7 @@ function SelectUsers({ closeForm, activitySelected, handleUsers }) {
                 </Box>
                 <Box sx={{ height: "10%", display: "flex", gap: "15px", alignItems: "center", marginBottom: "10%" }}>
                     <h1>Score</h1>
-                    <InputMui value={score} onChange={setScore} />
+                    {inputUsers.getInput(score, setScore)}
                 </Box>
                 <Box>
                     <Button variant="contained" onClick={() => { handleUsers(userAct, score) }}>

@@ -1,0 +1,76 @@
+body {
+    background: whitesmoke;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    max-width: 960px;
+}
+
+h1 {
+    font-size: 20px;
+    text-align: center;
+    margin: 20px 0 20px;
+}
+
+h1 small {
+    display: block;
+    font-size: 15px;
+    padding-top: 8px;
+    color: gray;
+}
+
+.avatar-upload {
+    position: relative;
+    max-width: 205px;
+}
+
+.avatar-upload .avatar-edit {
+    position: absolute;
+    right: 12px;
+    z-index: 1;
+    top: 10px;
+}
+
+.avatar-upload .avatar-edit input {
+    display: none;
+}
+
+.avatar-upload .avatar-edit input+div {
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 100%;
+    font-weight: normal;
+    align-items: center;
+    margin-bottom: 0;
+    cursor: pointer;
+    display: flex;
+    height: 34px;
+    width: 34px;
+}
+
+.avatar-upload .avatar-edit input+div:hover {
+    background: #f1f1f1;
+    border-color: #d6d6d6;
+}
+
+.avatar-upload .avatar-preview {
+    width: 192px;
+    height: 192px;
+    position: relative;
+    border-radius: 100%;
+    border: 6px solid #F8F8F8;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-upload .avatar-preview>div {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}

@@ -7,6 +7,7 @@ async function nameUsed(newName, type) {
         activity: await getActivitiesNames(),
         client: await getClientsNames(),
         user: await getUserNames(),
+        pays: await getPaysNames(),
     };
     const names = states[type];
     return names.includes(nameFormat);
@@ -22,6 +23,10 @@ function getActivitiesNames() {
 function getClientsNames() {
     return getDataFromUrl("http://localhost:4000/getClients")
         .then(data => data.map(client => client.Name.trim().toLowerCase()))
+}
+function getPaysNames() {
+    return getDataFromUrl("http://localhost:4000/getPay")
+        .then(data => data.map(pay => pay.id.trim().toLowerCase()))
 }
 function getUserNames() {
     return getDataFromUrl("http://localhost:4000/getUsers")

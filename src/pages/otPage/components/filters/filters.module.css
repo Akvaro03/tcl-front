@@ -12,6 +12,11 @@
     border-radius: 15px;
 }
 
+.contentFilter>div>div>div>div>div>div>span {
+    z-index: 1000;
+    width: 100%;
+}
+
 .tagSelect {
     background: #3be57f30;
     transition: ".5s all";

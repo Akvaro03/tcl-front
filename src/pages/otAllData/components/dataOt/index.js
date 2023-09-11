@@ -6,10 +6,12 @@ import messageHistory from '../../../../hooks/messageHistory';
 import ModalPortal from "../../../../components/modelPortal";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import permissions from '../../../../classes/permissions';
+import inputClass from '../../../../classes/inputClass';
 import formatDateM from "../../../../hooks/formatDateM";
-import InputMui from "../../../../components/inputMui";
 import formatDate from '../../../../hooks/formatDate';
 import changeActOt from "../../../../db/changeActOt";
+import Alerts from '../../../../components/alerts';
 import changeAuth from "../../../../db/changeAuth";
 import { Button, Fab, Fade } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
@@ -22,11 +24,10 @@ import { useEffect, useState } from "react";
 import editOt from "../../../../db/editOT";
 import AddActivity from "../addActivity";
 import SelectUsers from "../selectUsers";
-import Style from "./Data.module.css"
-import EditPay from '../editPay';
-import AddPay from '../addPay';
+import ContentPay from '../contentPay';
+import Style from "./Data.module.css";
+import OptionPay from '../optionPay';
 import dayjs from "dayjs";
-import permissions from '../../../../classes/permissions';
 function DataOt({ otSelected, reload }) {
     const [availability, setAvailability] = useState(JSON.parse(otSelected.Availability))
     const [addAvailability, setAddAvailability] = useState(false)
@@ -36,7 +37,7 @@ function DataOt({ otSelected, reload }) {
 
     const [editPay, setEditPay] = useState()
 
-    const [activities, setActivities] = useState(JSON.parse(otSelected.Activities))
+    const [activities, setActivities] = useState(otSelected.activities && JSON.parse(otSelected.Activities))
     const [activitySelected, setActivitySelected] = useState()
     const [addActivity, setAddActivity] = useState(false)
 
@@ -45,6 +46,9 @@ function DataOt({ otSelected, reload }) {
     const [OT, SetOT] = useState(otSelected)
     const [edit, setEdit] = useState(false)
     const rol = getUser("roles")
+
+    const [result, setResult] = useState()
+
     useEffect(() => {
         const searchData = async () => {
             const pays = await getDataFromUrl('http://localhost:4000/getPay')
@@ -92,10 +96,17 @@ function DataOt({ otSelected, reload }) {
     const savePay = (pay) => {
         try {
             changePay({ id: otSelected.id, pay }, otSelected.id, messageHistory.tittleEditPay, messageHistory.editPay(pay))
+                .then(data => {
+                    setResult(data);
+                    setTimeout(() => {
+                        setResult()
+                    }, 2000);
+                })
             setAddPay(false)
             setEditPay(false)
             reload()
         } catch (error) {
+            reload()
         }
     }
     const changeAuthButton = () => {
@@ -134,6 +145,24 @@ function DataOt({ otSelected, reload }) {
         reload()
         SetOT(otSelected)
         setEdit(false)
+    }
+    const addListPay = (newPay) => {
+        newPay.newList = pay.map(data => data.id)
+        newPay.newList.push(newPay.id)
+        newPay.delete = true;
+        savePay(newPay)
+    }
+    const inputDataOt = new inputClass(sendOTEdit)
+    const H1Editable = ({ edit, text, onChange }) => {
+        if (edit) {
+            return inputDataOt.getInput(onChange, text)
+        }
+
+        return <h1>{text}</h1>
+    }
+    const closeEditPay = () => {
+        reload()
+        setEditPay()
     }
     return (
         <>
@@ -209,16 +238,17 @@ function DataOt({ otSelected, reload }) {
                 </div>
                 <div className={Style.dataCategories}>
                     <div className={Style.contentTittle}>
+                        {otSelected.OTKey}
                     </div>
                     {auth === "1" ? (
-                        <div className={Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton}>
+                        <div className={Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
                             <h1>
                                 Autorizado
                             </h1>
                         </div>
 
                     ) : (
-                        <div className={Style.authNone} onClick={() => permissions.editAuth(rol) && changeAuthButton}>
+                        <div className={Style.authNone} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
                             <h1>
                                 No Autorizado
                             </h1>
@@ -290,7 +320,7 @@ function DataOt({ otSelected, reload }) {
                         {pay && (
                             <>
                                 {pay.map((pay, key) => (
-                                    pay.state === "paid" ?
+                                    pay.datePay ?
                                         <ButtonRadius onClick={() => permissions.editPay(rol) && setEditPay(pay)} key={key} text={`${pay.id}`} type={"success"} />
                                         :
                                         <ButtonRadius onClick={() => permissions.editPay(rol) && setEditPay(pay)} key={key} text={`${pay.id}`} type={"error"} />
@@ -307,7 +337,7 @@ function DataOt({ otSelected, reload }) {
 
 
 
-                    
+
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
@@ -316,16 +346,18 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductContent}>
                         <h1>26551</h1>
                     </div>
-                    {otSelected.Contact && otSelected.Contact[1] ? (
-                        otSelected.Contact.map((contact, key) => (
-                            <div className={Style.ProductContent} key={key}>
-                                <h1>{contact.type + ": " + contact.value} </h1>
+                    {otSelected.Contact && (
+                        (otSelected.Contact && otSelected.Contact[1]) ? (
+                            otSelected.Contact.map((contact, key) => (
+                                <div className={Style.ProductContent} key={key}>
+                                    <h1>{contact.type + ": " + contact.value} </h1>
+                                </div>
+                            ))
+                        ) : (
+                            <div className={Style.ProductContent}>
+                                <h1>{otSelected.Contact[0].type + ": " + otSelected.Contact[0].value} </h1>
                             </div>
-                        ))
-                    ) : (
-                        <div className={Style.ProductContent}>
-                            <h1>{otSelected.Contact[0].type + ": " + otSelected.Contact[0].value} </h1>
-                        </div>
+                        )
                     )}
                 </div>
             </div >
@@ -346,12 +378,17 @@ function DataOt({ otSelected, reload }) {
             )}
             {editPay && (
                 <ModalPortal type={"form"}>
-                    <EditPay pay={editPay} pays={pay} deleteModal={setEditPay} savePay={savePay} />
+                    <OptionPay pay={editPay} pays={pay} deleteModal={closeEditPay} savePay={savePay} />
                 </ModalPortal>
             )}
             {addPay && (
                 <ModalPortal type={"form"}>
-                    <AddPay close={setAddPay} save={savePay} pay={pay} savePay={savePay} />
+                    <ContentPay close={setAddPay} save={savePay} pay={pay} saveList={addListPay} listPay={pay.map(data => data.id)} />
+                </ModalPortal>
+            )}
+            {result && (
+                <ModalPortal type={"alert"}>
+                    <Alerts Result={result} />
                 </ModalPortal>
             )}
             {permissions.editOt(rol) && (
@@ -384,13 +421,6 @@ function DataOt({ otSelected, reload }) {
 
 const getUserActivity = (activity) => {
     return JSON.parse(activity.users)[0]
-}
-const H1Editable = ({ edit, text, onChange }) => {
-    if (edit) {
-        return <InputMui onChange={onChange} value={text} />
-    }
-
-    return <h1>{text}</h1>
 }
 const H1EditableDate = ({ edit, text, onChange }) => {
     if (edit) {

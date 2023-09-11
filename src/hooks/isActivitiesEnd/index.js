@@ -1,6 +1,10 @@
 function isActivitiesEnd(activities) {
-    activities = JSON.parse(activities)
-    return activities.every(activity => activity.state === "End")
+    try {
+        activities = JSON.parse(activities)
+        return activities.every(activity => activity.state === "End")
+    } catch (error) {
+        return true
+    }
 }
 
 export default isActivitiesEnd;

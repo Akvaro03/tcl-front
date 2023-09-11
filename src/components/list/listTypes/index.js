@@ -32,6 +32,7 @@ function ListTypes({ menssage, close }) {
                                 <Colum data={"Id"} width="10%" />
                                 <Colum data={"Name"} />
                                 <Colum data={"Actividades"} width="40%" />
+                                <Colum data={"Abreviatura"} />
                             </Box>
                             {listActivity && listActivity[0] ? (
                                 listActivity.map((OT, key) => (
@@ -39,6 +40,7 @@ function ListTypes({ menssage, close }) {
                                         <Colum data={OT.id} width="10%" />
                                         <Colum data={OT.nameType} />
                                         <Colum data={JSON.parse(OT.activities).map(data => data.name).join(", ")} width="40%" />
+                                        <Colum data={OT.abbreviation} />
                                     </div>
                                 ))
                             ) : (

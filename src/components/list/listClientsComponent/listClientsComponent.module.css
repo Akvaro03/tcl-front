@@ -6,6 +6,7 @@
     background: white;
     display: flex;
     height: 85%;
+    overflow: auto;
     width: 95%;
 }
 

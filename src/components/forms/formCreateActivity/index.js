@@ -1,17 +1,19 @@
+import deleteActivity from "../../../db/deleteActivity";
 import { Box, Button, Checkbox } from "@mui/material";
+import inputClass from "../../../classes/inputClass";
+import DeleteIcon from '@mui/icons-material/Delete';
+import editActivity from "../../../db/editActivity";
 import postData from "../../../db/postData";
 import Style from "./formCreate.module.css"
 import nameUsed from "../../../db/nameUsed";
-import InputMui from "../../inputMui";
 import { useState } from "react";
-import editActivity from "../../../db/editActivity";
 function FormCreateActivity({ close, menssage, data, reload }) {
     const [emit, setEmit] = useState(data ? data.emit === 1 ? true : false : false)
     const [score, setScore] = useState(data ? data.score : "")
     const [name, setName] = useState(data ? data.name : "")
     const [time, setTime] = useState(data ? data.time : "")
 
-    const saveActivities = async () => {
+    const onSave = async () => {
         if (!name || !score || !time) {
             menssage("missed data")
             setTimeout(() => {
@@ -35,10 +37,16 @@ function FormCreateActivity({ close, menssage, data, reload }) {
             menssage()
         }, 3000);
     }
+    const onDelete = () => {
+        deleteActivity({ id: data.id })
+    }
+    const inputActivity = new inputClass(onSave)
     return (
         <Box component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "80%", height: "50%", borderRadius: "15px" }}>
-            <Box component={"div"} sx={{ fontWeight: 600, fontSize: "20px", width: "100%", height: "20%", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+            <Box component={"div"} sx={{ fontWeight: 600, fontSize: "20px", width: "100%", height: "20%", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+                <Box></Box>
                 {data ? "Editar Actividad" : "Crear nueva actividad"}
+                <Button onClick={onDelete} sx={{ color: "black" }}><DeleteIcon /></Button>
             </Box>
             <div className={Style.form}>
                 <div className={Style.inputFormContent}>
@@ -46,7 +54,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                         Tipo de actividad
                     </p>
                     <div className={Style.input}>
-                        <InputMui value={name} onChange={setName} sendData={saveActivities} />
+                        {inputActivity.getInput(name, setName)}
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>
@@ -54,7 +62,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                         Score
                     </p>
                     <div className={Style.input}>
-                        <InputMui value={score} onChange={setScore} sendData={saveActivities} />
+                        {inputActivity.getInput(score, setScore)}
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>
@@ -62,7 +70,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                         Tiempo estimado
                     </p>
                     <div className={Style.input}>
-                        <InputMui value={time} onChange={setTime} sendData={saveActivities} />
+                        {inputActivity.getInput(time, setTime)}
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>
@@ -79,7 +87,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                 <Button variant="outlined" onClick={() => close()}>
                     Cancelar
                 </Button>
-                <Button variant="contained" onClick={saveActivities}>
+                <Button variant="contained" onClick={onSave}>
                     Guardar actividad
                 </Button>
             </div>

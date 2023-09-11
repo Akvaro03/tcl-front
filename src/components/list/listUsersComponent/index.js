@@ -4,7 +4,6 @@ import { Box, Button, Fade } from "@mui/material";
 import FormSelectUser from "./formSelectUser";
 import ModalPortal from "../../modelPortal";
 import { useState } from "react";
-import InputMui from "../../inputMui";
 export default function ListUsersComponent({ Users, reload, setEdit }) {
     const [isModalUser, setIsModalUser] = useState()
     const [userSelect, setUserSelect] = useState()
@@ -24,7 +23,7 @@ export default function ListUsersComponent({ Users, reload, setEdit }) {
                     <Colum data={"Nombre"} />
                     <Colum data={"Roles"} width="25%" />
                     <Colum data={"Email"} />
-                    <Colum data={"Team"} width="40%" />
+                    <Colum data={"Equipo"} width="40%" />
                 </Box>
                 {Users && Users[0] ? (
                     Users.map((Pay, key) => (
@@ -54,13 +53,9 @@ export default function ListUsersComponent({ Users, reload, setEdit }) {
         </Fade>
     );
 }
-const Colum = ({ data, width = "16%", edit, onChange, state }) => (
-    <Box sx={{ alignItems: "center", padding: "6px", width, display: "flex", justifyContent: "center", color: state === "disable" ? "rgb(117 117 117)" : "initial" }}>
-        {edit ? (
-            <InputMui value={data} onChange={onChange} />
-        ) : (
-            data
-        )}
+const Colum = ({ data, width = "16%", state }) => (
+    <Box sx={{ overflow: "hidden", alignItems: "center", padding: "6px", width, display: "flex", justifyContent: "center", color: state === "disable" ? "rgb(117 117 117)" : "initial" }}>
+        {data}
     </Box>
 );
 

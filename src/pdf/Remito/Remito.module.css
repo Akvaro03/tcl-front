@@ -1,7 +1,7 @@
 body {
     font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
     margin: 30px 50px 20px 80px;
-
+    background: white !important;
 }
 
 .container {

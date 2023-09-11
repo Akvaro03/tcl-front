@@ -10,23 +10,16 @@ import styled from "@emotion/styled";
 import Input from '@mui/base/Input';
 import MultipleSelect from '../../../../components/multipleSelect';
 import postData from '../../../../db/postData';
+import getOTkey from '../../../../hooks/getOTkey';
 
 function FormCreateOt({ DateCreate }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
     const [ClientObjet, setClientObjet] = useState(top100Films[0])
     const [FechaVencimiento, setFechaVencimiento] = useState("")
     const [FechaEstimada, setFechaEstimada] = useState("")
+    const [Observaciones, setObservaciones] = useState("")
     const [NormaAplicar, setNormaAplicar] = useState("")
-    const [Cotizacion, setCotizacion] = useState("")
-    const [Contacts, setContacts] = useState("")
-    const [Producto, setProducto] = useState("")
-    const [Modelo, setModelo] = useState("")
-    const [Marca, setMarca] = useState("")
-    const [RazonSocial] = useState("")
-
-    const [allTypes, setAllTypes] = useState([])
-    const [Identificación] = useState("Identificacion")
-    const [Type, SetType] = useState("")
+    const [Identificación, setIdentificación] = useState("")
     const [Description, setDescription] = useState({
         Item1: "",
         Description1: "",
@@ -38,21 +31,30 @@ function FormCreateOt({ DateCreate }) {
         Description3: "",
         Importe3: "",
     })
-    const [Observaciones, setObservaciones] = useState("")
+    const [Cotizacion, setCotizacion] = useState("")
+    const [Contacts, setContacts] = useState("")
+    const [Producto, setProducto] = useState("")
+    const [allTypes, setAllTypes] = useState([])
+    const [Modelo, setModelo] = useState("")
+    const [Marca, setMarca] = useState("")
+    const [Type, SetType] = useState("")
+
     const [error, setError] = useState()
     const [Result, setResult] = useState(null)
     const [userLogin, setUserLogin] = useState()
 
     const handleSubmit = async () => {
         try {
-            if (!Contacts || !Observaciones || !Description || !FechaEstimada || !FechaVencimiento || !Cotizacion || !NormaAplicar || !Modelo || !Marca || !allTypes[Type].activities || !ClientObjet || !Producto) {
+            if (!Observaciones || !Description || !FechaEstimada || !FechaVencimiento || !Cotizacion || !NormaAplicar || !Modelo || !Marca || !allTypes[Type].activities || !ClientObjet || !Producto) {
                 setError("missed data");
                 setTimeout(() => {
                     setError();
                 }, 3000);
                 return
             }
-            const ContactSelect = Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]);
+            getOTkey()
+                .then(data => setIdentificación(data + " " + allTypes[Type].nameType))
+            const ContactSelect = Contacts ? Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]) : "";
             const { label: Client } = ClientObjet;
             const activities = allTypes[Type].activities;
             const TypeString = allTypes[Type];
@@ -67,7 +69,6 @@ function FormCreateOt({ DateCreate }) {
                 Date: new Date(DateCreate).getTime(),
                 Client,
                 IdClient: ClientObjet.id,
-                RazonSocial,
                 Producto,
                 Marca,
                 Modelo,
@@ -80,7 +81,8 @@ function FormCreateOt({ DateCreate }) {
                 Observaciones,
                 ContactSelect,
                 Changes,
-                activities
+                activities,
+                Identificación
             };
             const resultPost = await postData('http://localhost:4000/postOT', OT);
             const resets = [
@@ -98,20 +100,28 @@ function FormCreateOt({ DateCreate }) {
             }
             setResult(resultPost.result.substring(6, 7));
         } catch (error) {
+            console.log(error)
             setError("missed data");
             setTimeout(() => {
                 setError();
             }, 3000);
         }
     };
-
+    const handleTypeChange = (value) => {
+        SetType(value)
+        formatKey(value, ClientObjet)
+    }
+    const handleClient = (data) => {
+        setClientObjet(data);
+        formatKey(Type, data)
+    }
     useEffect(() => {
         getDataFromUrl('http://localhost:4000/getClients')
             .then(json => {
                 setUserLogin(getUser())
                 let newJson = []
                 json.forEach(element => {
-                    let data = { label: element.Name, id: element.id, KeyUnique: element.KeyUnique, businessName: element.businessName, Contacts: JSON.parse(element.Contacts) };
+                    let data = { label: `${element.KeyUnique}  -   ${element.Name}`, id: element.id, KeyUnique: element.KeyUnique, businessName: element.businessName, Contacts: element.Contacts ? JSON.parse(element.Contacts) : "" };
                     newJson.push(data)
                 });
                 setClients(newJson)
@@ -119,9 +129,15 @@ function FormCreateOt({ DateCreate }) {
         getDataFromUrl('http://localhost:4000/getTypeOt')
             .then(json => {
                 setAllTypes(json)
-            })
+            });
+        getOTkey()
+            .then(data => setIdentificación(data))
     }, [])
-
+    const formatKey = (tipo, Client) => {
+        const type = allTypes[tipo] ? allTypes[tipo].abbreviation : "";
+        getOTkey()
+            .then(data => setIdentificación(data + " " + type + " " + Client.KeyUnique))
+    }
     return (
         <form className={Style.Form}>
             <div className={Style.ContentForm}>
@@ -133,7 +149,7 @@ function FormCreateOt({ DateCreate }) {
                                 disablePortal
                                 disableClearable
                                 onChange={(event, newValue) => {
-                                    setClientObjet(newValue);
+                                    handleClient(newValue);
                                 }}
                                 id="combo-box-demo"
                                 options={Clients}
@@ -153,12 +169,6 @@ function FormCreateOt({ DateCreate }) {
                                 <div className={Style.InputDisabled}>
                                     <BootstrapInput value={ClientObjet.KeyUnique} disabled id="outlined-basic" variant="outlined" />
                                 </div>
-                            </div>
-                        </div>
-                        <div className={Style.DataInput}>
-                            <p className={Style.TittleData}>Razon social</p>
-                            <div className={Style.InputDisabled}>
-                                <BootstrapInput value={ClientObjet.businessName} disabled id="outlined-basic" variant="outlined" />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
@@ -206,7 +216,7 @@ function FormCreateOt({ DateCreate }) {
                         </div>
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar tipo de OT</p>
-                            <Select sx={{ height: "45px" }} fullWidth onChange={({ target: { value } }) => SetType(value)} placeholder='Selecciona el tipo de OT' defaultValue={""}>
+                            <Select sx={{ height: "45px" }} fullWidth onChange={({ target: { value } }) => handleTypeChange(value)} placeholder='Selecciona el tipo de OT' defaultValue={""}>
                                 {allTypes.map((type, index) => (
                                     <MenuItem key={index} value={index}>{type.nameType}</MenuItem >
                                 ))}
@@ -399,6 +409,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         ].join(','),
     },
 }));
+
 const resetInputs = (resets) => {
     resets.forEach(reset => reset(""))
 }

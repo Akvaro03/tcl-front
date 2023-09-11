@@ -48,9 +48,8 @@ export default function MultipleSelect({ label, names, onchange, size = "small" 
                     multiple
                     value={personName}
                     onChange={handleChange}
-                    input={<OutlinedInput label={label} />}
+                    input={<OutlinedInput label={label} sx={{ display: "flex", alignItems: "center" }} />}
                     MenuProps={MenuProps}
-                    size={size}
                 >
                     {names.map((name) => (
                         <MenuItem

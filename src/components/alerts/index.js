@@ -7,17 +7,17 @@ function Alerts({ Result }) {
         setClassName(Style.AlertStyleMove)
     }, 3000);
     const states = {
-        "name used": <AlertCustomError text={"Ese nombre ya esta en uso"} />,
         "error password": <AlertCustomError text={"Error en la contraseña"} />,
-        "error email": <AlertCustomError text={"Error en el email"} />,
         "missed data": <AlertCustomError text={"Completa todos los campos"} />,
-        "ok sesion": <AlertCustomSucces text={"Se inicio Sesion"} />,
         "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
-        "ok ot": <AlertCustomSucces text={"Se guardo el OT"} />,
-        "ok user": <AlertCustomSucces text={"Se creo el usuario"} />,
-        "ok client": <AlertCustomSucces text={"Se creo el Cliente"} />,
+        "name used": <AlertCustomError text={"Ese nombre ya esta en uso"} />,
         "ok Activity": <AlertCustomSucces text={"Se creo la actividad"} />,
+        "ok client": <AlertCustomSucces text={"Se creo el Cliente"} />,
+        "error email": <AlertCustomError text={"Error en el email"} />,
+        "ok user": <AlertCustomSucces text={"Se creo el usuario"} />,
+        "ok sesion": <AlertCustomSucces text={"Se inicio Sesion"} />,
         "ok Type": <AlertCustomSucces text={"Se creo el tipo"} />,
+        "ok ot": <AlertCustomSucces text={"Se guardo el OT"} />,
     }
     return (
         <div className={className}>

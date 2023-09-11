@@ -36,20 +36,20 @@ function OtAllData() {
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentAllData}>
-                {otSelected && Changes && (
-                    <>
-                        <DataOt otSelected={otSelected} reload={reload} />
-                        {permissions.seeHistory(rol) && (
-                            <HistoryOt history={Changes} />
-                        )}
-                    </>
+                {otSelected && (
+                    <DataOt otSelected={otSelected} reload={reload} />
+                )}
+                {Changes && (
+                    permissions.seeHistory(rol) && (
+                        <HistoryOt history={Changes} />
+                    )
                 )}
             </div>
         </>
     );
 }
 let formatData = (data) => {
-    data.Contact = JSON.parse(data.Contact)
+    data.Contact = data.Contact ? JSON.parse(data.Contact) : data.Contact
     return data
 }
 export default OtAllData;

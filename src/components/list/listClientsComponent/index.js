@@ -8,7 +8,6 @@ export default function ListClientsComponent({ Clients }) {
                     <Colum data={"Id"} width="10%" />
                     <Colum data={"Abreviatura"} width="10%" />
                     <Colum data={"Nombre"} />
-                    <Colum data={"Razon Social"} />
                 </Box>
                 {Clients && Clients[0] ? (
                     Clients.map((Pay, key) => (

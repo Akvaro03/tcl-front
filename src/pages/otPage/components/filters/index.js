@@ -4,12 +4,12 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import typesUsers from '../../../../classes/typesUsers';
 import MuiAccordion from '@mui/material/Accordion';
 import getUser from "../../../../hooks/getUser";
-import { Typography } from "@mui/material";
+import { Badge, Typography } from "@mui/material";
 import Style from "./filters.module.css"
 import styled from "@emotion/styled";
 import { useState } from "react";
 
-function Filters({ filterOt, tag }) {
+function Filters({ filterOt, tag, data }) {
     const [expanded, setExpanded] = useState('panel1');
     const roles = getUser("roles")
     const Tag = ({ text }) => (
@@ -22,21 +22,27 @@ function Filters({ filterOt, tag }) {
     };
     return (
         <div className={Style.contentFilter}>
-            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" tag={tag}>
+            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} sx={{ width: "100%" }}>
+                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                     <Tag text={"Todas"} />
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Tag text={"En proceso"} />
+                    <Badge badgeContent={data.otOnProcess ? data.otOnProcess : null} color="primary">
+                        <Tag text={"En proceso"} />
+                    </Badge>
                 </AccordionDetails>
                 <AccordionDetails>
-                    <Tag text={"Asignar"} />
+                    <Badge badgeContent={data.otToAssing ? data.otToAssing : null} color="primary">
+                        <Tag text={"Sin Asignar"} />
+                    </Badge>
                 </AccordionDetails>
                 <AccordionDetails>
-                    <Tag text={"Autorizar"} />
+                    <Badge badgeContent={data.otToAuth ? data.otToAuth : null} color="primary">
+                        <Tag text={"Sin Autorizar"} />
+                    </Badge>
                 </AccordionDetails>
                 <AccordionDetails>
-                    <Tag text={"Terminar"} />
+                    <Tag text={"Terminadas"} />
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
@@ -46,22 +52,28 @@ function Filters({ filterOt, tag }) {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Tag text={"Retirados"} />
+                    <Badge badgeContent={data.otRetired ? data.otRetired : null} color="primary">
+                        <Tag text={"Retirados"} />
+                    </Badge>
                 </AccordionDetails>
                 <AccordionDetails>
-                    <Tag text={"Entregados"} />
+                    <Badge badgeContent={data.otSend ? data.otSend : null} color="primary">
+                        <Tag text={"Entregados"} />
+                    </Badge>
                 </AccordionDetails>
                 <AccordionDetails>
-                    <Tag text={"DFR"} />
+                    <Badge badgeContent={data.otDFR ? data.otDFR : null} color="primary">
+                        <Tag text={"DFR"} />
+                    </Badge>
                 </AccordionDetails>
             </Accordion>
-            {roles.includes(typesUsers.Gerente) && (
+            {roles.includes(typesUsers.Director) && (
                 <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                     <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
                         <Tag text={"Facturas"} />
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Tag text={"Sin facturar"} />
+                        <Tag text={"OT sin facturar"} />
                     </AccordionDetails>
                     <AccordionDetails>
                         <Tag text={"Pendientes"} />

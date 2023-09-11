@@ -1,22 +1,21 @@
 import { Button, Checkbox, FormControlLabel } from "@mui/material";
 import getDataFromUrl from "../../../hooks/getDataFromUrl";
+import inputClass from "../../../classes/inputClass";
 import Style from "./formCreateType.module.css"
 import { useEffect, useState } from "react";
 import nameUsed from "../../../db/nameUsed";
 import postData from "../../../db/postData";
-import InputMui from "../../inputMui";
 
 function FormCreateType({ close, menssage, data }) {
-
     const [activity, setActivity] = useState({})
-    const [name, setName] = useState(data.nameType)
-    console.log(activity.map(data => JSON.parse(data.activities)[data]))
+    const [name, setName] = useState(data ? data.nameType : "")
+    const [abbr, setAbbr] = useState(data ? data.abbreviation : "")
     useEffect(() => {
         searchAndSet()
     }, [])
     const saveTypeOt = async () => {
         const activitiesCopy = activity.filter((data) => data.select === true).map(({ select, ...rest }) => rest);
-        if (!name || !activitiesCopy[0]) {
+        if (!name || !activitiesCopy[0] || !abbr) {
             menssage("missed data")
             setTimeout(() => {
                 menssage()
@@ -25,7 +24,7 @@ function FormCreateType({ close, menssage, data }) {
         }
         const isNameUsed = await nameUsed(name, "typeOT")
         if (!isNameUsed) {
-            menssage(postData("http://localhost:4000/postTypeOt", { nameType: name.trim(), activities: activitiesCopy }))
+            menssage(postData("http://localhost:4000/postTypeOt", { nameType: name.trim(), activities: activitiesCopy, abbr }))
             searchAndSet()
             return
         }
@@ -53,7 +52,10 @@ function FormCreateType({ close, menssage, data }) {
                 return data;
             })
             .then(data => setActivity(data));
+        setAbbr("");
+        setName("");
     }
+    const inputType = new inputClass(saveTypeOt)
     return (
         <div className={Style.FormCreateType}>
             <div className={Style.TittleForm}>
@@ -65,7 +67,15 @@ function FormCreateType({ close, menssage, data }) {
                         Tipo de OT
                     </p>
                     <div className={Style.input}>
-                        <InputMui value={name} onChange={setName} sendData={saveTypeOt} />
+                        {inputType.getInput(name, setName)}
+                    </div>
+                </div>
+                <div className={Style.inputFormContent}>
+                    <p className={Style.TittleInput}>
+                        Abreviacion
+                    </p>
+                    <div className={Style.input}>
+                        {inputType.getInput(abbr, setAbbr)}
                     </div>
                 </div>
                 <div>

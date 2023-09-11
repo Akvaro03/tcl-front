@@ -233,6 +233,10 @@ const linkDirector = [
     "url": "/OtList"
   },
   {
+    "name": "Clientes",
+    "url": "/listClients"
+  },
+  {
     "name": "Crear FACT",
     "url": "/createFact"
   },

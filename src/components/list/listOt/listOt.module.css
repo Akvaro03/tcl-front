@@ -4,6 +4,7 @@
     align-items: center;
     border-radius: 25px;
     background: white;
+    overflow: auto;
     display: flex;
     height: 85%;
     width: 95%;
@@ -25,13 +26,15 @@
     display: flex;
     opacity: 1;
     visibility: visible;
-    transition: visibility 0s, opacity 0.1s linear;
+    transition: visibility 0s, opacity 0.1s linear, width 0.15s linear;
+    width: 15%;
 }
 
 .buttonAuth {
     opacity: 0;
-    width: 15%;
+    width: 5%;
     justify-content: center;
     align-items: center;
     visibility: hidden;
+    transition: visibility 0s, opacity 0.1s linear, width 0.1s linear;
 }

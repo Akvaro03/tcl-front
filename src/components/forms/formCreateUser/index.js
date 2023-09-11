@@ -1,17 +1,14 @@
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup } from "@mui/material";
-import { blue, grey } from '@mui/material/colors';
-
 import toUppercase from "../../../hooks/toUppercase";
 import typesUsers from "../../../classes/typesUsers";
 import Style from "./formCreateUser.module.css"
-import { forwardRef, useState } from 'react';
+import { useState } from 'react';
 import nameUsed from "../../../db/nameUsed";
 import ModalPortal from "../../modelPortal";
 import editUser from "../../../db/editUser";
 import addUser from "../../../db/addUser";
-import styled from '@emotion/styled';
-import Input from '@mui/base/Input';
 import Alerts from "../../alerts";
+import inputClass from "../../../classes/inputClass";
 function FormCreateUser({ close, reload, user }) {
     const [passwordUser, setPasswordUser] = useState("")
     const [rolSelect, setRolSelect] = useState(user ? JSON.parse(user.type)[0] : "")
@@ -69,6 +66,7 @@ function FormCreateUser({ close, reload, user }) {
         setEmailUser("")
         setRolSelect(rolesUser.map(datoos => { return { name: datoos, state: false } }))
     }
+    const inputUser = new inputClass(onSubmit)
     return (
         <div className={Style.formCreateUser}>
             <div className={Style.headerTittle}>
@@ -80,20 +78,20 @@ function FormCreateUser({ close, reload, user }) {
                         <div className={Style.inputTittle}>
                             <p>Nombre</p>
                         </div>
-                        <CustomInput value={nameUser} onChange={e => setNameUser(e)} />
+                        {inputUser.getInput(nameUser, (e) => setNameUser(e))}
                     </div>
                     <div className={Style.input}>
                         <div className={Style.inputTittle}>
                             <p>Email</p>
                         </div>
-                        <CustomInput value={emailUser} onChange={e => setEmailUser(e)} />
+                        {inputUser.getInput(emailUser, (e) => setEmailUser(e))}
                     </div>
                     {!user ? (
                         <div className={Style.input}>
                             <div className={Style.inputTittle}>
                                 <p>Contraseña</p>
                             </div>
-                            <CustomInput value={passwordUser} onChange={e => setPasswordUser(e)} />
+                            {inputUser.getInput(passwordUser, (e) => setPasswordUser(e))}
                         </div>
                     ) : (
                         <div className={Style.input}>
@@ -139,50 +137,6 @@ function FormCreateUser({ close, reload, user }) {
 }
 
 
-const StyledInputElement = styled('input')(
-    ({ theme }) => `
-    width: 80%;
-    height: 5px;
-    font-family: IBM Plex Sans, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px;
-    color: ${grey[900]};
-    background: ${'#fff'};
-    border: 1px solid ${grey[400]};
-    box-shadow: 0px 2px 2px ${grey[50]};
-  
-    &:hover {
-      border-color: ${blue[400]};
-    }
-  
-    &:focus {
-      border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${blue[200]};
-    }
-  
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `,
-);
-
-const CustomInput = forwardRef(function CustomInput(props, ref) {
-    let value = props.value;
-    let onChange = props.onChange;
-    return (
-        <Input
-            value={value}
-            onChange={({ target: { value } }) => {
-                onChange(value)
-            }}
-            slots={{ input: StyledInputElement }}
-            ref={ref} />
-    );
-});
 const rolesUser = [typesUsers.Admin, typesUsers.AdminSystem, typesUsers.Director, typesUsers.Trabajador]
 
 export default FormCreateUser;
