@@ -19,6 +19,7 @@ function OtAllData() {
                 .then(resolve => resolve[0])
                 .then(resolve => resolve = formatData(resolve))
             setOtSelected(data)
+            console.log(data)
             setChanges(data.Changes)
         }
         getData();
