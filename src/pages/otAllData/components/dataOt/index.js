@@ -36,8 +36,7 @@ function DataOt({ otSelected, reload }) {
     const [pay, setPay] = useState()
 
     const [editPay, setEditPay] = useState()
-
-    const [activities, setActivities] = useState(otSelected.activities && JSON.parse(otSelected.Activities))
+    const [activities, setActivities] = useState(otSelected.Activities && JSON.parse(otSelected.Activities))
     const [activitySelected, setActivitySelected] = useState()
     const [addActivity, setAddActivity] = useState(false)
 
@@ -51,7 +50,7 @@ function DataOt({ otSelected, reload }) {
 
     useEffect(() => {
         const searchData = async () => {
-            const pays = await getDataFromUrl('http://localhost:4000/getPay')
+            const pays = await getDataFromUrl('/getPay')
             const parsedFactura = JSON.parse(otSelected.Factura);
             const filteredPays = pays.filter(data => parsedFactura && parsedFactura.includes(data.id));
             setPay(filteredPays);
@@ -241,14 +240,14 @@ function DataOt({ otSelected, reload }) {
                         {otSelected.OTKey}
                     </div>
                     {auth === "1" ? (
-                        <div className={Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
+                        <div className={permissions.editAuth(rol) ? Style.authClicked : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
                             <h1>
                                 Autorizado
                             </h1>
                         </div>
 
                     ) : (
-                        <div className={Style.authNone} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
+                        <div className={permissions.editAuth(rol) ? Style.authClicked : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
                             <h1>
                                 No Autorizado
                             </h1>
@@ -269,10 +268,18 @@ function DataOt({ otSelected, reload }) {
                         {activities && (
                             activities.map((activity, key) => {
                                 const users = JSON.parse(activity.users)
-                                return <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity}
-                                    onClick={() => permissions.editActv(rol) && selectUsers(activity)}>
-                                    <h1>{activity.name}</h1>
-                                </div>
+                                return permissions.editActv(rol) ? (
+                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity}
+                                        onClick={() => permissions.editActv(rol) && selectUsers(activity)}>
+                                        <h1>{activity.name}</h1>
+                                    </div>
+                                ) : (
+                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity}
+                                        onClick={() => permissions.editActv(rol) && selectUsers(activity)}>
+                                        <h1>{activity.name}</h1>
+                                    </div>
+
+                                )
                             }))
                         }
                     </div>

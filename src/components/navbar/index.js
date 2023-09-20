@@ -8,6 +8,7 @@ import getDataFromUrl from '../../hooks/getDataFromUrl';
 import { useState } from 'react';
 import getUser from '../../hooks/getUser';
 import typesUsers from '../../classes/typesUsers';
+import getIp from '../../hooks/getIp';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -16,10 +17,10 @@ function ResponsiveAppBar() {
   const [Config, setConfig] = useState()
   useEffect(() => {
     const getConfig = async () => {
-      const responseConfig = await getDataFromUrl('http://localhost:4000/getConfig')
+      const responseConfig = await getDataFromUrl('/getConfig')
       if (responseConfig) {
         setConfig(responseConfig)
-        fetch('http://localhost:4000/getBrowserLogo')
+        fetch(`${getIp()}:4000/getBrowserLogo`)
           .then(response => response.blob())
           .then(blob => {
             const url = URL.createObjectURL(blob);
@@ -97,7 +98,7 @@ function ResponsiveAppBar() {
           >
             {Config ? Config : "Cargando"}
           </Typography>
-          {Config && <img src='http://localhost:4000/getCompanyLogo'
+          {Config && <img src={`${getIp()}:4000/getCompanyLogo`}
             alt='company logo' style={{ height: "2%", width: "5%" }} />}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

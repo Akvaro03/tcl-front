@@ -9,15 +9,19 @@ function Alerts({ Result }) {
     const states = {
         "error password": <AlertCustomError text={"Error en la contraseña"} />,
         "missed data": <AlertCustomError text={"Completa todos los campos"} />,
-        "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
         "name used": <AlertCustomError text={"Ese nombre ya esta en uso"} />,
+        "error email": <AlertCustomError text={"Error en el email"} />,
+        
+        "ok Config": <AlertCustomSucces text={"Se guardo la configuración"} />,
+        "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
+        "ok loadedImage": <AlertCustomSucces text={"Se cargo la imagen"} />,
         "ok Activity": <AlertCustomSucces text={"Se creo la actividad"} />,
         "ok client": <AlertCustomSucces text={"Se creo el Cliente"} />,
-        "error email": <AlertCustomError text={"Error en el email"} />,
         "ok user": <AlertCustomSucces text={"Se creo el usuario"} />,
         "ok sesion": <AlertCustomSucces text={"Se inicio Sesion"} />,
         "ok Type": <AlertCustomSucces text={"Se creo el tipo"} />,
         "ok ot": <AlertCustomSucces text={"Se guardo el OT"} />,
+        "ok edit": <AlertCustomSucces text={"Se edito"} />,
     }
     return (
         <div className={className}>

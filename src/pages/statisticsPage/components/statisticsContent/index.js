@@ -7,11 +7,11 @@ function StatisticsContent() {
     const [Users, setUsers] = useState([])
     const [Ot, setOt] = useState()
     useEffect(() => {
-        getDataFromUrl('http://localhost:4000/getUsers')
+        getDataFromUrl('/getUsers')
             .then(json => {
                 setUsers(json)
             })
-        getDataFromUrl('http://localhost:4000/getOT')
+        getDataFromUrl('/getOT')
             .then(json => {
                 setOt(json)
             })

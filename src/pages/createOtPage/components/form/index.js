@@ -1,16 +1,16 @@
 import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
+import MultipleSelect from '../../../../components/multipleSelect';
 import ModalPortal from '../../../../components/modelPortal';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import React, { useEffect, useState } from 'react';
 import Alerts from '../../../../components/alerts';
+import getOTkey from '../../../../hooks/getOTkey';
 import getUser from '../../../../hooks/getUser';
 import Style from './formCreateOt.module.css';
 import ModalCallback from '../ModalCallback';
+import addOt from '../../../../db/addOt';
 import styled from "@emotion/styled";
 import Input from '@mui/base/Input';
-import MultipleSelect from '../../../../components/multipleSelect';
-import postData from '../../../../db/postData';
-import getOTkey from '../../../../hooks/getOTkey';
 
 function FormCreateOt({ DateCreate }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
@@ -84,7 +84,7 @@ function FormCreateOt({ DateCreate }) {
                 activities,
                 Identificación
             };
-            const resultPost = await postData('http://localhost:4000/postOT', OT);
+            const resultPost = await addOt(OT);
             const resets = [
                 setProducto,
                 setMarca,
@@ -116,7 +116,7 @@ function FormCreateOt({ DateCreate }) {
         formatKey(Type, data)
     }
     useEffect(() => {
-        getDataFromUrl('http://localhost:4000/getClients')
+        getDataFromUrl('/getClients')
             .then(json => {
                 setUserLogin(getUser())
                 let newJson = []
@@ -126,7 +126,7 @@ function FormCreateOt({ DateCreate }) {
                 });
                 setClients(newJson)
             })
-        getDataFromUrl('http://localhost:4000/getTypeOt')
+        getDataFromUrl('/getTypeOt')
             .then(json => {
                 setAllTypes(json)
             });

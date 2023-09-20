@@ -14,7 +14,7 @@ function ListClients() {
     const [clientsFiltered, setClientsFiltered] = useState()
     const [isForm, setIsForm] = useState()
     useEffect(() => {
-        getDataFromUrl("http://localhost:4000/getClients")
+        getDataFromUrl("/getClients")
             .then(data => {
                 setClients(data)
                 setClientsFiltered(data)
@@ -22,7 +22,7 @@ function ListClients() {
     }, [])
     const reload = () => {
         setTimeout(() => {
-            getDataFromUrl("http://localhost:4000/getClients")
+            getDataFromUrl("/getClients")
                 .then(data => {
                     setClients(data)
                     setClientsFiltered(data)

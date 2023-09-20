@@ -27,14 +27,14 @@ function OtPage() {
 
     const [tag, setTag] = useState("Todas")
     useEffect(() => {
-        getDataFromUrl("http://localhost:4000/getOT")
+        getDataFromUrl("/getOT")
             .then(data => data.reverse())
             .then(data => {
                 setListOt(data)
                 setOtFilter(data)
                 filterAllOt(data)
             });
-        getDataFromUrl("http://localhost:4000/getPay")
+        getDataFromUrl("/getPay")
             .then(data => data.reverse())
             .then(data => {
                 setPays(data)

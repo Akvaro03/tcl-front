@@ -1,6 +1,6 @@
 .FormCreateType {
     box-shadow: rgba(19, 21, 22, 0.35) 0px 5px 15px;
-    height: 60%;
+    height: 70%;
     border-radius: 15px;
     display: flex;
     width: 60%;
@@ -11,13 +11,14 @@
 }
 
 .TittleForm {
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+    justify-content: space-around;
+    align-items: center;
     font-weight: 600;
     font-size: 20px;
-    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
     height: 12%;
+    width: 90%;
 }
 
 .ContentForm {

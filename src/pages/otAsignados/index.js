@@ -63,7 +63,7 @@ const reload = async (setUser, setOts, setEmit, wait) => {
     fetchData(setOts, setEmit, user)
 }
 const fetchData = async (setOts, setEmit, user) => {
-    return getDataFromUrl('http://localhost:4000/getOT')
+    return getDataFromUrl('/getOT')
         .then(json => {
             const Team = JSON.parse(user.Team)
             if (Team[0]) {

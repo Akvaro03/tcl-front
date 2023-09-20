@@ -6,7 +6,7 @@ function AddActivity({ setAddActivity, otActivities, handleActivities }) {
     const [activities, setActivities] = useState()
     const [activitiesOt, setActivitiesOt] = useState(otActivities)
     useEffect(() => {
-        getDataFromUrl("http://localhost:4000/getActivities")
+        getDataFromUrl("/getActivities")
             .then(data => setActivities(data))
     }, [])
     const compare = (name) => {
@@ -26,7 +26,7 @@ function AddActivity({ setAddActivity, otActivities, handleActivities }) {
 
     return (
         <Fade in={true}>
-            <Box sx={{ width: "40%", height: "40%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
+            <Box sx={{ width: "60%", height: "40%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "25%" }}>
                     <h1>
                         Selecciona actividades

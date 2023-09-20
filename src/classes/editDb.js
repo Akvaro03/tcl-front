@@ -1,6 +1,8 @@
 import addChange from "../db/addChange";
 import postData from "../db/postData";
+import getIp from "../hooks/getIp";
 import getUser from "../hooks/getUser";
+// import axios from "axios";
 
 export default class editDb {
     static comment(id, tittle, comment) {
@@ -21,7 +23,8 @@ export default class editDb {
     }
     static postData(url, dataToSend) {
         try {
-            return postData(`http://localhost:4000/${url}`, dataToSend)
+            // axios.get("https://api.ipify.org/?format=json").then(({ data }) => console.log(data.ip))
+            return postData(`${getIp()}:4000/${url}`, dataToSend)
         } catch (error) {
             console.log(error)
         }

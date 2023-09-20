@@ -15,7 +15,7 @@ function ListOt({ listOt, handleAuth, filterOt }) {
     const [clients, setClients] = useState()
     const [countOt, setCountOt] = useState(10)
     useEffect(() => {
-        getDataFromUrl("http://localhost:4000/getClients")
+        getDataFromUrl("/getClients")
             .then(data => setClients(data.map(client => client.Name)))
     }, [])
     const navigate = useNavigate();
@@ -34,8 +34,8 @@ function ListOt({ listOt, handleAuth, filterOt }) {
                     <Fade in={true}>
                         <div className={Style.contentListOt}>
                             <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                                <Colum data={"Id"} width="13%" />
-                                <Colum data={"Fecha"} width="10%" />
+                                <Colum data={"Id"} width="15%" />
+                                <Colum data={"Fecha"} width="9%" />
                                 <Colum data={"Tipo"} width="13%" />
                                 <Colum data={"Cliente"} width="15%" />
                                 <Colum data={"Producto"} width="22%" />
@@ -44,8 +44,8 @@ function ListOt({ listOt, handleAuth, filterOt }) {
                             {listOt && listOt[0] ? (
                                 (countOt === "Todos" ? listOt : listOt.slice(0, countOt)).map((OT, key) => (
                                     <div key={key} className={Style.ColumOt} onDoubleClick={() => openNewTab(`/events/${OT.id}`)}>
-                                        <Colum data={OT.OTKey} width="13%" />
-                                        <Colum data={formatDateM(OT.Date)} width="10%" />
+                                        <Colum data={OT.OTKey} width="15%" />
+                                        <Colum data={formatDateM(OT.Date)} width="9%" />
                                         <Colum data={OT.Type} width="13%" />
                                         <Colum data={OT.Client} width="15%" />
                                         <Colum data={OT.Producto} width="22%" />

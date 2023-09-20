@@ -5,7 +5,7 @@ import { useRef } from "react";
 import "./upload.css"
 
 
-function Upload({ data, setData }) {
+function Upload({ data, setData, setFile, loadImage}) {
     const imageUploadRef = useRef(null);
 
     const handleBrowser = (e) => {
@@ -16,6 +16,8 @@ function Upload({ data, setData }) {
             };
             reader.readAsDataURL(e.target.files[0]);
         }
+        setFile(e.target.files[0])
+        loadImage()
     };
 
     return (
@@ -28,7 +30,7 @@ function Upload({ data, setData }) {
                         accept=".png, .jpg, .jpeg"
                         onChange={handleBrowser}
                     />
-                    <Box sx={{ display: "flex", alignItems:"center" }} onClick={() => imageUploadRef.current.click()}>{<EditIcon />}</Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }} onClick={() => imageUploadRef.current.click()}>{<EditIcon />}</Box>
                 </div>
                 <div className="avatar-preview">
                     <div

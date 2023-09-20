@@ -1,7 +1,7 @@
-import postData from "../postData";
+import editDb from "../../classes/editDb";
 
 function addChange(newChange, idOt) {
-    postData('http://localhost:4000/editOtChanges', { Changes: newChange, idOt })
+    return editDb.postData("editOtChanges", { Changes: newChange, idOt })
 }
 
 export default addChange;

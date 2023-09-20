@@ -1,18 +1,20 @@
-import { Button, Checkbox, FormControlLabel } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import inputClass from "../../../classes/inputClass";
+import deleteTypeOt from "../../../db/deleteTypeOt";
+import DeleteIcon from '@mui/icons-material/Delete';
+import editTypeOt from "../../../db/editTypeOt";
 import Style from "./formCreateType.module.css"
 import { useEffect, useState } from "react";
-import nameUsed from "../../../db/nameUsed";
-import postData from "../../../db/postData";
+import addType from "../../../db/addType";
 
-function FormCreateType({ close, menssage, data }) {
+function FormCreateType({ close, menssage, data, reload }) {
     const [activity, setActivity] = useState({})
     const [name, setName] = useState(data ? data.nameType : "")
     const [abbr, setAbbr] = useState(data ? data.abbreviation : "")
     useEffect(() => {
-        searchAndSet()
-    }, [])
+        searchAndSet(data)
+    }, [data])
     const saveTypeOt = async () => {
         const activitiesCopy = activity.filter((data) => data.select === true).map(({ select, ...rest }) => rest);
         if (!name || !activitiesCopy[0] || !abbr) {
@@ -22,16 +24,20 @@ function FormCreateType({ close, menssage, data }) {
             }, 3000);
             return
         }
-        const isNameUsed = await nameUsed(name, "typeOT")
-        if (!isNameUsed) {
-            menssage(postData("http://localhost:4000/postTypeOt", { nameType: name.trim(), activities: activitiesCopy, abbr }))
-            searchAndSet()
-            return
+        let result;
+        if (data) {
+            result = await editTypeOt({ nameType: isChanged(name.trim(), data.nameType), activities: activitiesCopy, abbr: isChanged(abbr, data.abbreviation), id: data.id })
+        } else {
+            result = await addType({ nameType: name.trim(), activities: activitiesCopy, abbr })
         }
-        menssage("name used")
+        menssage(result)
         setTimeout(() => {
             menssage()
         }, 3000);
+        if (result !== "name used") {
+            reload()
+            close()
+        }
     }
 
     const handleState = (user, checked) => {
@@ -43,23 +49,36 @@ function FormCreateType({ close, menssage, data }) {
         });
         setActivity(copy);
     };
-    const searchAndSet = () => {
-        getDataFromUrl("http://localhost:4000/getActivities")
-            .then(data => {
-                data.forEach(item => {
-                    item.select = false;
-                });
-                return data;
+    const onDelete = () => {
+        menssage(deleteTypeOt({ id: data.id }))
+        reload()
+        close()
+    }
+    const searchAndSet = (data, reset) => {
+        getDataFromUrl("/getActivities")
+            .then(activities => {
+                return formatActivities(activities, data);
             })
             .then(data => setActivity(data));
-        setAbbr("");
-        setName("");
+        if (reset) {
+            setAbbr("");
+            setName("");
+        }
+    }
+    const isChanged = (data, prevData) => {
+        return data === prevData ? null : data;
     }
     const inputType = new inputClass(saveTypeOt)
     return (
         <div className={Style.FormCreateType}>
             <div className={Style.TittleForm}>
+                <Box></Box>
                 <h1>{data ? "Editar tipo de OT" : "Crear nuevo tipo de OT"}</h1>
+                {data ? (
+                    <Button onClick={onDelete} sx={{ color: "black" }}><DeleteIcon /></Button>
+                ) : (
+                    <h1>{data ? "Editar tipo de OT" : ""}</h1>
+                )}
             </div>
             <div className={Style.ContentForm}>
                 <div className={Style.inputFormContent}>
@@ -100,5 +119,13 @@ function FormCreateType({ close, menssage, data }) {
             </div>
         </div>
     );
+}
+
+const formatActivities = (data, prevData) => {
+    const namesActivities = JSON.parse(prevData.activities).map(activity => activity.name)
+    data.forEach(item => {
+        item.select = namesActivities.includes(item.name);
+    });
+    return data;
 }
 export default FormCreateType;

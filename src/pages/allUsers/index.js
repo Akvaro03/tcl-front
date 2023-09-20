@@ -10,7 +10,6 @@ import FormCreateUser from "../../components/forms/formCreateUser";
 
 function AllUser() {
     const [isForm, setIsForm] = useState()
-    const [isEdit, setIsEdit] = useState()
     const [isFormEdit, setIsFormEdit] = useState()
     const [Users, setUsers] = useState([{ id: 1, name: "", type: '', Team: "[]" }])
     useEffect(() => {
@@ -44,12 +43,12 @@ function AllUser() {
 const reload = (setData, wait) => {
     if (wait) {
         setTimeout(() => {
-            getDataFromUrl('http://localhost:4000/getUsers')
+            getDataFromUrl('/getUsers')
                 .then(json => setData(json))
         }, 1000);
         return
     }
-    getDataFromUrl('http://localhost:4000/getUsers')
+    getDataFromUrl('/getUsers')
         .then(json => setData(json))
 }
 export default AllUser;

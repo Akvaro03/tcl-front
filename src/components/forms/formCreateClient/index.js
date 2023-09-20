@@ -2,11 +2,11 @@ import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material
 import inputClass from '../../../classes/inputClass';
 import toUppercase from '../../../hooks/toUppercase';
 import Style from './formCreateClient.module.css';
+import addClient from '../../../db/addClient';
 import nameUsed from '../../../db/nameUsed';
 import ModalPortal from '../../modelPortal';
-import postData from '../../../db/postData';
-import { useState } from 'react';
 import Alerts from '../../alerts';
+import { useState } from 'react';
 function FormCreateClient({ close, reload }) {
     const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }]);
     const [Document, setDocument] = useState({ type: "", value: "" });
@@ -38,7 +38,7 @@ function FormCreateClient({ close, reload }) {
         }
         const isNameUsed = await nameUsed(nameClient, "client")
         if (!isNameUsed) {
-            const resultClient = await postData("http://localhost:4000/postClients", Client)
+            const resultClient = await addClient(Client)
             setResult(resultClient.result)
             setTimeout(() => {
                 setResult()

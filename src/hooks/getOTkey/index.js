@@ -1,7 +1,7 @@
 import getDataFromUrl from "../getDataFromUrl";
 
 async function getOTkey() {
-    const ot = await getDataFromUrl("http://localhost:4000/getLastOt")
+    const ot = await getDataFromUrl("/getLastOt")
 
     const dateOt = ot[0].OTKey.slice(0, 6)
     const countOt = ot[0].OTKey.slice(6, 7)

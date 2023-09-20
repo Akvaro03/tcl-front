@@ -71,9 +71,9 @@ const Colum = ({ data, width = "13%", onClick }) => (
 const searchData = async (setData, isAwait) => {
     if (isAwait) {
         setTimeout(async () => {
-            setData(await getDataFromUrl("http://localhost:4000/getActivities"));
+            setData(await getDataFromUrl("/getActivities"));
         }, 500);
     }
-    setData(await getDataFromUrl("http://localhost:4000/getActivities"));
+    setData(await getDataFromUrl("/getActivities"));
 }
 export default ListActivity;

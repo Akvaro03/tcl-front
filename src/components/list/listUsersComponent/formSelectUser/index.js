@@ -7,7 +7,7 @@ function FormSelectUser({ closeForm, usersSelect, handleUsers }) {
     const [users, setUsers] = useState()
     const [userTeam, setUserTeam] = useState(JSON.parse(usersSelect.Team))
     useEffect(() => {
-        getDataFromUrl("http://localhost:4000/getUsers")
+        getDataFromUrl("/getUsers")
             .then(data => setUsers(data))
     }, [])
     const handleChecked = (checked, name) => {

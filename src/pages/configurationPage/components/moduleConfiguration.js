@@ -6,14 +6,24 @@ import Button from '@mui/material/Button';
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import ModalPortal from "../../../components/modelPortal";
+import Alerts from "../../../components/alerts";
+import getIp from "../../../hooks/getIp";
 function ModuleConfiguration({ close, menssage }) {
+    const [result, setResult] = useState()
+
     const [nameCompany, setnameCompany] = useState("")
     const [browserLogo, setBrowserLogo] = useState("")
     const [companyLogo, setCompanyLogo] = useState("")
+
+    const [browserLogoFile, setBrowserLogoFile] = useState("")
+    const [companyLogoFile, setCompanyLogoFile] = useState("")
+
     useEffect(() => {
-        getDataFromUrl("http://localhost:4000/getConfig").then(data => setnameCompany(data))
-        setBrowserLogo('http://localhost:4000/getBrowserLogo')
-        setCompanyLogo('http://localhost:4000/getCompanyLogo')
+        getDataFromUrl("/getConfig")
+            .then(data => setnameCompany(data))
+        setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
+        setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
     }, [])
 
     const handleSaveConfig = async () => {
@@ -24,18 +34,31 @@ function ModuleConfiguration({ close, menssage }) {
             }, 3000);
             return
         }
-        const formData = new FormData();
-        formData.append('file', browserLogo)
-        formData.append('file', companyLogo)
+        let formData = new FormData();
+        formData.append('browserLogo', browserLogoFile)
+        formData.append('companyLogo', companyLogoFile)
         formData.append('nameCompany', nameCompany)
         try {
             await axios.post('http://localhost:4000/postConfig', formData, {
-                image_name: "image_name",
-                description: "image_description"
-            })
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            }).then(({ data }) => data.result).then(data => {
+                setResult(data)
+                setTimeout(() => {
+                    setResult()
+                }, 3000);
+            });
+
         } catch (error) {
             console.log(error);
         }
+    }
+    const loadImage = () => {
+        setResult("ok loadedImage")
+        setTimeout(() => {
+            setResult()
+        }, 2000);
     }
     const inputConfig = new inputClass(handleSaveConfig)
     return (
@@ -55,14 +78,13 @@ function ModuleConfiguration({ close, menssage }) {
                         <p>Logo del navegador</p>
                     </div>
                     <Box sx={{ width: "30%", height: "100%" }}>
-                        <Upload data={browserLogo} setData={setBrowserLogo} />
+                        <Upload data={browserLogo} loadImage={loadImage} setData={setBrowserLogo} setFile={setBrowserLogoFile} />
                     </Box>
-
                     <div className={Style.inputTittle}>
                         <p>Logo de la empresa</p>
                     </div>
                     <Box sx={{ width: "30%", height: "100%" }}>
-                        <Upload data={companyLogo} setData={setCompanyLogo} />
+                        <Upload data={companyLogo} loadImage={loadImage} setData={setCompanyLogo} setFile={setCompanyLogoFile} />
                     </Box>
                 </div>
                 <div className={Style.buttons}>
@@ -74,6 +96,11 @@ function ModuleConfiguration({ close, menssage }) {
                     </Button>
                 </div>
             </div >
+            {result && (
+                <ModalPortal type={"alert"}>
+                    <Alerts Result={result} />
+                </ModalPortal>
+            )}
         </div >
     );
 }

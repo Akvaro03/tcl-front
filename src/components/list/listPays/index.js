@@ -11,7 +11,7 @@ function ListPays({ pays, select, saveList, listPay, close }) {
     useEffect(() => {
         if (!pays) {
             const searchData = async () => {
-                let paysFound = await getDataFromUrl("http://localhost:4000/getPay")
+                let paysFound = await getDataFromUrl("/getPay")
                 paysFound = select ? paysFound.filter(pay => !listPay.includes(pay.id)) : paysFound
                 setPaysData(paysFound)
             }

@@ -36,7 +36,7 @@ function ListTypes({ menssage, close }) {
                             </Box>
                             {listActivity && listActivity[0] ? (
                                 listActivity.map((OT, key) => (
-                                    <div key={key} className={Style.ColumOt} onClick={() => setIsFormEditActivity(OT)}>
+                                    <div key={key} className={Style.ColumOt} onDoubleClick={() => setIsFormEditActivity(OT)}>
                                         <Colum data={OT.id} width="10%" />
                                         <Colum data={OT.nameType} />
                                         <Colum data={JSON.parse(OT.activities).map(data => data.name).join(", ")} width="40%" />
@@ -70,10 +70,10 @@ const Colum = ({ data, width = "13%", onClick }) => (
 const searchData = async (setData, isAwait) => {
     if (isAwait) {
         setTimeout(async () => {
-            setData(await getDataFromUrl("http://localhost:4000/getTypeOt"));
-        }, 500);
+            setData(await getDataFromUrl("/getTypeOt"));
+        }, 700);
     }
-    setData(await getDataFromUrl("http://localhost:4000/getTypeOt"));
+    setData(await getDataFromUrl("/getTypeOt"));
 }
 
 export default ListTypes;

@@ -3,9 +3,9 @@ import { Box, Button, Checkbox } from "@mui/material";
 import inputClass from "../../../classes/inputClass";
 import DeleteIcon from '@mui/icons-material/Delete';
 import editActivity from "../../../db/editActivity";
-import postData from "../../../db/postData";
-import Style from "./formCreate.module.css"
+import addActivity from "../../../db/addActivity";
 import nameUsed from "../../../db/nameUsed";
+import Style from "./formCreate.module.css";
 import { useState } from "react";
 function FormCreateActivity({ close, menssage, data, reload }) {
     const [emit, setEmit] = useState(data ? data.emit === 1 ? true : false : false)
@@ -26,7 +26,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
             if (data) {
                 editActivity({ name, score, time, emit, id: data.id })
             } else {
-                menssage(postData("http://localhost:4000/postActivity", { name, score, time, emit }))
+                menssage(addActivity({ name, score, time, emit }))
             }
             reload()
             close()

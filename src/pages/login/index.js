@@ -1,6 +1,7 @@
 import { Button, FilledInput, FormControl, IconButton, TextField } from "@mui/material";
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
+import { sendDataEnter } from "../../hooks/sendDataEnter";
 import Visibility from '@mui/icons-material/Visibility';
 import ResponsiveAppBar from "../../components/navbar";
 import ModalPortal from "../../components/modelPortal";
@@ -9,10 +10,9 @@ import { useNavigate } from "react-router-dom";
 import saveLogin from "../../hooks/saveLogin";
 import Alerts from "../../components/alerts";
 import getUser from "../../hooks/getUser";
-import postData from "../../db/postData";
 import Style from './login.module.css'
+import login from "../../db/login";
 import { useState } from "react";
-import { sendDataEnter } from "../../hooks/sendDataEnter";
 
 function LoginPage() {
     const [Email, SetEmail] = useState("")
@@ -36,7 +36,7 @@ function LoginPage() {
             email: Email,
             password: Password
         }
-        postData('http://localhost:4000/login', user)
+        login(user)
             .then(json => checkResult(SetResult, json))
         setTimeout(() => {
             SetResult()
