@@ -63,7 +63,8 @@
     margin-bottom: 12px;
 }
 
-.activity {
+.activity,
+.activityClickable {
     border: 1px solid black;
     border-radius: 15px;
     padding: 5px 9px;
@@ -71,7 +72,8 @@
     transition: all ease-in-out .3s;
 }
 
-.activityEnd {
+.activityEnd,
+.activityEndClickable {
     transition: all ease-in-out .3s;
     border: 1px solid black;
     border-radius: 15px;
@@ -80,11 +82,12 @@
     cursor: pointer;
 }
 
-.activityProcess {
+.activityProcess,
+.activityProcessClickable {
     border: 1px solid black;
     border-radius: 15px;
     padding: 5px 9px;
-    background-color: rgb(255, 255, 127);
+    background-color: #00000029;
     cursor: pointer;
     transition: all ease-in-out .3s;
 }

@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import FormPay from "../../../../components/forms/formPay";
 import ModalPortal from "../../../../components/modelPortal";
@@ -10,9 +10,9 @@ export default function ContentPay({ close, save, pay = [], saveList, listPay })
     return (
         <Box sx={{ width: "40%", height: "30%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
             <Box sx={{ display: "flex", width: "100%", justifyContent: "space-evenly", height: "25%", alignItems: "flex-end" }}>
-                <h1>
-                    Editar Factura
-                </h1>
+                <Typography component={"h1"} sx={{ fontSize: "19px" }}>
+                    Agregar Factura
+                </Typography>
             </Box>
             <Box height={"60%"} display={"flex"} width={"100%"} gap={"50px"} alignItems={"center"} justifyContent={"center"}>
                 <Button size="large" variant="outlined" onClick={setSelect}>Seleccionar</Button>
@@ -25,7 +25,7 @@ export default function ContentPay({ close, save, pay = [], saveList, listPay })
             )}
             {select && (
                 <ModalPortal type={"form"}>
-                    <ListPays select={true} saveList={saveList} listPay={listPay} close={close}/>
+                    <ListPays select={true} saveList={saveList} listPay={listPay} close={close} />
                 </ModalPortal>
             )}
         </Box>

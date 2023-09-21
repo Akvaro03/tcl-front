@@ -15,10 +15,10 @@ export default function OptionPay({ reload, pay, pays, deleteModal, savePay }) {
     return (
         <>
             <Fade in={true}>
-                <Box sx={{ width: "40%", height: "30%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
+                <Box sx={{ width: "500px", height: "200px", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                     <Box height={"95%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
-                        <Button size="medium" variant="outlined" onClick={setConfirmDelete}>Desvincular</Button>
-                        <Button size="medium" variant="contained" onClick={setEditPay}>Cobrar</Button>
+                        <Button size="medium" sx={{ width: "150px", height: "50px" }} variant="outlined" onClick={setConfirmDelete}>Desvincular</Button>
+                        <Button size="medium" sx={{ width: "150px", height: "50px" }} variant="contained" onClick={setEditPay}>Cobrar</Button>
                     </Box>
                     <Box component={"div"} display={"flex"} justifyContent={"flex-end"} width={"80%"} >
                         <Button size="large" onClick={() => deleteModal(null)}>Cancelar</Button>
@@ -32,7 +32,7 @@ export default function OptionPay({ reload, pay, pays, deleteModal, savePay }) {
             )}
             {confirmDelete && (
                 <ModalPortal type={"form"}>
-                    <ProtectedAction text={"Estas seguro de desvincular esta factura de esta OT?"} textButton={"Desvincular"} action={deletePay} close={deleteModal}/>
+                    <ProtectedAction text={"Estas seguro de desvincular esta factura de esta OT?"} textButton={"Desvincular"} action={deletePay} close={deleteModal} />
                 </ModalPortal>
             )}
         </>

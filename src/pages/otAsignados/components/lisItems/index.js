@@ -5,7 +5,7 @@ import Style from "./listItems.module.css"
 
 function ListItems({ Ots, reload, emit, user }) {
     const handleStateActivity = (newState, activity, OT) => {
-        changeActOt({ id: OT.id, activity: addNewActivity(OT, { ...activity, state: newState }) }, OT.id, "Se cambio el estado")
+        // changeActOt({ id: OT.id, activity: addNewActivity(OT, { ...activity, state: newState }) }, OT.id, "Se cambio el estado")
         reload()
     }
     const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import formatDateM from "../../../hooks/formatDateM";
-import { Box, Button, Fade } from "@mui/material";
+import { Box, Button, Fade, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
 import Style from "./listPays.module.css";
@@ -25,8 +25,16 @@ function ListPays({ pays, select, saveList, listPay, close }) {
                 <div className={Style.contentListOt}>
                     <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "100%", height: "45px" }}>
                         <Colum data={""} width="25%" />
-                        <Colum data={"Lista de facturas"} width="50%" />
-                        <Colum data={<Button sx={{ color: "black" }} onClick={() => close()}><CloseIcon /></Button>} width="25%" />
+                        <Box sx={{ width: "50%", alignItems: "center", display: "flex", justifyContent: "center" }}>
+                            <Typography component={"h1"} sx={{ fontSize: "19px" }}>
+                                Lista de facturas
+                            </Typography>
+                        </Box>
+                        {pays ? (
+                            <Colum data={""} width="25%" />
+                        ) : (
+                            <Colum data={<Button sx={{ color: "black" }} onClick={() => close()}><CloseIcon /></Button>} width="25%" />
+                        )}
                     </Box>
                     <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
                         <Colum data={"Id"} width="15%" />

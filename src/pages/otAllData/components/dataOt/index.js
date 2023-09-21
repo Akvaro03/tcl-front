@@ -240,14 +240,14 @@ function DataOt({ otSelected, reload }) {
                         {otSelected.OTKey}
                     </div>
                     {auth === "1" ? (
-                        <div className={permissions.editAuth(rol) ? Style.authClicked : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
+                        <div className={permissions.editAuth(rol) ? Style.authClickable : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
                             <h1>
                                 Autorizado
                             </h1>
                         </div>
 
                     ) : (
-                        <div className={permissions.editAuth(rol) ? Style.authClicked : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
+                        <div className={permissions.editAuth(rol) ? Style.authNoneClickable : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
                             <h1>
                                 No Autorizado
                             </h1>
@@ -274,7 +274,7 @@ function DataOt({ otSelected, reload }) {
                                         <h1>{activity.name}</h1>
                                     </div>
                                 ) : (
-                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity}
+                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEndClickable : getUserActivity(activity) ? Style.activityProcessClickable : Style.activityClickable}
                                         onClick={() => permissions.editActv(rol) && selectUsers(activity)}>
                                         <h1>{activity.name}</h1>
                                     </div>

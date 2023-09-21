@@ -54,13 +54,13 @@ const reload = async (setUser, setOts, setEmit, wait) => {
     let userLogin = getUser();
     const user = await getOneUser({ name: userLogin.name }).then(user => user[0])
     setUser(user)
-    if (wait) {
-        setTimeout(() => {
-            fetchData(setOts)
-        }, 800);
-        return
-    }
-    fetchData(setOts, setEmit, user)
+    // if (wait) {
+    //     setTimeout(() => {
+    //         fetchData(setOts)
+    //     }, 800);
+    //     return
+    // }
+    // fetchData(setOts, setEmit, user)
 }
 const fetchData = async (setOts, setEmit, user) => {
     return getDataFromUrl('/getOT')
@@ -84,14 +84,18 @@ const getEmit = (json, Team, name) => {
 }
 const filterByName = (json, name) => {
     return json.filter(ot => {
-        const activities = JSON.parse(ot.Activities);
-        return activities.filter(Activity => {
-            const users = JSON.parse(Activity.users);
-            if (Array.isArray(users)) {
-                return users.includes(name);
-            }
-            return false;
-        }).length > 0; // Agregué .length > 0 para que devuelva un resultado booleano
+        if (ot.Activities) {
+            const activities = JSON.parse(ot.Activities);
+            return activities.filter(Activity => {
+                const users = JSON.parse(Activity.users);
+                if (Array.isArray(users)) {
+                    return users.includes(name);
+                }
+                return false;
+            }).length > 0; // Agregué .length > 0 para que devuelva un resultado booleano
+        } else {
+            return false
+        }
     });
 };
 function tienenValoresEnComun(array1, array2) {
