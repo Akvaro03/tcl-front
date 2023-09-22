@@ -269,12 +269,12 @@ function DataOt({ otSelected, reload }) {
                             activities.map((activity, key) => {
                                 const users = JSON.parse(activity.users)
                                 return permissions.editActv(rol) ? (
-                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : getUserActivity(activity) ? Style.activityProcess : Style.activity}
+                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEndClickable : activity.state === "Started" && users[0] ? Style.activityProcessClickable : getUserActivity(activity) ? Style.activityAssignedClickable : Style.activityClickable}
                                         onClick={() => permissions.editActv(rol) && selectUsers(activity)}>
                                         <h1>{activity.name}</h1>
                                     </div>
                                 ) : (
-                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEndClickable : getUserActivity(activity) ? Style.activityProcessClickable : Style.activityClickable}
+                                    <div key={key} className={activity.state === "End" && users[0] ? Style.activityEnd : activity.state === "Started" && users[0] ? Style.activityProcess : getUserActivity(activity) ? Style.activityAssigned : Style.activity}
                                         onClick={() => permissions.editActv(rol) && selectUsers(activity)}>
                                         <h1>{activity.name}</h1>
                                     </div>

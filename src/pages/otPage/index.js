@@ -14,6 +14,7 @@ function OtPage() {
 
     const [otOnProcess, setOtOnProcess] = useState({})
     const [otToAssing, setOtToAssing] = useState({})
+    const [otWaiting, setOtWaiting] = useState({})
     const [otOnCurse, setOtOnCurse] = useState({})
     const [otToAuth, setOtToAuth] = useState({})
     const [otEnd, setOtEnd] = useState({})
@@ -52,6 +53,10 @@ function OtPage() {
             case "En proceso":
                 setOtFilter(listOt.filter(ot => getStateActivity(ot) === "En proceso"));
                 setTag("En proceso");
+                break;
+            case "En espera":
+                setOtFilter(listOt.filter(ot => getStateActivity(ot) === "En espera"));
+                setTag("En espera");
                 break;
             case "Sin Asignar":
                 setOtFilter(listOt.filter(ot => !isUserAssigned(ot)));
@@ -128,6 +133,7 @@ function OtPage() {
         setOtFilter(OTList);
         setTag("Todas");
         setOtOnProcess(OTList.filter(ot => getStateActivity(ot) === "En proceso"))
+        setOtWaiting(OTList.filter(ot => getStateActivity(ot) === "En espera"))
         setOtToAssing(OTList.filter(ot => !isUserAssigned(ot)))
         setOtOnCurse(OTList.filter(ot => !isActivitiesEnd(ot.Activities) && isUserAssigned(ot) && ot.Auth === "1"))
         setOtToAuth(OTList.filter(ot => ot.Auth === "0"))
@@ -141,7 +147,7 @@ function OtPage() {
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentOt}>
-                <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
+                <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otWaiting: otWaiting.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
                 {otFilter && (
                     tag === "Facturas" || tag === "Pendientes" || tag === "Cobrados" || tag === "Vencidos" ?
                         <ListPays pays={paysEdit} />

@@ -11,8 +11,9 @@
 }
 
 .ColumOt {
-    display: flex;
     border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+    display: flex;
     height: 45px;
     width: 95%;
 }
