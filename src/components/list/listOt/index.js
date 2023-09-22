@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Style from "./listOt.module.css"
 import FilterOT from "../filter";
+import getStateActivity from "../../../hooks/getStateActivity";
 
 function ListOt({ listOt, handleAuth, filterOt }) {
     const [clients, setClients] = useState()
@@ -50,20 +51,24 @@ function ListOt({ listOt, handleAuth, filterOt }) {
                                         <Colum data={OT.Client} width="15%" />
                                         <Colum data={OT.Producto} width="22%" />
                                         {OT.Auth === "0" ? (
-                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b8c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <h1>Sin Autorizar</h1>
                                             </Box>
                                         ) : !isUserAssigned(OT) ? (
-                                            <Box component="div" onClick={() => navigate(`/events/${OT.id}`)} sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                                <h1>Sin asignar</h1>
+                                            <Box component="div" onClick={() => navigate(`/events/${OT.id}`)} sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                <h1>Sin Asignar</h1>
                                             </Box>
                                         ) : isActivitiesEnd(OT.Activities) ? (
                                             <Box sx={{ borderRadius: "20px", margin: "5px", background: "#92ff6c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <h1>Terminada</h1>
                                             </Box>
-                                        ) : (
+                                        ) : getStateActivity(OT) === "En proceso" ? (
                                             <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                                                 <h1>En Proceso</h1>
+                                            </Box>
+                                        ) : (
+                                            <Box sx={{ borderRadius: "20px", margin: "5px", background: "#00000029", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                <h1>En espera</h1>
                                             </Box>
                                         )}
                                         {OT.Auth === "0" ? (
@@ -71,7 +76,7 @@ function ListOt({ listOt, handleAuth, filterOt }) {
                                                 <Button onClick={() => handleChangeAuth(OT)}>Autorizar OT</Button>
                                             </div>
                                         ) : (
-                                            <Colum width="5%"/>
+                                            <Colum width="5%" />
                                         )}
                                     </div>
                                 ))

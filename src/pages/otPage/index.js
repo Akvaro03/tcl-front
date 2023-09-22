@@ -7,6 +7,7 @@ import ListOt from "../../components/list/listOt";
 import { useEffect, useState } from "react";
 import Filters from "./components/filters";
 import Style from "./otPage.module.css"
+import getStateActivity from "../../hooks/getStateActivity";
 function OtPage() {
     const [listOt, setListOt] = useState()
     const [otFilter, setOtFilter] = useState({})
@@ -21,8 +22,8 @@ function OtPage() {
     const [otSend, setOtSend] = useState({})
     const [otDFR, setOtDFR] = useState({})
 
-    const [pays, setPays] = useState()
     const [paysEdit, setPaysEdit] = useState()
+    const [pays, setPays] = useState()
 
 
     const [tag, setTag] = useState("Todas")
@@ -41,7 +42,7 @@ function OtPage() {
                 setPaysEdit(data)
             })
     }, [])
- 
+
     const filterOt = (type, data) => {
         switch (type) {
             case "Todas":
@@ -49,9 +50,7 @@ function OtPage() {
                 setTag("Todas");
                 break;
             case "En proceso":
-                setOtFilter(listOt.filter(ot => getState(ot) === "En proceso"));
-                setOtFilter(listOt.filter(ot => !isUserAssigned(ot)));
-
+                setOtFilter(listOt.filter(ot => getStateActivity(ot) === "En proceso"));
                 setTag("En proceso");
                 break;
             case "Sin Asignar":
@@ -59,17 +58,13 @@ function OtPage() {
 
                 setTag("Sin Asignar");
                 break;
-            case "En curso":
-                setOtFilter(listOt.filter(ot => !isActivitiesEnd(ot.Activities) && isUserAssigned(ot) && ot.Auth === "1"));
-                setTag("En curso");
-                break;
             case "Sin Autorizar":
                 setOtFilter(listOt.filter(ot => ot.Auth === "0"));
 
                 setTag("Sin Autorizar");
                 break;
             case "Terminadas":
-                setOtFilter(listOt.filter(ot => getState(ot) === "Terminada"));
+                setOtFilter(listOt.filter(ot => getStateActivity(ot) === "Terminada"));
                 setTag("Terminadas");
                 break;
 
@@ -132,12 +127,11 @@ function OtPage() {
     const filterAllOt = (OTList) => {
         setOtFilter(OTList);
         setTag("Todas");
-        setOtOnProcess(OTList.filter(ot => getState(ot) === "En proceso"))
-        setOtOnProcess(OTList.filter(ot => !isUserAssigned(ot)))
+        setOtOnProcess(OTList.filter(ot => getStateActivity(ot) === "En proceso"))
         setOtToAssing(OTList.filter(ot => !isUserAssigned(ot)))
         setOtOnCurse(OTList.filter(ot => !isActivitiesEnd(ot.Activities) && isUserAssigned(ot) && ot.Auth === "1"))
         setOtToAuth(OTList.filter(ot => ot.Auth === "0"))
-        setOtEnd(OTList.filter(ot => getState(ot) === "Terminada"))
+        setOtEnd(OTList.filter(ot => getStateActivity(ot) === "Terminada"))
 
         setOtRetired(OTList.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "Retiro"))
         setOtSend(OTList.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "Entrega"))
@@ -157,25 +151,5 @@ function OtPage() {
             </div>
         </>
     );
-}
-const getState = (ot) => {
-    try {
-        const activities = JSON.parse(ot.Activities);
-        const auth = ot.Auth;
-
-        const allActivitiesEnded = activities.every(data => data.state === "End");
-        const allActivitiesInProgress = activities.every(data => data.state === "En proceso");
-
-        if (allActivitiesEnded && auth) {
-            return "Terminada";
-        }
-
-        if (allActivitiesInProgress && auth) {
-            return "En curso";
-        }
-        return "No empezo";
-    } catch (error) {
-        return "Terminada";
-    }
 }
 export default OtPage;

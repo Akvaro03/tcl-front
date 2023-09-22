@@ -1,6 +1,6 @@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import dayjs from "dayjs";
 import inputClass from "../../../classes/inputClass";
@@ -16,16 +16,18 @@ function FormPay({ close, save, pay = [] }) {
     }
     const inputPay = new inputClass(handleSubmit)
     return (
-        <Box sx={{ width: "60%", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
+        <Box sx={{ width: "600px", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "25%" }}>
-                <h1>
+                <Typography component={"h1"} sx={{ fontSize: "19px" }}>
                     Agregar Factura
-                </h1>
+                </Typography>
             </Box>
-            <Box display={"flex"} height={"50%"} width={"90%"} flexDirection={"column"} gap={"25px"} justifyContent={"center"} alignItems={"center"}>
+            <Box display={"flex"} height={"50%"} width={"70%"} flexDirection={"column"} gap={"25px"} justifyContent={"center"} alignItems={"center"}>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%" }}>ID</Box>
-                    {inputPay.getInput(id, (data) => setId(data))}
+                    <Box sx={{ width: "48%" }}>ID</Box>
+                    <Box sx={{ width: "30%" }}>
+                        {inputPay.getInput(id, (data) => setId(data))}
+                    </Box>
                 </Box>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
                     <Box sx={{ width: "50%" }}>Creación</Box>
