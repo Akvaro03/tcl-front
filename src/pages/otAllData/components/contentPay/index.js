@@ -16,7 +16,7 @@ export default function ContentPay({ close, save, pay = [], saveList, listPay })
             </Box>
             <Box height={"60%"} display={"flex"} width={"100%"} gap={"50px"} alignItems={"center"} justifyContent={"center"}>
                 <Button size="large" variant="outlined" onClick={setSelect}>Seleccionar</Button>
-                <Button size="large" variant="outlined" onClick={setCreate}>Crear nueva</Button>
+                <Button size="large" variant="outlined" onClick={setCreate}>Crear Nueva</Button>
             </Box>
             {create && (
                 <ModalPortal type={"form"}>
