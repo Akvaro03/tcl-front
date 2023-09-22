@@ -212,37 +212,37 @@ const linkTrabajador = [
 
 const linkAdmin = [
   {
-    "name": "Lista OT",
+    "name": "Listado OTs",
     "url": "/OtList"
   },
   {
-    "name": "Crear FACT",
+    "name": "Nueva Factura",
     "url": "/createFact"
   },
   {
-    "name": "Crear OT",
+    "name": "Nueva OT",
     "url": "/createOt"
   },
   {
-    "name": "Clientes",
+    "name": "Listado Clientes",
     "url": "/listClients"
   },
 ]
 const linkDirector = [
   {
-    "name": "Lista OT",
+    "name": "Listado OTs",
     "url": "/OtList"
   },
   {
-    "name": "Clientes",
+    "name": "Listado Clientes",
     "url": "/listClients"
   },
   {
-    "name": "Crear FACT",
+    "name": "Nueva Factura",
     "url": "/createFact"
   },
   {
-    "name": "Crear OT",
+    "name": "Nueva OT",
     "url": "/createOt"
   },
 ]
@@ -251,7 +251,7 @@ const linkAdminSystem = [{
   "url": "/AllUser"
 },
 {
-  "name": "Config",
+  "name": "Configurar",
   "url": "/configuración"
 }]
 // const linkAdmin = [
