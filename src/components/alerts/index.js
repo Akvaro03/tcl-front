@@ -11,7 +11,8 @@ function Alerts({ Result }) {
         "missed data": <AlertCustomError text={"Completa todos los campos"} />,
         "name used": <AlertCustomError text={"Ese nombre ya esta en uso"} />,
         "error email": <AlertCustomError text={"Error en el email"} />,
-        
+        "abbr max": <AlertCustomError text={"Abreviación solo puede tener un caracter"} />,
+
         "ok Config": <AlertCustomSucces text={"Se guardo la configuración"} />,
         "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
         "ok loadedImage": <AlertCustomSucces text={"Se cargo la imagen"} />,
@@ -31,12 +32,12 @@ function Alerts({ Result }) {
 }
 const AlertCustomSucces = ({ text }) => {
     return (
-        <Alert sx={{ justifyContent: "space-evenly" }} severity={"success"} >{text}</Alert>
+        <Alert variant="filled" sx={{ justifyContent: "space-evenly" }} severity={"success"} >{text}</Alert>
     )
 }
 const AlertCustomError = ({ text }) => {
     return (
-        <Alert sx={{ justifyContent: "space-evenly", opacity: 1 }} severity={"warning"} >{text}</Alert>
+        <Alert variant="filled" sx={{ justifyContent: "space-evenly" }} severity={"warning"} >{text}</Alert>
     )
 }
 export default Alerts;

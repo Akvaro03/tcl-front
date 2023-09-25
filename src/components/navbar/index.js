@@ -216,11 +216,11 @@ const linkAdmin = [
     "url": "/OtList"
   },
   {
-    "name": "Crear FACT",
+    "name": "Nueva Factura",
     "url": "/createFact"
   },
   {
-    "name": "Crear OT",
+    "name": "Nueva OT",
     "url": "/createOt"
   },
   {
@@ -238,11 +238,11 @@ const linkDirector = [
     "url": "/listClients"
   },
   {
-    "name": "Crear FACT",
+    "name": "Nueva Factura",
     "url": "/createFact"
   },
   {
-    "name": "Crear OT",
+    "name": "Nueva OT",
     "url": "/createOt"
   },
 ]
