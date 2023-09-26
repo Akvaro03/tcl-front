@@ -79,10 +79,10 @@ function Filters({ filterOt, tag, data }) {
                         <Tag text={"Pendientes"} />
                     </AccordionDetails>
                     <AccordionDetails>
-                        <Tag text={"Vencidos"} />
+                        <Tag text={"Vencidas"} />
                     </AccordionDetails>
                     <AccordionDetails>
-                        <Tag text={"Cobrados"} />
+                        <Tag text={"Cobradas"} />
                     </AccordionDetails>
                 </Accordion>
             )}

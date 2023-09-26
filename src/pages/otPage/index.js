@@ -92,13 +92,13 @@ function OtPage() {
                 setPaysEdit(pays.filter(pay => pay.datePay === null));
                 setTag("Pendientes");
                 break;
-            case "Vencidos":
+            case "Vencidas":
                 setPaysEdit(pays.filter(pay => new Date(pay.dateExpiration).getTime() < Date.now()));
-                setTag("Vencidos");
+                setTag("Vencidas");
                 break;
-            case "Cobrados":
+            case "Cobradas":
                 setPaysEdit(pays.filter(pay => pay.datePay !== null));
-                setTag("Cobrados");
+                setTag("Cobradas");
                 break;
 
             case "searchId":
@@ -143,7 +143,7 @@ function OtPage() {
             <div className={Style.ContentOt}>
                 <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
                 {otFilter && (
-                    tag === "Facturas" || tag === "Pendientes" || tag === "Cobrados" || tag === "Vencidos" ?
+                    tag === "Facturas" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
                         <ListPays pays={paysEdit} />
                         :
                         <ListOt listOt={otFilter} filterOt={filterOt} handleAuth={handleChangeAuth} />
