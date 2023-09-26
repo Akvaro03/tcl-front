@@ -5,8 +5,8 @@ function OneSelect({ factors, onchange, value }) {
         onchange(target.value)
     }
     return (
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <InputLabel id="demo-simple-select-label">Numero de ot</InputLabel>
+        <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+            <InputLabel id="demo-simple-select-label">Max OTs en pantalla</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
