@@ -61,7 +61,7 @@ function FormCreateOt({ DateCreate }) {
             const Changes = {
                 userId: userLogin.id,
                 userName: userLogin.name,
-                ChangeDescription: `Se creó el Ot`,
+                ChangeDescription: `Se creó la OT`,
                 date: new Date(DateCreate).getTime(),
                 comment: ""
             };
