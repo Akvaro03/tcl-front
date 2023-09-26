@@ -1,13 +1,13 @@
 import FormCreateActivity from "../../../../components/forms/formCreateActivity";
+import FormConfiguration from "../../../../components/forms/formConfiguration";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormCreateType from "../../../../components/forms/formCreateType";
 import ListActivity from "../../../../components/list/listActivity";
+import ListTypes from "../../../../components/list/listTypes";
 import ModalPortal from "../../../../components/modelPortal";
-import ModuleConfiguration from "../moduleConfiguration";
 import Alerts from "../../../../components/alerts";
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import ListTypes from "../../../../components/list/listTypes";
 
 function SelectConfig() {
     const [menssage, setMenssage] = useState()
@@ -45,7 +45,7 @@ function SelectConfig() {
             )}
             {isFormConfig && (
                 <ModalPortal type={"form"}>
-                    <ModuleConfiguration close={setIsFormConfig} menssage={setMenssage} />
+                    <FormConfiguration close={setIsFormConfig} menssage={setMenssage} />
                 </ModalPortal>
             )}
 

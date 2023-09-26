@@ -2,20 +2,33 @@ import { Button, Checkbox, FormControl, FormControlLabel, FormGroup } from "@mui
 import toUppercase from "../../../hooks/toUppercase";
 import typesUsers from "../../../classes/typesUsers";
 import Style from "./formCreateUser.module.css"
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import nameUsed from "../../../db/nameUsed";
 import ModalPortal from "../../modelPortal";
 import editUser from "../../../db/editUser";
 import addUser from "../../../db/addUser";
 import Alerts from "../../alerts";
 import inputClass from "../../../classes/inputClass";
+import { closeEsc } from "../../../hooks/closeEsc";
 function FormCreateUser({ close, reload, user }) {
+    const divRef = useRef(null);
     const [passwordUser, setPasswordUser] = useState("")
     const [rolSelect, setRolSelect] = useState(user ? JSON.parse(user.type)[0] : "")
     const [emailUser, setEmailUser] = useState(user ? user.email : "")
     const [nameUser, setNameUser] = useState(user ? user.name : "")
     const [stateUser, setStateUser] = useState(user ? user.state : "")
     const [Result, setResult] = useState()
+    useEffect(() => {
+
+        const divElement = divRef.current;
+        if (divElement) {
+            divElement.addEventListener('keydown', e => closeEsc(e, close));
+        }
+        return () => {
+            divElement.removeEventListener('keydown', closeEsc);
+        };
+    }, [close])
+
     const handleChange = (event) => {
         const { name } = event.target
         setRolSelect(name)
@@ -68,7 +81,7 @@ function FormCreateUser({ close, reload, user }) {
     }
     const inputUser = new inputClass(onSubmit)
     return (
-        <div className={Style.formCreateUser}>
+        <div ref={divRef} tabIndex={0} className={Style.formCreateUser}>
             <div className={Style.headerTittle}>
                 <p>{user ? "Editar usuario" : "Crear Nuevos usuarios"}</p>
             </div>

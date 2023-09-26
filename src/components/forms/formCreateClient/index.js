@@ -1,19 +1,31 @@
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import inputClass from '../../../classes/inputClass';
 import toUppercase from '../../../hooks/toUppercase';
+import { useEffect, useRef, useState } from 'react';
+import { closeEsc } from '../../../hooks/closeEsc';
 import Style from './formCreateClient.module.css';
 import addClient from '../../../db/addClient';
 import nameUsed from '../../../db/nameUsed';
 import ModalPortal from '../../modelPortal';
 import Alerts from '../../alerts';
-import { useState } from 'react';
 function FormCreateClient({ close, reload }) {
+    const divRef = useRef(null);
+
     const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }]);
     const [Document, setDocument] = useState({ type: "", value: "" });
     const [nameClient, setNameClient] = useState("");
     const [Result, setResult] = useState();
     const [Key, setKey] = useState("");
     let numberContacts = [0, 1, 2];
+    useEffect(() => {
+        const divElement = divRef.current;
+        if (divElement) {
+            divElement.addEventListener('keydown', e => closeEsc(e, close));
+        }
+        return () => {
+            divElement.removeEventListener('keydown', closeEsc);
+        };
+    }, [close])
 
     const handleSubmit = async () => {
         let isFull = (Contacts) => {
@@ -76,7 +88,7 @@ function FormCreateClient({ close, reload }) {
     }
     const inputClient = new inputClass(handleSubmit)
     return (
-        <div className={Style.ContentForm}>
+        <div className={Style.ContentForm} ref={divRef} tabIndex="0">
             <div className={Style.TittleForm}>
                 <p>Crear Cliente</p>
             </div>

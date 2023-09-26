@@ -1,15 +1,17 @@
 import getDataFromUrl from "../../../hooks/getDataFromUrl";
-import inputClass from "../../../classes/inputClass";
-import Style from "./moduleConfiguration.module.css"
-import Upload from "../../../components/upload";
-import Button from '@mui/material/Button';
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
-import axios from 'axios';
 import ModalPortal from "../../../components/modelPortal";
+import inputClass from "../../../classes/inputClass";
+import { useEffect, useRef, useState } from "react";
+import { closeEsc } from "../../../hooks/closeEsc";
+import Style from "./formConfiguration.module.css";
+import Upload from "../../../components/upload";
 import Alerts from "../../../components/alerts";
+import Button from '@mui/material/Button';
 import getIp from "../../../hooks/getIp";
-function ModuleConfiguration({ close, menssage }) {
+import { Box } from "@mui/material";
+import axios from 'axios';
+function FormConfiguration({ close, menssage }) {
+    const divRef = useRef(null);
     const [result, setResult] = useState()
 
     const [nameCompany, setnameCompany] = useState("")
@@ -24,7 +26,15 @@ function ModuleConfiguration({ close, menssage }) {
             .then(data => setnameCompany(data))
         setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
         setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
-    }, [])
+        const divElement = divRef.current;
+        if (divElement) {
+            divElement.addEventListener('keydown', e => closeEsc(e, close));
+        }
+        return () => {
+            divElement.removeEventListener('keydown', closeEsc);
+        };
+
+    }, [close])
 
     const handleSaveConfig = async () => {
         if (!nameCompany || !browserLogo || !companyLogo) {
@@ -105,4 +115,4 @@ function ModuleConfiguration({ close, menssage }) {
     );
 }
 
-export default ModuleConfiguration;
+export default FormConfiguration;
