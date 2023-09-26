@@ -29,7 +29,7 @@ function ListTypes({ menssage, close }) {
                                 <Colum data={<Button sx={{ color: "black" }}><CloseIcon /></Button>} onClick={() => close()} width="40%" />
                             </Box>
                             <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                                <Colum data={"Id"} width="10%" />
+                                <Colum data={"ID"} width="10%" />
                                 <Colum data={"Name"} />
                                 <Colum data={"Actividades"} width="40%" />
                                 <Colum data={"Abreviatura"} />

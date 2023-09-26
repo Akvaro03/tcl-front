@@ -28,7 +28,7 @@ function StatisticsContent() {
                 </div>
                 <div className={Style.ContentCircle}>
                     <div className={Style.TittleCircle}>
-                        <p>Ot terminadas</p>
+                        <p>OT terminadas</p>
                     </div>
                     <div className={Style.Circle}>
                         <CircleStatistics data={Ot} />

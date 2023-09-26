@@ -12,7 +12,7 @@ function ListItems({ Ots, reload, emit, user }) {
     return (
         <div className={Style.contentListOt}>
             <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                <Colum data={"Id OT"} />
+                <Colum data={"ID OT"} />
                 <Colum data={"Tipo"} />
                 <Colum data={"Emision"} />
                 <Box sx={{ alignItems: "center", padding: "6px", width: "15%", display: "flex", justifyContent: "center" }}>

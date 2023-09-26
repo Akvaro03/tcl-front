@@ -15,7 +15,7 @@ function ModalCallback({ Result, setResult }) {
         <div className={Style.contentBody}>
             <div className={Style.tittleModel}>
                 <div></div>
-                <h1>Se ha guardado la Ot</h1>
+                <h1>Se ha guardado la OT</h1>
                 <h1 onClick={() => { setResult() }}>
                     <CloseIcon sx={{cursor: "pointer"}}/>
                 </h1>

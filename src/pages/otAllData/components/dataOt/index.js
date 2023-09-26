@@ -174,7 +174,7 @@ function DataOt({ otSelected, reload }) {
                         <h1>Autorización</h1>
                     </div>
                     <div className={Style.contentTittle}>
-                        <h1>Id de OT</h1>
+                        <h1>ID de OT</h1>
                     </div>
                     <div className={Style.contentTittle}>
                         <h1>Tipo de OT</h1>

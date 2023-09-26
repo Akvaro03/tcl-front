@@ -37,7 +37,7 @@ function ListPays({ pays, select, saveList, listPay, close }) {
                         )}
                     </Box>
                     <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                        <Colum data={"Id"} width="15%" />
+                        <Colum data={"ID"} width="15%" />
                         <Colum data={"Fecha de Creación"} />
                         <Colum data={"Fecha de Vencimiento"} width="20%" />
                         <Colum data={"Fecha de Cobro"} />

@@ -30,7 +30,7 @@ function FormPay({ close, save, pay = [] }) {
                     </Box>
                 </Box>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%" }}>Creación</Box>
+                    <Box sx={{ width: "50%" }}>Creación:</Box>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             format="DD/MM/YYYY"
@@ -39,7 +39,7 @@ function FormPay({ close, save, pay = [] }) {
                     </LocalizationProvider>
                 </Box>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%" }}>Vencimiento</Box>
+                    <Box sx={{ width: "50%" }}>Vencimiento:</Box>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             format="DD/MM/YYYY"

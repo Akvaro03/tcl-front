@@ -19,7 +19,7 @@ export default function ListUsersComponent({ Users, reload, setEdit }) {
         <Fade in={true} >
             <div className={Style.contentListOt}>
                 <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                    <Colum data={"Id"} width="5%" />
+                    <Colum data={"ID"} width="5%" />
                     <Colum data={"Nombre"} />
                     <Colum data={"Roles"} width="25%" />
                     <Colum data={"Email"} />

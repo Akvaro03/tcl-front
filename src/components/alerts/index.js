@@ -15,12 +15,12 @@ function Alerts({ Result }) {
         "ok Config": <AlertCustomSucces text={"Se guardo la configuración"} />,
         "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
         "ok loadedImage": <AlertCustomSucces text={"Se cargo la imagen"} />,
-        "ok Activity": <AlertCustomSucces text={"Se creo la actividad"} />,
-        "ok client": <AlertCustomSucces text={"Se creo el Cliente"} />,
-        "ok user": <AlertCustomSucces text={"Se creo el usuario"} />,
+        "ok Activity": <AlertCustomSucces text={"Se creó la actividad"} />,
+        "ok client": <AlertCustomSucces text={"Se creó el Cliente"} />,
+        "ok user": <AlertCustomSucces text={"Se creó el usuario"} />,
         "ok sesion": <AlertCustomSucces text={"Se inicio Sesion"} />,
-        "ok Type": <AlertCustomSucces text={"Se creo el tipo"} />,
-        "ok ot": <AlertCustomSucces text={"Se guardo el OT"} />,
+        "ok Type": <AlertCustomSucces text={"Se creó el tipo"} />,
+        "ok ot": <AlertCustomSucces text={"Se guardo la OT"} />,
         "ok edit": <AlertCustomSucces text={"Se edito"} />,
     }
     return (
