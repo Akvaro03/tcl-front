@@ -27,8 +27,8 @@ function Filters({ filterOt, tag, data }) {
                     <Tag text={"Todas"} />
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Badge badgeContent={data.otOnProcess ? data.otOnProcess : null} color="primary">
-                        <Tag text={"En proceso"} />
+                    <Badge badgeContent={data.otToAuth ? data.otToAuth : null} color="primary">
+                        <Tag text={"Sin Autorizar"} />
                     </Badge>
                 </AccordionDetails>
                 <AccordionDetails>
@@ -37,8 +37,13 @@ function Filters({ filterOt, tag, data }) {
                     </Badge>
                 </AccordionDetails>
                 <AccordionDetails>
-                    <Badge badgeContent={data.otToAuth ? data.otToAuth : null} color="primary">
-                        <Tag text={"Sin Autorizar"} />
+                    <Badge badgeContent={data.otWaiting ? data.otWaiting : null} color="primary">
+                        <Tag text={"En espera"} />
+                    </Badge>
+                </AccordionDetails>
+                <AccordionDetails>
+                    <Badge badgeContent={data.otOnProcess ? data.otOnProcess : null} color="primary">
+                        <Tag text={"En proceso"} />
                     </Badge>
                 </AccordionDetails>
                 <AccordionDetails>

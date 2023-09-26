@@ -5,9 +5,11 @@
     animation-fill-mode: forwards;
     transition-timing-function: ease-out;
     z-index: -100;
+    transform: scale(3);
 }
 .AlertStyleDefault{
     width: 16%;
+    transform: scale(1.5);
 }
 @keyframes moveAlert {
 

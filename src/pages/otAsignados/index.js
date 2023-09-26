@@ -54,13 +54,13 @@ const reload = async (setUser, setOts, setEmit, wait) => {
     let userLogin = getUser();
     const user = await getOneUser({ name: userLogin.name }).then(user => user[0])
     setUser(user)
-    // if (wait) {
-    //     setTimeout(() => {
-    //         fetchData(setOts)
-    //     }, 800);
-    //     return
-    // }
-    // fetchData(setOts, setEmit, user)
+    if (wait) {
+        setTimeout(() => {
+            fetchData(setOts, setEmit, user)
+        }, 800);
+        return
+    }
+    fetchData(setOts, setEmit, user)
 }
 const fetchData = async (setOts, setEmit, user) => {
     return getDataFromUrl('/getOT')

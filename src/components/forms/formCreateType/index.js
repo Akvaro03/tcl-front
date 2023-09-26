@@ -34,8 +34,8 @@ function FormCreateType({ close, menssage, data, reload }) {
         setTimeout(() => {
             menssage()
         }, 3000);
-        if (result !== "name used") {
-            reload()
+        if (result !== "name used" && result !== "abbr max") {
+            reload && reload()
             close()
         }
     }
@@ -73,7 +73,7 @@ function FormCreateType({ close, menssage, data, reload }) {
         <div className={Style.FormCreateType}>
             <div className={Style.TittleForm}>
                 <Box></Box>
-                <h1>{data ? "Editar tipo de OT" : "Crear nuevo tipo de OT"}</h1>
+                <h1>{data ? "Editar tipo de OT" : "Nuevo tipo de OT"}</h1>
                 {data ? (
                     <Button onClick={onDelete} sx={{ color: "black" }}><DeleteIcon /></Button>
                 ) : (
@@ -97,7 +97,7 @@ function FormCreateType({ close, menssage, data, reload }) {
                         {inputType.getInput(abbr, setAbbr)}
                     </div>
                 </div>
-                <div>
+                <Box component={"div"} display={"flex"} width={"100%"} flexWrap={"wrap"}>
                     {activity[0] && (
                         activity.map((user, key) => (
                             <div key={key}>
@@ -107,7 +107,7 @@ function FormCreateType({ close, menssage, data, reload }) {
                             </div>
                         ))
                     )}
-                </div>
+                </Box>
             </div>
             <div className={Style.buttonSave}>
                 <Button variant="outlined" onClick={() => close()}>
@@ -122,7 +122,7 @@ function FormCreateType({ close, menssage, data, reload }) {
 }
 
 const formatActivities = (data, prevData) => {
-    const namesActivities = JSON.parse(prevData.activities).map(activity => activity.name)
+    const namesActivities = prevData ? JSON.parse(prevData.activities).map(activity => activity.name) : []
     data.forEach(item => {
         item.select = namesActivities.includes(item.name);
     });
