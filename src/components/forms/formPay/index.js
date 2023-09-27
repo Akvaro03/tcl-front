@@ -1,14 +1,27 @@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
-import dayjs from "dayjs";
 import inputClass from "../../../classes/inputClass";
+import { useEffect, useRef, useState } from "react";
+import { closeEsc } from "../../../hooks/closeEsc";
+import dayjs from "dayjs";
 
 function FormPay({ close, save, pay = [] }) {
+    const divRef = useRef(null);
     const [dateExpiration, setDateExpiration] = useState(dayjs(Date.now()))
     const [dateCreated, setDateCreated] = useState(dayjs(Date.now()))
     const [id, setId] = useState("")
+    useEffect(() => {
+
+        const divElement = divRef.current;
+        if (divElement) {
+            divElement.addEventListener('keydown', e => closeEsc(e, close));
+        }
+        return () => {
+            divElement.removeEventListener('keydown', closeEsc);
+        };
+    }, [close])
+
     const handleSubmit = () => {
         const copyPay = [...pay]
         copyPay.push(id)
@@ -16,7 +29,7 @@ function FormPay({ close, save, pay = [] }) {
     }
     const inputPay = new inputClass(handleSubmit)
     return (
-        <Box sx={{ width: "600px", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
+        <Box ref={divRef} tabIndex={0} sx={{ width: "600px", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "25%" }}>
                 <Typography component={"h1"} sx={{ fontSize: "19px" }}>
                     Agregar Factura

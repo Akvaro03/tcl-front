@@ -5,16 +5,27 @@ import deleteTypeOt from "../../../db/deleteTypeOt";
 import DeleteIcon from '@mui/icons-material/Delete';
 import editTypeOt from "../../../db/editTypeOt";
 import Style from "./formCreateType.module.css"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import addType from "../../../db/addType";
+import { closeEsc } from "../../../hooks/closeEsc";
 
 function FormCreateType({ close, menssage, data, reload }) {
+    const divRef = useRef(null);
+
     const [activity, setActivity] = useState({})
     const [name, setName] = useState(data ? data.nameType : "")
     const [abbr, setAbbr] = useState(data ? data.abbreviation : "")
     useEffect(() => {
         searchAndSet(data)
-    }, [data])
+
+        const divElement = divRef.current;
+        if (divElement) {
+            divElement.addEventListener('keydown', e => closeEsc(e, close));
+        }
+        return () => {
+            divElement.removeEventListener('keydown', closeEsc);
+        };
+    }, [data, close])
     const saveTypeOt = async () => {
         const activitiesCopy = activity.filter((data) => data.select === true).map(({ select, ...rest }) => rest);
         if (!name || !activitiesCopy[0] || !abbr) {
@@ -70,7 +81,7 @@ function FormCreateType({ close, menssage, data, reload }) {
     }
     const inputType = new inputClass(saveTypeOt)
     return (
-        <div className={Style.FormCreateType}>
+        <div className={Style.FormCreateType} ref={divRef} tabIndex="0">
             <div className={Style.TittleForm}>
                 <Box></Box>
                 <h1>{data ? "Editar tipo de OT" : "Nuevo tipo de OT"}</h1>

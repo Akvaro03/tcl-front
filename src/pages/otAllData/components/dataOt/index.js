@@ -148,7 +148,7 @@ function DataOt({ otSelected, reload }) {
     const addListPay = (newPay) => {
         newPay.newList = pay.map(data => data.id)
         newPay.newList.push(newPay.id)
-        newPay.delete = true;
+        newPay.select = true;
         savePay(newPay)
     }
     const inputDataOt = new inputClass(sendOTEdit)

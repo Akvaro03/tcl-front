@@ -6,12 +6,25 @@ import editActivity from "../../../db/editActivity";
 import addActivity from "../../../db/addActivity";
 import nameUsed from "../../../db/nameUsed";
 import Style from "./formCreate.module.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { closeEsc } from "../../../hooks/closeEsc";
 function FormCreateActivity({ close, menssage, data, reload }) {
+    const divRef = useRef(null);
+
     const [emit, setEmit] = useState(data ? data.emit === 1 ? true : false : false)
     const [score, setScore] = useState(data ? data.score : "")
     const [name, setName] = useState(data ? data.name : "")
     const [time, setTime] = useState(data ? data.time : "")
+    useEffect(() => {
+
+        const divElement = divRef.current;
+        if (divElement) {
+            divElement.addEventListener('keydown', e => closeEsc(e, close));
+        }
+        return () => {
+            divElement.removeEventListener('keydown', closeEsc);
+        };
+    }, [close])
 
     const onSave = async () => {
         if (!name || !score || !time) {
@@ -42,7 +55,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
     }
     const inputActivity = new inputClass(onSave)
     return (
-        <Box component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "80%", height: "50%", borderRadius: "15px" }}>
+        <Box ref={divRef} tabIndex={0} component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "80%", height: "50%", borderRadius: "15px" }}>
             <Box component={"div"} sx={{ fontWeight: 600, fontSize: "20px", width: "100%", height: "20%", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
                 <Box></Box>
                 {data ? "Editar Actividad" : "Crear nueva actividad"}

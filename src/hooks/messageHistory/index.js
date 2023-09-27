@@ -33,7 +33,8 @@ class messageHistory {
         }
     }
     static editPay(pay) {
-        return !pay.delete ? "Nueva factura" : `Se elimino ${pay.delete}`
+        console.log(pay)
+        return `${!pay.delete ? "Nueva factura" : `Se elimino`}: ${pay.delete ? pay.delete : pay.id}`
     }
 }
 const firstLetterUpperCase = (word) => {
