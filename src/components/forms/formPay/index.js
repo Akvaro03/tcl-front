@@ -29,21 +29,21 @@ function FormPay({ close, save, pay = [] }) {
     }
     const inputPay = new inputClass(handleSubmit)
     return (
-        <Box ref={divRef} tabIndex={0} sx={{ width: "600px", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "25%" }}>
-                <Typography component={"h1"} sx={{ fontSize: "19px" }}>
+        <Box ref={divRef} tabIndex={0} sx={{ width: "500px", height: "350px", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "30px", marginBottom: "30px"}}>
+                <Typography component={"h1"} sx={{ fontSize: "19px",  fontWeight: "bold" , textDecoration: "underline"}}>
                     Agregar Factura
                 </Typography>
             </Box>
-            <Box display={"flex"} height={"50%"} width={"70%"} flexDirection={"column"} gap={"25px"} justifyContent={"center"} alignItems={"center"}>
+            <Box display={"flex"}  flexDirection={"column"} gap={"20px"} marginBottom={"30px"}  alignItems={"center"}>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "48%" }}>ID</Box>
-                    <Box sx={{ width: "30%" }}>
+                    <Box marginRight={"20px"}>ID:</Box>
+                    <Box width={"100%"}> 
                         {inputPay.getInput(id, (data) => setId(data))}
                     </Box>
                 </Box>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%" }}>Creación:</Box>
+                    <Box sx={{ width: "50%"}}>Creación:</Box>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             format="DD/MM/YYYY"
