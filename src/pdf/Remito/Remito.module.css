@@ -1,6 +1,6 @@
 body {
     font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
-    margin: 30px 50px 20px 80px;
+    margin: 30px 50px 20px 110px;
     background: white !important;
 }
 
@@ -10,8 +10,8 @@ body {
 
 .header {
     width: 100%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-bottom: 1px solid black;
 }
 
@@ -55,7 +55,7 @@ body {
     justify-content: space-between;
     display: flex;
     margin: 5px;
-    width: 60%;
+    width: 80%;
 }
 
 .productData {
@@ -65,8 +65,7 @@ body {
 }
 
 .productDiv {
-    height: 100%;
-    padding: 20px 0;
+    height: 70px !important;
     width: 100%;
     padding: 20px;
 }
@@ -90,16 +89,21 @@ body {
 .estimatedDate .date,
 .estimatedDate .price {
     display: flex;
+    align-items: center;
 }
-.estimatedDateTittle{
+
+.estimatedDateTittle {
     padding-right: 20px;
 }
-.observations{
+
+.observations {
     margin: 30px;
 }
-.observationsContent{
+
+.observationsContent {
     margin: 30px;
 }
+
 .formatSend {
     display: flex;
     padding: 10px;
@@ -164,19 +168,22 @@ body {
 .firmTittle {
     border-bottom: 1px solid black;
     padding: 5px;
+    font-size: 15px;
+    border-top: 1px solid black;
 }
 
 .firm {
-    height: 70px;
+    height: 35px;
 }
 
 .firmNote {
     border-top: 1px solid black;
     padding: 5px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .items {
+    height: 350px;
     border-bottom: 1px solid black;
 }
 
@@ -194,6 +201,7 @@ body {
     padding: 5px 20px;
     display: flex;
 }
+
 .product p:nth-child(1) {
     width: 15%;
 }

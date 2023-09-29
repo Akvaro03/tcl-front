@@ -17,7 +17,6 @@ function Etiquetas() {
         }
         getOt()
     }, [id, steps])
-
     return (
         <div className={Style.container}>
             {OT}
@@ -26,29 +25,30 @@ function Etiquetas() {
 }
 
 const Label = ({ OT }) => {
+    const name = OT.OTKey.split(" ")
     return (
         <div className={Style.card}>
             <div className={Style.header}>
-                <h1>1707179 S</h1>
-                <h1>DAVI</h1>
-                <p>VENTILADOR AXIAL</p>
+                <h1>{`${name[0]} ${name[1]}`}</h1>
+                <h1>{name[2]}</h1>
+                <p>{OT.Producto}</p>
             </div>
             <div className={Style.dataContent}>
                 <div className={Style.data}>
                     <p className={Style.field}>Marca:</p>
-                    <p className={Style.value}>{OT.Marca}</p>
+                    <p className={Style.value}>{OT.Marca ? OT.Marca : "-"}</p>
                 </div>
                 <div className={Style.data}>
                     <p className={Style.field}>Modelo:</p>
-                    <p className={Style.value}>{OT.Modelo}</p>
+                    <p className={Style.value}>{OT.Modelo ? OT.Modelo : "-"}</p>
                 </div>
                 <div className={Style.data}>
                     <p className={Style.field}>Actividad:</p>
-                    <p className={Style.value}>{OT.Type}</p>
+                    <p className={Style.value}>{OT.Type ? OT.Type : "-"}</p>
                 </div>
                 <div className={Style.data}>
                     <p className={Style.field}>Norma:</p>
-                    <p className={Style.value}>{OT.NormaAplicar}</p>
+                    <p className={Style.value}>{OT.NormaAplicar ? OT.NormaAplicar : "-"}</p>
                 </div>
             </div>
         </div>

@@ -13,6 +13,7 @@ import formatDate from '../../../../hooks/formatDate';
 import changeActOt from "../../../../db/changeActOt";
 import Alerts from '../../../../components/alerts';
 import changeAuth from "../../../../db/changeAuth";
+import PrintIcon from '@mui/icons-material/Print';
 import { Button, Fab, Fade } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import AddAvailability from '../addAvailability';
@@ -28,6 +29,8 @@ import ContentPay from '../contentPay';
 import Style from "./Data.module.css";
 import OptionPay from '../optionPay';
 import dayjs from "dayjs";
+import PrintOt from '../../../../components/printOt';
+
 function DataOt({ otSelected, reload }) {
     const [availability, setAvailability] = useState(JSON.parse(otSelected.Availability))
     const [addAvailability, setAddAvailability] = useState(false)
@@ -47,7 +50,7 @@ function DataOt({ otSelected, reload }) {
     const rol = getUser("roles")
 
     const [result, setResult] = useState()
-
+    const [printOt, setPrintOt] = useState(false)
     useEffect(() => {
         const searchData = async () => {
             const pays = await getDataFromUrl('/getPay')
@@ -394,6 +397,17 @@ function DataOt({ otSelected, reload }) {
                     <Alerts Result={result} />
                 </ModalPortal>
             )}
+            {printOt && (
+                <ModalPortal type={"form"}>
+                    <PrintOt Result={otSelected.id}/>
+                </ModalPortal>
+            )}
+
+            <Fade in={true}>
+                <Fab color="primary" aria-label="add" onClick={() => setPrintOt(true)} sx={{ position: "fixed", right: "100px", bottom: "40px", zIndex: 1 }}>
+                    <PrintIcon />
+                </Fab>
+            </Fade>
             {permissions.editOt(rol) && (
                 <>
                     {edit ? (

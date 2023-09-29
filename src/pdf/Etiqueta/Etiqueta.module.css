@@ -1,3 +1,7 @@
+body{
+    background: white;
+}
+
 .container {
     font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
     grid-template-columns: repeat( auto-fit, minmax(190px, 1fr) );

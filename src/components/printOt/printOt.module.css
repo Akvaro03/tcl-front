@@ -1,0 +1,29 @@
+.contentBody {
+    width: 50%;
+    height: 40%;
+    background-color: whitesmoke;
+    border-radius: 15px;
+}
+
+.tittleModel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    font-size: 1.2rem;
+    align-items: end;
+    font-weight: 500;
+    height: 20%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.selectNumber {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12%;
+    margin-bottom: 5%;
+}
