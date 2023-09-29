@@ -23,7 +23,7 @@ export default function FilterClients({ filterData }) {
             </Box>
             <Box sx={{ width: "20%", marginLeft: "5%", display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginRight: "2%" }}>
-                    <h1>Codigo:</h1>
+                    <h1>Código:</h1>
                 </Box>
                 {inputFilter.getInput(code, (e) => onChangeSearch(e, "code"))}
             </Box>

@@ -87,37 +87,36 @@ function FormCreateUser({ close, reload, user }) {
             </div>
             <div className={Style.formCreate}>
                 <div className={Style.inputsForm}>
+                    {user ? (
+                        <div className={Style.input}>
+                            <Checkbox sx={{ margin: "0px", padding: "0px" }} checked={stateUser === "active"} onChange={handleState} name={"Estado"} />
+                            <p>Habilitado</p>
+                        </div>
+                    ) : (<></>)}
                     <div className={Style.input}>
                         <div className={Style.inputTittle}>
-                            <p>Nombre</p>
+                            <p>Nombre:</p>
                         </div>
                         {inputUser.getInput(nameUser, (e) => setNameUser(e))}
                     </div>
                     <div className={Style.input}>
                         <div className={Style.inputTittle}>
-                            <p>Email</p>
+                            <p>Correo:</p>
                         </div>
                         {inputUser.getInput(emailUser, (e) => setEmailUser(e))}
                     </div>
                     {!user ? (
                         <div className={Style.input}>
                             <div className={Style.inputTittle}>
-                                <p>Contraseña</p>
+                                <p>Contraseña:</p>
                             </div>
                             {inputUser.getInput(passwordUser, (e) => setPasswordUser(e))}
                         </div>
-                    ) : (
-                        <div className={Style.input}>
-                            <div className={Style.inputTittle}>
-                                <p>Estado</p>
-                            </div>
-                            <Checkbox sx={{ margin: "0px", padding: "0px" }} checked={stateUser === "active"} onChange={handleState} name={"Estado"} />
-                        </div>
-                    )}
+                    ) : (<></>)}
                 </div>
                 <div className={Style.selectRoles}>
-                    <div className={Style.tittleRoles}>
-                        <p>Selecciona los roles</p>
+                    <div className={Style.inputTittle}>
+                        <p>Rol:</p>
                     </div>
                     <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                         <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
@@ -130,7 +129,6 @@ function FormCreateUser({ close, reload, user }) {
                                     label={nameRole}
                                 />
                             }
-
                             )}
                         </FormGroup>
                     </FormControl>

@@ -26,7 +26,7 @@ function SelectConfig() {
                     <Button sx={{ color: "black" }} component={"div"} onClick={() => setIsListActivity(true)}><FormatListBulletedIcon /></Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Button variant="text" onClick={() => setIsFormType(true)}>Nuevo Tipo</Button>
+                    <Button variant="text" onClick={() => setIsFormType(true)}>Nuevo Tipo de OT</Button>
                     <Button sx={{ color: "black" }} component={"div"} onClick={() => setIsListType(true)}><FormatListBulletedIcon /></Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>

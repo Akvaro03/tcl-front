@@ -50,7 +50,7 @@ function ListPays({ pays, select, saveList, listPay, close }) {
                                     <Colum data={Pay.id} width="15%" />
                                     <Colum data={formatDateM(Pay.dateCreated)} />
                                     <Colum data={formatDateM(Pay.dateExpiration)} width="20%" />
-                                    <Colum data={Pay.datePay === null ? "No se Cobro" : formatDateM(Pay.datePay)} />
+                                    <Colum data={Pay.datePay === null ? "No se Cobró" : formatDateM(Pay.datePay)} />
                                 </div>
                             ))
                         ) : (

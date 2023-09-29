@@ -23,29 +23,29 @@ function ListTypes({ menssage, close }) {
             {listActivity && (
                 <>
                     <Fade in={true}>
-                        <div className={Style.contentListOt}>
+                        <div className={Style.headerListOt}>
                             <Box sx={{ display: "flex", fontSize: "20px", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px", justifyContent: "center" }}>
                                 <Colum data={""} width="40%" />
                                 <Colum data={"Tipos de OT"} width="40%" />
                                 <Colum data={<Button sx={{ color: "black" }}><CloseIcon /></Button>} onClick={() => close()} width="40%" />
                             </Box>
                             <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
-                                <Colum data={"Abreviatura"} />
                                 <Colum data={"Nombre"} />
+                                <Colum data={"Identificador"} />
                                 <Colum data={"Actividades por defecto"} width="40%" />
                             </Box>
                             <div className={Style.contentListOt}>
                                 {listActivity && listActivity[0] ? (
                                     listActivity.map((OT, key) => (
                                         <div key={key} className={Style.ColumOt} onDoubleClick={() => setIsFormEditActivity(OT)}>
-                                            <Colum data={OT.abbreviation} />
                                             <Colum data={OT.nameType} />
+                                            <Colum data={OT.abbreviation} />
                                             <Colum data={JSON.parse(OT.activities).map(data => data.name).join(", ")} width="40%" />
                                         </div>
                                     ))
                                 ) : (
                                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "25px" }}>
-                                        <h1>No hay OT</h1>
+                                        <h1>No hay Tipos</h1>
                                     </Box>
                                 )}
                             </div>

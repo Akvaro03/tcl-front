@@ -55,16 +55,24 @@ function FormCreateActivity({ close, menssage, data, reload }) {
     }
     const inputActivity = new inputClass(onSave)
     return (
-        <Box ref={divRef} tabIndex={0} component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "80%", height: "50%", borderRadius: "15px" }}>
-            <Box component={"div"} sx={{ fontWeight: 600, fontSize: "20px", width: "100%", height: "20%", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
+        <Box ref={divRef} tabIndex={0} component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "30%", height: "40%", borderRadius: "15px" }}>
+            <Box component={"div"} sx={{ fontWeight: "bold", fontSize: "20px", width: "100%", marginBottom: "5px", marginTop: "30px", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
                 <Box></Box>
-                {data ? "Editar Actividad" : "Crear nueva actividad"}
-                <Button onClick={onDelete} sx={{ color: "black" }}><DeleteIcon /></Button>
+                {data ? "Editar Actividad" : "Nueva Actividad"}
+                {data ? <Button onClick={onDelete} sx={{ color: "black" }}><DeleteIcon /></Button> : <Box></Box>}
             </Box>
             <div className={Style.form}>
                 <div className={Style.inputFormContent}>
+                    <div className={Style.input}>
+                        <Checkbox checked={emit} onChange={({ target: { checked } }) => { setEmit(checked) }} />
+                    </div>
                     <p className={Style.TittleInput}>
-                        Tipo de actividad
+                        Se emite informe
+                    </p>
+                </div>
+                <div className={Style.inputFormContent}>
+                    <p className={Style.TittleInput}>
+                        Tipo de actividad: 
                     </p>
                     <div className={Style.input}>
                         {inputActivity.getInput(name, setName)}
@@ -72,7 +80,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                 </div>
                 <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
-                        Score
+                        Puntaje:
                     </p>
                     <div className={Style.input}>
                         {inputActivity.getInput(score, setScore)}
@@ -80,28 +88,20 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                 </div>
                 <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
-                        Tiempo estimado
+                        Duración estimada (días):
                     </p>
                     <div className={Style.input}>
                         {inputActivity.getInput(time, setTime)}
                     </div>
                 </div>
-                <div className={Style.inputFormContent}>
-                    <p className={Style.TittleInput}>
-                        Se emite?
-                    </p>
-                    <div className={Style.input}>
-                        <Checkbox checked={emit}
-                            onChange={({ target: { checked } }) => { setEmit(checked) }} />
-                    </div>
-                </div>
+               
             </div>
             <div className={Style.buttonSave}>
                 <Button variant="outlined" onClick={() => close()}>
                     Cancelar
                 </Button>
                 <Button variant="contained" onClick={onSave}>
-                    Guardar actividad
+                    Guardar Actividad
                 </Button>
             </div>
         </Box>

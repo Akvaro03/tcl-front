@@ -6,7 +6,7 @@ export default function ListClientsComponent({ Clients }) {
             <div className={Style.headerListOt}>
                 <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
                     <Colum data={"ID"} width="10%" />
-                    <Colum data={"Abreviatura"} width="30%" />
+                    <Colum data={"Código"} width="30%" />
                     <Colum data={"Nombre"} width="60%"/>
                 </Box>
 

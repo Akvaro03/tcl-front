@@ -32,6 +32,8 @@
 .inputsForm {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
 }
 
 .input {
@@ -39,8 +41,7 @@
     align-items: center;
     gap: 5px;
     width: 100%;
-    margin: 3% 0;
-
+    margin: 10px 0;
 }
 
 .inputTittle {
