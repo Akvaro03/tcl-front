@@ -22,11 +22,11 @@ function ListPays({ pays, select, saveList, listPay, close }) {
     return (
         <Fade in={true}>
             <Box sx={{ width: select ? "80%" : "100%", display: "flex", flexDirection: "column", height: select ? "80%" : "100%", justifyContent: "center", alignItems: "center" }}>
-                <div className={Style.contentListOt}>
+                <div className={Style.headerListOt}>
                     <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "100%", height: "45px" }}>
                         <Colum data={""} width="25%" />
                         <Box sx={{ width: "50%", alignItems: "center", display: "flex", justifyContent: "center" }}>
-                            <Typography component={"h1"} sx={{ fontSize: "19px" }}>
+                            <Typography component={"h1"} sx={{ fontSize: "19px", fontWeight:"bold", textDecoration:"underline"}}>
                                 Lista de facturas
                             </Typography>
                         </Box>
@@ -36,26 +36,29 @@ function ListPays({ pays, select, saveList, listPay, close }) {
                             <Colum data={<Button sx={{ color: "black" }} onClick={() => close()}><CloseIcon /></Button>} width="25%" />
                         )}
                     </Box>
-                    <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
+                    <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
                         <Colum data={"ID"} width="15%" />
-                        <Colum data={"Fecha de Creación"} />
-                        <Colum data={"Fecha de Vencimiento"} width="20%" />
-                        <Colum data={"Fecha de Cobro"} />
+                        <Colum data={"Creación"} />
+                        <Colum data={"Vencimiento"} width="20%" />
+                        <Colum data={"Cobro"} />
+                        {/* todo: Agregar un monto  */}
                     </Box>
-                    {paysData && paysData[0] ? (
-                        paysData.map((Pay, key) => (
-                            <div key={key} className={Style.ColumOt} onDoubleClick={() => select && saveList(Pay)}>
-                                <Colum data={Pay.id} width="15%" />
-                                <Colum data={formatDateM(Pay.dateCreated)} />
-                                <Colum data={formatDateM(Pay.dateExpiration)} width="20%" />
-                                <Colum data={Pay.datePay === null ? "No se Cobro" : formatDateM(Pay.datePay)} />
-                            </div>
-                        ))
-                    ) : (
-                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "70%", fontSize: "25px" }}>
-                            <h1>No hay Factura</h1>
-                        </Box>
-                    )}
+                    <div className={Style.contentListOt}>
+                        {paysData && paysData[0] ? (
+                            paysData.map((Pay, key) => (
+                                <div key={key} className={Style.ColumOt} onDoubleClick={() => select && saveList(Pay)}>
+                                    <Colum data={Pay.id} width="15%" />
+                                    <Colum data={formatDateM(Pay.dateCreated)} />
+                                    <Colum data={formatDateM(Pay.dateExpiration)} width="20%" />
+                                    <Colum data={Pay.datePay === null ? "No se Cobro" : formatDateM(Pay.datePay)} />
+                                </div>
+                            ))
+                        ) : (
+                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "70%", fontSize: "25px" }}>
+                                <h1>No hay Factura</h1>
+                            </Box>
+                        )}
+                    </div>
                 </div>
 
             </Box>
