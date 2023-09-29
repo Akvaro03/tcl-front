@@ -53,9 +53,14 @@ function Filters({ filterOt, tag, data }) {
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
                     <Typography>
-                        <Tag text={"Disponibilidad de Productos"}/>
+                        <Tag text={"Disposición de Productos"}/>
                     </Typography>
                 </AccordionSummary>
+                <AccordionDetails>
+                    <Badge badgeContent={data.otRetired ? data.otRetired : null} color="primary">
+                        <Tag text={"Sin disposición"} />
+                    </Badge>
+                </AccordionDetails>
                 <AccordionDetails>
                     <Badge badgeContent={data.otRetired ? data.otRetired : null} color="primary">
                         <Tag text={"Retirados"} />

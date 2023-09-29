@@ -76,7 +76,7 @@ function OtPage() {
 
 
             // Productos
-            case "Disponibilidad de Productos":
+            case "Disposición de Productos":
                 filterOt("Retirados")
                 break;
 
