@@ -27,7 +27,7 @@ function OtPage() {
     const [pays, setPays] = useState()
 
 
-    const [tag, setTag] = useState("Todas")
+    const [tag, setTag] = useState("Todas las OTs")
     useEffect(() => {
         getDataFromUrl("/getOT")
             .then(data => data.reverse())
@@ -46,9 +46,10 @@ function OtPage() {
 
     const filterOt = (type, data) => {
         switch (type) {
-            case "Todas":
+            // OTs
+            case "Todas las OTs":
                 setOtFilter(listOt);
-                setTag("Todas");
+                setTag("Todas las OTs");
                 break;
             case "En proceso":
                 setOtFilter(listOt.filter(ot => getStateActivity(ot) === "En proceso"));
@@ -73,6 +74,12 @@ function OtPage() {
                 setTag("Terminadas");
                 break;
 
+
+            // Productos
+            case "Disponibilidad de Productos":
+                filterOt("Retirados")
+                break;
+
             case "Retirados":
                 setOtFilter(listOt.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "Retiro"));
                 setTag("Retirados");
@@ -86,12 +93,13 @@ function OtPage() {
                 setTag("DFR");
                 break;
 
-            case "Facturas":
+            // Facturas
+            case "Facturación":
                 filterOt("Pendientes")
                 break;
-            case "OT sin facturar":
+            case "OTs sin facturar":
                 setOtFilter(listOt.filter(OT => OT.Factura === null));
-                setTag("OT sin facturar");
+                setTag("OTs sin facturar");
                 break;
             case "Pendientes":
                 setPaysEdit(pays.filter(pay => pay.datePay === null));
@@ -108,14 +116,14 @@ function OtPage() {
 
             case "searchId":
                 if (data) {
-                    setOtFilter(prev => prev.filter(ot => ot.id === Number(data)));
+                    setOtFilter(prev => prev.filter(ot => ot.OTKey.includes(data.toUpperCase())));
                 } else {
                     filterOt(tag);
                 }
                 break;
             case "selectClient":
                 if (data[0]) {
-                    setOtFilter(listOt.filter(ot => data.includes(ot.Client)));
+                    setOtFilter(listOt.filter(ot => ot.Client.includes(data)));
                 } else {
                     setOtFilter(prev => prev.filter(ot => data.includes(ot.Client)));
                 }
@@ -131,7 +139,7 @@ function OtPage() {
     }
     const filterAllOt = (OTList) => {
         setOtFilter(OTList);
-        setTag("Todas");
+        setTag("Todas las OTs");
         setOtOnProcess(OTList.filter(ot => getStateActivity(ot) === "En proceso"))
         setOtWaiting(OTList.filter(ot => getStateActivity(ot) === "En espera"))
         setOtToAssing(OTList.filter(ot => !isUserAssigned(ot)))
@@ -149,7 +157,7 @@ function OtPage() {
             <div className={Style.ContentOt}>
                 <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otWaiting: otWaiting.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
                 {otFilter && (
-                    tag === "Facturas" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
+                    tag === "Facturación" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
                         <ListPays pays={paysEdit} />
                         :
                         <ListOt listOt={otFilter} filterOt={filterOt} handleAuth={handleChangeAuth} />
