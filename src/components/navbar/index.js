@@ -169,8 +169,15 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>
-            {userNameLogin ? <p>{userNameLogin}</p> : <Box onClick={() => navigate("/login")} sx={{ cursor: "pointer" }}>Iniciar Sesion</Box>}
-            {userNameLogin && <p style={{ cursor: 'pointer' }} onClick={handleCloseAccount}>Cerrar Sesion</p>}
+            {userNameLogin ? 
+              <Box sx={{textAlign: "center", marginRight:"20px"}}>
+                <p>{userNameLogin}</p> 
+                <p>({roles})</p>
+              </Box> 
+              : 
+              <Box onClick={() => navigate("/login")} sx={{ cursor: "pointer" }}>Iniciar Sesion</Box>
+            }
+            {userNameLogin && <p style={{ cursor: 'pointer' }} onClick={handleCloseAccount}>Cerrar Sesión</p>}
             {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -246,14 +253,16 @@ const linkDirector = [
     "url": "/createOt"
   },
 ]
-const linkAdminSystem = [{
-  "name": "Usuarios",
-  "url": "/AllUser"
-},
-{
-  "name": "Configurar",
-  "url": "/configuración"
-}]
+const linkAdminSystem = [
+  {
+    "name": "Configuraciones",
+    "url": "/configuración"
+  },
+  {
+    "name": "Usuarios",
+    "url": "/AllUser"
+  },
+]
 // const linkAdmin = [
 //   {
 //     "name": "Lista OT",
