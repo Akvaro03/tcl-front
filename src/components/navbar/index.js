@@ -206,7 +206,7 @@ function ResponsiveAppBar() {
 }
 const linkTrabajador = [
   {
-    "name": "Tareas asignadas",
+    "name": "Actividades asignadas",
     "url": "/OtAsingPages"
   }]
 
@@ -216,16 +216,16 @@ const linkAdmin = [
     "url": "/OtList"
   },
   {
+    "name": "Listado Clientes",
+    "url": "/listClients"
+  },
+  {
     "name": "Nueva Factura",
     "url": "/createFact"
   },
   {
     "name": "Nueva OT",
     "url": "/createOt"
-  },
-  {
-    "name": "Listado Clientes",
-    "url": "/listClients"
   },
 ]
 const linkDirector = [
