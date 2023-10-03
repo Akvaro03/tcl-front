@@ -4,22 +4,24 @@ export default function getStateActivity(ot) {
         const auth = ot.Auth;
 
         const allActivitiesEnded = activities.every(data => data.state === "End");
-        const allActivitiesInProgress = activities.some(data => data.state === "Started");
         const allActivitiesWithUsers = activities.every(data => JSON.parse(data.users)[0]);
+        const someActivitiesInProgress = activities.some(data => data.state === "Started");
 
 
-        if (auth && allActivitiesWithUsers && !allActivitiesInProgress) {
+        if (auth && allActivitiesWithUsers && !someActivitiesInProgress) {
             return "En espera"
         }
+        
+        if (auth && someActivitiesInProgress) {
+            return "En proceso";
+        }
 
-        if (allActivitiesEnded && auth) {
+        if (auth && allActivitiesEnded ) {
             return "Terminada";
         }
 
-        if (allActivitiesInProgress && auth) {
-            return "En proceso";
-        }
         return "No empezo";
+        
     } catch (error) {
         return "Terminada";
     }

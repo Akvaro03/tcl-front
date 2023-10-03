@@ -79,19 +79,19 @@ function FormConfiguration({ close, menssage }) {
             <div className={Style.formConfiguration}>
                 <div className={Style.input}>
                     <div className={Style.inputTittle}>
-                        <p>Nombre de la empresa</p>
+                        <p>Nombre de la empresa:</p>
                     </div>
                     {inputConfig.getInput(nameCompany, setnameCompany)}
                 </div>
                 <div className={Style.input}>
                     <div className={Style.inputTittle}>
-                        <p>Logo del navegador</p>
+                        <p>Logo del navegador:</p>
                     </div>
                     <Box sx={{ width: "30%", height: "100%" }}>
                         <Upload data={browserLogo} loadImage={loadImage} setData={setBrowserLogo} setFile={setBrowserLogoFile} />
                     </Box>
                     <div className={Style.inputTittle}>
-                        <p>Logo de la empresa</p>
+                        <p>Logo de la empresa:</p>
                     </div>
                     <Box sx={{ width: "30%", height: "100%" }}>
                         <Upload data={companyLogo} loadImage={loadImage} setData={setCompanyLogo} setFile={setCompanyLogoFile} />

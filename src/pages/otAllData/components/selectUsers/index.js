@@ -28,7 +28,7 @@ function SelectUsers({ closeForm, activitySelected, handleUsers }) {
             <Box sx={{ width: "60%", height: "40%", background: "white", borderRadius: "15px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", height: "20%", alignItems: "center", justifyItems: "end" }}>
                     <div />
-                    <h1>Selecciona los usuarios</h1>
+                    <h1>Asignar usuario/s</h1>
                     <Box sx={{ cursor: "pointer" }} onClick={closeForm}>
                         <CloseIcon />
                     </Box>

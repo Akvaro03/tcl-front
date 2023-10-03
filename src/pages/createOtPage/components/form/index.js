@@ -63,7 +63,7 @@ function FormCreateOt({ DateCreate }) {
             const Changes = {
                 userId: userLogin.id,
                 userName: userLogin.name,
-                ChangeDescription: `Se creó el Ot`,
+                ChangeDescription: `Se creó la OT`,
                 date: new Date(DateCreate).getTime(),
                 comment: ""
             };
@@ -145,8 +145,23 @@ function FormCreateOt({ DateCreate }) {
             <div className={Style.ContentForm}>
                 <div className={Style.Content}>
                     <div className={Style.PartLeft}>
+                        <div className={Style.Identification}>
+                            <p >ID:</p>
+                            <div className={Style.InputIdentification}>
+                                <BootstrapInput value={Identificación} disabled id="outlined-basic" variant="outlined" />
+                            </div>
+                        </div>
+
+                        <div className={Style.SelectType}>
+                            <p className={Style.TittleType}>Seleccionar Tipo:</p>
+                            <Select sx={{ height: "45px", width: "80%" }} fullWidth onChange={({ target: { value } }) => handleTypeChange(value)} placeholder='Selecciona el tipo de OT' defaultValue={""}>
+                                {allTypes.map((type, index) => (
+                                    <MenuItem key={index} value={index}>{type.nameType}</MenuItem >
+                                ))}
+                            </Select>
+                        </div>
+                        
                         <div className={Style.SelectClient}>
-                            <p className={Style.TittleClient}>Seleccionar Cliente</p>
                             <Autocomplete
                                 disablePortal
                                 disableClearable
@@ -161,18 +176,26 @@ function FormCreateOt({ DateCreate }) {
                         </div>
                         <div className={Style.ClientData}>
                             <div className={Style.ClientDataContent}>
-                                <p >Client N°</p>
+                                <p >Client N°:</p>
                                 <div className={Style.InputDisabled}>
                                     <BootstrapInput value={ClientObjet.id} disabled id="outlined-basic" variant="outlined" />
                                 </div>
                             </div>
                             <div className={Style.ClientDataContent}>
-                                <p >Clave Unica</p>
+                                <p >Clave Única:</p>
                                 <div className={Style.InputDisabled}>
                                     <BootstrapInput value={ClientObjet.KeyUnique} disabled id="outlined-basic" variant="outlined" />
                                 </div>
                             </div>
                         </div>
+
+                        <div className={Style.SelectType}>
+                            <p className={Style.TittleType}>Seleccionar Contacto:</p>
+                            {ClientObjet.Contacts && (
+                                <MultipleSelect size={"medium"} onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Clientes seleccionados"} />
+                            )}
+                        </div>
+                        
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
                                 <CustomInput value={Producto} onChange={setProducto} placeholder={"Producto"} />
@@ -200,65 +223,57 @@ function FormCreateOt({ DateCreate }) {
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
+                            <p className={Style.TittleType}>Fecha de vencimiento del certificado:</p>
                                 <CustomInput placeholder={"Fecha de vencimiento del certificado"} value={FechaVencimiento} onChange={setFechaVencimiento} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
+                            <p className={Style.TittleType}>Fecha de entrega estimada:</p>
                                 <CustomInput placeholder={"Fecha de entrega estimada"} value={FechaEstimada} onChange={setFechaEstimada} />
                             </div>
                         </div>
                     </div>
                     <div className={Style.PartRight}>
-                        <div className={Style.Identification}>
-                            <p >Identificación</p>
-                            <div className={Style.InputIdentification}>
-                                <BootstrapInput value={Identificación} disabled id="outlined-basic" variant="outlined" />
-                            </div>
+                        
+                        
+                        <div className={Style.DataInput}>
+                            <p className={Style.TittleType}>Detalle del trabajo solicitado:</p>
                         </div>
-                        <div className={Style.SelectType}>
-                            <p className={Style.TittleType}>Seleccionar tipo de OT</p>
-                            <Select sx={{ height: "45px" }} fullWidth onChange={({ target: { value } }) => handleTypeChange(value)} placeholder='Selecciona el tipo de OT' defaultValue={""}>
-                                {allTypes.map((type, index) => (
-                                    <MenuItem key={index} value={index}>{type.nameType}</MenuItem >
-                                ))}
-                            </Select>
-                        </div>
-                        <div className={Style.DescriptionContent}>
-                            <p className={Style.DescriptionTittle}>Descripcion del trabajo solicitado</p>
+                        <div className={Style.DataInput}>
                             <div className={Style.Description}>
-                                <p>Item</p>
-                                <p>Descripcion</p>
-                                <p>Importe</p>
-                                <div className={Style.ItemTable}>
-                                    <CustomInputTable position={"Item1"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.DescriptionTable}>
-                                    <CustomInputTable position={"Description1"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.ImportTable}>
-                                    <CustomInputTable position={"Importe1"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.ItemTable}>
-                                    <CustomInputTable position={"Item2"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.DescriptionTable}>
-                                    <CustomInputTable position={"Description2"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.ImportTable}>
-                                    <CustomInputTable position={"Importe2"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.ItemTable}>
-                                    <CustomInputTable position={"Item3"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.DescriptionTable}>
-                                    <CustomInputTable position={"Description3"} value={Description} onChange={setDescription} />
-                                </div>
-                                <div className={Style.ImportTable}>
-                                    <CustomInputTable position={"Importe3"} value={Description} onChange={setDescription} />
+                                    <p>Item</p>
+                                    <p>Descripción</p>
+                                    <p>Importe</p>
+                                    <div className={Style.ItemTable}>
+                                        <CustomInputTable position={"Item1"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.DescriptionTable}>
+                                        <CustomInputTable position={"Description1"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.ImportTable}>
+                                        <CustomInputTable position={"Importe1"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.ItemTable}>
+                                        <CustomInputTable position={"Item2"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.DescriptionTable}>
+                                        <CustomInputTable position={"Description2"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.ImportTable}>
+                                        <CustomInputTable position={"Importe2"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.ItemTable}>
+                                        <CustomInputTable position={"Item3"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.DescriptionTable}>
+                                        <CustomInputTable position={"Description3"} value={Description} onChange={setDescription} />
+                                    </div>
+                                    <div className={Style.ImportTable}>
+                                        <CustomInputTable position={"Importe3"} value={Description} onChange={setDescription} />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <div className={Style.FieldObser}>
                             <TextField
                                 placeholder={"Observaciones"}
@@ -271,13 +286,6 @@ function FormCreateOt({ DateCreate }) {
                                 maxRows={3}
                             />
                         </div>
-                        <div className={Style.SelectType}>
-                            <p className={Style.TittleType}>Seleccionar Contacto</p>
-                            {ClientObjet.Contacts && (
-                                <MultipleSelect size={"medium"} onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Clientes seleccionados"} />
-                            )}
-                        </div>
-
                     </div>
                 </div>
                 <div className={Style.ButtonSave}>

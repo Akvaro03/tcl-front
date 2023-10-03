@@ -11,10 +11,10 @@ function ListItems({ Ots, reload, emit, user }) {
     const navigate = useNavigate();
     return (
         <div className={Style.contentListOt}>
-            <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                <Colum data={"Id OT"} />
-                <Colum data={"Tipo"} />
-                <Colum data={"Emision"} />
+            <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
+                <Colum data={"OT"} />
+                <Colum data={"Actividad"} />
+                <Colum data={"Emisión"} />
                 <Box sx={{ alignItems: "center", padding: "6px", width: "15%", display: "flex", justifyContent: "center" }}>
                     Estado
                 </Box>
@@ -26,7 +26,7 @@ function ListItems({ Ots, reload, emit, user }) {
                     return activitiesFiltered.map((activity, key) => (
                         <div key={key} className={Style.ColumOt}
                             onDoubleClick={() => navigate(`/events/${OT.id}`)}>
-                            <Colum data={OT.id} />
+                            <Colum data={OT.OTKey} />
                             <Colum data={activity.name} />
                             <Colum data={(activity.emit === 1 ? "Se" : "No se") + " emite"} />
                             {activity.state === "created" ? (

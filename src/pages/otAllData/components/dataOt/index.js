@@ -169,7 +169,11 @@ function DataOt({ otSelected, reload }) {
     return (
         <>
             <div className={Style.contentData}>
+                
+                {/* Encabezados */}
                 <div className={Style.tittlesCategories}>
+
+                    {/* OT */}
                     <div className={Style.contentTittle}>
                         <h1 className={Style.tittlePage}>OT Seleccionada</h1>
                     </div>
@@ -177,7 +181,7 @@ function DataOt({ otSelected, reload }) {
                         <h1>Autorización</h1>
                     </div>
                     <div className={Style.contentTittle}>
-                        <h1>Id de OT</h1>
+                        <h1>ID de OT</h1>
                     </div>
                     <div className={Style.contentTittle}>
                         <h1>Tipo de OT</h1>
@@ -185,6 +189,34 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                         <h1>Fecha</h1>
                     </div>
+
+                    {/* Cliente */}
+                    <hr className={Style.line} />
+                    <div className={Style.ProductTittle}>
+                        Cliente
+                    </div>
+                    <div className={Style.ProductSection}>
+                        <h1>Empresa</h1>
+                    </div>
+                    <div className={Style.ProductSection}>
+                        <h1>N° Cliente</h1>
+                    </div>
+                    <div className={Style.ProductSection}>
+                        <h1>Contacto</h1>
+                    </div>
+                    {/* {otSelected.Contact && otSelected.Contact[1] ? (
+                        otSelected.Contact.map((contact, key) => (
+                            <div key={key} className={Style.ProductSection}>
+                                {key === 0 && <h1 >Contacto</h1>}
+                            </div>
+                        ))
+                    ) : (
+                        <div className={Style.ProductSection}>
+                            <h1>Contacto</h1>
+                        </div>
+                    )} */}
+
+                    {/* Actividades */}
                     <hr className={Style.line} />
                     <div className={Style.contentActivities}>
                         <h1>Actividades</h1>
@@ -192,6 +224,8 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.addButton}>
                         <Button size="small" variant="outlined" sx={{ visibility: "hidden", paddingBottom: "10px" }}>Add activity</Button>
                     </div>
+
+                    {/* Producto */}
                     <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
                         Producto
@@ -211,34 +245,21 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductSection}>
                         <h1>Disposición</h1>
                     </div>
+
+                    {/* Facturación */}
+                    <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
                         Facturación
                     </div>
                     <div className={Style.ProductSection}>
                         <h1>Facturas</h1>
                     </div>
-                    <div className={Style.ProductTittle}>
-                        Cliente
-                    </div>
-                    <div className={Style.ProductSection}>
-                        <h1>Empresa</h1>
-                    </div>
-                    <div className={Style.ProductSection}>
-                        <h1>N° Cliente</h1>
-                    </div>
-                    {otSelected.Contact && otSelected.Contact[1] ? (
-                        otSelected.Contact.map((contact, key) => (
-                            <div key={key} className={Style.ProductSection}>
-                                {key === 0 && <h1 >Contacto</h1>}
-                            </div>
-                        ))
-                    ) : (
-                        <div className={Style.ProductSection}>
-                            <h1>Contacto</h1>
-                        </div>
-                    )}
                 </div>
+
+                {/* Datos */}
                 <div className={Style.dataCategories}>
+                    
+                    {/* OT */}
                     <div className={Style.contentTittle}>
                         {otSelected.OTKey}
                     </div>
@@ -266,6 +287,39 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                         {<H1EditableDate onChange={(data) => handleOtSelected(formatDate(data), "Date")} edit={edit} text={OT.Date} />}
                     </div>
+
+                    {/* Cliente */}
+                    <hr className={Style.line} />
+                    <div className={Style.ProductTittle}>
+                    </div>
+                    <div className={Style.ProductContent}>
+                        <H1Editable onChange={data => handleOtSelected(data, "Client")} edit={edit} text={OT.Client} />
+                    </div>
+                    <div className={Style.ProductContent}>
+                        <h1>{otSelected.IdClient}</h1>
+                    </div>
+                    {otSelected.Contact ? 
+                        otSelected.Contact && ((otSelected.Contact && otSelected.Contact[1]) ? 
+                                                (
+                                                    otSelected.Contact.map((contact, key) => (
+                                                        <div className={Style.ProductContent} key={key}>
+                                                            <h1>{contact.type + ": " + contact.value} </h1>
+                                                        </div>
+                                                    ))
+                                                ) 
+                                                : 
+                                                (
+                                                    <div className={Style.ProductContent}>
+                                                        <h1>{otSelected.Contact[0].type + ": " + otSelected.Contact[0].value} </h1>
+                                                    </div>
+                                                )
+                                              ) 
+                        :
+                        <div className={Style.ProductContent}>
+                        </div>
+                    }
+
+                    {/* Actividades */}
                     <hr className={Style.line} />
                     <div className={Style.Activities}>
                         {activities && (
@@ -295,6 +349,8 @@ function DataOt({ otSelected, reload }) {
                                 onClick={setAddActivity}>Editar actividades</Button>
                         )}
                     </div>
+
+                    {/* Producto */}
                     <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
                     </div>
@@ -320,6 +376,9 @@ function DataOt({ otSelected, reload }) {
                                 <h1>Pendiente</h1>
                         )}
                     </div>
+
+                    {/* Facturación */}
+                    <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
@@ -336,35 +395,9 @@ function DataOt({ otSelected, reload }) {
                         {permissions.editPay(rol) ?
                             <ButtonRadius text={"Agregar Factura"} onClick={() => setAddPay(true)} />
                             :
-                            !pay
-                            &&
-                            <h1>Pendiente</h1>}
+                            !pay && <h1>Pendiente</h1>
+                        }
                     </div>
-
-
-
-
-                    <div className={Style.ProductTittle}>
-                    </div>
-                    <div className={Style.ProductContent}>
-                        <H1Editable onChange={data => handleOtSelected(data, "Client")} edit={edit} text={OT.Client} />
-                    </div>
-                    <div className={Style.ProductContent}>
-                        <h1>26551</h1>
-                    </div>
-                    {otSelected.Contact && (
-                        (otSelected.Contact && otSelected.Contact[1]) ? (
-                            otSelected.Contact.map((contact, key) => (
-                                <div className={Style.ProductContent} key={key}>
-                                    <h1>{contact.type + ": " + contact.value} </h1>
-                                </div>
-                            ))
-                        ) : (
-                            <div className={Style.ProductContent}>
-                                <h1>{otSelected.Contact[0].type + ": " + otSelected.Contact[0].value} </h1>
-                            </div>
-                        )
-                    )}
                 </div>
             </div >
             {userSelect && (

@@ -19,35 +19,36 @@ function ListTypes({ menssage, close }) {
 
     return (
         <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: "95%", justifyContent: "center" }}>
+            {/* todo: No se cómo hacer para que se vea centrado horizontalmente en la pantalla y con las esquinas redondeadas */}
             {listActivity && (
                 <>
                     <Fade in={true}>
-                        <div className={Style.contentListOt}>
+                        <div className={Style.headerListOt}>
                             <Box sx={{ display: "flex", fontSize: "20px", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px", justifyContent: "center" }}>
                                 <Colum data={""} width="40%" />
-                                <Colum data={"Lista de tipos de OT"} width="40%" />
+                                <Colum data={"Tipos de OT"} width="40%" />
                                 <Colum data={<Button sx={{ color: "black" }}><CloseIcon /></Button>} onClick={() => close()} width="40%" />
                             </Box>
-                            <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                                <Colum data={"Id"} width="10%" />
-                                <Colum data={"Name"} />
-                                <Colum data={"Actividades"} width="40%" />
-                                <Colum data={"Abreviatura"} />
+                            <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
+                                <Colum data={"Nombre"} />
+                                <Colum data={"Identificador"} />
+                                <Colum data={"Actividades por defecto"} width="40%" />
                             </Box>
-                            {listActivity && listActivity[0] ? (
-                                listActivity.map((OT, key) => (
-                                    <div key={key} className={Style.ColumOt} onDoubleClick={() => setIsFormEditActivity(OT)}>
-                                        <Colum data={OT.id} width="10%" />
-                                        <Colum data={OT.nameType} />
-                                        <Colum data={JSON.parse(OT.activities).map(data => data.name).join(", ")} width="40%" />
-                                        <Colum data={OT.abbreviation} />
-                                    </div>
-                                ))
-                            ) : (
-                                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "25px" }}>
-                                    <h1>No hay OT</h1>
-                                </Box>
-                            )}
+                            <div className={Style.contentListOt}>
+                                {listActivity && listActivity[0] ? (
+                                    listActivity.map((OT, key) => (
+                                        <div key={key} className={Style.ColumOt} onDoubleClick={() => setIsFormEditActivity(OT)}>
+                                            <Colum data={OT.nameType} />
+                                            <Colum data={OT.abbreviation} />
+                                            <Colum data={JSON.parse(OT.activities).map(data => data.name).join(", ")} width="40%" />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "25px" }}>
+                                        <h1>No hay Tipos</h1>
+                                    </Box>
+                                )}
+                            </div>
                         </div >
                     </Fade>
                 </>

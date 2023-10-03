@@ -94,14 +94,20 @@ function FormCreateClient({ close, reload }) {
                 <div className={Style.DataInputs}>
                     <div className={Style.Input}>
                         <div className={Style.InputTittle}>
-                            <p>Nombre Cliente</p>
+                            <p>Nombre:</p>
                         </div>
                         {inputClient.getInput(nameClient, setNameClient)}
+                    </div>
+                    <div className={Style.Input}>
+                        <div className={Style.InputTittle}>
+                            <p>Código:</p>
+                        </div>
+                        {inputClient.getInput(Key, setKey)}
                     </div>
                     <div className={Style.InputDocument}>
                         <div className={Style.TypeDocument}>
                             <div className={Style.InputTittleDocument}>
-                                <p>Tipo de documento</p>
+                                <p>Tipo de ID fiscal:</p>
                             </div>
                             <div className={Style.CustomInput}>
                                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -122,30 +128,24 @@ function FormCreateClient({ close, reload }) {
                         </div>
                         <div className={Style.NDocument}>
                             <div className={Style.InputTittleDocument}>
-                                <p>N° documento</p>
+                                <p>ID fiscal:</p>
                             </div>
                             <div className={Style.CustomInput}>
                                 {inputClient.getInput(Document.value, (e) => handleChangeDocument(e, "value"))}
                             </div>
                         </div>
                     </div>
-                    <div className={Style.Input}>
-                        <div className={Style.InputTittle}>
-                            <p>Codigo</p>
-                        </div>
-                        {inputClient.getInput(Key, setKey)}
-                    </div>
                 </div>
                 <div className={Style.DataContacts}>
                     <div className={Style.ContentContacts}>
-                        <p className={Style.TittleContacts}>Contactos</p>
+                        <p className={Style.TittleContacts}>Contactos:</p>
                     </div>
                     <div>
                         {numberContacts.map((valorNumber, key) => (
                             <div className={Style.InputContact} key={key}>
                                 <div className={Style.TypeDocument}>
                                     <div className={Style.InputTittleDocument}>
-                                        <p>Tipo de Contacto</p>
+                                        <p>Tipo de Contacto:</p>
                                     </div>
                                     <div className={Style.CustomInput}>
                                         {inputClient.getInput(Contacts[valorNumber].type, (e) => handleChangeContacts(e, valorNumber, "type"))}
@@ -153,7 +153,7 @@ function FormCreateClient({ close, reload }) {
                                 </div>
                                 <div className={Style.ocument}>
                                     <div className={Style.InputTittleDocument}>
-                                        <p>Contacto</p>
+                                        <p>Contacto:</p>
                                     </div>
                                     <div className={Style.CustomInput}>
                                         {inputClient.getInput(Contacts[valorNumber].value, (e) => handleChangeContacts(e, valorNumber, "value"))}

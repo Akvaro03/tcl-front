@@ -155,12 +155,12 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
             {Pages.map((pageUrl, key) => (
               <Button
                 key={key}
                 onClick={(e) => { handleCloseNavMenu(pageUrl.url) }}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block' , marginRight: '30px' }}
               >
                 {pageUrl.name}
               </Button>
@@ -169,8 +169,15 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>
-            {userNameLogin ? <p>{userNameLogin}</p> : <Box onClick={() => navigate("/login")} sx={{ cursor: "pointer" }}>Iniciar Sesion</Box>}
-            {userNameLogin && <p style={{ cursor: 'pointer' }} onClick={handleCloseAccount}>Cerrar Sesion</p>}
+            {userNameLogin ? 
+              <Box sx={{textAlign: "center", marginRight:"20px"}}>
+                <p>{userNameLogin}</p> 
+                <p>({roles})</p>
+              </Box> 
+              : 
+              <Box onClick={() => navigate("/login")} sx={{ cursor: "pointer" }}>Iniciar Sesion</Box>
+            }
+            {userNameLogin && <p style={{ cursor: 'pointer' }} onClick={handleCloseAccount}>Cerrar Sesión</p>}
             {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -206,14 +213,18 @@ function ResponsiveAppBar() {
 }
 const linkTrabajador = [
   {
-    "name": "Tareas asignadas",
+    "name": "Actividades asignadas",
     "url": "/OtAsingPages"
   }]
 
 const linkAdmin = [
   {
-    "name": "Lista OT",
+    "name": "Listado OTs",
     "url": "/OtList"
+  },
+  {
+    "name": "Listado Clientes",
+    "url": "/listClients"
   },
   {
     "name": "Nueva Factura",
@@ -222,19 +233,15 @@ const linkAdmin = [
   {
     "name": "Nueva OT",
     "url": "/createOt"
-  },
-  {
-    "name": "Clientes",
-    "url": "/listClients"
   },
 ]
 const linkDirector = [
   {
-    "name": "Lista OT",
+    "name": "Listado OTs",
     "url": "/OtList"
   },
   {
-    "name": "Clientes",
+    "name": "Listado Clientes",
     "url": "/listClients"
   },
   {
@@ -246,14 +253,16 @@ const linkDirector = [
     "url": "/createOt"
   },
 ]
-const linkAdminSystem = [{
-  "name": "Usuarios",
-  "url": "/AllUser"
-},
-{
-  "name": "Config",
-  "url": "/configuración"
-}]
+const linkAdminSystem = [
+  {
+    "name": "Configuraciones",
+    "url": "/configuración"
+  },
+  {
+    "name": "Usuarios",
+    "url": "/AllUser"
+  },
+]
 // const linkAdmin = [
 //   {
 //     "name": "Lista OT",

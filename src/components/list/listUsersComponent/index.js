@@ -17,38 +17,40 @@ export default function ListUsersComponent({ Users, reload, setEdit }) {
     }
     return (
         <Fade in={true} >
-            <div className={Style.contentListOt}>
-                <Box sx={{ display: "flex", borderBottom: "1px solid #e5e7eb", width: "95%", height: "45px" }}>
-                    <Colum data={"Id"} width="5%" />
+            <div className={Style.headerListOt}>
+                <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
+                    <Colum data={"ID"} width="5%" />
                     <Colum data={"Nombre"} />
-                    <Colum data={"Roles"} width="25%" />
-                    <Colum data={"Email"} />
+                    <Colum data={"Rol"} width="25%" />
+                    <Colum data={"Correo"} />
                     <Colum data={"Equipo"} width="40%" />
                 </Box>
-                {Users && Users[0] ? (
-                    Users.map((Pay, key) => (
-                        <div key={key} className={Style.ColumOt} onDoubleClick={() => setEdit(Pay)}>
-                            <Colum state={Pay.state} data={Pay.id} width="5%" />
-                            <Colum state={Pay.state} data={Pay.name} />
-                            <Colum state={Pay.state} data={getRoles(Pay.type)} width="25%" />
-                            <Colum state={Pay.state} data={Pay.email} />
-                            <Colum state={Pay.state} data={<Button variant="text" onClick={() => {
-                                setIsModalUser(true)
-                                setUserSelect(Pay)
-                            }}>{!JSON.parse(Pay.Team)[0] ? "Agregar Team" : JSON.parse(Pay.Team).join(", ")}</Button>}
-                                width="40%" />
-                        </div>
-                    ))
-                ) : (
-                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "70%", fontSize: "25px" }}>
-                        <h1>No hay Usuarios</h1>
-                    </Box>
-                )}
-                {isModalUser && (
-                    <ModalPortal type={"form"}>
-                        <FormSelectUser closeForm={setIsModalUser} usersSelect={userSelect} handleUsers={handleUsers} />
-                    </ModalPortal>
-                )}
+                <div className={Style.contentListOt}>
+                    {Users && Users[0] ? (
+                        Users.map((Pay, key) => (
+                            <div key={key} className={Style.ColumOt} onDoubleClick={() => setEdit(Pay)}>
+                                <Colum state={Pay.state} data={Pay.id} width="5%" />
+                                <Colum state={Pay.state} data={Pay.name} />
+                                <Colum state={Pay.state} data={getRoles(Pay.type)} width="25%" />
+                                <Colum state={Pay.state} data={Pay.email} />
+                                <Colum state={Pay.state} data={<Button variant="text" onClick={() => {
+                                    setIsModalUser(true)
+                                    setUserSelect(Pay)
+                                }}>{!JSON.parse(Pay.Team)[0] ? "Agregar Team" : JSON.parse(Pay.Team).join(", ")}</Button>}
+                                    width="40%" />
+                            </div>
+                        ))
+                    ) : (
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "70%", fontSize: "25px" }}>
+                            <h1>No hay Usuarios</h1>
+                        </Box>
+                    )}
+                    {isModalUser && (
+                        <ModalPortal type={"form"}>
+                            <FormSelectUser closeForm={setIsModalUser} usersSelect={userSelect} handleUsers={handleUsers} />
+                        </ModalPortal>
+                    )}
+                </div>
             </div>
         </Fade>
     );

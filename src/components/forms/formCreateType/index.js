@@ -94,7 +94,7 @@ function FormCreateType({ close, menssage, data, reload }) {
             <div className={Style.ContentForm}>
                 <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
-                        Tipo de OT
+                        Nombre:
                     </p>
                     <div className={Style.input}>
                         {inputType.getInput(name, setName)}
@@ -102,13 +102,16 @@ function FormCreateType({ close, menssage, data, reload }) {
                 </div>
                 <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
-                        Abreviacion
+                        Identificador:
                     </p>
                     <div className={Style.input}>
                         {inputType.getInput(abbr, setAbbr)}
                     </div>
                 </div>
-                <Box component={"div"} display={"flex"} width={"100%"} flexWrap={"wrap"}>
+                <Box component={"div"} display={"flex"} width={"100%"} flexWrap={"wrap"} alignItems={"center"}>
+                    <p className={Style.TittleInput}>
+                        Actividades por defecto:
+                    </p>
                     {activity[0] && (
                         activity.map((user, key) => (
                             <div key={key}>
@@ -125,7 +128,7 @@ function FormCreateType({ close, menssage, data, reload }) {
                     Cancelar
                 </Button>
                 <Button variant="contained" onClick={saveTypeOt}>
-                    Guardar tipo de OT
+                    Guardar Tipo
                 </Button>
             </div>
         </div>

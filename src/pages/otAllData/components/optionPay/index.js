@@ -32,7 +32,7 @@ export default function OptionPay({ reload, pay, pays, deleteModal, savePay }) {
             )}
             {confirmDelete && (
                 <ModalPortal type={"form"}>
-                    <ProtectedAction text={"Estas seguro de desvincular esta factura de esta OT?"} textButton={"Desvincular"} action={deletePay} close={deleteModal} />
+                    <ProtectedAction text={"¿Desea desvincular la factura de esta OT?"} textButton={"Desvincular"} action={deletePay} close={deleteModal} />
                 </ModalPortal>
             )}
         </>

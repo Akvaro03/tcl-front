@@ -1,21 +1,21 @@
 class messageHistory {
-    static tittleEditAvailability = "Se modifico la disponibilidad";
+    static tittleEditAvailability = "Modificaicón en disponibilidad de producto";
     static tittleEditActivities = "Se editaron las actividades";
-    static tittleEditaAuth = "Se modifico la autorizacion";
-    static tittleEditPay = "Se modificaron las facturas";
-    static tittleEditUser = "Se edito la actividad";
+    static tittleEditaAuth = "Se modificó la autorización";
+    static tittleEditPay = "Se modificó la facturación";
+    static tittleEditUser = "Se editó una actividad";
     static tittleEditOT = "Se modificaron valores";
     static editUsersActivity(nameActivity, users) {
         try {
-            return `${firstLetterUpperCase(nameActivity)} usuarios ${users}`
+            return `Actividad: ${firstLetterUpperCase(nameActivity)} - Usuario/s: ${users}`
         } catch (error) {
             console.log(error)
         }
     }
     static editAvailability(availability) {
         try {
-            return availability ? `Se cambio la disponibilidad a ${firstLetterUpperCase(availability.type)}`
-                : `Se elimino la disponibilidad`
+            return availability ? `Se modificó la disponibilidad del producto a "${firstLetterUpperCase(availability.type)}"`
+                                : `Se eliminó el registro de disponibilidad del producto`
         } catch (error) {
             console.log(error)
         }
@@ -25,8 +25,9 @@ class messageHistory {
             const added = getDifference(newActivities, activities);
             const eliminated = getDifference(activities, newActivities);
             const addedText = added.length > 0 && `Se agregó ${added.map(activity => activity.name).join(", ")}`;
-            const eliminatedText = eliminated.length > 0 && `Se eliminó ${eliminated.map(activity => activity.name).join(", ")}`;
-            const comment = (addedText && eliminatedText) ? addedText + " y " + eliminatedText : addedText || eliminatedText;
+            const eliminatedText = eliminated.length > 0 && `se eliminó ${eliminated.map(activity => activity.name).join(", ")}`;
+            const comment = (addedText && eliminatedText) ? addedText + " y " + eliminatedText
+                                                          : addedText || eliminatedText.charAt(0).toUpperCase() + eliminatedText.slice(1);
             return comment;
         } catch (error) {
             console.log(error)

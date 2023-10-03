@@ -24,9 +24,9 @@ function OtAsingPages() {
     return (
         <>
             <ResponsiveAppBar />
-            <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", position: "fixed" }}>
+            {/* <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", position: "fixed" }}>
                 <SelectView SetFormat={SetFormat} format={format} />
-            </Box>
+            </Box> */}
             {Ots || emit ? (
                 format === "cards" ? (
                     <div className={Style.ContentAssing}>

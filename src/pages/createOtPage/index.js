@@ -26,7 +26,7 @@ function CreateOtPage() {
                                         value={DateForm} onChange={(newValue) => setDateForm(newValue)} />
                                 </LocalizationProvider>
                             </div>
-                            <p>Crear nuevas OT</p>
+                            <p>Nueva OT</p>
                         </div>
                         <FormCreateOt DateCreate={DateForm} />
                     </div>

@@ -20,7 +20,7 @@ export default function EditPay({ pay, deleteModal}) {
                 </Box>
                 <Box display={"flex"} height={"50%"} width={"90%"} flexDirection={"column"} gap={"25px"} justifyContent={"center"} alignItems={"center"}>
                     <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                        <Box sx={{ width: "50%" }}>Cuando se cobro</Box>
+                        <Box sx={{ width: "50%" }}>Fecha de cobro:</Box>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 format="DD/MM/YYYY"
