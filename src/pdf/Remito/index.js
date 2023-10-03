@@ -153,7 +153,7 @@ function Remito() {
                         </div>
                     </div>
                     <div className={Style.formatSend}>
-                        <p>?Formato de entrega autorizada por el cliente:</p>
+                        <p>Formato de entrega autorizada por el cliente:</p>
                         <h1>Envio por correo electronico y/o fisico</h1>
                     </div>
                     <div className={Style.dateTable}>

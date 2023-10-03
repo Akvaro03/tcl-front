@@ -35,7 +35,7 @@ function FormCreateClient({ close, reload }) {
             return newContacts
         }
         let ContactVerificate = isFull(Contacts)
-        if (!ContactVerificate[0] || !nameClient || !Document || !Key) {
+        if (!ContactVerificate[0] || !nameClient || !Document.type || !Document.value || !Key) {
             setResult("missed data")
             setTimeout(() => {
                 setResult()
@@ -48,23 +48,21 @@ function FormCreateClient({ close, reload }) {
             Key,
             ContactVerificate
         }
-        const isNameUsed = await nameUsed(nameClient, "client")
-        if (!isNameUsed) {
-            const resultClient = await addClient(Client)
-            setResult(resultClient.result)
-            setTimeout(() => {
-                setResult()
-            }, 3400);
-            reload()
-            resetAllData()
-            return
-        }
-        setResult("name used")
+        const resultClient = await addClient(Client)
+        setResult(resultClient)
+        console.log(resultClient)
+
         setTimeout(() => {
             setResult()
         }, 3400);
-        close && reload()
-        close && close()
+        if (resultClient !== "name used") {
+            close && reload()
+            close && close()
+            reload()
+            resetAllData()
+        }
+        return
+
     };
     const handleChangeDocument = (e, type) => {
         const value = e.target ? e.target.value : e

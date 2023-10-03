@@ -1,4 +1,5 @@
 const toUppercase = (string) => {
+    string = string.trim();
     const palabras = string.split(" ");
 
     for (let i = 0; i < palabras.length; i++) {

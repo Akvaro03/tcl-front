@@ -3,6 +3,7 @@ import getDataFromUrl from "../../hooks/getDataFromUrl"
 async function nameUsed(newName, type) {
     const nameFormat = newName.trim().toLowerCase();
     const states = {
+        codeClient: await getCodeClient(),
         abbreviation: await getAbbreviationNames(),
         activity: await getActivitiesNames(),
         client: await getClientsNames(),
@@ -12,6 +13,10 @@ async function nameUsed(newName, type) {
     };
     const names = states[type];
     return names.includes(nameFormat);
+}
+function getCodeClient() {
+    return getDataFromUrl("/getClients")
+        .then(data => data.map(type => type.KeyUnique.trim().toLowerCase()));
 }
 function getAbbreviationNames() {
     return getDataFromUrl("/getTypeOt")

@@ -45,6 +45,9 @@ function FormCreateOt({ DateCreate }) {
 
     const handleSubmit = async () => {
         try {
+            // getOTkey()
+            //     .then(data => setIdentificación(data + " " + type + " " + Client.KeyUnique))
+
             if (!Observaciones || !Description || !FechaEstimada || !FechaVencimiento || !Cotizacion || !NormaAplicar || !Modelo || !Marca || !allTypes[Type].activities || !ClientObjet || !Producto) {
                 setError("missed data");
                 setTimeout(() => {
@@ -52,8 +55,7 @@ function FormCreateOt({ DateCreate }) {
                 }, 3000);
                 return
             }
-            getOTkey()
-                .then(data => setIdentificación(data + " " + allTypes[Type].nameType))
+            formatKey(Type, ClientObjet)
             const ContactSelect = Contacts ? Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]) : "";
             const { label: Client } = ClientObjet;
             const activities = allTypes[Type].activities;
