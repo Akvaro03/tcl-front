@@ -24,7 +24,7 @@ function Filters({ filterOt, tag, data }) {
         <div className={Style.contentFilter}>
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} sx={{ width: "100%" }}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                    <Tag text={"Todas las OTs"}/>
+                    <Tag text={"Todas las OTs"} />
                 </AccordionSummary>
                 <AccordionDetails>
                     <Badge badgeContent={data.otToAuth ? data.otToAuth : null} color="primary">
@@ -52,8 +52,8 @@ function Filters({ filterOt, tag, data }) {
             </Accordion>
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-                    <Typography>
-                        <Tag text={"Disposición de Productos"}/>
+                    <Typography component={"span"}>
+                        <Tag text={"Disposición de Productos"} />
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>

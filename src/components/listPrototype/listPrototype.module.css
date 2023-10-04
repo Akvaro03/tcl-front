@@ -10,7 +10,7 @@
     width: 95%;
 } */
 
-.headerListOt {
+.ListOt {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     flex-direction: column;
     align-items: center;
@@ -47,18 +47,18 @@
 }
 
 .ColumOt:hover .buttonAuth {
+    display: flex;
     opacity: 1;
-    width: 15%;
     visibility: visible;
     transition: visibility 0s, opacity 0.1s linear, width 0.15s linear;
-    display: flex;
+    width: 15%;
 }
 
 .buttonAuth {
     opacity: 0;
     width: 5%;
-    visibility: hidden;
-    transition: visibility 0s, opacity 0.1s linear, width 0.1s linear;
     justify-content: center;
     align-items: center;
+    visibility: hidden;
+    transition: visibility 0s, opacity 0.1s linear, width 0.1s linear;
 }

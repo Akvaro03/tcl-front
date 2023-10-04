@@ -3,11 +3,14 @@ import isUserAssigned from "../../hooks/isUserAssigned";
 import getDataFromUrl from "../../hooks/getDataFromUrl";
 import ResponsiveAppBar from "../../components/navbar";
 import ListPays from "../../components/list/listPays";
-import ListOt from "../../components/list/listOt";
 import { useEffect, useState } from "react";
 import Filters from "./components/filters";
 import Style from "./otPage.module.css"
 import getStateActivity from "../../hooks/getStateActivity";
+import ListPrototype from "../../components/listPrototype";
+import headerList from "../../classes/headerList";
+import TableOT from "../../components/tables/TableOt";
+import openNewTab from "../../hooks/openNewTab";
 function OtPage() {
     const [listOt, setListOt] = useState()
     const [otFilter, setOtFilter] = useState({})
@@ -160,10 +163,18 @@ function OtPage() {
                     tag === "Facturación" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
                         <ListPays pays={paysEdit} />
                         :
-                        <ListOt listOt={otFilter} filterOt={filterOt} handleAuth={handleChangeAuth} />
+                        <ListPrototype Table={TableOT} header={headersOt.getHeader()} list={otFilter} clickable={(data) => openNewTab(`/events/${data.id}`)} recharge={handleChangeAuth} />
                 )}
             </div>
         </>
     );
 }
 export default OtPage;
+
+const headersOt = new headerList()
+headersOt.addHeader("ID", "15%")
+headersOt.addHeader("Fecha", "9%")
+headersOt.addHeader("Tipo", "13%")
+headersOt.addHeader("Cliente", "15%")
+headersOt.addHeader("Nombre Producto", "22%")
+headersOt.addHeader("Estado", "15%")
