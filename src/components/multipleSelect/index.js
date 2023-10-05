@@ -37,7 +37,6 @@ export default function MultipleSelect({ label, names, onchange, size = "small" 
             typeof value === 'string' ? value.split(',') : value,
         );
     };
-
     return (
         <div>
             <FormControl sx={{ m: 1, width: 300 }} size='small'>
@@ -52,7 +51,7 @@ export default function MultipleSelect({ label, names, onchange, size = "small" 
                     input={<OutlinedInput label={label} sx={{ display: "flex", alignItems: "center" }} />}
                     MenuProps={MenuProps}
                 >
-                    {names.map((name) => (
+                    {names[0] && names.map((name) => (
                         <MenuItem
                             key={name}
                             value={name}

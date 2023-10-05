@@ -1,10 +1,10 @@
 import Style from "./listPrototype.module.css"
 import { Box, Fade } from "@mui/material";
 import { useState } from "react";
-export default function ListPrototype({ header, list, clickable, recharge, Table}) {
+export default function ListPrototype({ header, list, clickable, recharge, Table, height }) {
     const [divHover, setDivHover] = useState(null)
     return (
-        <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: "95%" }}>
+        <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: height ? height : "95%" }}>
             <Fade in={true}>
                 <div className={Style.ListOt}>
                     <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>

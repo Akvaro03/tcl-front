@@ -11,6 +11,8 @@ import ListPrototype from "../../components/listPrototype";
 import headerList from "../../classes/headerList";
 import TableOT from "../../components/tables/TableOt";
 import openNewTab from "../../hooks/openNewTab";
+import { Box } from "@mui/material";
+import FilterPrototype from "../../components/filtersPrototype";
 function OtPage() {
     const [listOt, setListOt] = useState()
     const [otFilter, setOtFilter] = useState({})
@@ -31,6 +33,8 @@ function OtPage() {
 
 
     const [tag, setTag] = useState("Todas las OTs")
+    const [clients, setClients] = useState({})
+
     useEffect(() => {
         getDataFromUrl("/getOT")
             .then(data => data.reverse())
@@ -45,6 +49,9 @@ function OtPage() {
                 setPays(data)
                 setPaysEdit(data)
             })
+        getDataFromUrl("/getClients")
+            .then(data => setClients(data.map(client => client.Name).sort()))
+
     }, [])
 
     const filterOt = (type, data) => {
@@ -154,6 +161,26 @@ function OtPage() {
         setOtSend(OTList.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "Entrega"))
         setOtDFR(OTList.filter(ot => ot.Availability && JSON.parse(ot.Availability).type === "DFR"))
     }
+
+    const searchById = (id) => {
+        if (id) {
+            filterOt(tag);
+            setTimeout(() => {
+                setOtFilter(prev => {
+                    return prev.filter(ot => ot.OTKey.includes(id))
+                });
+            }, 200);
+        } else {
+            filterOt(tag);
+        }
+    }
+    const selectClient = (client) => {
+        if (client[0]) {
+            setOtFilter(listOt.filter(ot => ot.Client.includes(client)));
+        } else {
+            filterOt(tag);
+        }
+    }
     return (
         <>
             <ResponsiveAppBar />
@@ -163,7 +190,22 @@ function OtPage() {
                     tag === "Facturación" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
                         <ListPays pays={paysEdit} />
                         :
-                        <ListPrototype Table={TableOT} header={headersOt.getHeader()} list={otFilter} clickable={(data) => openNewTab(`/events/${data.id}`)} recharge={handleChangeAuth} />
+                        (
+                            <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: "90%" }}>
+                                <FilterPrototype
+                                    search={{ onChange: searchById, label: "Por ID" }}
+                                    select={{ onChange: selectClient, namesMultiple: clients }}
+
+                                />
+                                <ListPrototype
+                                    Table={TableOT}
+                                    header={headersOt.getHeader()}
+                                    list={otFilter}
+                                    clickable={(data) => openNewTab(`/events/${data.id}`)}
+                                    recharge={handleChangeAuth}
+                                    height={"85%"} />
+                            </Box>
+                        )
                 )}
             </div>
         </>
