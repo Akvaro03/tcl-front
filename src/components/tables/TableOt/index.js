@@ -7,35 +7,35 @@ import formatDateM from "../../../hooks/formatDateM";
 import changeAuth from "../../../db/changeAuth";
 import messageHistory from "../../../hooks/messageHistory";
 
-export default function TableOT({ OT, Colum, otHover, recharge }) {
-    const handleChangeAuth = (OT) => {
-        const newAuth = OT.Auth === "1" ? 0 : 1;
-        const dataToSend = { otId: OT.id, newAuth };
-        changeAuth(dataToSend, OT.id,
+export default function TableOT({ data, Colum, dataHover, recharge }) {
+    const handleChangeAuth = (data) => {
+        const newAuth = data.Auth === "1" ? 0 : 1;
+        const dataToSend = { otId: data.id, newAuth };
+        changeAuth(dataToSend, data.id,
             messageHistory.tittleEditaAuth, "")
-        recharge(OT)
+        recharge(data)
     }
 
     return (
         <>
-            <Colum data={OT.OTKey} width="15%" />
-            <Colum data={formatDateM(OT.Date)} width="9%" />
-            <Colum data={OT.Type} width="13%" />
-            <Colum data={OT.Client} width="15%" />
-            <Colum data={OT.Producto} width="22%" />
-            {OT.Auth === "0" ? (
+            <Colum data={data.OTKey} width="15%" />
+            <Colum data={formatDateM(data.Date)} width="9%" />
+            <Colum data={data.Type} width="13%" />
+            <Colum data={data.Client} width="15%" />
+            <Colum data={data.Producto} width="22%" />
+            {data.Auth === "0" ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b8c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Sin Autorizar</h1>
                 </Box>
-            ) : !isUserAssigned(OT) ? (
-                <Box component="div" onClick={() => Navigate(`/events/${OT.id}`)} sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            ) : !isUserAssigned(data) ? (
+                <Box component="div" onClick={() => Navigate(`/events/${data.id}`)} sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Sin Asignar</h1>
                 </Box>
-            ) : isActivitiesEnd(OT.Activities) ? (
+            ) : isActivitiesEnd(data.Activities) ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#92ff6c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Terminada</h1>
                 </Box>
-            ) : getStateActivity(OT) === "En proceso" ? (
+            ) : getStateActivity(data) === "En proceso" ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>En Proceso</h1>
                 </Box>
@@ -44,14 +44,14 @@ export default function TableOT({ OT, Colum, otHover, recharge }) {
                     <h1>En espera</h1>
                 </Box>
             )}
-            {OT.Auth === "0" ? (
-                otHover === OT.id ? (
+            {data.Auth === "0" ? (
+                dataHover === data.id ? (
                     <Box sx={{ opacity: "1", width: "15%", justifyContent: "center", visibility: "visible", transition: "visibility 0s, opacity 0.1s linear, width 0.15s linear" }}>
-                        <Button onClick={() => handleChangeAuth(OT)}>Autorizar OT</Button>
+                        <Button onClick={() => handleChangeAuth(data)}>Autorizar OT</Button>
                     </Box>
                 ) : (
                     <Box sx={{ opacity: "0", width: "5%", justifyContent: "center", visibility: "hidden", transition: "visibility 0s, opacity 0.1s linear, width 0.1s linear" }}>
-                        <Button onClick={() => handleChangeAuth(OT)}>Autorizar OT</Button>
+                        <Button onClick={() => handleChangeAuth(data)}>Autorizar OT</Button>
                     </Box>
                 )
             ) : (

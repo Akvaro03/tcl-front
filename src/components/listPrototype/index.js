@@ -22,7 +22,7 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
                         {list && list[0] ? (
                             list.slice((count * 20), ((count * 20) + 20)).map((data, key) => (
                                 <div onMouseEnter={() => setDivHover(data.id)} onMouseLeave={() => setDivHover(null)} key={key} className={Style.ColumOt} onDoubleClick={() => clickable && clickable(data)}>
-                                    <Table recharge={recharge} OT={data} Colum={Colum} otHover={divHover} />
+                                    <Table recharge={recharge} data={data} Colum={Colum} dataHover={divHover} />
                                 </div>
                             ))
                         ) : (

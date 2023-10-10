@@ -5,18 +5,21 @@ import { useEffect, useRef, useState } from 'react';
 import { closeEsc } from '../../../hooks/closeEsc';
 import Style from './formCreateClient.module.css';
 import addClient from '../../../db/addClient';
-import nameUsed from '../../../db/nameUsed';
 import ModalPortal from '../../modelPortal';
 import Alerts from '../../alerts';
-function FormCreateClient({ close, reload }) {
-    const divRef = useRef(null);
+import AddIcon from '@mui/icons-material/Add';
+import editClient from '../../../db/editClient';
 
-    const [Contacts, setContacts] = useState([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }]);
-    const [Document, setDocument] = useState({ type: "", value: "" });
-    const [nameClient, setNameClient] = useState("");
+function FormCreateClient({ close, reload, data }) {
+    console.log(data)
+    const divRef = useRef(null);
+    const [Contacts, setContacts] = useState(data ? JSON.parse(data.Contacts) : [{ type: "", value: "" }]);
+
+    const initialDocument = data ? JSON.parse(data.Document) : [{ type: "", value: "" }];
+    const [Document, setDocument] = useState({ type: initialDocument.type, value: initialDocument.value });
+    const [nameClient, setNameClient] = useState(data ? data.Name : "");
     const [Result, setResult] = useState();
-    const [Key, setKey] = useState("");
-    let numberContacts = [0, 1, 2];
+    const [Key, setKey] = useState(data ? data.KeyUnique : "");
     useEffect(() => {
         const divElement = divRef.current;
         if (divElement) {
@@ -26,7 +29,6 @@ function FormCreateClient({ close, reload }) {
             divElement.removeEventListener('keydown', closeEsc);
         };
     }, [close])
-
     const handleSubmit = async () => {
         let isFull = (Contacts) => {
             let newContacts = Contacts.filter(e => (
@@ -48,10 +50,16 @@ function FormCreateClient({ close, reload }) {
             Key,
             ContactVerificate
         }
-        const resultClient = await addClient(Client)
+        let resultClient;
+        if (data) {
+            const sameName = nameClient === data.Name
+            const sameKey = Key === data.KeyUnique
+            const dataToEdit = { ...Client, id: data.id }
+            resultClient = await editClient(dataToEdit, sameKey, sameName)
+        } else {
+            resultClient = await addClient(Client)
+        }
         setResult(resultClient)
-        console.log(resultClient)
-
         setTimeout(() => {
             setResult()
         }, 3400);
@@ -84,11 +92,18 @@ function FormCreateClient({ close, reload }) {
         setKey("")
         setContacts([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }])
     }
+    const addContact = () => {
+        setContacts(prev => [...prev, { type: "", value: "" }])
+    }
     const inputClient = new inputClass(handleSubmit)
     return (
         <div className={Style.ContentForm} ref={divRef} tabIndex="0">
             <div className={Style.TittleForm}>
-                <p>Crear Cliente</p>
+                {data ? (
+                    <p>Actualizar Cliente</p>
+                ) : (
+                    <p>Crear Cliente</p>
+                )}
             </div>
             <form className={Style.FormClient}>
                 <div className={Style.DataInputs}>
@@ -119,9 +134,9 @@ function FormCreateClient({ close, reload }) {
                                         onChange={(e) => handleChangeDocument(e, "type")}
                                         label="Documento"
                                     >
-                                        <MenuItem value={"Dni"}>Dni</MenuItem>
-                                        <MenuItem value={"Cuit"}>Cuit</MenuItem>
-                                        <MenuItem value={"Rump"}>Rump</MenuItem>
+                                        <MenuItem value={"DNI"}>DNI</MenuItem>
+                                        <MenuItem value={"CUIT"}>CUIT</MenuItem>
+                                        <MenuItem value={"RUMP"}>RUMP</MenuItem>
                                     </Select>
                                 </FormControl>
                             </div>
@@ -141,26 +156,34 @@ function FormCreateClient({ close, reload }) {
                         <p className={Style.TittleContacts}>Contactos:</p>
                     </div>
                     <div>
-                        {numberContacts.map((valorNumber, key) => (
+                        {Contacts.map((data, key) => (
                             <div className={Style.InputContact} key={key}>
                                 <div className={Style.TypeDocument}>
                                     <div className={Style.InputTittleDocument}>
                                         <p>Tipo de Contacto:</p>
                                     </div>
                                     <div className={Style.CustomInput}>
-                                        {inputClient.getInput(Contacts[valorNumber].type, (e) => handleChangeContacts(e, valorNumber, "type"))}
+                                        {inputClient.getInput(data.type, (e) => handleChangeContacts(e, key, "type"))}
                                     </div>
                                 </div>
-                                <div className={Style.ocument}>
+                                <div className={Style.NDocument}>
                                     <div className={Style.InputTittleDocument}>
                                         <p>Contacto:</p>
                                     </div>
                                     <div className={Style.CustomInput}>
-                                        {inputClient.getInput(Contacts[valorNumber].value, (e) => handleChangeContacts(e, valorNumber, "value"))}
+                                        {inputClient.getInput(data.value, (e) => handleChangeContacts(e, key, "value"))}
                                     </div>
                                 </div>
                             </div>
                         ))}
+                        <Button onClick={() => addContact()} variant='outlined' sx={{ borderRadius: "15px" }}>
+                            <div>
+                                <AddIcon />
+                            </div>
+                            <p>
+                                Agregar Contacto
+                            </p>
+                        </Button>
                     </div>
                 </div>
                 <div className={Style.ButtonSave}>

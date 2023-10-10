@@ -41,7 +41,7 @@
 
 .InputDocument {
     display: flex;
-    width: 100%  ;
+    width: 100%;
 }
 
 .TypeDocument,
@@ -49,11 +49,12 @@
     display: flex;
     font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
     align-items: center;
+    margin-right: 20px;
 }
 
 .CustomInput {
     display: flex;
-    width: 40%;
+    width: 50%;
 }
 
 .InputContact .NDocument .CustomInput {
@@ -88,8 +89,10 @@
 .InputContact {
     display: flex;
     margin: 2% 0;
+    width: 90%;
 }
-.ButtonSave{
+
+.ButtonSave {
     margin-top: 10%;
     justify-content: center;
     display: flex;

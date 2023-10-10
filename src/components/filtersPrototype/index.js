@@ -11,5 +11,5 @@ export default function FilterPrototype({ search, select }) {
                 <MultipleSelect onchange={select.onChange} names={select.namesMultiple} label={"Por Cliente/s"} />
             )}
         </Box>
-    )
+    ) 
 } 
