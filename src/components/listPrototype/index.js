@@ -39,9 +39,15 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
                     <ArrowBackIcon />
                 </Box>
                 <p>{`Pagina ${count + 1}`}</p>
-                <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => setCount(prev => prev + 1)}>
-                    <ArrowForwardIcon />
-                </Box>
+                {count < ((list.length / 20) - 1) ? (
+                    <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => setCount(prev => prev + 1)}>
+                        <ArrowForwardIcon />
+                    </Box>
+                ) : (
+                    <Box sx={{ visibility: "hidden" }}>
+                        <ArrowForwardIcon />
+                    </Box>
+                )}
             </Box>
         </Box>
     )
