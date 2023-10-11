@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup } from "@mui/material";
+import { Button, Checkbox } from "@mui/material";
 import inputClass from "../../../classes/inputClass";
 import toUppercase from "../../../hooks/toUppercase";
 import typesUsers from "../../../classes/typesUsers";
@@ -30,10 +30,6 @@ function FormCreateUser({ close, reload, user }) {
         };
     }, [close])
 
-    const handleChange = (event) => {
-        const { name } = event.target
-        setRolSelect(name)
-    };
     const handleState = () => {
         if (stateUser === "active") {
             setStateUser("disable")

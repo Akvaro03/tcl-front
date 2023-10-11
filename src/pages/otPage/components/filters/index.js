@@ -1,17 +1,17 @@
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import typesUsers from '../../../../classes/typesUsers';
 import MuiAccordion from '@mui/material/Accordion';
 import getUser from "../../../../hooks/getUser";
 import { Badge, Typography } from "@mui/material";
 import Style from "./filters.module.css"
 import styled from "@emotion/styled";
 import { useState } from "react";
+import permissions from '../../../../classes/permissions';
 
 function Filters({ filterOt, tag, data }) {
     const [expanded, setExpanded] = useState('panel1');
-    const roles = getUser("roles")
+    const rol = getUser("roles")
     const Tag = ({ text }) => (
         <div className={tag === text ? Style.tagSelect : Style.tag} onClick={() => { filterOt(text) }}>
             {text}
@@ -77,7 +77,7 @@ function Filters({ filterOt, tag, data }) {
                     </Badge>
                 </AccordionDetails>
             </Accordion>
-            {roles.includes(typesUsers.Director) && (
+            {permissions.seePayList(rol) && (
                 <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                     <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
                         <Tag text={"Facturación"} />

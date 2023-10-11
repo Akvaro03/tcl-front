@@ -13,7 +13,7 @@ export default class permissions {
     static config = [typesUsers.AdminSystem]
 
     static editOt(rol) {
-        const roles = [typesUsers.Director, typesUsers]
+        const roles = [typesUsers.Director]
         try {
             return roles.includes(rol)
         } catch (error) {
@@ -30,6 +30,14 @@ export default class permissions {
     }
     static seeHistory(rol) {
         const roles = [typesUsers.Director]
+        try {
+            return roles.includes(rol)
+        } catch (error) {
+            return false;
+        }
+    }
+    static seePayList(rol) {
+        const roles = [typesUsers.Director, typesUsers.Admin]
         try {
             return roles.includes(rol)
         } catch (error) {
