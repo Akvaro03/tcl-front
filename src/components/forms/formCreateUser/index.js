@@ -1,22 +1,23 @@
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup } from "@mui/material";
+import inputClass from "../../../classes/inputClass";
 import toUppercase from "../../../hooks/toUppercase";
 import typesUsers from "../../../classes/typesUsers";
-import Style from "./formCreateUser.module.css"
 import { useEffect, useRef, useState } from 'react';
+import { closeEsc } from "../../../hooks/closeEsc";
+import Style from "./formCreateUser.module.css"
 import nameUsed from "../../../db/nameUsed";
 import ModalPortal from "../../modelPortal";
 import editUser from "../../../db/editUser";
 import addUser from "../../../db/addUser";
 import Alerts from "../../alerts";
-import inputClass from "../../../classes/inputClass";
-import { closeEsc } from "../../../hooks/closeEsc";
+import OneSelect from "../../oneSelect";
 function FormCreateUser({ close, reload, user }) {
     const divRef = useRef(null);
-    const [passwordUser, setPasswordUser] = useState("")
     const [rolSelect, setRolSelect] = useState(user ? JSON.parse(user.type)[0] : "")
     const [emailUser, setEmailUser] = useState(user ? user.email : "")
-    const [nameUser, setNameUser] = useState(user ? user.name : "")
     const [stateUser, setStateUser] = useState(user ? user.state : "")
+    const [nameUser, setNameUser] = useState(user ? user.name : "")
+    const [passwordUser, setPasswordUser] = useState("")
     const [Result, setResult] = useState()
     useEffect(() => {
 
@@ -113,25 +114,12 @@ function FormCreateUser({ close, reload, user }) {
                             {inputUser.getInput(passwordUser, (e) => setPasswordUser(e))}
                         </div>
                     ) : (<></>)}
-                </div>
-                <div className={Style.selectRoles}>
-                    <div className={Style.inputTittle}>
-                        <p>Rol:</p>
+                    <div className={Style.input}>
+                        <div className={Style.inputTittle}>
+                            <p>Rol:</p>
+                        </div>
+                        <OneSelect value={rolSelect} factors={rolesUser} onchange={setRolSelect} />
                     </div>
-                    <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                        <FormGroup sx={{ display: "flex", flexDirection: "row" }}>
-                            {rolesUser.map((nameRole, key) => {
-                                return <FormControlLabel
-                                    key={key}
-                                    control={
-                                        <Checkbox checked={nameRole === rolSelect} onChange={handleChange} name={nameRole} />
-                                    }
-                                    label={nameRole}
-                                />
-                            }
-                            )}
-                        </FormGroup>
-                    </FormControl>
                 </div>
                 <div className={Style.Buttons} >
                     <Button onClick={() => close(false)} variant="outlined" color="success" >Cancelar</Button>
