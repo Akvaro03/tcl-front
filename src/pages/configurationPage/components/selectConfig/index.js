@@ -22,12 +22,12 @@ function SelectConfig() {
         <>
             <Box sx={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px", width: "70%", height: "50%", borderRadius: "25px", background: "#fff", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Button variant="text" onClick={() => setIsFormActivity(true)}>Nueva Actividad </Button>
-                    <Button sx={{ color: "black" }} component={"div"} onClick={() => setIsListActivity(true)}><FormatListBulletedIcon /></Button>
+                    <Button variant="outlined" onClick={() => setIsFormActivity(true)}>Nueva Actividad </Button>
+                    <Button sx={{ color: "black" }}  onClick={() => setIsListActivity(true)}><FormatListBulletedIcon /></Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Button variant="text" onClick={() => setIsFormType(true)}>Nuevo Tipo de OT</Button>
-                    <Button sx={{ color: "black" }} component={"div"} onClick={() => setIsListType(true)}><FormatListBulletedIcon /></Button>
+                    <Button variant="outlined" onClick={() => setIsFormType(true)}>Nuevo Tipo de OT</Button>
+                    <Button sx={{ color: "black" }}  onClick={() => setIsListType(true)}><FormatListBulletedIcon /></Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Button variant="text" onClick={() => setIsFormConfig(true)}>Configurar Aplicación</Button>

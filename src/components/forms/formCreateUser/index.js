@@ -1,34 +1,23 @@
-import { Button, Checkbox } from "@mui/material";
 import inputClass from "../../../classes/inputClass";
 import toUppercase from "../../../hooks/toUppercase";
 import typesUsers from "../../../classes/typesUsers";
-import { useEffect, useRef, useState } from 'react';
-import { closeEsc } from "../../../hooks/closeEsc";
+import { Button, Checkbox } from "@mui/material";
+import FormPrototype from "../../formPrototype";
 import Style from "./formCreateUser.module.css"
 import nameUsed from "../../../db/nameUsed";
 import ModalPortal from "../../modelPortal";
 import editUser from "../../../db/editUser";
 import addUser from "../../../db/addUser";
-import Alerts from "../../alerts";
 import OneSelect from "../../oneSelect";
+import Alerts from "../../alerts";
+import { useState } from 'react';
 function FormCreateUser({ close, reload, user }) {
-    const divRef = useRef(null);
     const [rolSelect, setRolSelect] = useState(user ? JSON.parse(user.type)[0] : "")
     const [emailUser, setEmailUser] = useState(user ? user.email : "")
     const [stateUser, setStateUser] = useState(user ? user.state : "")
     const [nameUser, setNameUser] = useState(user ? user.name : "")
     const [passwordUser, setPasswordUser] = useState("")
     const [Result, setResult] = useState()
-    useEffect(() => {
-
-        const divElement = divRef.current;
-        if (divElement) {
-            divElement.addEventListener('keydown', e => closeEsc(e, close));
-        }
-        return () => {
-            divElement.removeEventListener('keydown', closeEsc);
-        };
-    }, [close])
 
     const handleState = () => {
         if (stateUser === "active") {
@@ -78,10 +67,7 @@ function FormCreateUser({ close, reload, user }) {
     }
     const inputUser = new inputClass(onSubmit)
     return (
-        <div ref={divRef} tabIndex={0} className={Style.formCreateUser}>
-            <div className={Style.headerTittle}>
-                <p>{user ? "Editar usuario" : "Crear Nuevos usuarios"}</p>
-            </div>
+        <FormPrototype close={close} tittle={user ? "Editar usuario" : "Crear Nuevos usuarios"} >
             <div className={Style.formCreate}>
                 <div className={Style.inputsForm}>
                     {user ? (
@@ -118,8 +104,8 @@ function FormCreateUser({ close, reload, user }) {
                     </div>
                 </div>
                 <div className={Style.Buttons} >
-                    <Button onClick={() => close(false)} variant="outlined" color="success" >Cancelar</Button>
-                    <Button onClick={() => onSubmit()} variant="contained" color="success" >{!user ? "Crear usuario" : "Guardar"}</Button>
+                    <Button variant="outlined" onClick={() => close(false)} >Cancelar</Button>
+                    <Button variant="contained"  onClick={() => onSubmit()} >{!user ? "Crear usuario" : "Guardar"}</Button>
                 </div>
             </div>
             {Result && (
@@ -127,7 +113,7 @@ function FormCreateUser({ close, reload, user }) {
                     <Alerts Result={Result.result} />
                 </ModalPortal>
             )}
-        </div>
+        </FormPrototype>
     );
 }
 

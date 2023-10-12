@@ -1,31 +1,18 @@
 import deleteActivity from "../../../db/deleteActivity";
-import { Box, Button, Checkbox } from "@mui/material";
 import inputClass from "../../../classes/inputClass";
-import DeleteIcon from '@mui/icons-material/Delete';
 import editActivity from "../../../db/editActivity";
 import addActivity from "../../../db/addActivity";
+import { Button, Checkbox } from "@mui/material";
+import FormPrototype from "../../formPrototype";
 import nameUsed from "../../../db/nameUsed";
 import Style from "./formCreate.module.css";
-import { useEffect, useRef, useState } from "react";
-import { closeEsc } from "../../../hooks/closeEsc";
+import { useState } from "react";
 function FormCreateActivity({ close, menssage, data, reload }) {
-    const divRef = useRef(null);
 
     const [emit, setEmit] = useState(data ? data.emit === 1 ? true : false : false)
     const [score, setScore] = useState(data ? data.score : "")
     const [name, setName] = useState(data ? data.name : "")
     const [time, setTime] = useState(data ? data.time : "")
-    useEffect(() => {
-
-        const divElement = divRef.current;
-        if (divElement) {
-            divElement.addEventListener('keydown', e => closeEsc(e, close));
-        }
-        return () => {
-            divElement.removeEventListener('keydown', closeEsc);
-        };
-    }, [close])
-
     const onSave = async () => {
         if (!name || !score || !time) {
             menssage("missed data")
@@ -55,12 +42,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
     }
     const inputActivity = new inputClass(onSave)
     return (
-        <Box ref={divRef} tabIndex={0} component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "30%", height: "40%", borderRadius: "15px" }}>
-            <Box component={"div"} sx={{ fontWeight: "bold", fontSize: "20px", width: "100%", marginBottom: "5px", marginTop: "30px", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-                <Box></Box>
-                {data ? "Editar Actividad" : "Nueva Actividad"}
-                {data ? <Button onClick={onDelete} sx={{ color: "black" }}><DeleteIcon /></Button> : <Box></Box>}
-            </Box>
+        <FormPrototype close={close} tittle={data ? "Editar Actividad" : "Nueva Actividad"} onDelete={data && onDelete}>
             <div className={Style.form}>
                 <div className={Style.inputFormContent}>
                     <div className={Style.input}>
@@ -72,7 +54,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                 </div>
                 <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
-                        Tipo de actividad: 
+                        Tipo de actividad:
                     </p>
                     <div className={Style.input}>
                         {inputActivity.getInput(name, setName)}
@@ -94,7 +76,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                         {inputActivity.getInput(time, setTime)}
                     </div>
                 </div>
-               
+
             </div>
             <div className={Style.buttonSave}>
                 <Button variant="outlined" onClick={() => close()}>
@@ -104,7 +86,7 @@ function FormCreateActivity({ close, menssage, data, reload }) {
                     Guardar Actividad
                 </Button>
             </div>
-        </Box>
+        </FormPrototype>
     );
 }
 

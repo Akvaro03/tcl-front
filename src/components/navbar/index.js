@@ -14,7 +14,9 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 function ResponsiveAppBar() {
+
   const [Config, setConfig] = useState()
+  const urlPath = window.location.pathname;
   useEffect(() => {
     const getConfig = async () => {
       const responseConfig = await getDataFromUrl('/getConfig')
@@ -77,7 +79,7 @@ function ResponsiveAppBar() {
     deleteLogin()
     window.location.reload()
   }
-
+  console.log()
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -155,12 +157,12 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {Pages.map((pageUrl, key) => (
               <Button
                 key={key}
                 onClick={(e) => { handleCloseNavMenu(pageUrl.url) }}
-                sx={{ my: 2, color: 'white', display: 'block' , marginRight: '30px' }}
+                sx={{ my: 2, color: 'white', display: 'block', marginRight: '30px', boxShadow: urlPath === pageUrl.url && "0px 0px 10px 3px rgba(0,0,0,0.4)", borderRadius: "10px", background: urlPath === pageUrl.url && "#016dda" }}
               >
                 {pageUrl.name}
               </Button>
@@ -169,12 +171,12 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0, width: "20%", display: "flex", alignItems: "center", justifyContent: "space-around", fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif', fontsize: "1.1rem" }}>
-            {userNameLogin ? 
-              <Box sx={{textAlign: "center", marginRight:"20px"}}>
-                <p>{userNameLogin}</p> 
+            {userNameLogin ?
+              <Box sx={{ textAlign: "center", marginRight: "20px" }}>
+                <p>{userNameLogin}</p>
                 <p>({roles})</p>
-              </Box> 
-              : 
+              </Box>
+              :
               <Box onClick={() => navigate("/login")} sx={{ cursor: "pointer" }}>Iniciar Sesion</Box>
             }
             {userNameLogin && <p style={{ cursor: 'pointer' }} onClick={handleCloseAccount}>Cerrar Sesión</p>}

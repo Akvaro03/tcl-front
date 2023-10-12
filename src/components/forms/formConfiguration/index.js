@@ -1,17 +1,16 @@
 import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import ModalPortal from "../../../components/modelPortal";
 import inputClass from "../../../classes/inputClass";
-import { useEffect, useRef, useState } from "react";
-import { closeEsc } from "../../../hooks/closeEsc";
 import Style from "./formConfiguration.module.css";
 import Upload from "../../../components/upload";
 import Alerts from "../../../components/alerts";
+import { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import getIp from "../../../hooks/getIp";
 import { Box } from "@mui/material";
 import axios from 'axios';
+import FormPrototype from "../../formPrototype";
 function FormConfiguration({ close, menssage }) {
-    const divRef = useRef(null);
     const [result, setResult] = useState()
 
     const [nameCompany, setnameCompany] = useState("")
@@ -26,15 +25,7 @@ function FormConfiguration({ close, menssage }) {
             .then(data => setnameCompany(data))
         setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
         setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
-        const divElement = divRef.current;
-        if (divElement) {
-            divElement.addEventListener('keydown', e => closeEsc(e, close));
-        }
-        return () => {
-            divElement.removeEventListener('keydown', closeEsc);
-        };
-
-    }, [close])
+    }, [])
 
     const handleSaveConfig = async () => {
         if (!nameCompany || !browserLogo || !companyLogo) {
@@ -72,10 +63,7 @@ function FormConfiguration({ close, menssage }) {
     }
     const inputConfig = new inputClass(handleSaveConfig)
     return (
-        <div className={Style.ContentConfiguration}>
-            <div className={Style.tittlePage}>
-                <h1>Configuración</h1>
-            </div>
+        <FormPrototype close={close} tittle={"Configuracion"}>
             <div className={Style.formConfiguration}>
                 <div className={Style.input}>
                     <div className={Style.inputTittle}>
@@ -98,10 +86,10 @@ function FormConfiguration({ close, menssage }) {
                     </Box>
                 </div>
                 <div className={Style.buttons}>
-                    <Button onClick={() => close()} variant="outlined" color="success">
+                    <Button onClick={() => close()} variant="outlined">
                         Cancelar
                     </Button>
-                    <Button onClick={handleSaveConfig} variant="contained" color="success">
+                    <Button onClick={handleSaveConfig} variant="contained">
                         Guardar
                     </Button>
                 </div>
@@ -111,7 +99,7 @@ function FormConfiguration({ close, menssage }) {
                     <Alerts Result={result} />
                 </ModalPortal>
             )}
-        </div >
+        </FormPrototype>
     );
 }
 

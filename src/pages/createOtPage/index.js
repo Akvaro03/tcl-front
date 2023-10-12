@@ -6,7 +6,8 @@ import Style from './createOtPage.module.css'
 import FormCreateOt from "./components/form";
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Fade } from '@mui/material';
+import { Fade, Typography } from '@mui/material';
+import TittleComponent from '../../components/tittleComponent';
 
 function CreateOtPage() {
     const [DateForm, setDateForm] = useState(dayjs)
@@ -26,7 +27,7 @@ function CreateOtPage() {
                                         value={DateForm} onChange={(newValue) => setDateForm(newValue)} />
                                 </LocalizationProvider>
                             </div>
-                            <p>Nueva OT</p>
+                            <TittleComponent text={"Nueva OT"} />
                         </div>
                         <FormCreateOt DateCreate={DateForm} />
                     </div>

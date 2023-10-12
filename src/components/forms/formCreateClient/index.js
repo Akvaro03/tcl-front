@@ -1,18 +1,16 @@
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import inputClass from '../../../classes/inputClass';
 import toUppercase from '../../../hooks/toUppercase';
-import { useEffect, useRef, useState } from 'react';
-import { closeEsc } from '../../../hooks/closeEsc';
+import { useState } from 'react';
 import Style from './formCreateClient.module.css';
 import addClient from '../../../db/addClient';
 import ModalPortal from '../../modelPortal';
 import Alerts from '../../alerts';
 import AddIcon from '@mui/icons-material/Add';
 import editClient from '../../../db/editClient';
+import FormPrototype from '../../formPrototype';
 
 function FormCreateClient({ close, reload, data }) {
-    console.log(data)
-    const divRef = useRef(null);
     const [Contacts, setContacts] = useState(data ? JSON.parse(data.Contacts) : [{ type: "", value: "" }]);
 
     const initialDocument = data ? JSON.parse(data.Document) : [{ type: "", value: "" }];
@@ -20,15 +18,6 @@ function FormCreateClient({ close, reload, data }) {
     const [nameClient, setNameClient] = useState(data ? data.Name : "");
     const [Result, setResult] = useState();
     const [Key, setKey] = useState(data ? data.KeyUnique : "");
-    useEffect(() => {
-        const divElement = divRef.current;
-        if (divElement) {
-            divElement.addEventListener('keydown', e => closeEsc(e, close));
-        }
-        return () => {
-            divElement.removeEventListener('keydown', closeEsc);
-        };
-    }, [close])
     const handleSubmit = async () => {
         let isFull = (Contacts) => {
             let newContacts = Contacts.filter(e => (
@@ -97,14 +86,7 @@ function FormCreateClient({ close, reload, data }) {
     }
     const inputClient = new inputClass(handleSubmit)
     return (
-        <div className={Style.ContentForm} ref={divRef} tabIndex="0">
-            <div className={Style.TittleForm}>
-                {data ? (
-                    <p>Actualizar Cliente</p>
-                ) : (
-                    <p>Crear Cliente</p>
-                )}
-            </div>
+        <FormPrototype close={close} tittle={data ? "Editar Cliente" : "Crear Cliente"} >
             <form className={Style.FormClient}>
                 <div className={Style.DataInputs}>
                     <div className={Style.Input}>
@@ -198,7 +180,7 @@ function FormCreateClient({ close, reload, data }) {
                     <Alerts Result={Result} />
                 </ModalPortal>
             )}
-        </div>
+        </FormPrototype>
     );
 }
 

@@ -2,30 +2,19 @@ import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import inputClass from "../../../classes/inputClass";
 import deleteTypeOt from "../../../db/deleteTypeOt";
-import DeleteIcon from '@mui/icons-material/Delete';
+import FormPrototype from "../../formPrototype";
 import editTypeOt from "../../../db/editTypeOt";
 import Style from "./formCreateType.module.css"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import addType from "../../../db/addType";
-import { closeEsc } from "../../../hooks/closeEsc";
 
 function FormCreateType({ close, menssage, data, reload }) {
-    const divRef = useRef(null);
-
     const [activity, setActivity] = useState({})
     const [name, setName] = useState(data ? data.nameType : "")
     const [abbr, setAbbr] = useState(data ? data.abbreviation : "")
     useEffect(() => {
         searchAndSet(data)
-
-        const divElement = divRef.current;
-        if (divElement) {
-            divElement.addEventListener('keydown', e => closeEsc(e, close));
-        }
-        return () => {
-            divElement.removeEventListener('keydown', closeEsc);
-        };
-    }, [data, close])
+    }, [data])
     const saveTypeOt = async () => {
         const activitiesCopy = activity.filter((data) => data.select === true).map(({ select, ...rest }) => rest);
         if (!name || !activitiesCopy[0] || !abbr) {
@@ -81,16 +70,7 @@ function FormCreateType({ close, menssage, data, reload }) {
     }
     const inputType = new inputClass(saveTypeOt)
     return (
-        <div className={Style.FormCreateType} ref={divRef} tabIndex="0">
-            <div className={Style.TittleForm}>
-                <Box></Box>
-                <h1>{data ? "Editar tipo de OT" : "Nuevo tipo de OT"}</h1>
-                {data ? (
-                    <Button onClick={onDelete} sx={{ color: "black" }}><DeleteIcon /></Button>
-                ) : (
-                    <h1>{data ? "Editar tipo de OT" : ""}</h1>
-                )}
-            </div>
+        <FormPrototype close={close} tittle={data ? "Editar tipo de OT" : "Nuevo tipo de OT"} onDelete={data && onDelete}>
             <div className={Style.ContentForm}>
                 <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
@@ -108,10 +88,10 @@ function FormCreateType({ close, menssage, data, reload }) {
                         {inputType.getInput(abbr, setAbbr)}
                     </div>
                 </div>
+                <p >
+                    Actividades por defecto:
+                </p>
                 <Box component={"div"} display={"flex"} width={"100%"} flexWrap={"wrap"} alignItems={"center"}>
-                    <p className={Style.TittleInput}>
-                        Actividades por defecto:
-                    </p>
                     {activity[0] && (
                         activity.map((user, key) => (
                             <div key={key}>
@@ -131,7 +111,7 @@ function FormCreateType({ close, menssage, data, reload }) {
                     Guardar Tipo
                 </Button>
             </div>
-        </div>
+        </FormPrototype >
     );
 }
 
