@@ -34,7 +34,6 @@ class messageHistory {
         }
     }
     static editPay(pay) {
-        console.log(pay)
         return `${!pay.delete ? "Nueva factura" : `Se elimino`}: ${pay.delete ? pay.delete : pay.id}`
     }
 }

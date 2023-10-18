@@ -24,9 +24,6 @@ function Remito() {
         }
         getOt()
     }, [id])
-    console.log(ot)
-    console.log(client)
-    console.log(document)
     return (
         <div className={Style.container}>
             {ot && (

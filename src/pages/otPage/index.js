@@ -1,18 +1,21 @@
-import isActivitiesEnd from "../../hooks/isActivitiesEnd";
-import isUserAssigned from "../../hooks/isUserAssigned";
-import getDataFromUrl from "../../hooks/getDataFromUrl";
-import ResponsiveAppBar from "../../components/navbar";
-import ListPays from "../../components/list/listPays";
-import { useEffect, useState } from "react";
-import Filters from "./components/filters";
-import Style from "./otPage.module.css"
+import FilterPrototype from "../../components/filtersPrototype";
 import getStateActivity from "../../hooks/getStateActivity";
 import ListPrototype from "../../components/listPrototype";
-import headerList from "../../classes/headerList";
+import isActivitiesEnd from "../../hooks/isActivitiesEnd";
+import TableFact from "../../components/tables/TableFact";
+import isUserAssigned from "../../hooks/isUserAssigned";
+import getDataFromUrl from "../../hooks/getDataFromUrl";
+import ModalPortal from "../../components/modelPortal";
+import ResponsiveAppBar from "../../components/navbar";
 import TableOT from "../../components/tables/TableOt";
+import FormPay from "../../components/forms/formPay";
+import headerList from "../../classes/headerList";
 import openNewTab from "../../hooks/openNewTab";
+import { useEffect, useState } from "react";
+import Filters from "./components/filters";
+import Style from "./otPage.module.css";
+import editPay from "../../db/editPay";
 import { Box } from "@mui/material";
-import FilterPrototype from "../../components/filtersPrototype";
 function OtPage() {
     const [listOt, setListOt] = useState()
     const [otFilter, setOtFilter] = useState({})
@@ -31,6 +34,7 @@ function OtPage() {
     const [paysEdit, setPaysEdit] = useState()
     const [pays, setPays] = useState()
 
+    const [editFact, setEditFact] = useState()
 
     const [tag, setTag] = useState("Todas las OTs")
     const [clients, setClients] = useState({})
@@ -76,7 +80,6 @@ function OtPage() {
                 break;
             case "Sin Autorizar":
                 setOtFilter(listOt.filter(ot => ot.Auth === "0"));
-
                 setTag("Sin Autorizar");
                 break;
             case "Terminadas":
@@ -112,11 +115,11 @@ function OtPage() {
                 setTag("OTs sin facturar");
                 break;
             case "Pendientes":
-                setPaysEdit(pays.filter(pay => pay.datePay === null));
+                setPaysEdit(pays.filter(pay => pay.datePay === null && new Date(pay.dateExpiration).getTime() > Date.now()));
                 setTag("Pendientes");
                 break;
             case "Vencidas":
-                setPaysEdit(pays.filter(pay => new Date(pay.dateExpiration).getTime() < Date.now()));
+                setPaysEdit(pays.filter(pay => pay.datePay === null && new Date(pay.dateExpiration).getTime() < Date.now()));
                 setTag("Vencidas");
                 break;
             case "Cobradas":
@@ -181,6 +184,21 @@ function OtPage() {
             filterOt(tag);
         }
     }
+    const savePay = (pay) => {
+        editPay({ ...pay, prevId: editFact.id })
+    }
+    const resetPay = () => {
+        getDataFromUrl("/getPay")
+            .then(data => data.reverse())
+            .then(data => {
+                setPays(data)
+                setPaysEdit(data)
+            })
+    }
+    const closeModal = () => {
+        setEditFact()
+        resetPay()
+    }
     return (
         <>
             <ResponsiveAppBar />
@@ -188,7 +206,14 @@ function OtPage() {
                 <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otWaiting: otWaiting.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
                 {otFilter && (
                     tag === "Facturación" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
-                        <ListPays pays={paysEdit} />
+                        <ListPrototype
+                            Table={TableFact}
+                            header={headersFact.getHeader()}
+                            list={paysEdit}
+                            clickable={(data) => setEditFact(data)}
+                            recharge={handleChangeAuth}
+                            height={"85%"} />
+
                         :
                         (
                             <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: "90%" }}>
@@ -208,6 +233,11 @@ function OtPage() {
                         )
                 )}
             </div>
+            {editFact && (
+                <ModalPortal type={"form"}>
+                    <FormPay save={savePay} close={closeModal} pay={editFact} />
+                </ModalPortal>
+            )}
         </>
     );
 }
@@ -220,3 +250,9 @@ headersOt.addHeader("Tipo", "13%")
 headersOt.addHeader("Cliente", "15%")
 headersOt.addHeader("Nombre Producto", "22%")
 headersOt.addHeader("Estado", "15%")
+
+const headersFact = new headerList()
+headersFact.addHeader("ID", "15%")
+headersFact.addHeader("Creación", "9%")
+headersFact.addHeader("Vencimiento", "20%")
+headersFact.addHeader("Cobro", "15%")

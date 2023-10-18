@@ -79,7 +79,6 @@ function ResponsiveAppBar() {
     deleteLogin()
     window.location.reload()
   }
-  console.log()
   return (
     <AppBar position="static">
       <Container maxWidth="xl">

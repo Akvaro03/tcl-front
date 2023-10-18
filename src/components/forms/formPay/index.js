@@ -1,49 +1,47 @@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Box, Button, Typography } from "@mui/material";
 import inputClass from "../../../classes/inputClass";
-import { useEffect, useRef, useState } from "react";
-import { closeEsc } from "../../../hooks/closeEsc";
+import FormPrototype from "../../formPrototype";
+import { Box, Button, Checkbox } from "@mui/material";
+import { useState } from "react";
 import dayjs from "dayjs";
 
 function FormPay({ close, save, pay = [] }) {
-    const divRef = useRef(null);
-    const [dateExpiration, setDateExpiration] = useState(dayjs(Date.now()))
-    const [dateCreated, setDateCreated] = useState(dayjs(Date.now()))
-    const [id, setId] = useState("")
-    useEffect(() => {
+    const [dateExpiration, setDateExpiration] = useState(pay ? dayjs(pay.dateExpiration) : dayjs(Date.now()))
+    const [dateCreated, setDateCreated] = useState(pay ? dayjs(pay.dateCreated) : dayjs(Date.now()))
+    const [datePay, setDatePay] = useState(pay && dayjs(pay.datePay))
+    const [isPay, SetIsPay] = useState(pay.datePay ? true : false)
 
-        const divElement = divRef.current;
-        if (divElement) {
-            divElement.addEventListener('keydown', e => closeEsc(e, close));
-        }
-        return () => {
-            divElement.removeEventListener('keydown', closeEsc);
-        };
-    }, [close])
-
+    const [id, setId] = useState(pay ? pay.id : "")
     const handleSubmit = () => {
-        const copyPay = [...pay]
+        const copyPay = pay.id ? [{ ...pay }] : [...pay]
         copyPay.push(id)
-        save({ id: String(id), dateCreated, dateExpiration, newList: copyPay.map(data => data.id ? data.id : data) })
+        save({ id: String(id), dateCreated, dateExpiration, datePay, newList: copyPay.map(data => data.id ? data.id : data) })
+        setTimeout(() => {
+            close()
+        }, 200);
     }
+    const handleChange = (event) => {
+        SetIsPay(event.target.checked);
+        if (!event.target.checked) {
+            setDatePay(null)
+        } else {
+            setDatePay(pay.id ? dayjs(pay.datePay) : null)
+        }
+    };
+
     const inputPay = new inputClass(handleSubmit)
     return (
-        <Box ref={divRef} tabIndex={0} sx={{ width: "500px", height: "350px", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "30px", marginBottom: "30px"}}>
-                <Typography component={"h1"} sx={{ fontSize: "19px",  fontWeight: "bold" , textDecoration: "underline"}}>
-                    Agregar Factura
-                </Typography>
-            </Box>
-            <Box display={"flex"}  flexDirection={"column"} gap={"20px"} marginBottom={"30px"}  alignItems={"center"}>
+        <FormPrototype close={close} tittle={pay.id ? "Editar Factura" : "Agregar Factura"} >
+            <Box display={"flex"} flexDirection={"column"} gap={"20px"} marginTop={"30px"} marginBottom={"30px"} alignItems={"center"}>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
                     <Box marginRight={"20px"}>ID:</Box>
-                    <Box width={"100%"}> 
+                    <Box width={"100%"}>
                         {inputPay.getInput(id, (data) => setId(data))}
                     </Box>
                 </Box>
                 <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%"}}>Creación:</Box>
+                    <Box sx={{ width: "50%" }}>Creación:</Box>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             format="DD/MM/YYYY"
@@ -60,6 +58,21 @@ function FormPay({ close, save, pay = [] }) {
                             value={dateExpiration} onChange={(date) => setDateExpiration(date)} />
                     </LocalizationProvider>
                 </Box>
+                <Box width={"80%"} display={"flex"} alignItems={"center"}>
+                    <Box sx={{ width: "50%" }}>Cobro:</Box>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            format="DD/MM/YYYY"
+                            disabled={!isPay}
+                            slotProps={{ textField: { size: 'small' } }}
+                            value={datePay} onChange={(date) => setDatePay(date)} />
+                    </LocalizationProvider>
+                    <Checkbox
+                        checked={isPay}
+                        onChange={handleChange}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                </Box>
             </Box>
 
             <Box height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
@@ -68,7 +81,7 @@ function FormPay({ close, save, pay = [] }) {
                 )}
                 <Button size="large" onClick={() => handleSubmit()} variant="contained" >Guardar</Button>
             </Box>
-        </Box>
+        </FormPrototype>
     );
 }
 
