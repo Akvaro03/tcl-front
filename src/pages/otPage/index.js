@@ -16,6 +16,8 @@ import Filters from "./components/filters";
 import Style from "./otPage.module.css";
 import editPay from "../../db/editPay";
 import { Box } from "@mui/material";
+import ComponentError from "../../components/componentError";
+import ErrorBoundary from "../../utilities/ErrorBoundary";
 function OtPage() {
     const [listOt, setListOt] = useState()
     const [otFilter, setOtFilter] = useState({})
@@ -46,16 +48,31 @@ function OtPage() {
                 setListOt(data)
                 setOtFilter(data)
                 filterAllOt(data)
-            });
-        getDataFromUrl("/getPay")
-            .then(data => data.reverse())
-            .then(data => {
-                setPays(data)
-                setPaysEdit(data)
+                return data
+            })
+            .then(allOt => {
+                getDataFromUrl("/getPay")
+                    .then(data => data.reverse())
+                    .then(data => {
+                        return data.map(fact => { return { ...fact, OTFact: getOTFact(allOt, fact.id) } })
+                    })
+                    .then(data => {
+                        setPays(data)
+                        setPaysEdit(data)
+                    })
             })
         getDataFromUrl("/getClients")
             .then(data => setClients(data.map(client => client.Name).sort()))
 
+        const getOTFact = (otList, id) => {
+            const result = otList.filter(ot => {
+                if (ot.Factura) {
+                    return JSON.parse(ot.Factura).includes(id)
+                }
+                return false
+            }).map(data => data.OTKey)
+            return result;
+        }
     }, [])
 
     const filterOt = (type, data) => {
@@ -199,39 +216,41 @@ function OtPage() {
         setEditFact()
         resetPay()
     }
+
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.ContentOt}>
-                <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otWaiting: otWaiting.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
-                {otFilter && (
-                    tag === "Facturación" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
-                        <ListPrototype
-                            Table={TableFact}
-                            header={headersFact.getHeader()}
-                            list={paysEdit}
-                            clickable={(data) => setEditFact(data)}
-                            recharge={handleChangeAuth}
-                            height={"85%"} />
+                <ErrorBoundary fallBackComponent={<ComponentError />} >
+                    <Filters filterOt={filterOt} tag={tag} data={{ otRetired: otRetired.length, otSend: otSend.length, otDFR: otDFR.length, otOnProcess: otOnProcess.length, otEnd: otEnd.length, otWaiting: otWaiting.length, otToAssing: otToAssing.length, otToAuth: otToAuth.length, otOnCurse: otOnCurse.length }} />
+                    {otFilter && (
+                        tag === "Facturación" || tag === "Pendientes" || tag === "Cobradas" || tag === "Vencidas" ?
+                            <ListPrototype
+                                Table={TableFact}
+                                header={headersFact.getHeader()}
+                                list={paysEdit}
+                                clickable={(data) => setEditFact(data)}
+                                recharge={handleChangeAuth}
+                                height={"85%"} />
+                            :
+                            (
+                                <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: "90%" }}>
+                                    <FilterPrototype
+                                        search={{ onChange: searchById, label: "Por ID" }}
+                                        select={{ onChange: selectClient, namesMultiple: clients }}
 
-                        :
-                        (
-                            <Box component={"div"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: "90%" }}>
-                                <FilterPrototype
-                                    search={{ onChange: searchById, label: "Por ID" }}
-                                    select={{ onChange: selectClient, namesMultiple: clients }}
-
-                                />
-                                <ListPrototype
-                                    Table={TableOT}
-                                    header={headersOt.getHeader()}
-                                    list={otFilter}
-                                    clickable={(data) => openNewTab(`/events/${data.id}`)}
-                                    recharge={handleChangeAuth}
-                                    height={"85%"} />
-                            </Box>
-                        )
-                )}
+                                    />
+                                    <ListPrototype
+                                        Table={TableOT}
+                                        header={headersOt.getHeader()}
+                                        list={otFilter}
+                                        clickable={(data) => openNewTab(`/events/${data.id}`)}
+                                        recharge={handleChangeAuth}
+                                        height={"85%"} />
+                                </Box>
+                            )
+                    )}
+                </ErrorBoundary>
             </div>
             {editFact && (
                 <ModalPortal type={"form"}>
@@ -244,6 +263,7 @@ function OtPage() {
 export default OtPage;
 
 const headersOt = new headerList()
+headersOt.addHeader(" ", "3%")
 headersOt.addHeader("ID", "15%")
 headersOt.addHeader("Fecha", "9%")
 headersOt.addHeader("Tipo", "13%")
@@ -256,3 +276,4 @@ headersFact.addHeader("ID", "15%")
 headersFact.addHeader("Creación", "9%")
 headersFact.addHeader("Vencimiento", "20%")
 headersFact.addHeader("Cobro", "15%")
+headersFact.addHeader("OT relacionada", "35%")

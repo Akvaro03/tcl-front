@@ -2,10 +2,12 @@ import { Box, Button } from "@mui/material";
 import isUserAssigned from "../../../hooks/isUserAssigned";
 import isActivitiesEnd from "../../../hooks/isActivitiesEnd";
 import getStateActivity from "../../../hooks/getStateActivity";
-import { Navigate } from "react-router-dom";
 import formatDateM from "../../../hooks/formatDateM";
 import changeAuth from "../../../db/changeAuth";
 import messageHistory from "../../../hooks/messageHistory";
+import PriorityOt from "../../priorityOt";
+import ClassPriorityOt from "../../../classes/priorityOt";
+import editOt from "../../../db/editOT";
 
 export default function TableOT({ data, Colum, dataHover, recharge }) {
     const handleChangeAuth = (data) => {
@@ -15,9 +17,19 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
             messageHistory.tittleEditaAuth, "")
         recharge(data)
     }
-
+    const handlePriority = () => {
+        const newPriority = ClassPriorityOt.handleClick(data.priority)
+        data.priority = newPriority;
+        editOt(data, data.id, messageHistory.tittleEditPriority)
+        recharge(data)
+    }
     return (
         <>
+            <Colum data={
+                <Box component={"span"} onClick={() => handlePriority()}>
+                    {<PriorityOt priority={data.priority} size="small" />}
+                </Box>
+            } width="3%" />
             <Colum data={data.OTKey} width="15%" />
             <Colum data={formatDateM(data.Date)} width="9%" />
             <Colum data={data.Type} width="13%" />
@@ -28,7 +40,7 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
                     <h1>Sin Autorizar</h1>
                 </Box>
             ) : !isUserAssigned(data) ? (
-                <Box component="div" onClick={() => Navigate(`/events/${data.id}`)} sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Sin Asignar</h1>
                 </Box>
             ) : isActivitiesEnd(data.Activities) ? (

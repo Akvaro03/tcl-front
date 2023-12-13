@@ -1,13 +1,12 @@
-.ContentForm {
-    width: 60%;
-    transition: all .7s;
-    height: 90%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 15px;
+.FormClient {
     display: flex;
-    align-items: center;
-    background: white;
     flex-direction: column;
+    align-items: center;
+}
+
+.DataContacts,
+.DataInputs {
+    width: 90% !important;
 }
 
 .TittleForm {
@@ -18,11 +17,6 @@
     justify-content: center;
     align-items: center;
     height: 12%;
-}
-
-.FormClient {
-    width: 90%;
-    margin-left: 10%;
 }
 
 .Input {
@@ -93,7 +87,9 @@
 }
 
 .ButtonSave {
-    margin-top: 10%;
+    margin-top: 3%;
+    width: 100%;
+    margin-bottom: 5%;
     justify-content: center;
     display: flex;
     gap: 80px;

@@ -10,6 +10,7 @@ function Etiquetas() {
     useEffect(() => {
         const getOt = async () => {
             const ot = await postData("http://localhost:4000/getOneOt", { id }).then(response => response[0])
+            console.log(ot)
             const cards = Array.from({ length: steps }, (_, index) => (
                 <Label OT={ot} key={index} />
             ))

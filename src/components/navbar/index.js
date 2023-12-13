@@ -19,7 +19,7 @@ function ResponsiveAppBar() {
   const urlPath = window.location.pathname;
   useEffect(() => {
     const getConfig = async () => {
-      const responseConfig = await getDataFromUrl('/getConfig')
+      const responseConfig = await getDataFromUrl('/getConfig').catch(err => console.log("Hubo un problema con el servidor"))
       if (responseConfig) {
         setConfig(responseConfig)
         fetch(`${getIp()}:4000/getBrowserLogo`)
@@ -28,6 +28,9 @@ function ResponsiveAppBar() {
             const url = URL.createObjectURL(blob);
             changeFavicon(url);
           });
+      }
+      if (!responseConfig) {
+        setConfig("No cargo")
       }
     }
     getConfig()

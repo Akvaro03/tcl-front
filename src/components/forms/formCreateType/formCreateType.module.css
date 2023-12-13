@@ -48,5 +48,6 @@
 .buttonSave {
     display: flex;
     margin-bottom: 5%;
+    margin-top: 2%;
     gap: 80px;
 }

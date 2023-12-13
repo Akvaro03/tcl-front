@@ -7,5 +7,5 @@ export default async function addClient(data) {
     if (isNameUsed || isCodeUsed) {
         return "name used"
     }
-    return editDb.postData("postClients", data).then(response => response.result)
+    return editDb.postData("postClients", data)
 }

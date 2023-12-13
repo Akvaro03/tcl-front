@@ -1,0 +1,57 @@
+.TypeDocument,
+.NDocument {
+    display: flex;
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+    align-items: center;
+    margin-right: 20px;
+    gap: 10px;
+}
+
+.CustomInput {
+    display: flex;
+    width: 50%;
+}
+
+.InputContact .NDocument .CustomInput {
+    display: flex;
+    width: 120%;
+}
+
+.InputContact .TypeDocument .CustomInput {
+    display: flex;
+    width: 40%;
+    padding-right: 5%;
+}
+
+.DataInputs {
+    vertical-align: middle;
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    gap: 25px;
+}
+
+.TittleContacts {
+    font-weight: 600;
+    font-size: 20px;
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+}
+
+.ContentContacts {
+    margin: 2% 0 2% 0;
+}
+
+.InputContact {
+    display: flex;
+    margin: 2% 0;
+    width: 90%;
+}
+
+.ButtonSave {
+    margin-top: 3%;
+    width: 100%;
+    margin-bottom: 5%;
+    justify-content: center;
+    display: flex;
+    gap: 80px;
+}

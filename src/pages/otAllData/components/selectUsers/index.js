@@ -1,8 +1,8 @@
-import { Box, Button, Checkbox, Fade, FormControlLabel } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import inputClass from "../../../../classes/inputClass";
-import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
+import FormPrototype from "../../../../components/formPrototype";
 
 function SelectUsers({ closeForm, activitySelected, handleUsers }) {
     const [users, setUsers] = useState()
@@ -24,35 +24,26 @@ function SelectUsers({ closeForm, activitySelected, handleUsers }) {
     }
     const inputUsers = new inputClass(() => handleUsers(userAct, score))
     return (
-        <Fade in={true}>
-            <Box sx={{ width: "60%", height: "40%", background: "white", borderRadius: "15px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <Box sx={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", height: "20%", alignItems: "center", justifyItems: "end" }}>
-                    <div />
-                    <h1>Asignar usuario/s</h1>
-                    <Box sx={{ cursor: "pointer" }} onClick={closeForm}>
-                        <CloseIcon />
-                    </Box>
-                </Box>
-                <Box sx={{ display: "flex", width: "70%", flexWrap: "wrap", paddingBottom: "15px" }}>
-                    {users && (
-                        users.map((user, key) => (
-                            <div key={key}>
-                                <FormControlLabel control={<Checkbox checked={compare(user.name)} onChange={({ target: { checked } }) => { handleChecked(checked, user.name) }} />} label={user.name} />
-                            </div>
-                        ))
-                    )}
-                </Box>
-                <Box sx={{ height: "10%", display: "flex", gap: "15px", alignItems: "center", marginBottom: "5%" }}>
-                    <h1>Score</h1>
-                    {inputUsers.getInput(score, setScore)}
-                </Box>
-                <Box>
-                    <Button variant="contained" onClick={() => { handleUsers(userAct, score) }}>
-                        Guardar
-                    </Button>
-                </Box>
+        <FormPrototype close={closeForm} tittle={"Asignar usuario"} width="70%">
+            <Box sx={{ display: "grid", gridTemplateColumns:"1fr 1fr 1fr", width: "70%", flexWrap: "wrap", paddingBottom: "15px" }}>
+                {users && (
+                    users.map((user, key) => (
+                        <div key={key}>
+                            <FormControlLabel control={<Checkbox checked={compare(user.name)} onChange={({ target: { checked } }) => { handleChecked(checked, user.name) }} />} label={user.name} />
+                        </div>
+                    ))
+                )}
             </Box>
-        </Fade>
+            <Box sx={{ height: "10%", display: "flex", gap: "15px", alignItems: "center", marginBottom: "5%" }}>
+                <h1>Score</h1>
+                {inputUsers.getInput(score, setScore)}
+            </Box>
+            <Box>
+                <Button variant="contained" onClick={() => { handleUsers(userAct, score) }}>
+                    Guardar
+                </Button>
+            </Box>
+        </FormPrototype>
     );
 }
 

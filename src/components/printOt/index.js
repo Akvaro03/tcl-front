@@ -2,15 +2,16 @@ import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material
 import Style from "./printOt.module.css"
 import getIp from "../../hooks/getIp";
 import { useState } from "react";
+import FormPrototype from "../formPrototype";
 
-export default function PrintOt({ Result, setResult }) {
+export default function PrintOt({ Result, setResult, close }) {
     const [numberEt, setNumberEt] = useState(2)
     const printPdf = (nameUrl, numberEt) => {
         window.open(`${getIp()}:3000/${nameUrl}/${Result}` + (numberEt ? "/" + numberEt : ""))
     }
 
     return (
-        <div className={Style.contentBody}>
+        <FormPrototype tittle={"Imprimir"} close={close}>
             <div className={Style.selectNumber}>
                 <FormControl
                     sx={{ width: "20%", marginRight: "50px" }}
@@ -28,10 +29,11 @@ export default function PrintOt({ Result, setResult }) {
                 </FormControl>
             </div>
             <div className={Style.buttons}>
-                <Button color="success" variant="contained" onClick={() => { printPdf("Remito") }} >Imprimir Remito</Button>
-                <Button color="success" variant="contained" onClick={() => { printPdf("Etiqueta", numberEt) }} >Imprimir Etiqueta</Button>
+                <Button variant="contained" onClick={() => { printPdf("Remito") }} >Imprimir Remito</Button>
+                <Button variant="contained" onClick={() => { printPdf("ordentrabajo") }} >Imprimir Orden de trabajo</Button>
+                <Button variant="contained" onClick={() => { printPdf("Etiqueta", numberEt) }} >Imprimir Etiqueta</Button>
             </div>
-        </div>
+        </FormPrototype>
     );
 }
 const retornAllNumbers = () => {

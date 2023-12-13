@@ -1,21 +1,18 @@
+import classToastList from "../../classes/classToastList";
 import ResponsiveAppBar from "../../components/navbar";
-import ModalPortal from "../../components/modelPortal";
 import FormPay from "../../components/forms/formPay";
-import Alerts from "../../components/alerts";
+import ToastList from "../../components/toastList";
 import Style from "./createFact.module.css"
 import addPay from "../../db/addPay";
 import { useState } from "react";
 
 function CreateFact() {
-    const [result, setResult] = useState()
+    const [toasts, setToasts] = useState([]);
     const savePay = async (pay) => {
         try {
             addPay({ pay })
-                .then(result => {
-                    setResult(result)
-                    setTimeout(() => {
-                        setResult()
-                    }, 2000);
+                .then(() => {
+                    classToastList.addToast(setToasts, "ok Fact")
                 })
         } catch (error) {
         }
@@ -24,13 +21,11 @@ function CreateFact() {
         <>
             <ResponsiveAppBar />
             <div className={Style.BodyCreateOt}>
-                <FormPay save={savePay} />
+                <FormPay save={savePay} missedData={() => classToastList.addToast(setToasts, { id: Date.now(), text: "missed data" })} />
             </div>
-            {result && (
-                <ModalPortal type={"alert"}>
-                    <Alerts Result={result} />
-                </ModalPortal>
-            )}
+            <ToastList
+                listData={toasts}
+            />
         </>
     );
 }

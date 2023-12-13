@@ -5,22 +5,32 @@ import FormPrototype from "../../formPrototype";
 import { Box, Button, Checkbox } from "@mui/material";
 import { useState } from "react";
 import dayjs from "dayjs";
+import typePay from "../../../types/typePay";
 
-function FormPay({ close, save, pay = [] }) {
+function FormPay({ close, save, pay = [], missedData }) {
     const [dateExpiration, setDateExpiration] = useState(pay ? dayjs(pay.dateExpiration) : dayjs(Date.now()))
     const [dateCreated, setDateCreated] = useState(pay ? dayjs(pay.dateCreated) : dayjs(Date.now()))
     const [datePay, setDatePay] = useState(pay && dayjs(pay.datePay))
     const [isPay, SetIsPay] = useState(pay.datePay ? true : false)
 
-    const [id, setId] = useState(pay ? pay.id : "")
+    const [id, setId] = useState(pay ? pay.id : undefined)
+
     const handleSubmit = () => {
+        const newPay = new typePay({ id, dateCreated, dateExpiration, datePay })
+
+        if (!newPay.verifyPay()) {
+            missedData()
+            return
+        }
+
         const copyPay = pay.id ? [{ ...pay }] : [...pay]
         copyPay.push(id)
         save({ id: String(id), dateCreated, dateExpiration, datePay, newList: copyPay.map(data => data.id ? data.id : data) })
-        setTimeout(() => {
+        close && setTimeout(() => {
             close()
         }, 200);
     }
+
     const handleChange = (event) => {
         SetIsPay(event.target.checked);
         if (!event.target.checked) {

@@ -2,14 +2,12 @@ import deleteActivity from "../../../db/deleteActivity";
 import inputClass from "../../../classes/inputClass";
 import editActivity from "../../../db/editActivity";
 import addActivity from "../../../db/addActivity";
-import { Button, Checkbox } from "@mui/material";
 import FormPrototype from "../../formPrototype";
 import nameUsed from "../../../db/nameUsed";
 import Style from "./formCreate.module.css";
+import { Button } from "@mui/material";
 import { useState } from "react";
 function FormCreateActivity({ close, menssage, data, reload }) {
-
-    const [emit, setEmit] = useState(data ? data.emit === 1 ? true : false : false)
     const [score, setScore] = useState(data ? data.score : "")
     const [name, setName] = useState(data ? data.name : "")
     const [time, setTime] = useState(data ? data.time : "")
@@ -24,11 +22,16 @@ function FormCreateActivity({ close, menssage, data, reload }) {
         const isNameUsed = await nameUsed(name, "activity")
         if (!isNameUsed || data) {
             if (data) {
-                editActivity({ name, score, time, emit, id: data.id })
+                editActivity({ name, score, time, id: data.id })
+                    .then((result) => menssage(result))
             } else {
-                menssage(addActivity({ name, score, time, emit }))
+                addActivity({ name, score, time })
+                    .then((result) => menssage(result))
             }
-            reload()
+            reload && reload()
+            setTimeout(() => {
+                menssage()
+            }, 1500);
             close()
             return
         }
@@ -39,25 +42,19 @@ function FormCreateActivity({ close, menssage, data, reload }) {
     }
     const onDelete = () => {
         deleteActivity({ id: data.id })
+        reload()
+        close()
     }
     const inputActivity = new inputClass(onSave)
     return (
         <FormPrototype close={close} tittle={data ? "Editar Actividad" : "Nueva Actividad"} onDelete={data && onDelete}>
             <div className={Style.form}>
                 <div className={Style.inputFormContent}>
-                    <div className={Style.input}>
-                        <Checkbox checked={emit} onChange={({ target: { checked } }) => { setEmit(checked) }} />
-                    </div>
-                    <p className={Style.TittleInput}>
-                        Se emite informe
-                    </p>
-                </div>
-                <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
                         Tipo de actividad:
                     </p>
                     <div className={Style.input}>
-                        {inputActivity.getInput(name, setName)}
+                        {inputActivity.getInput(name, (string => setName(string.toUpperCase())))}
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>

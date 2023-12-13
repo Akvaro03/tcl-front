@@ -1,36 +1,32 @@
-import { Autocomplete, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
 import MultipleSelect from '../../../../components/multipleSelect';
 import ModalPortal from '../../../../components/modelPortal';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import React, { useEffect, useState } from 'react';
-import Alerts from '../../../../components/alerts';
 import getOTkey from '../../../../hooks/getOTkey';
 import getUser from '../../../../hooks/getUser';
+import AddIcon from '@mui/icons-material/Add';
 import Style from './formCreateOt.module.css';
 import ModalCallback from '../ModalCallback';
 import addOt from '../../../../db/addOt';
 import styled from "@emotion/styled";
 import Input from '@mui/base/Input';
+import toUppercase from '../../../../hooks/toUppercase';
+import ToastList from '../../../../components/toastList';
+import classToastList from '../../../../classes/classToastList';
+import TypeOt from '../../../../types/typeOt';
 
 function FormCreateOt({ DateCreate }) {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
     const [ClientObjet, setClientObjet] = useState(top100Films[0])
     const [FechaVencimiento, setFechaVencimiento] = useState("")
     const [FechaEstimada, setFechaEstimada] = useState("")
-    const [Observaciones, setObservaciones] = useState("")
+    const [Observations, setObservations] = useState("")
     const [NormaAplicar, setNormaAplicar] = useState("")
-    const [Identificación, setIdentificación] = useState("")
-    const [Description, setDescription] = useState({
-        Item1: "",
-        Description1: "",
-        Importe1: "",
-        Item2: "",
-        Description2: "",
-        Importe2: "",
-        Item3: "",
-        Description3: "",
-        Importe3: "",
-    })
+    const [OTKey, setOTKey] = useState("")
+
+    const [Description, setDescription] = useState([{ item: "", Description: "", import: 0 }]);
+
     const [Cotizacion, setCotizacion] = useState("")
     const [Contacts, setContacts] = useState("")
     const [Producto, setProducto] = useState("")
@@ -39,26 +35,17 @@ function FormCreateOt({ DateCreate }) {
     const [Marca, setMarca] = useState("")
     const [Type, SetType] = useState("")
 
-    const [error, setError] = useState()
+    const [toasts, setToasts] = useState([]);
     const [Result, setResult] = useState(null)
     const [userLogin, setUserLogin] = useState()
+    const [isSaveOtDisabled, setIsSaveOtDisabled] = useState(false)
 
     const handleSubmit = async () => {
         try {
-            // getOTkey()
-            //     .then(data => setIdentificación(data + " " + type + " " + Client.KeyUnique))
-
-            if (!Observaciones || !Description || !FechaEstimada || !FechaVencimiento || !Cotizacion || !NormaAplicar || !Modelo || !Marca || !allTypes[Type].activities || !ClientObjet || !Producto) {
-                setError("missed data");
-                setTimeout(() => {
-                    setError();
-                }, 3000);
-                return
-            }
-            formatKey(Type, ClientObjet)
+            setIsSaveOtDisabled(true)
+            const Activities = allTypes[Type].activities;
             const ContactSelect = Contacts ? Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]) : "";
             const { label: Client } = ClientObjet;
-            const activities = allTypes[Type].activities;
             const TypeString = allTypes[Type];
             const Changes = {
                 userId: userLogin.id,
@@ -67,8 +54,8 @@ function FormCreateOt({ DateCreate }) {
                 date: new Date(DateCreate).getTime(),
                 comment: ""
             };
-            const OT = {
-                Date: new Date(DateCreate).getTime(),
+            const newOt = new TypeOt({
+                Date: DateCreate,
                 Client,
                 IdClient: ClientObjet.id,
                 Producto,
@@ -78,35 +65,29 @@ function FormCreateOt({ DateCreate }) {
                 Cotizacion,
                 FechaVencimiento,
                 FechaEstimada,
-                Type: TypeString.nameType,
+                Type: TypeString,
                 Description,
-                Observaciones,
-                ContactSelect,
+                Observations,
+                Contact: ContactSelect,
                 Changes,
-                activities,
-                Identificación
-            };
-            const resultPost = await addOt(OT);
-            const resets = [
-                setProducto,
-                setMarca,
-                setModelo,
-                setNormaAplicar,
-                setCotizacion,
-                setFechaEstimada,
-                setFechaVencimiento
-            ];
-
-            if (resultPost.result.substring(0, 5) === "ok ot") {
-                resetInputs(resets);
+                Activities,
+                OTKey
+            });
+            if (!newOt.verificateCreateOt()) {
+                classToastList.addToast(setToasts, "missed data");
+                setIsSaveOtDisabled(false)
+                return
             }
-            setResult(resultPost.result.substring(6, 7));
+            const resultPost = await addOt(newOt);
+            if (resultPost.substring(0, 5) === "ok ot") {
+                resetAllData()
+            }
+            setResult(resultPost.substring(6, 10));
+            setIsSaveOtDisabled(false)
         } catch (error) {
             console.log(error)
-            setError("missed data");
-            setTimeout(() => {
-                setError();
-            }, 3000);
+            classToastList.addToast(setToasts, "missed data");
+            setIsSaveOtDisabled(false)
         }
     };
     const handleTypeChange = (value) => {
@@ -116,6 +97,19 @@ function FormCreateOt({ DateCreate }) {
     const handleClient = (data) => {
         setClientObjet(data);
         formatKey(Type, data)
+    }
+    const resetAllData = () => {
+        const resets = [
+            setProducto,
+            setMarca,
+            setModelo,
+            setNormaAplicar,
+            setCotizacion,
+            setFechaEstimada,
+            setFechaVencimiento,
+            setObservations
+        ];
+        resetInputs(resets);
     }
     useEffect(() => {
         getDataFromUrl('/getClients')
@@ -132,14 +126,27 @@ function FormCreateOt({ DateCreate }) {
             .then(json => {
                 setAllTypes(json)
             });
-        getOTkey()
-            .then(data => setIdentificación(data))
+
+        !OTKey && getOTkey()
+            .then(data => setOTKey(data))
+
     }, [])
+
     const formatKey = (tipo, Client) => {
         const type = allTypes[tipo] ? allTypes[tipo].abbreviation : "";
         getOTkey()
-            .then(data => setIdentificación(data + " " + type + " " + Client.KeyUnique))
+            .then(data => setOTKey(data + " " + type + " " + Client.KeyUnique))
     }
+    const addDescription = () => {
+        setDescription(prev => [...prev, { item: "", Description: "", import: 0 }])
+    }
+    const handleChangeDescription = (e, number, type) => {
+        const { value } = e.target
+        let copy = [...Description]
+        copy[number][type] = type === "Description" && value ? toUppercase(value) : value;
+        setDescription(copy)
+    };
+
     return (
         <form className={Style.Form}>
             <div className={Style.ContentForm}>
@@ -148,7 +155,7 @@ function FormCreateOt({ DateCreate }) {
                         <div className={Style.Identification}>
                             <p >ID:</p>
                             <div className={Style.InputIdentification}>
-                                <BootstrapInput value={Identificación} disabled id="outlined-basic" variant="outlined" />
+                                <BootstrapInput value={OTKey} disabled id="outlined-basic" variant="outlined" />
                             </div>
                         </div>
 
@@ -160,7 +167,7 @@ function FormCreateOt({ DateCreate }) {
                                 ))}
                             </Select>
                         </div>
-                        
+
                         <div className={Style.SelectClient}>
                             <Autocomplete
                                 disablePortal
@@ -192,10 +199,10 @@ function FormCreateOt({ DateCreate }) {
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar Contacto:</p>
                             {ClientObjet.Contacts && (
-                                <MultipleSelect size={"medium"} onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Clientes seleccionados"} />
+                                <MultipleSelect size={"medium"} onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Contactos seleccionados"} />
                             )}
                         </div>
-                        
+
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
                                 <CustomInput value={Producto} onChange={setProducto} placeholder={"Producto"} />
@@ -223,63 +230,63 @@ function FormCreateOt({ DateCreate }) {
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                            <p className={Style.TittleType}>Fecha de vencimiento del certificado:</p>
+                                <p className={Style.TittleType}>Fecha de vencimiento del certificado:</p>
                                 <CustomInput placeholder={"Fecha de vencimiento del certificado"} value={FechaVencimiento} onChange={setFechaVencimiento} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                            <p className={Style.TittleType}>Fecha de entrega estimada:</p>
+                                <p className={Style.TittleType}>Fecha de entrega estimada:</p>
                                 <CustomInput placeholder={"Fecha de entrega estimada"} value={FechaEstimada} onChange={setFechaEstimada} />
                             </div>
                         </div>
                     </div>
                     <div className={Style.PartRight}>
-                        
-                        
                         <div className={Style.DataInput}>
                             <p className={Style.TittleType}>Detalle del trabajo solicitado:</p>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Description}>
-                                    <p>Item</p>
-                                    <p>Descripción</p>
-                                    <p>Importe</p>
-                                    <div className={Style.ItemTable}>
-                                        <CustomInputTable position={"Item1"} value={Description} onChange={setDescription} />
+                                <Box display={"grid"} marginBottom={"5px"} gap={"5px"} gridTemplateColumns={"1fr 1fr 1fr"} justifyItems={"center"}>
+                                    <Box height={"5%"}>
+                                        <span>Item</span>
+                                    </Box>
+                                    <Box height={"5%"}>
+                                        <span>Descripción</span>
+                                    </Box>
+                                    <Box height={"5%"}>
+                                        <span>Importe</span>
+                                    </Box>
+                                </Box>
+                                {Description.map((data, key) => (
+                                    <Box key={key} display={"grid"} gridTemplateColumns={"1fr 1fr 1fr"} justifyItems={"center"} gap={"5px"} marginBottom={"5px"}>
+                                        <div className={Style.ItemTable}>
+                                            <BootstrapInput value={data.item} onChange={(e) => handleChangeDescription(e, key, "item")} id="outlined-basic" variant="outlined" />
+                                        </div>
+                                        <div className={Style.DescriptionTable}>
+                                            <BootstrapInput value={data.Description} onChange={(e) => handleChangeDescription(e, key, "Description")} id="outlined-basic" variant="outlined" />
+                                        </div>
+                                        <div >
+                                            <BootstrapInput type='number' value={data.import} onChange={(e) => handleChangeDescription(e, key, "import")} id="outlined-basic" variant="outlined" />
+                                        </div>
+                                    </Box>
+                                ))}
+                                <Button onClick={addDescription} variant='outlined' sx={{ borderRadius: "15px", margin: "15px 0", width: "100%" }}>
+                                    <div>
+                                        <AddIcon />
                                     </div>
-                                    <div className={Style.DescriptionTable}>
-                                        <CustomInputTable position={"Description1"} value={Description} onChange={setDescription} />
-                                    </div>
-                                    <div className={Style.ImportTable}>
-                                        <CustomInputTable position={"Importe1"} value={Description} onChange={setDescription} />
-                                    </div>
-                                    <div className={Style.ItemTable}>
-                                        <CustomInputTable position={"Item2"} value={Description} onChange={setDescription} />
-                                    </div>
-                                    <div className={Style.DescriptionTable}>
-                                        <CustomInputTable position={"Description2"} value={Description} onChange={setDescription} />
-                                    </div>
-                                    <div className={Style.ImportTable}>
-                                        <CustomInputTable position={"Importe2"} value={Description} onChange={setDescription} />
-                                    </div>
-                                    <div className={Style.ItemTable}>
-                                        <CustomInputTable position={"Item3"} value={Description} onChange={setDescription} />
-                                    </div>
-                                    <div className={Style.DescriptionTable}>
-                                        <CustomInputTable position={"Description3"} value={Description} onChange={setDescription} />
-                                    </div>
-                                    <div className={Style.ImportTable}>
-                                        <CustomInputTable position={"Importe3"} value={Description} onChange={setDescription} />
-                                    </div>
-                                </div>
+                                    <p>
+                                        Agregar Descripción
+                                    </p>
+                                </Button>
                             </div>
+                        </div>
                         <div className={Style.FieldObser}>
                             <TextField
                                 placeholder={"Observaciones"}
                                 fullWidth
-                                value={Observaciones}
-                                onChange={({ target: { value } }) => setObservaciones(value)}
+                                value={Observations}
+                                onChange={({ target: { value } }) => setObservations(value)}
                                 sx={{ marginTop: 2 }}
                                 id="outlined-multiline-flexible"
                                 multiline
@@ -289,17 +296,16 @@ function FormCreateOt({ DateCreate }) {
                     </div>
                 </div>
                 <div className={Style.ButtonSave}>
-                    <Button onClick={handleSubmit} fullWidth color='success' variant="contained">Guardar OT</Button>
+                    <Button disabled={isSaveOtDisabled} onClick={handleSubmit} fullWidth variant="contained">Guardar OT</Button>
                 </div>
             </div>
+            <ToastList
+                listData={toasts}
+            />
+
             {Result && (
                 <ModalPortal type={"form"}>
                     <ModalCallback Result={Result} setResult={setResult} />
-                </ModalPortal>
-            )}
-            {error && (
-                <ModalPortal type={"alert"} >
-                    <Alerts Result={error} />
                 </ModalPortal>
             )}
         </form>
@@ -368,21 +374,6 @@ const CustomInput = React.forwardRef(function CustomInput(props, ref) {
             value={value}
             onChange={({ target: { value } }) => {
                 onChange(value)
-            }}
-            slots={{ input: StyledInputElement }}
-            ref={ref} />
-    );
-});
-const CustomInputTable = React.forwardRef(function CustomInput(props, ref) {
-    let value2 = props.value;
-    let position = props.position;
-    let onChange = props.onChange;
-    return (
-        <Input
-            onChange={({ target: { value } }) => {
-                let json = {}
-                json[position] = value;
-                onChange({ ...value2, ...json })
             }}
             slots={{ input: StyledInputElement }}
             ref={ref} />

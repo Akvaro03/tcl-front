@@ -14,7 +14,7 @@ import changeActOt from "../../../../db/changeActOt";
 import Alerts from '../../../../components/alerts';
 import changeAuth from "../../../../db/changeAuth";
 import PrintIcon from '@mui/icons-material/Print';
-import { Button, Fab, Fade } from "@mui/material";
+import { Box, Button, Fab, Fade } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import AddAvailability from '../addAvailability';
 import changePay from '../../../../db/changePay';
@@ -30,25 +30,30 @@ import Style from "./Data.module.css";
 import OptionPay from '../optionPay';
 import dayjs from "dayjs";
 import PrintOt from '../../../../components/printOt';
+import AddContact from '../addContact';
+import PriorityOt from '../../../../components/priorityOt';
+import ClassPriorityOt from '../../../../classes/priorityOt';
+import TypeOt from '../../../../types/typeOt';
 
 function DataOt({ otSelected, reload }) {
     const [availability, setAvailability] = useState(JSON.parse(otSelected.Availability))
     const [addAvailability, setAddAvailability] = useState(false)
-
+    const [expiredDate, setExpiredDate] = useState(otSelected.FechaVencimiento)
     const [addPay, setAddPay] = useState(false)
     const [pay, setPay] = useState()
-
+    const Description = JSON.parse(otSelected.Description)
     const [editPay, setEditPay] = useState()
     const [activities, setActivities] = useState(otSelected.Activities && JSON.parse(otSelected.Activities))
     const [activitySelected, setActivitySelected] = useState()
     const [addActivity, setAddActivity] = useState(false)
-
+    const [addContact, setAddContact] = useState(false)
+    const [Contacts, setContacts] = useState(otSelected.Contact);
+    const [priority, setPriority] = useState(otSelected.priority)
     const [userSelect, setUserSelect] = useState(false)
     const [auth, setAuth] = useState(otSelected.Auth)
     const [OT, SetOT] = useState(otSelected)
     const [edit, setEdit] = useState(false)
     const rol = getUser("roles")
-
     const [result, setResult] = useState()
     const [printOt, setPrintOt] = useState(false)
     useEffect(() => {
@@ -129,19 +134,15 @@ function DataOt({ otSelected, reload }) {
         setEdit(prev => !prev)
 
     }
-    const sendOTEdit = () => {
-        const dataToSend = {
-            Producto: OT.Producto,
-            Marca: OT.Marca,
-            Modelo: OT.Modelo,
-            Cotizacion: OT.Cotizacion,
-            Client: OT.Client,
-            Date: OT.Date,
-            id: OT.id
-        }
-        editOt(dataToSend, otSelected.id, messageHistory.editOT)
-        reload()
-        setEdit(false)
+    const sendOTEdit = (Contacts) => {
+        Contacts && setContacts(Contacts);
+        Contacts && setAddContact();
+        // const otEdit = new TypeOt(otSelected.Date, otSelected.Client, otSelected.IdClient, OT.Producto, OT.Marca, OT.Modelo, OT.NormaAplicar, OT.Cotizacion, OT.FechaVencimiento, OT.FechaEstimada, OT.Type,)
+        const otEdit = new TypeOt(OT)
+        console.log(otEdit)
+        // editOt(otEdit, otSelected.id, messageHistory.tittleEditOT)
+        // reload()
+        // setEdit(false)
     }
     const closeEdit = () => {
         reload()
@@ -157,7 +158,7 @@ function DataOt({ otSelected, reload }) {
     const inputDataOt = new inputClass(sendOTEdit)
     const H1Editable = ({ edit, text, onChange }) => {
         if (edit) {
-            return inputDataOt.getInput(onChange, text)
+            return inputDataOt.getInput(text, onChange)
         }
 
         return <h1>{text}</h1>
@@ -166,10 +167,19 @@ function DataOt({ otSelected, reload }) {
         reload()
         setEditPay()
     }
+    const handlePriority = () => {
+        const newPriority = ClassPriorityOt.handleClick(priority)
+        setPriority(newPriority)
+        const otEdit = new TypeOt({ ...OT, priority: newPriority })
+        editOt(otEdit, otSelected.id, messageHistory.tittleEditPriority)
+        reload()
+    }
     return (
         <>
             <div className={Style.contentData}>
-                
+                <Box position={"absolute"} right={"6%"} top={"-1%"} color={"white"} component={"div"} onClick={handlePriority}>
+                    <PriorityOt priority={priority} />
+                </Box>
                 {/* Encabezados */}
                 <div className={Style.tittlesCategories}>
 
@@ -189,7 +199,9 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                         <h1>Fecha</h1>
                     </div>
-
+                    <div className={Style.ProductSection}>
+                        <h1>FECHA DE VENCIMIENTO DEL CERTIFICADO</h1>
+                    </div>
                     {/* Cliente */}
                     <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
@@ -201,11 +213,8 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductSection}>
                         <h1>N° Cliente</h1>
                     </div>
-                    <div className={Style.ProductSection}>
-                        <h1>Contacto</h1>
-                    </div>
-                    {/* {otSelected.Contact && otSelected.Contact[1] ? (
-                        otSelected.Contact.map((contact, key) => (
+                    {Contacts ? (
+                        Contacts.map((contact, key) => (
                             <div key={key} className={Style.ProductSection}>
                                 {key === 0 && <h1 >Contacto</h1>}
                             </div>
@@ -214,7 +223,7 @@ function DataOt({ otSelected, reload }) {
                         <div className={Style.ProductSection}>
                             <h1>Contacto</h1>
                         </div>
-                    )} */}
+                    )}
 
                     {/* Actividades */}
                     <hr className={Style.line} />
@@ -254,11 +263,17 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductSection}>
                         <h1>Facturas</h1>
                     </div>
+                    {permissions.seeDetails(rol) && (
+                        <div className={Style.ProductTittle}>
+                            Detalles
+                        </div>
+                    )}
+
                 </div>
 
                 {/* Datos */}
                 <div className={Style.dataCategories}>
-                    
+
                     {/* OT */}
                     <div className={Style.contentTittle}>
                         {otSelected.OTKey}
@@ -276,7 +291,6 @@ function DataOt({ otSelected, reload }) {
                                 No Autorizado
                             </h1>
                         </div>
-
                     )}
                     <div className={Style.contentTittle}>
                         <h1>{otSelected.id}</h1>
@@ -287,35 +301,32 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                         {<H1EditableDate onChange={(data) => handleOtSelected(formatDate(data), "Date")} edit={edit} text={OT.Date} />}
                     </div>
-
+                    <div className={Style.contentTittle}>
+                        {<H1Editable edit={edit} onChange={(data) => setExpiredDate(data)} text={expiredDate} />}
+                    </div>
                     {/* Cliente */}
+
                     <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
-                        <H1Editable onChange={data => handleOtSelected(data, "Client")} edit={edit} text={OT.Client} />
+                        <h1>{otSelected.Client}</h1>
                     </div>
                     <div className={Style.ProductContent}>
                         <h1>{otSelected.IdClient}</h1>
                     </div>
-                    {otSelected.Contact ? 
-                        otSelected.Contact && ((otSelected.Contact && otSelected.Contact[1]) ? 
-                                                (
-                                                    otSelected.Contact.map((contact, key) => (
-                                                        <div className={Style.ProductContent} key={key}>
-                                                            <h1>{contact.type + ": " + contact.value} </h1>
-                                                        </div>
-                                                    ))
-                                                ) 
-                                                : 
-                                                (
-                                                    <div className={Style.ProductContent}>
-                                                        <h1>{otSelected.Contact[0].type + ": " + otSelected.Contact[0].value} </h1>
-                                                    </div>
-                                                )
-                                              ) 
+                    {Contacts ?
+                        Contacts.map((contact, key) => (
+                            <div className={Style.ProductContent} key={key}>
+                                <h1 onClick={setAddContact}>{contact.type + ": " + contact.value} </h1>
+                            </div>
+                        ))
                         :
                         <div className={Style.ProductContent}>
+                            {permissions.editActv(rol) && (
+                                <Button size="small" variant="outlined"
+                                    onClick={() => setAddContact(true)}>Agregar contacto</Button>
+                            )}
                         </div>
                     }
 
@@ -398,6 +409,23 @@ function DataOt({ otSelected, reload }) {
                             !pay && <h1>Pendiente</h1>
                         }
                     </div>
+                    {permissions.seeDetails(rol) && (
+                        <div className={Style.ProductContent}>
+                            {Description.map((data, key) => (
+                                <Box display={"flex"} gap={"15px"} key={key} margin={"5px 0"} width={"100%"}>
+                                    <Box sx={{ width: "7%" }}>{data.item}</Box>
+                                    <Box sx={{ width: "50%" }}>{data.Description}</Box>
+                                    {data.import > 0 && (
+                                        <Box sx={{ width: "15%" }}>${data.import}</Box>
+                                    )}
+                                </Box>
+                            ))}
+                            <Box sx={{ marginTop: "15px" }}>
+                                Total:
+                                ${Description[1] ? Description.reduce((a, b) => { return a.import + b.import }) : Description[0].import
+                                }</Box>
+                        </div>
+                    )}
                 </div>
             </div >
             {userSelect && (
@@ -413,6 +441,11 @@ function DataOt({ otSelected, reload }) {
             {addAvailability && (
                 <ModalPortal type={"form"}>
                     <AddAvailability addAvailability={setAddAvailability} saveAvailability={saveAvailability} isDeletable={availability} />
+                </ModalPortal>
+            )}
+            {addContact && (
+                <ModalPortal type={"form"}>
+                    <AddContact close={setAddContact} save={sendOTEdit} prevContacts={Contacts} />
                 </ModalPortal>
             )}
             {editPay && (
@@ -432,7 +465,7 @@ function DataOt({ otSelected, reload }) {
             )}
             {printOt && (
                 <ModalPortal type={"form"}>
-                    <PrintOt Result={otSelected.id}/>
+                    <PrintOt Result={otSelected.id} close={setPrintOt} />
                 </ModalPortal>
             )}
 

@@ -5,6 +5,7 @@ import ListClients from "../pages/listClients";
 import LoadingCircle from '../pages/Loading';
 import { Navigate } from "react-router-dom";
 import React, { Suspense } from 'react';
+import OrdenTrabajo from "../pdf/OrdenTrabajo";
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
@@ -135,6 +136,17 @@ export const routes = createBrowserRouter([
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={Remito}>
                         <Remito />
+                    </Await>
+                </Suspense>
+            </ProtectedRoute>
+    },
+    {
+        path: "/OrdenTrabajo/:id",
+        element:
+            <ProtectedRoute>
+                <Suspense fallback={<LoadingCircle />}>
+                    <Await resolve={OrdenTrabajo}>
+                        <OrdenTrabajo />
                     </Await>
                 </Suspense>
             </ProtectedRoute>

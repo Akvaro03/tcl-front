@@ -10,14 +10,14 @@ function ModalCallback({ Result, setResult }) {
             newWindow.print()
         }, 500);
     }
-    
+
     return (
         <div className={Style.contentBody}>
             <div className={Style.tittleModel}>
                 <div></div>
                 <h1>Se ha guardado la OT</h1>
                 <h1 onClick={() => { setResult() }}>
-                    <CloseIcon sx={{cursor: "pointer"}}/>
+                    <CloseIcon sx={{ cursor: "pointer" }} />
                 </h1>
 
             </div>
@@ -38,8 +38,8 @@ function ModalCallback({ Result, setResult }) {
                 </FormControl>
             </div>
             <div className={Style.buttons}>
-                <Button color="success" variant="contained" onClick={() => { printPdf("Remito") }} >Imprimir Remito</Button>
-                <Button color="success" variant="contained" onClick={() => { printPdf("Etiqueta", numberEt) }} >Imprimir Etiqueta</Button>
+                <Button variant="contained" onClick={() => { printPdf("Remito") }} >Imprimir Remito</Button>
+                <Button variant="contained" onClick={() => { printPdf("Etiqueta", numberEt) }} >Imprimir Etiqueta</Button>
             </div>
         </div>
     );

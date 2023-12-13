@@ -15,5 +15,6 @@
 .buttonSave {
     display: flex;
     margin-top: 2%;
+    margin-bottom: 5%;
     gap: 80px;
 }

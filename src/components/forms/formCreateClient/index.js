@@ -1,22 +1,19 @@
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import inputClass from '../../../classes/inputClass';
-import toUppercase from '../../../hooks/toUppercase';
 import { useState } from 'react';
 import Style from './formCreateClient.module.css';
 import addClient from '../../../db/addClient';
-import ModalPortal from '../../modelPortal';
-import Alerts from '../../alerts';
 import AddIcon from '@mui/icons-material/Add';
 import editClient from '../../../db/editClient';
 import FormPrototype from '../../formPrototype';
+import TypeClient from '../../../types/typeClient';
 
-function FormCreateClient({ close, reload, data }) {
-    const [Contacts, setContacts] = useState(data ? JSON.parse(data.Contacts) : [{ type: "", value: "" }]);
-
-    const initialDocument = data ? JSON.parse(data.Document) : [{ type: "", value: "" }];
+function FormCreateClient({ close, reload, data, message }) {
+    const initialDocument = data && data.Document ? JSON.parse(data.Document) : { type: '', value: '' };
+    const [Contacts, setContacts] = useState(data && data.Contacts ? JSON.parse(data.Contacts) : [{ type: "", value: "" }]);
     const [Document, setDocument] = useState({ type: initialDocument.type, value: initialDocument.value });
     const [nameClient, setNameClient] = useState(data ? data.Name : "");
-    const [Result, setResult] = useState();
+    const [location, setLocation] = useState(data ? data.location : "")
     const [Key, setKey] = useState(data ? data.KeyUnique : "");
     const handleSubmit = async () => {
         let isFull = (Contacts) => {
@@ -26,32 +23,24 @@ function FormCreateClient({ close, reload, data }) {
             return newContacts
         }
         let ContactVerificate = isFull(Contacts)
-        if (!ContactVerificate[0] || !nameClient || !Document.type || !Document.value || !Key) {
-            setResult("missed data")
-            setTimeout(() => {
-                setResult()
-            }, 3400);
+
+        const newClient = new TypeClient(nameClient, Document, location, Key, ContactVerificate)
+        if (!newClient.verificate()) {
+            message("missed data")
             return
         }
-        let Client = {
-            nameClient: toUppercase(nameClient),
-            Document,
-            Key,
-            ContactVerificate
-        }
+
         let resultClient;
         if (data) {
             const sameName = nameClient === data.Name
             const sameKey = Key === data.KeyUnique
-            const dataToEdit = { ...Client, id: data.id }
+            const dataToEdit = { ...newClient, id: data.id }
+            
             resultClient = await editClient(dataToEdit, sameKey, sameName)
         } else {
-            resultClient = await addClient(Client)
+            resultClient = await addClient(newClient)
         }
-        setResult(resultClient)
-        setTimeout(() => {
-            setResult()
-        }, 3400);
+        message(resultClient)
         if (resultClient !== "name used") {
             close && reload()
             close && close()
@@ -59,7 +48,6 @@ function FormCreateClient({ close, reload, data }) {
             resetAllData()
         }
         return
-
     };
     const handleChangeDocument = (e, type) => {
         const value = e.target ? e.target.value : e
@@ -100,6 +88,12 @@ function FormCreateClient({ close, reload, data }) {
                             <p>Código:</p>
                         </div>
                         {inputClient.getInput(Key, setKey)}
+                    </div>
+                    <div className={Style.Input}>
+                        <div className={Style.InputTittle}>
+                            <p>Dirección total:</p>
+                        </div>
+                        {inputClient.getInput(location, setLocation)}
                     </div>
                     <div className={Style.InputDocument}>
                         <div className={Style.TypeDocument}>
@@ -172,14 +166,10 @@ function FormCreateClient({ close, reload, data }) {
                     {close && (
                         <Button onClick={() => close(false)} variant="outlined">Cancel</Button>
                     )}
-                    <Button onClick={handleSubmit} sx={{ width: "25%" }} color='success' variant="contained">Guardar cliente</Button>
+                    <Button onClick={handleSubmit} variant="contained">Guardar</Button>
+
                 </div>
             </form>
-            {Result && (
-                <ModalPortal type={"alert"}>
-                    <Alerts Result={Result} />
-                </ModalPortal>
-            )}
         </FormPrototype>
     );
 }

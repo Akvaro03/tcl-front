@@ -5,6 +5,7 @@ class messageHistory {
     static tittleEditPay = "Se modificó la facturación";
     static tittleEditUser = "Se editó una actividad";
     static tittleEditOT = "Se modificaron valores";
+    static tittleEditPriority = "Se modifico la prioridad";
     static editUsersActivity(nameActivity, users) {
         try {
             return `Actividad: ${firstLetterUpperCase(nameActivity)} - Usuario/s: ${users}`
@@ -36,6 +37,7 @@ class messageHistory {
     static editPay(pay) {
         return `${!pay.delete ? "Nueva factura" : `Se elimino`}: ${pay.delete ? pay.delete : pay.id}`
     }
+    static 
 }
 const firstLetterUpperCase = (word) => {
     const arr = word.split(" ");

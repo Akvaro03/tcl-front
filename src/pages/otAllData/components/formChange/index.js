@@ -6,7 +6,7 @@ import { Fade } from '@mui/material';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-function FormChange({ Change, CloseModal, changeHistoryAndSubmit}) {
+function FormChange({ Change, CloseModal, changeHistoryAndSubmit }) {
     const [NewChange, setNewChange] = useState([{ ...Change }])
     const handleChange = (event) => {
         const { target } = event;
@@ -70,10 +70,10 @@ function FormChange({ Change, CloseModal, changeHistoryAndSubmit}) {
                 </div>
                 <div className={Style.Buttons}>
                     <div className={Style.Button}>
-                        <Button variant="contained" onClick={CloseModal} color='error' fullWidth>Cancelar</Button>
+                        <Button variant="contained" onClick={CloseModal} fullWidth>Cancelar</Button>
                     </div>
                     <div className={Style.Button}>
-                        <Button variant="contained" onClick={handleSubmit} color="success" fullWidth>Aceptar</Button>
+                        <Button variant="contained" onClick={handleSubmit} fullWidth>Aceptar</Button>
                     </div>
                 </div>
             </div>

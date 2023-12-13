@@ -21,13 +21,18 @@
 }
 
 
-.ColumOt {
+.ColumOt, .ColumOtVoid {
     display: flex;  
     border-bottom: 1px solid #e5e7eb;
     height: 35px;
     min-height: 35px;
     width: 95%;
     cursor: pointer;
+    overflow: hidden;
+}
+
+.ColumOtVoid{
+    justify-content: center;
 }
 
 .ColumOt:hover {

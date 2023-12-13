@@ -1,9 +1,11 @@
 import Style from "./listPrototype.module.css"
-import { Box, Fade } from "@mui/material";
+import { Box, Fade, Skeleton } from "@mui/material";
 import { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-export default function ListPrototype({ header, list, clickable, recharge, Table, height }) {
+import CloseIcon from '@mui/icons-material/Close';
+
+export default function ListPrototype({ header, list, clickable, recharge, Table, height, close }) {
     const [divHover, setDivHover] = useState(null)
     const [count, setCount] = useState(0)
 
@@ -26,14 +28,57 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
                                 </div>
                             ))
                         ) : (
-                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "25px" }}>
-                                <h1>No hay OT</h1>
-                            </Box>
+                            <>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                                <div className={Style.ColumOtVoid}>
+                                    <Skeleton width={"90%"} height={"100%"} />
+                                </div>
+                            </>
                         )}
 
                     </div>
                 </div>
             </Fade>
+            {close && (
+                <Box onClick={() => close()} position={"absolute"} display={"flex"} component={"div"} bgcolor={"white"} gap={"10px"} padding={"0 10px"} color={"black"} sx={{ cursor: "pointer" }} cursor={"pointer"} alignItems={"center"} height={"40px"} top={"-20px"} right={"5%"} borderRadius={"25px"} border={"1px solid black"}>
+                    <CloseIcon />
+                </Box>
+            )}
             <Box position={"absolute"} display={"flex"} component={"div"} bgcolor={"#1976d2"} gap={"10px"} padding={"0 10px"} color={"#e5e7eb"} alignItems={"center"} height={"40px"} bottom={"-20px"} right={"5%"} borderRadius={"25px"} border={"1px solid black"}>
                 {count > 0 ? (
                     <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => setCount(prev => prev === 0 ? 0 : prev - 1)}>
@@ -59,8 +104,10 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
     )
 }
 
-const Colum = ({ data, width = "13%" }) => (
-    <Box key={"1"} sx={{ overflow: "hidden", alignItems: "center", padding: "6px", width: width, display: "flex", justifyContent: "center" }}>
-        {data}
+const Colum = ({ data, width = "13%", color }) => (
+    <Box key={"1"} sx={{ width: width, color: color ? color : "black", alignItems: "center", padding: "6px", display: "flex", justifyContent: "center" }}>
+        <Box component={"p"} sx={{ height: "100%", width: "100%", textAlignLast: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "center" }} title={data}>
+            {data}
+        </Box>
     </Box>
 );

@@ -2,13 +2,15 @@ const CryptoJS = require("crypto-js");
 
 function getUser(data) {
     try {
-        const user = localStorage.getItem("user")
+        const dataSave = localStorage.getItem("user")
         const key = 'consultar';
-        const descript = CryptoJS.AES.decrypt(user, key).toString(CryptoJS.enc.Utf8);
+        const descript = CryptoJS.AES.decrypt(dataSave, key).toString(CryptoJS.enc.Utf8);
+        const user = JSON.parse(JSON.parse(descript).userString)
+
         if (data === "roles") {
-            return JSON.parse(JSON.parse(JSON.parse(descript).userString).type)[0]
+            return JSON.parse(user.type)[0]
         }
-        return JSON.parse(JSON.parse(descript).userString)
+        return user;
     } catch (error) {
         return null
     }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import formatDateM from "../../hooks/formatDateM";
 import postData from "../../db/postData";
 import { Box, Typography } from "@mui/material";
+import getIp from "../../hooks/getIp";
 
 function Remito() {
     const { id } = useParams();
@@ -12,15 +13,18 @@ function Remito() {
     const [contact, setContact] = useState()
     const [document, setDocument] = useState()
     const [location, setLocation] = useState()
+    const [Description, setDescription] = useState()
+
     useEffect(() => {
         const getOt = async () => {
-            const ot = await postData("http://localhost:4000/getOneOt", { id }).then(response => response[0])
-            const client = await postData("http://localhost:4000/getOneClient", { Name: ot.Client }).then(Client => Client[0])
+            const ot = await postData(`${getIp()}:4000/getOneOt`, { id }).then(response => response[0])
+            const client = await postData(`${getIp()}:4000/getOneClient`, { Name: ot.Client }).then(Client => Client[0])
             setOt(ot)
             setClient(client)
-            setLocation(JSON.parse(client.location))
+            setLocation(client.location)
             ot.Contact && setContact(JSON.parse(ot.Contact))
             setDocument(JSON.parse(client.Document))
+            setDescription(JSON.parse(ot.Description))
         }
         getOt()
     }, [id])
@@ -40,7 +44,7 @@ function Remito() {
                             </div>
                         </div>
                         <div className={Style.numberOrder}>
-                            <Typography variant="p" gutterBottom padding={"8px"} bgcolor={"#ebebeb"}>
+                            <Typography variant="p" gutterBottom padding={"8px"} bgcolor={"#ebebeb"} border={"1px solid black"}>
                                 {`Numero: ${ot.OTKey}`}
                             </Typography>
 
@@ -57,7 +61,7 @@ function Remito() {
                             </div>
                             <div className={Style.dataContent}>
                                 <p className={Style.dataLabel}>Dirección:</p>
-                                <p>{`${location.province}`}</p>
+                                <p>{`${location}`}</p>
                             </div>
                             <div className={Style.dataContent}>
                             </div>
@@ -112,7 +116,7 @@ function Remito() {
                     <div className={Style.estimatedDate}>
                         <div className={Style.date}>
                             <p className={Style.estimatedDateTittle}>Fecha estimada de entrega:</p>
-                            {<p>{ot.FechaEstimada}</p>}
+                            <Box sx={{ fontSize: "13px" }}>{ot.FechaEstimada}</Box>
                         </div>
                         <div className={Style.price}>
                             <p className={Style.estimatedDateTittle}>Cotizacion:</p>
@@ -127,25 +131,19 @@ function Remito() {
                             <p>Descripción</p>
                         </div>
                         <div className={Style.itemsContent}>
-                            <div className={Style.product}>
-                                <p>{ot.Item1}</p>
-                                <p>{ot.Description1}</p>
-                            </div>
-                            <div className={Style.product}>
-                                <p>{ot.Item2}</p>
-                                <p>{ot.Description2}</p>
-                            </div>
-                            <div className={Style.product}>
-                                <p>{ot.Item3}</p>
-                                <p>{ot.Description3}</p>
-                            </div>
+                            {Description !== undefined && Description.map((data, key) => (
+                                <div className={Style.product} key={key}>
+                                    <p>{data.item}</p>
+                                    <p>{data.Description}</p>
+                                </div>
+                            ))}
                         </div>
                         <div className={Style.observations}>
                             <div className={Style.observationsTittle}>
-                                Observaciones
+                                Observaciones:
                             </div>
                             <div className={Style.observationsContent}>
-                                {ot.Observations ? ot.Observations : "Texto de ejemplo de observaciones"}
+                                {ot.Observations}
                             </div>
                         </div>
                     </div>

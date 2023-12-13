@@ -77,7 +77,7 @@ function FormCreateType({ close, menssage, data, reload }) {
                         Nombre:
                     </p>
                     <div className={Style.input}>
-                        {inputType.getInput(name, setName)}
+                        {inputType.getInput(name, (string => setName(string.toUpperCase())))}
                     </div>
                 </div>
                 <div className={Style.inputFormContent}>
@@ -85,7 +85,7 @@ function FormCreateType({ close, menssage, data, reload }) {
                         Identificador:
                     </p>
                     <div className={Style.input}>
-                        {inputType.getInput(abbr, setAbbr)}
+                        {inputType.getInput(abbr, (string => setAbbr(string.toUpperCase())))}
                     </div>
                 </div>
                 <p >

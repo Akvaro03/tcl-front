@@ -4,11 +4,15 @@ import { Box, Button } from "@mui/material";
 import TittleComponent from "../tittleComponent";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function FormPrototype({ close, children, tittle, onDelete }) {
+export default function FormPrototype({ close, children, tittle, onDelete, width = "50%" }) {
     const divRef = useRef(null);
     useEffect(() => {
-
         const divElement = divRef.current;
+        if (divElement&& divElement.focus) {
+            // Enfocar el div
+            divElement.focus();
+          }
+      
         if (divElement) {
             divElement.addEventListener('keydown', e => closeEsc(e, close));
         }
@@ -17,7 +21,7 @@ export default function FormPrototype({ close, children, tittle, onDelete }) {
         };
     }, [close])
     return (
-        <Box autoFocus={true} ref={divRef} tabIndex={0} component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: "50%", height: "60%", borderRadius: "15px" }}>
+        <Box autoFocus={true} ref={divRef} tabIndex={0} component={"div"} sx={{ background: "white", alignItems: "center", flexDirection: "column", display: "flex", boxShadow: "rgba(19, 21, 22, 0.35) 0px 5px 15px", width: width, borderRadius: "15px" }}>
             <Box component={"div"} sx={{ fontWeight: "bold", fontSize: "20px", width: "100%", marginBottom: "5px", marginTop: "30px", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
                 {onDelete ? <Button onClick={onDelete} sx={{ color: "black", visibility: "hidden" }}><DeleteIcon /></Button> : <Box></Box>}
                 <TittleComponent text={tittle} />

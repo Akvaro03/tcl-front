@@ -68,4 +68,20 @@ export default class permissions {
             return false;
         }
     }
+    static addContactOt(rol) {
+        const roles = [typesUsers.Director, typesUsers.Admin]
+        try {
+            return roles.includes(rol)
+        } catch (error) {
+            return false;
+        }
+    }
+    static seeDetails(rol){
+        const roles = [typesUsers.Director, typesUsers.Admin]
+        try {
+            return roles.includes(rol)
+        } catch (error) {
+            return false;
+        }
+    }
 }

@@ -24,7 +24,15 @@ export default class editDb {
     static postData(url, dataToSend) {
         try {
             // axios.get("https://api.ipify.org/?format=json").then(({ data }) => console.log(data.ip))
-            return postData(`${getIp()}:4000/${url}`, dataToSend)
+            return postData(`${getIp()}:4000/${url}`, dataToSend).then(data => data.result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    static getData(url, dataToSend) {
+        try {
+            // axios.get("https://api.ipify.org/?format=json").then(({ data }) => console.log(data.ip))
+            return postData(`${getIp()}:4000/${url}`, dataToSend).catch(err => console.log(err))
         } catch (error) {
             console.log(error)
         }

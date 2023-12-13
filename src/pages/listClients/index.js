@@ -10,11 +10,15 @@ import { Fab } from "@mui/material";
 import ListPrototype from "../../components/listPrototype";
 import headerList from "../../classes/headerList";
 import TableClients from "../../components/tables/TableClients";
+import classToastList from "../../classes/classToastList";
+import ToastList from "../../components/toastList";
 
 function ListClients() {
-    const [clients, setClients] = useState()
     const [clientsFiltered, setClientsFiltered] = useState()
+    const [clients, setClients] = useState()
     const [isForm, setIsForm] = useState()
+    const [toasts, setToasts] = useState([]);
+
     useEffect(() => {
         getDataFromUrl("/getClients")
             .then(data => {
@@ -38,6 +42,9 @@ function ListClients() {
             setClientsFiltered(clients.filter(data => data.KeyUnique.toLowerCase().includes(value.toLowerCase())))
         }
     }
+    const message = (text) => {
+        classToastList.addToast(setToasts, { id: Date.now(), text })
+    }
     return (
         <>
             <ResponsiveAppBar />
@@ -52,14 +59,18 @@ function ListClients() {
             </Fab>
             {isForm && (
                 <ModalPortal type={"form"}>
-                    <FormCreateClient close={setIsForm} reload={reload} data={isForm} />
+                    <FormCreateClient message={message} close={setIsForm} reload={reload} data={isForm === true ? false : isForm} />
                 </ModalPortal>
             )}
+            <ToastList
+                listData={toasts}
+            />
         </>
     );
 }
 const headerClients = new headerList()
-headerClients.addHeader("ID", "10%")
-headerClients.addHeader("Código", "30%")
-headerClients.addHeader("Nombre", "60%")
-export default ListClients;
+// headerClients.addHeader("ID", "10%")
+headerClients.addHeader("Código", "20%")
+headerClients.addHeader("Nombre", "30%")
+headerClients.addHeader("Dirección", "50%")
+export default ListClients; 

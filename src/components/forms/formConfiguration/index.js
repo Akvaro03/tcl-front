@@ -63,7 +63,7 @@ function FormConfiguration({ close, menssage }) {
     }
     const inputConfig = new inputClass(handleSaveConfig)
     return (
-        <FormPrototype close={close} tittle={"Configuracion"}>
+        <FormPrototype close={close} tittle={"Configuracion"} width="70%">
             <div className={Style.formConfiguration}>
                 <div className={Style.input}>
                     <div className={Style.inputTittle}>

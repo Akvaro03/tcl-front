@@ -5,19 +5,17 @@ import { Button, Checkbox } from "@mui/material";
 import FormPrototype from "../../formPrototype";
 import Style from "./formCreateUser.module.css"
 import nameUsed from "../../../db/nameUsed";
-import ModalPortal from "../../modelPortal";
 import editUser from "../../../db/editUser";
 import addUser from "../../../db/addUser";
 import OneSelect from "../../oneSelect";
-import Alerts from "../../alerts";
 import { useState } from 'react';
-function FormCreateUser({ close, reload, user }) {
+import deleteUser from "../../../db/deleteUser";
+function FormCreateUser({ close, reload, user, alert }) {
     const [rolSelect, setRolSelect] = useState(user ? JSON.parse(user.type)[0] : "")
     const [emailUser, setEmailUser] = useState(user ? user.email : "")
     const [stateUser, setStateUser] = useState(user ? user.state : "")
     const [nameUser, setNameUser] = useState(user ? user.name : "")
     const [passwordUser, setPasswordUser] = useState("")
-    const [Result, setResult] = useState()
 
     const handleState = () => {
         if (stateUser === "active") {
@@ -28,11 +26,14 @@ function FormCreateUser({ close, reload, user }) {
     }
     const onSubmit = async () => {
         if ((!nameUser || !emailUser || !rolSelect) && (!user && !passwordUser)) {
-            setResult({ result: "missed data" })
+            alert("missed data")
+            setTimeout(() => {
+                alert()
+            }, 1500);
             return
         }
         const isNameUsed = await nameUsed(nameUser, "user")
-        if (!isNameUsed || nameUser === user.name) {
+        if (!isNameUsed || (user && nameUser === user.name)) {
             const data = {
                 name: toUppercase(nameUser),
                 type: [rolSelect],
@@ -41,23 +42,23 @@ function FormCreateUser({ close, reload, user }) {
                 state: stateUser
             }
             if (!user) {
-                addUser(data).then(result => setResult(result))
+                addUser(data).then(result => alert(result.result))
             } else {
                 data.id = user.id
                 editUser(data)
             }
             setTimeout(() => {
-                setResult()
+                alert()
             }, 3200);
             resetAllData()
             reload()
             close()
             return
         }
-        setResult({ result: "name used" })
+        alert("name used")
         setTimeout(() => {
-            setResult()
-        }, 3200);
+            alert()
+        }, 1500);
     }
     const resetAllData = () => {
         setNameUser("")
@@ -65,9 +66,14 @@ function FormCreateUser({ close, reload, user }) {
         setEmailUser("")
         setRolSelect(rolesUser.map(datoos => { return { name: datoos, state: false } }))
     }
+    const onDelete = () => {
+        deleteUser({ id: user.id })
+        reload()
+        close()
+    }
     const inputUser = new inputClass(onSubmit)
     return (
-        <FormPrototype close={close} tittle={user ? "Editar usuario" : "Crear Nuevos usuarios"} >
+        <FormPrototype onDelete={onDelete} close={close} tittle={user ? "Editar usuario" : "Crear Nuevos usuarios"} >
             <div className={Style.formCreate}>
                 <div className={Style.inputsForm}>
                     {user ? (
@@ -95,7 +101,14 @@ function FormCreateUser({ close, reload, user }) {
                             </div>
                             {inputUser.getInput(passwordUser, (e) => setPasswordUser(e))}
                         </div>
-                    ) : (<></>)}
+                    ) : (
+                        <div className={Style.input}>
+                            <div className={Style.inputTittle}>
+                                <p>Nueva contraseña:</p>
+                            </div>
+                            {inputUser.getInput(passwordUser, (e) => setPasswordUser(e))}
+                        </div>
+                    )}
                     <div className={Style.input}>
                         <div className={Style.inputTittle}>
                             <p>Rol:</p>
@@ -105,14 +118,9 @@ function FormCreateUser({ close, reload, user }) {
                 </div>
                 <div className={Style.Buttons} >
                     <Button variant="outlined" onClick={() => close(false)} >Cancelar</Button>
-                    <Button variant="contained"  onClick={() => onSubmit()} >{!user ? "Crear usuario" : "Guardar"}</Button>
+                    <Button variant="contained" onClick={() => onSubmit()} >{!user ? "Crear usuario" : "Guardar"}</Button>
                 </div>
             </div>
-            {Result && (
-                <ModalPortal type={"alert"}>
-                    <Alerts Result={Result.result} />
-                </ModalPortal>
-            )}
         </FormPrototype>
     );
 }
