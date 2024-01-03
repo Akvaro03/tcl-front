@@ -27,7 +27,6 @@ function OtAllData() {
         }
         getData()
             .catch(error => {
-                console.log("first")
                 setError(true)
             });
     }, [params])
@@ -61,7 +60,6 @@ function OtAllData() {
     );
 }
 let formatData = (data) => {
-    console.log(data)
     data.Contact = data.Contact ? JSON.parse(data.Contact) : data.Contact
     return data
 }

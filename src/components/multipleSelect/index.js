@@ -51,7 +51,7 @@ export default function MultipleSelect({ label, names, onchange, size = "small" 
                     input={<OutlinedInput label={label} sx={{ display: "flex", alignItems: "center" }} />}
                     MenuProps={MenuProps}
                 >
-                    {names[0] && names.map((name) => (
+                    {names[0] ? names.map((name) => (
                         <MenuItem
                             key={name}
                             value={name}
@@ -59,7 +59,14 @@ export default function MultipleSelect({ label, names, onchange, size = "small" 
                         >
                             {name}
                         </MenuItem>
-                    ))}
+                    )) : (
+                        <MenuItem
+                            disabled
+                            value={"none"}
+                        >
+                            No hay valores asociados
+                        </MenuItem>
+                    )}
                 </Select>
             </FormControl>
         </div>

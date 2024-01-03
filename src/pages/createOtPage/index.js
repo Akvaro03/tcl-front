@@ -1,16 +1,11 @@
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 import ResponsiveAppBar from "../../components/navbar";
 import Style from './createOtPage.module.css'
 import FormCreateOt from "./components/form";
-import React, { useState } from 'react';
-import dayjs from 'dayjs';
-import { Fade, Typography } from '@mui/material';
+import React from 'react';
+import { Fade } from '@mui/material';
 import TittleComponent from '../../components/tittleComponent';
 
 function CreateOtPage() {
-    const [DateForm, setDateForm] = useState(dayjs)
 
     return (
         <>
@@ -19,17 +14,9 @@ function CreateOtPage() {
                 <Fade in={true} >
                     <div className={Style.ContentCreateOt}>
                         <div className={Style.ContentTittle}>
-                            <div className={Style.ContentTime}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker
-                                        format="DD/MM/YYYY"
-                                        slotProps={{ textField: { size: 'small' } }}
-                                        value={DateForm} onChange={(newValue) => setDateForm(newValue)} />
-                                </LocalizationProvider>
-                            </div>
                             <TittleComponent text={"Nueva OT"} />
                         </div>
-                        <FormCreateOt DateCreate={DateForm} />
+                        <FormCreateOt />
                     </div>
                 </Fade>
             </div>

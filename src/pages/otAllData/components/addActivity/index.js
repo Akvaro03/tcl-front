@@ -9,16 +9,17 @@ function AddActivity({ setAddActivity, otActivities, handleActivities }) {
         getDataFromUrl("/getActivities")
             .then(data => setActivities(data))
     }, [])
-    const compare = (name) => {
-        const allNames = activitiesOt.map(activity => activity.name)
-        return allNames.includes(name)
-    }
+
+    const compare = (name) => activitiesOt ? activitiesOt.some(activity => activity.name === name) : false;
+
     const handleChecked = (checked, activityNew) => {
-        if (checked) {
-            setActivitiesOt(prev => [...prev, activityNew])
-        } else if (!checked) {
-            setActivitiesOt(prev => prev.filter(activity => activity.name !== activityNew.name))
-        }
+        setActivitiesOt(prev => {
+            if (checked) {
+                return [...(prev || []), activityNew]
+            } else {
+                return prev ? prev.filter(activity => activity.name !== activityNew.name) : []
+            }
+        })
     }
     const saveActivities = () => {
         handleActivities(activitiesOt)

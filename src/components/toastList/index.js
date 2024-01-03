@@ -3,11 +3,11 @@ import Alerts from "../alerts";
 export default function ToastList({ listData }) {
     return (
         <div
-            className={Style.toastList}
+            className={listData[0] ? Style.toastListActivated : Style.toastList}
             aria-live="assertive"
         >
-            {listData.map((toast) => (
-                <Alerts Result={toast.text} />
+            {listData.map((toast, index) => (
+                <Alerts Result={toast.text} key={index} />
             ))}
         </div>
 

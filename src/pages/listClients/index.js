@@ -54,7 +54,7 @@ function ListClients() {
                     <ListPrototype clickable={(data) => setIsForm(data)} Table={TableClients} list={clientsFiltered} header={headerClients.getHeader()} height={"80%"} />
                 )}
             </div>
-            <Fab onClick={() => setIsForm(true)} color="primary" aria-label="add" sx={{ position: "fixed", right: "40px", bottom: "40px", zIndex: 1 }}>
+            <Fab onClick={() => setIsForm(true)} color="primary" aria-label="add" sx={{ position: "fixed", right: "40px", bottom: "60px", zIndex: 1 }}>
                 <AddIcon />
             </Fab>
             {isForm && (

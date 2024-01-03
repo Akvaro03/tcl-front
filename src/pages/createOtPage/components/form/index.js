@@ -1,31 +1,38 @@
 import { Autocomplete, Box, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import MultipleSelect from '../../../../components/multipleSelect';
-import ModalPortal from '../../../../components/modelPortal';
+import formatDateToZero from '../../../../hooks/formatDateToZero';
+import classToastList from '../../../../classes/classToastList';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
+import ModalPortal from '../../../../components/modelPortal';
+import ToastList from '../../../../components/toastList';
+import toUppercase from '../../../../hooks/toUppercase';
+import PrintOt from '../../../../components/printOt';
 import React, { useEffect, useState } from 'react';
 import getOTkey from '../../../../hooks/getOTkey';
 import getUser from '../../../../hooks/getUser';
+import TypeOt from '../../../../types/typeOt';
 import AddIcon from '@mui/icons-material/Add';
 import Style from './formCreateOt.module.css';
-import ModalCallback from '../ModalCallback';
 import addOt from '../../../../db/addOt';
 import styled from "@emotion/styled";
 import Input from '@mui/base/Input';
-import toUppercase from '../../../../hooks/toUppercase';
-import ToastList from '../../../../components/toastList';
-import classToastList from '../../../../classes/classToastList';
-import TypeOt from '../../../../types/typeOt';
+import dayjs from 'dayjs';
+import createNewDate from '../../../../hooks/createNewDay';
 
-function FormCreateOt({ DateCreate }) {
+function FormCreateOt() {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
     const [ClientObjet, setClientObjet] = useState(top100Films[0])
     const [FechaVencimiento, setFechaVencimiento] = useState("")
-    const [FechaEstimada, setFechaEstimada] = useState("")
     const [Observations, setObservations] = useState("")
     const [NormaAplicar, setNormaAplicar] = useState("")
     const [OTKey, setOTKey] = useState("")
 
     const [Description, setDescription] = useState([{ item: "", Description: "", import: 0 }]);
+
+    const [DateForm, setDateForm] = useState(dayjs)
+    const [FechaEstimada, setFechaEstimada] = useState(dayjs)
 
     const [Cotizacion, setCotizacion] = useState("")
     const [Contacts, setContacts] = useState("")
@@ -51,11 +58,11 @@ function FormCreateOt({ DateCreate }) {
                 userId: userLogin.id,
                 userName: userLogin.name,
                 ChangeDescription: `Se creó la OT`,
-                date: new Date(DateCreate).getTime(),
+                date: new Date(DateForm).getTime(),
                 comment: ""
             };
             const newOt = new TypeOt({
-                Date: DateCreate,
+                Date: DateForm,
                 Client,
                 IdClient: ClientObjet.id,
                 Producto,
@@ -93,6 +100,8 @@ function FormCreateOt({ DateCreate }) {
     const handleTypeChange = (value) => {
         SetType(value)
         formatKey(value, ClientObjet)
+        const maxDate = JSON.parse(allTypes[value].activities).reduce((prev, cont) => prev > cont.time ? prev : cont.time, 0)
+        setFechaEstimada(FechaEstimada.add(maxDate, `day`))
     }
     const handleClient = (data) => {
         setClientObjet(data);
@@ -111,6 +120,7 @@ function FormCreateOt({ DateCreate }) {
         ];
         resetInputs(resets);
     }
+
     useEffect(() => {
         getDataFromUrl('/getClients')
             .then(json => {
@@ -126,15 +136,19 @@ function FormCreateOt({ DateCreate }) {
             .then(json => {
                 setAllTypes(json)
             });
-
-        !OTKey && getOTkey()
-            .then(data => setOTKey(data))
-
+        getOTkey()
+            .then(data => setOTKey(prevValue => prevValue ? prevValue : data))
     }, [])
 
-    const formatKey = (tipo, Client) => {
+    const onChangeDate = (date) => {
+        const dateFormated = formatDateToZero(date)
+        setDateForm(dateFormated)
+        formatKey(Type, ClientObjet, dateFormated)
+    }
+
+    const formatKey = (tipo, Client, date = DateForm) => {
         const type = allTypes[tipo] ? allTypes[tipo].abbreviation : "";
-        getOTkey()
+        getOTkey(date)
             .then(data => setOTKey(data + " " + type + " " + Client.KeyUnique))
     }
     const addDescription = () => {
@@ -152,12 +166,22 @@ function FormCreateOt({ DateCreate }) {
             <div className={Style.ContentForm}>
                 <div className={Style.Content}>
                     <div className={Style.PartLeft}>
+
                         <div className={Style.Identification}>
                             <p >ID:</p>
                             <div className={Style.InputIdentification}>
                                 <BootstrapInput value={OTKey} disabled id="outlined-basic" variant="outlined" />
                             </div>
                         </div>
+                        <Box sx={{ paddingTop: "10px" }}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    disableFuture
+                                    format="DD/MM/YYYY"
+                                    slotProps={{ textField: { size: 'small' } }}
+                                    value={DateForm} onChange={onChangeDate} />
+                            </LocalizationProvider>
+                        </Box>
 
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar Tipo:</p>
@@ -237,7 +261,14 @@ function FormCreateOt({ DateCreate }) {
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
                                 <p className={Style.TittleType}>Fecha de entrega estimada:</p>
-                                <CustomInput placeholder={"Fecha de entrega estimada"} value={FechaEstimada} onChange={setFechaEstimada} />
+                                <Box sx={{ paddingTop: "10px" }}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            format="DD/MM/YYYY"
+                                            slotProps={{ textField: { size: 'small' } }}
+                                            value={FechaEstimada} onChange={setFechaEstimada} />
+                                    </LocalizationProvider>
+                                </Box>
                             </div>
                         </div>
                     </div>
@@ -305,7 +336,7 @@ function FormCreateOt({ DateCreate }) {
 
             {Result && (
                 <ModalPortal type={"form"}>
-                    <ModalCallback Result={Result} setResult={setResult} />
+                    <PrintOt Result={Result} close={setResult} />
                 </ModalPortal>
             )}
         </form>

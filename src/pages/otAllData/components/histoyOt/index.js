@@ -48,7 +48,7 @@ function HistoryOt({ history }) {
                                 </TimelineDot>
                                 <TimelineConnector />
                             </TimelineSeparator>
-                            <TimelineContent sx={{ py: '12px', px: 2 }}>
+                            <TimelineContent sx={{ py: '12px', px: 2, overflow: "hidden" }}>
                                 <Typography variant="h6" component="span">
                                     {Change.userName}
                                 </Typography>

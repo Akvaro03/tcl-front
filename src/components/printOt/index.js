@@ -4,7 +4,7 @@ import getIp from "../../hooks/getIp";
 import { useState } from "react";
 import FormPrototype from "../formPrototype";
 
-export default function PrintOt({ Result, setResult, close }) {
+export default function PrintOt({ Result, close }) {
     const [numberEt, setNumberEt] = useState(2)
     const printPdf = (nameUrl, numberEt) => {
         window.open(`${getIp()}:3000/${nameUrl}/${Result}` + (numberEt ? "/" + numberEt : ""))

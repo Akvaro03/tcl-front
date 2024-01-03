@@ -1,22 +1,16 @@
-import getDataFromUrl from "../getDataFromUrl";
+import getOtKey from "../../db/getOtKey";
+import createNewDate from "../createNewDay";
 
-async function getOTkey() {
-    const ot = await getDataFromUrl("/getLastOt").then(ot => ot[0])
-    const dateOt = ot && ot.OTKey.slice(0, 6)
-    const countOt = ot && ot.OTKey.slice(6, 7)
+async function getOTkey(propDate = createNewDate()) {
+    const otCount = await getOtKey(propDate)
+    const date = new formatDay(new Date(propDate));
 
-    const date = new formatDay(new Date());
-    const newDate = `${date.getFullFormat()}`
-
-
-    if ((newDate === dateOt) && countOt >= 9) {
+    if (otCount >= 9) {
         date.addDay()
-        return `${date.getFullFormat()}1`
-    } else if (newDate === dateOt) {
-        return `${date.getFullFormat()}${Number(countOt) + 1}`
-    } else {
-        return `${date.getFullFormat()}1`
+        const newDayCount = await getOtKey(date.getNumber())
+        return `${date.getFullFormat()}${Number(newDayCount) + 1}`
     }
+    return `${date.getFullFormat()}${otCount + 1}`;
 }
 
 class formatDay {
@@ -40,6 +34,9 @@ class formatDay {
     }
     getFullFormat() {
         return `${this.getYear()}${this.getMonth()}${this.getDay()}`
+    }
+    getNumber() {
+        return this.date.getTime()
     }
 }
 

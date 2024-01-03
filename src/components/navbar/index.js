@@ -83,7 +83,7 @@ function ResponsiveAppBar() {
     window.location.reload()
   }
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{height:"12vh"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

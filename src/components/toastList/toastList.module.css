@@ -1,5 +1,6 @@
-.toastList {
-  z-index: 1000000000;
+.toastList, .toastListActivated {
+  z-index: -10000;
+
   position: fixed;
   padding: 1em;
   width: 100%;
@@ -12,4 +13,8 @@
   display: flex;
   gap: 45px;
   flex-direction: column;
+}
+
+.toastListActivated{
+  z-index: 1000000000;
 }

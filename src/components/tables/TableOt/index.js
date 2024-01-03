@@ -8,8 +8,11 @@ import messageHistory from "../../../hooks/messageHistory";
 import PriorityOt from "../../priorityOt";
 import ClassPriorityOt from "../../../classes/priorityOt";
 import editOt from "../../../db/editOT";
-
+import getUser from "../../../hooks/getUser";
+import permissions from "../../../classes/permissions";
 export default function TableOT({ data, Colum, dataHover, recharge }) {
+    const rol = getUser("roles");
+
     const handleChangeAuth = (data) => {
         const newAuth = data.Auth === "1" ? 0 : 1;
         const dataToSend = { otId: data.id, newAuth };
@@ -56,7 +59,7 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
                     <h1>En espera</h1>
                 </Box>
             )}
-            {data.Auth === "0" ? (
+            {data.Auth === "0" && permissions.editAuth(rol) ? (
                 dataHover === data.id ? (
                     <Box sx={{ opacity: "1", width: "15%", justifyContent: "center", visibility: "visible", transition: "visibility 0s, opacity 0.1s linear, width 0.15s linear" }}>
                         <Button onClick={() => handleChangeAuth(data)}>Autorizar OT</Button>

@@ -18,7 +18,6 @@ function OrdenTrabajo() {
         const getOt = async () => {
             const ot = await postData(`${getIp()}:4000/getOneOt`, { id }).then(response => response[0])
             const client = await postData(`${getIp()}:4000/getOneClient`, { Name: ot.Client }).then(Client => Client[0])
-            console.log(client)
             setOt(ot)
             setClient(client)
             setLocation(client.location)

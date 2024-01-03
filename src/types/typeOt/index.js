@@ -1,3 +1,4 @@
+import createNewDate from "../../hooks/createNewDay";
 import typeMaster from "../typeMaster";
 
 export default class TypeOt extends typeMaster {
@@ -24,7 +25,7 @@ export default class TypeOt extends typeMaster {
     ) {
         super()
         if (otDate.Date) {
-            this.Date = new Date(otDate.Date).getTime();
+            this.Date = createNewDate(otDate.Date);
             this.Client = otDate.Client;
             // this.IdClient = ClientObjet.id;
             this.IdClient = otDate.IdClient;
@@ -34,7 +35,7 @@ export default class TypeOt extends typeMaster {
             this.NormaAplicar = otDate.NormaAplicar;
             this.Cotizacion = otDate.Cotizacion;
             this.FechaVencimiento = otDate.FechaVencimiento;
-            this.FechaEstimada = otDate.FechaEstimada;
+            this.FechaEstimada = createNewDate(otDate.FechaEstimada);
             // this.Type = TypeString.nameType;
             this.Type = otDate.Type;
             this.Description = otDate.Description;
@@ -46,7 +47,7 @@ export default class TypeOt extends typeMaster {
             this.priority = otDate.priority;
             this.id = otDate.id;
         } else {
-            this.Date = new Date(otDate).getTime();
+            this.Date = createNewDate(otDate);
             this.Client = Client;
             // this.IdClient = ClientObjet.id;
             this.IdClient = IdClient;
@@ -56,7 +57,7 @@ export default class TypeOt extends typeMaster {
             this.NormaAplicar = NormaAplicar;
             this.Cotizacion = Cotizacion;
             this.FechaVencimiento = FechaVencimiento;
-            this.FechaEstimada = FechaEstimada;
+            this.FechaEstimada = createNewDate(FechaEstimada);
             // this.Type = TypeString.nameType;
             this.Type = Type;
             this.Description = Description;
@@ -74,7 +75,7 @@ export default class TypeOt extends typeMaster {
         if (this.Identificación.length <= 8) {
             return false
         }
-        const propertiesToCheck = ["Client", "Producto", "Marca", "Modelo", "NormaAplicar", "Cotizacion", "FechaEstimada", "FechaVencimiento", "Identificación", "Observations"]
+        const propertiesToCheck = ["Client", "Producto", "Marca", "Modelo", "NormaAplicar", "Cotizacion", "FechaVencimiento", "Identificación", "Observations"]
         return this.verificate(propertiesToCheck)
     }
 }

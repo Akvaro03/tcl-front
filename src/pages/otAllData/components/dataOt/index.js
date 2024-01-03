@@ -139,7 +139,6 @@ function DataOt({ otSelected, reload }) {
         Contacts && setAddContact();
         // const otEdit = new TypeOt(otSelected.Date, otSelected.Client, otSelected.IdClient, OT.Producto, OT.Marca, OT.Modelo, OT.NormaAplicar, OT.Cotizacion, OT.FechaVencimiento, OT.FechaEstimada, OT.Type,)
         const otEdit = new TypeOt(OT)
-        console.log(otEdit)
         // editOt(otEdit, otSelected.id, messageHistory.tittleEditOT)
         // reload()
         // setEdit(false)

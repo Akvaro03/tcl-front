@@ -34,7 +34,6 @@ function ListItems({ Ots, reload, user }) {
                     </Box>
                 )}
                 <p>{`Pagina ${count + 1}`}</p>
-                {console.log(activities.length)}
                 {count < ((activities.length / 10) - 1) ? (
                     <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => setCount(prev => prev + 1)}>
                         <ArrowForwardIcon />

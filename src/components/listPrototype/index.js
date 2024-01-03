@@ -8,8 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function ListPrototype({ header, list, clickable, recharge, Table, height, close }) {
     const [divHover, setDivHover] = useState(null)
     const [count, setCount] = useState(0)
-
-    return (
+        return (
         <Box component={"div"} position={"relative"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: height ? height : "95%" }}>
             <Fade in={true}>
                 <div className={Style.ListOt}>
@@ -91,7 +90,7 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
                 )}
                 <p>{`Pagina ${count + 1}`}</p>
                 {count < ((list.length / 20) - 1) ? (
-                    <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => setCount(prev => prev + 1)}>
+                    <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => {setCount(prev => prev + 1)}}>
                         <ArrowForwardIcon />
                     </Box>
                 ) : (
