@@ -38,8 +38,10 @@ function ListClients() {
     const filterData = (value, type) => {
         if (type === "name") {
             setClientsFiltered(clients.filter(data => data.Name.toLowerCase().includes(value.toLowerCase())))
-        } else {
+        } else if (type === "code") {
             setClientsFiltered(clients.filter(data => data.KeyUnique.toLowerCase().includes(value.toLowerCase())))
+        } else {
+            setClientsFiltered(clients.filter(data => String(data.idEditable).includes(String(value))))
         }
     }
     const message = (text) => {
@@ -69,7 +71,7 @@ function ListClients() {
     );
 }
 const headerClients = new headerList()
-// headerClients.addHeader("ID", "10%")
+headerClients.addHeader("ID", "10%")
 headerClients.addHeader("Código", "20%")
 headerClients.addHeader("Nombre", "30%")
 headerClients.addHeader("Dirección", "50%")

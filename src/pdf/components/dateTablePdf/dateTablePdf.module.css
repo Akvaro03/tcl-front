@@ -1,0 +1,28 @@
+.dateTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    border-bottom: 1px solid black;
+}
+
+.dateTable div {
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.voidCell {
+    border-right: 1px solid black;
+}
+
+.cellInside {
+    border-right: 1px solid black;
+}
+
+.cellInsideRow2 {
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.cellRightRow2 {
+    border-top: 1px solid black;
+}

@@ -1,0 +1,35 @@
+.companyData {
+    border-bottom: 1px solid black;
+    width: 100%;
+    display: flex;
+    padding: 5px 0;
+}
+
+.companyData .rowData {
+    width: 100%;
+    display: flex;
+}
+
+.data {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dataContent {
+    display: flex;
+    margin: 5px;
+    width: 80%;
+}
+
+.dataLabel {
+    width: 30%;
+    margin-right: 15px;
+}
+.contactData {
+    width: 50%;
+}
+.dataValue {
+    line-height: 1.4;
+}

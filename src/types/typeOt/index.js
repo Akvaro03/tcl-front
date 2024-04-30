@@ -8,6 +8,7 @@ export default class TypeOt extends typeMaster {
         IdClient,
         Producto,
         Marca,
+        nLacre,
         Modelo,
         NormaAplicar,
         Cotizacion,
@@ -21,7 +22,8 @@ export default class TypeOt extends typeMaster {
         Activities,
         OTKey,
         priority,
-        id
+        id,
+        contractName
     ) {
         super()
         if (otDate.Date) {
@@ -34,10 +36,11 @@ export default class TypeOt extends typeMaster {
             this.Modelo = otDate.Modelo;
             this.NormaAplicar = otDate.NormaAplicar;
             this.Cotizacion = otDate.Cotizacion;
-            this.FechaVencimiento = otDate.FechaVencimiento;
+            this.FechaVencimiento = createNewDate(otDate.FechaVencimiento);
             this.FechaEstimada = createNewDate(otDate.FechaEstimada);
             // this.Type = TypeString.nameType;
             this.Type = otDate.Type;
+            this.nLacre = otDate.nLacre;
             this.Description = otDate.Description;
             this.Observations = otDate.Observations;
             this.Contact = otDate.Contact;
@@ -46,17 +49,19 @@ export default class TypeOt extends typeMaster {
             this.Identificación = otDate.OTKey;
             this.priority = otDate.priority;
             this.id = otDate.id;
+            this.contractName = JSON.stringify(otDate.contractName);
         } else {
             this.Date = createNewDate(otDate);
             this.Client = Client;
             // this.IdClient = ClientObjet.id;
             this.IdClient = IdClient;
+            this.nLacre = nLacre;
             this.Producto = Producto;
             this.Marca = Marca;
             this.Modelo = Modelo;
             this.NormaAplicar = NormaAplicar;
             this.Cotizacion = Cotizacion;
-            this.FechaVencimiento = FechaVencimiento;
+            this.FechaVencimiento = createNewDate(FechaVencimiento);
             this.FechaEstimada = createNewDate(FechaEstimada);
             // this.Type = TypeString.nameType;
             this.Type = Type;
@@ -68,6 +73,7 @@ export default class TypeOt extends typeMaster {
             this.Identificación = OTKey;
             this.priority = priority;
             this.id = id;
+            this.contractName = JSON.stringify(contractName);
         }
     }
     verificateCreateOt() {
@@ -75,7 +81,7 @@ export default class TypeOt extends typeMaster {
         if (this.Identificación.length <= 8) {
             return false
         }
-        const propertiesToCheck = ["Client", "Producto", "Marca", "Modelo", "NormaAplicar", "Cotizacion", "FechaVencimiento", "Identificación", "Observations"]
+        const propertiesToCheck = ["Client", "Producto", "Marca", "Modelo", "NormaAplicar", "Cotizacion", "Identificación"]
         return this.verificate(propertiesToCheck)
     }
 }

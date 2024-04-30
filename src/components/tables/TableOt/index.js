@@ -16,8 +16,8 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
     const handleChangeAuth = (data) => {
         const newAuth = data.Auth === "1" ? 0 : 1;
         const dataToSend = { otId: data.id, newAuth };
-        changeAuth(dataToSend, data.id,
-            messageHistory.tittleEditaAuth, "")
+        data.Auth = newAuth;
+        changeAuth(dataToSend, data.id,messageHistory.tittleEditaAuth, "") 
         recharge(data)
     }
     const handlePriority = () => {

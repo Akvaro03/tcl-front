@@ -45,14 +45,13 @@ body {
 }
 
 .numberOrder {
-    justify-content: space-around; 
+    justify-content: space-around;
     margin-top: 1%;
     display: flex;
     width: 100%;
 }
 
 .dataContent {
-    justify-content: space-between;
     display: flex;
     margin: 5px;
     width: 80%;
@@ -98,7 +97,8 @@ body {
 }
 
 .observations {
-    margin: 30px;
+    margin: 20px;
+    min-height: 20%;
 }
 
 .observationsContent {
@@ -149,6 +149,7 @@ body {
     background: black;
     padding: 10px;
     color: white;
+    text-align: center;
     font-size: 15px;
 }
 
@@ -157,35 +158,40 @@ body {
     grid-template-columns: repeat(3, 1fr);
 }
 
-.firmContent:nth-child(2) ,
-.firmContent:nth-child(1) {
-    border-right: 1px solid black;
-}
-
 .firmContent div {
     display: flex;
     justify-content: center;
 }
 
-.firmTittle {
+.firmTittle,
+.firmTittleWithBorder {
     border-bottom: 1px solid black;
     padding: 5px;
     font-size: 15px;
     border-top: 1px solid black;
 }
 
-.firm {
+.firm,
+.firmWithBorder {
     height: 35px;
 }
 
-.firmNote {
+.firmNote,
+.firmNoteWithBorder {
     border-top: 1px solid black;
     padding: 5px;
     font-size: 11px;
 }
 
+.firmNoteWithBorder,
+.firmTittleWithBorder,
+.firmWithBorder {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
 .items {
-    height: 350px;
+    height: 270px;
     border-bottom: 1px solid black;
 }
 
@@ -206,4 +212,28 @@ body {
 
 .product p:nth-child(1) {
     width: 15%;
+}
+
+.dataLabel {
+    width: 23%;
+    margin-right: 15px;
+}
+
+.dataValue {
+    line-height: 1.4;
+}
+
+.itemsContent {
+    min-height: 40%;
+}
+
+.dueDate {
+    margin-left: 30px;
+    display: flex;
+    gap: 30px;
+}
+
+.companyData .rowData {
+    width: 100%;
+    display: flex;
 }

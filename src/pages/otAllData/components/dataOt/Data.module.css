@@ -10,7 +10,7 @@
     border-radius: 15px;
 }
 
-.tittlePage { 
+.tittlePage {
     font-size: 19px;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .contentTittle {
-    height: 30px;
+    height: 5vh;
     margin-top: 15px;
     display: flex;
     align-items: center;
@@ -41,13 +41,12 @@
 }
 
 .contentActivities {
-    height: 50px;
+    height: 6vh;
     display: flex;
     margin-right: 10%;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 25px;
-    margin-bottom: 4px;
+    margin-bottom: 20px;
 }
 
 .dataCategories .contentTittle {
@@ -55,8 +54,8 @@
 }
 
 .Activities {
+    height: 6vh;
     margin-left: 5%;
-    height: 50px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -130,6 +129,7 @@
 
 
 .addButton {
+    height: 6vh;
     margin-left: 5%;
     margin-bottom: 50px;
 }
@@ -157,7 +157,7 @@
 
 .authNone,
 .authNoneClickable {
-    height: 30px;
+    height: 5vh;
     margin-top: 15px;
     display: flex;
     align-items: center;
@@ -172,7 +172,7 @@
 
 .auth,
 .authClickable {
-    height: 30px;
+    height: 5vh;
     margin-top: 15px;
     display: flex;
     align-items: center;

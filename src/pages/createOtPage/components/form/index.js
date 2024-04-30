@@ -1,7 +1,6 @@
 import { Autocomplete, Box, Button, InputBase, MenuItem, Select, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import MultipleSelect from '../../../../components/multipleSelect';
-import formatDateToZero from '../../../../hooks/formatDateToZero';
 import classToastList from '../../../../classes/classToastList';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import getDataFromUrl from "../../../../hooks/getDataFromUrl";
@@ -19,12 +18,13 @@ import addOt from '../../../../db/addOt';
 import styled from "@emotion/styled";
 import Input from '@mui/base/Input';
 import dayjs from 'dayjs';
-import createNewDate from '../../../../hooks/createNewDay';
+import SelectContact from '../../../../components/selectContract';
 
 function FormCreateOt() {
     const [Clients, setClients] = useState([{ label: "Seleccione" }])
+    const [contractSelect, setContractSelect] = useState()
     const [ClientObjet, setClientObjet] = useState(top100Films[0])
-    const [FechaVencimiento, setFechaVencimiento] = useState("")
+    const [FechaVencimiento, setFechaVencimiento] = useState(dayjs)
     const [Observations, setObservations] = useState("")
     const [NormaAplicar, setNormaAplicar] = useState("")
     const [OTKey, setOTKey] = useState("")
@@ -35,6 +35,7 @@ function FormCreateOt() {
     const [FechaEstimada, setFechaEstimada] = useState(dayjs)
 
     const [Cotizacion, setCotizacion] = useState("")
+    const [nLacre, setNLacre] = useState("")
     const [Contacts, setContacts] = useState("")
     const [Producto, setProducto] = useState("")
     const [allTypes, setAllTypes] = useState([])
@@ -52,7 +53,7 @@ function FormCreateOt() {
             setIsSaveOtDisabled(true)
             const Activities = allTypes[Type].activities;
             const ContactSelect = Contacts ? Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]) : "";
-            const { label: Client } = ClientObjet;
+            const { Name: Client } = ClientObjet;
             const TypeString = allTypes[Type];
             const Changes = {
                 userId: userLogin.id,
@@ -64,12 +65,13 @@ function FormCreateOt() {
             const newOt = new TypeOt({
                 Date: DateForm,
                 Client,
-                IdClient: ClientObjet.id,
+                IdClient: ClientObjet.idEditable,
                 Producto,
                 Marca,
                 Modelo,
                 NormaAplicar,
                 Cotizacion,
+                nLacre,
                 FechaVencimiento,
                 FechaEstimada,
                 Type: TypeString,
@@ -78,7 +80,8 @@ function FormCreateOt() {
                 Contact: ContactSelect,
                 Changes,
                 Activities,
-                OTKey
+                OTKey,
+                contractName: contractSelect
             });
             if (!newOt.verificateCreateOt()) {
                 classToastList.addToast(setToasts, "missed data");
@@ -114,8 +117,6 @@ function FormCreateOt() {
             setModelo,
             setNormaAplicar,
             setCotizacion,
-            setFechaEstimada,
-            setFechaVencimiento,
             setObservations
         ];
         resetInputs(resets);
@@ -127,7 +128,7 @@ function FormCreateOt() {
                 setUserLogin(getUser())
                 let newJson = []
                 json.forEach(element => {
-                    let data = { label: `${element.KeyUnique}  -   ${element.Name}`, id: element.id, KeyUnique: element.KeyUnique, businessName: element.businessName, Contacts: element.Contacts ? JSON.parse(element.Contacts) : "" };
+                    let data = { label: `${element.KeyUnique}  -   ${element.Name}`, idEditable: element.idEditable, id: element.id, KeyUnique: element.KeyUnique, Name: element.Name, Contacts: element.Contacts ? JSON.parse(element.Contacts) : "" };
                     newJson.push(data)
                 });
                 setClients(newJson)
@@ -141,12 +142,12 @@ function FormCreateOt() {
     }, [])
 
     const onChangeDate = (date) => {
-        const dateFormated = formatDateToZero(date)
-        setDateForm(dateFormated)
-        formatKey(Type, ClientObjet, dateFormated)
+        setDateForm(date)
+        formatKey(Type, ClientObjet, date)
     }
 
     const formatKey = (tipo, Client, date = DateForm) => {
+        getOTkey(date)
         const type = allTypes[tipo] ? allTypes[tipo].abbreviation : "";
         getOTkey(date)
             .then(data => setOTKey(data + " " + type + " " + Client.KeyUnique))
@@ -205,11 +206,14 @@ function FormCreateOt() {
                                 renderInput={(params) => <TextField {...params} label="Cliente" />}
                             />
                         </div>
+                        <div className={Style.SelectClient}>
+                            <SelectContact setData={setContractSelect} />
+                        </div>
                         <div className={Style.ClientData}>
                             <div className={Style.ClientDataContent}>
                                 <p >Client N°:</p>
                                 <div className={Style.InputDisabled}>
-                                    <BootstrapInput value={ClientObjet.id} disabled id="outlined-basic" variant="outlined" />
+                                    <BootstrapInput value={ClientObjet.idEditable} disabled id="outlined-basic" variant="outlined" />
                                 </div>
                             </div>
                             <div className={Style.ClientDataContent}>
@@ -254,8 +258,20 @@ function FormCreateOt() {
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
+                                <CustomInput placeholder={"Numero de Lacre"} value={nLacre} onChange={setNLacre} />
+                            </div>
+                        </div>
+                        <div className={Style.DataInput}>
+                            <div className={Style.Input}>
                                 <p className={Style.TittleType}>Fecha de vencimiento del certificado:</p>
-                                <CustomInput placeholder={"Fecha de vencimiento del certificado"} value={FechaVencimiento} onChange={setFechaVencimiento} />
+                                <Box sx={{ paddingTop: "10px" }}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            format="DD/MM/YYYY"
+                                            slotProps={{ textField: { size: 'small' } }}
+                                            value={FechaVencimiento} onChange={setFechaVencimiento} />
+                                    </LocalizationProvider>
+                                </Box>
                             </div>
                         </div>
                         <div className={Style.DataInput}>
@@ -416,7 +432,8 @@ const top100Films = [
         KeyUnique: "",
         businessName: "",
         Contacts: "",
-        label: ""
+        label: "",
+        idEditable: ""
     }
 ];
 const BootstrapInput = styled(InputBase)(({ theme }) => ({

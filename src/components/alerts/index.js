@@ -2,7 +2,7 @@ import Style from "./alerts.module.css"
 import { Alert, Fade } from "@mui/material";
 import { useEffect, useState } from "react";
 import classToastList from "../../classes/classToastList";
-function Alerts({ Result }) {
+function Alerts({ Result: { text } }) {
     const [className, setClassName] = useState(Style.AlertStyleDefault)
     const [isVisible, setIsVisible] = useState(true)
     const states = {
@@ -10,6 +10,7 @@ function Alerts({ Result }) {
         "error password": <AlertCustomError text={"Error en la contraseña"} />,
         "missed data": <AlertCustomError text={"Completa todos los campos"} />,
         "name used": <AlertCustomError text={"Ese nombre ya esta en uso"} />,
+        "id used": <AlertCustomError text={"Ese id ya esta en uso"} />,
         "error": <AlertCustomError text={"Hubo un error desconocido"} />,
         "error email": <AlertCustomError text={"Error en el email"} />,
 
@@ -31,11 +32,11 @@ function Alerts({ Result }) {
             setIsVisible(false)
         }, classToastList.timeRemove - 500);
     }, [])
-    
+
     return (
         <Fade in={isVisible}>
             <div className={className}>
-                {states[Result]}
+                {states[text]}
             </div>
         </Fade>
 

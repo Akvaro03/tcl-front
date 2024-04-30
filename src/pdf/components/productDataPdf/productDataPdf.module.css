@@ -1,0 +1,21 @@
+.productData {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+
+.productDiv {
+    height: 70px !important;
+    width: 100%;
+    padding: 20px;
+}
+
+.productDiv h1 {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.productDiv:nth-child(1),
+.productDiv:nth-child(2) {
+    border-right: 1px solid black;
+}

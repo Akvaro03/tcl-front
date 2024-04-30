@@ -6,9 +6,9 @@ import AddIcon from '@mui/icons-material/Add';
 import Style from './addContact.module.css';
 import FormPrototype from "../../../../components/formPrototype";
 import toUppercase from "../../../../hooks/toUppercase";
-
+import BackspaceIcon from '@mui/icons-material/Backspace';
 export default function AddContact({ close, save, prevContacts }) {
-    const [Contacts, setContacts] = useState(prevContacts ? prevContacts : [{ type: "", value: "" }]);
+    const [Contacts, setContacts] = useState(prevContacts ? prevContacts : [{ ...formatContact }]);
 
     const handleChangeContacts = (e, number, type) => {
         let copy = [...Contacts]
@@ -16,18 +16,22 @@ export default function AddContact({ close, save, prevContacts }) {
         setContacts(copy)
     };
     const addContact = () => {
-        setContacts(prev => [...prev, { type: "", value: "" }])
+        setContacts(prev => [...prev, { ...formatContact }])
+    }
+    const deleteContact = (data) => {
+        setContacts(prevContacts =>
+            prevContacts.filter(prevContacts => prevContacts.type !== data.type && prevContacts.contact !== data.contact && prevContacts.email !== data.email && prevContacts.email !== data.email))
     }
     const inputClient = new inputClass(save)
     return (
-        <FormPrototype close={close} tittle={"Agregar contactos"}>
+        <FormPrototype close={close} tittle={"Agregar contactos"} width="70%">
             <Box display={"flex"} height={"40%"} width={"90%"} flexDirection={"column"}>
                 <Box>
                     {Contacts.map((data, key) => (
                         <div className={Style.InputContact} key={key}>
-                            <div className={Style.TypeDocument}>
+                            <div className={Style.NDocument}>
                                 <div className={Style.InputTittleDocument}>
-                                    <p>Tipo de Contacto:</p>
+                                    <p>Tipo:</p>
                                 </div>
                                 <div className={Style.CustomInput}>
                                     {inputClient.getInput(data.type, (e) => handleChangeContacts(e, key, "type"))}
@@ -38,9 +42,26 @@ export default function AddContact({ close, save, prevContacts }) {
                                     <p>Contacto:</p>
                                 </div>
                                 <div className={Style.CustomInput}>
-                                    {inputClient.getInput(data.value, (e) => handleChangeContacts(e, key, "value"))}
+                                    {inputClient.getInput(data.contact, (e) => handleChangeContacts(e, key, "contact"))}
                                 </div>
                             </div>
+                            <div className={Style.NDocument}>
+                                <div className={Style.InputTittleDocument}>
+                                    <p>Email:</p>
+                                </div>
+                                <div className={Style.CustomInput}>
+                                    {inputClient.getInput(data.email, (e) => handleChangeContacts(e, key, "email"))}
+                                </div>
+                            </div>
+                            <div className={Style.NDocument}>
+                                <div className={Style.InputTittleDocument}>
+                                    <p>Telefono:</p>
+                                </div>
+                                <div className={Style.CustomInput}>
+                                    {inputClient.getInput(data.cell, (e) => handleChangeContacts(e, key, "cell"))}
+                                </div>
+                            </div>
+                            <BackspaceIcon onClick={() => deleteContact(data)} />
                         </div>
                     ))}
                 </Box>
@@ -60,3 +81,5 @@ export default function AddContact({ close, save, prevContacts }) {
         </FormPrototype>
     )
 }
+
+const formatContact = { type: "", contact: "", email: "", cell: "" }

@@ -1,7 +1,9 @@
 import FilterPrototype from "../../components/filtersPrototype";
+import ComponentError from "../../components/componentError";
 import getStateActivity from "../../hooks/getStateActivity";
 import ListPrototype from "../../components/listPrototype";
 import isActivitiesEnd from "../../hooks/isActivitiesEnd";
+import ErrorBoundary from "../../utilities/ErrorBoundary";
 import TableFact from "../../components/tables/TableFact";
 import isUserAssigned from "../../hooks/isUserAssigned";
 import getDataFromUrl from "../../hooks/getDataFromUrl";
@@ -16,11 +18,9 @@ import Filters from "./components/filters";
 import Style from "./otPage.module.css";
 import editPay from "../../db/editPay";
 import { Box } from "@mui/material";
-import ComponentError from "../../components/componentError";
-import ErrorBoundary from "../../utilities/ErrorBoundary";
 function OtPage() {
-    const [listOt, setListOt] = useState()
     const [otFilter, setOtFilter] = useState({})
+    const [listOt, setListOt] = useState()
 
     const [otOnProcess, setOtOnProcess] = useState({})
     const [otToAssing, setOtToAssing] = useState({})
@@ -163,9 +163,9 @@ function OtPage() {
         }
 
     }
-    const handleChangeAuth = (OT) => {
-        setOtFilter(prev => prev.map(otPrev => otPrev === OT ? { ...OT, Auth: 1 } : otPrev))
-        setListOt(prev => prev.map(otPrev => otPrev === OT ? { ...OT, Auth: 1 } : otPrev))
+    const recharge = (OT) => {
+        setOtFilter(prev => prev.map(otPrev => otPrev === OT ? OT : otPrev))
+        setListOt(prev => prev.map(otPrev => otPrev === OT ? OT : otPrev))
     }
     const filterAllOt = (OTList) => {
         setOtFilter(OTList);
@@ -230,7 +230,7 @@ function OtPage() {
                                 header={headersFact.getHeader()}
                                 list={paysEdit}
                                 clickable={(data) => setEditFact(data)}
-                                recharge={handleChangeAuth}
+                                recharge={recharge}
                                 height={"85%"} />
                             :
                             (
@@ -245,7 +245,7 @@ function OtPage() {
                                         header={headersOt.getHeader()}
                                         list={otFilter}
                                         clickable={(data) => openNewTab(`/events/${data.id}`)}
-                                        recharge={handleChangeAuth}
+                                        recharge={recharge}
                                         height={"85%"} />
                                 </Box>
                             )

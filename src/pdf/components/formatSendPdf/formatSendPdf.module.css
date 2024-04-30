@@ -1,0 +1,10 @@
+.formatSend {
+    display: flex;
+    padding: 10px;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+
+.formatSend h1 {
+    font-weight: 600;
+}

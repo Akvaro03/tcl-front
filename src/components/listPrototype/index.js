@@ -1,14 +1,14 @@
-import Style from "./listPrototype.module.css"
-import { Box, Fade, Skeleton } from "@mui/material";
-import { useState } from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Fade, Skeleton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import Style from "./listPrototype.module.css"
+import { useEffect, useState } from "react";
 
 export default function ListPrototype({ header, list, clickable, recharge, Table, height, close }) {
     const [divHover, setDivHover] = useState(null)
     const [count, setCount] = useState(0)
-        return (
+    return (
         <Box component={"div"} position={"relative"} sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", height: height ? height : "95%" }}>
             <Fade in={true}>
                 <div className={Style.ListOt}>
@@ -27,47 +27,7 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
                                 </div>
                             ))
                         ) : (
-                            <>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                                <div className={Style.ColumOtVoid}>
-                                    <Skeleton width={"90%"} height={"100%"} />
-                                </div>
-                            </>
+                            <ComponentSkeleton />
                         )}
 
                     </div>
@@ -90,7 +50,7 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
                 )}
                 <p>{`Pagina ${count + 1}`}</p>
                 {count < ((list.length / 20) - 1) ? (
-                    <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => {setCount(prev => prev + 1)}}>
+                    <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => { setCount(prev => prev + 1) }}>
                         <ArrowForwardIcon />
                     </Box>
                 ) : (
@@ -102,7 +62,19 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
         </Box>
     )
 }
+const ComponentSkeleton = () => {
+    const [skeletons, setSkeletons] = useState([<Skeleton width={"90%"} height={"100%"} key={1} />, <Skeleton width={"90%"} height={"100%"} key={2} />, <Skeleton width={"90%"} height={"100%"} key={3} />, <Skeleton width={"90%"} height={"100%"} key={4} />, <Skeleton width={"90%"} height={"100%"} key={5} />, <Skeleton width={"90%"} height={"100%"} key={6} />, <Skeleton width={"90%"} height={"100%"} key={7} />])
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            // Cambiar el texto después de 1000 segundos (1 segundo)
+            setSkeletons(<Box height={"100vh"} display={"flex"} alignItems={"center"}> No se encontraron OTs</Box>);
+        }, 1000); // 1000 segundos
 
+        // Limpiar el intervalo cuando el componente se desmonte
+        return () => clearInterval(intervalId);
+    }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez al montar el componente
+    return skeletons
+}
 const Colum = ({ data, width = "13%", color }) => (
     <Box key={"1"} sx={{ width: width, color: color ? color : "black", alignItems: "center", padding: "6px", display: "flex", justifyContent: "center" }}>
         <Box component={"p"} sx={{ height: "100%", width: "100%", textAlignLast: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "center" }} title={data}>

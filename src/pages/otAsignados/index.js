@@ -1,19 +1,13 @@
 import getDataFromUrl from "../../hooks/getDataFromUrl";
 import ResponsiveAppBar from "../../components/navbar";
 import React, { useEffect, useState } from 'react';
-import ListCards from "./components/listCards";
 import ListItems from "./components/lisItems";
 import getOneUser from "../../db/getOneUser";
-import Style from './otAsignados.module.css';
 import getUser from "../../hooks/getUser";
 import { Box } from "@mui/material";
 function OtAsingPages() {
-    const [format, SetFormat] = useState("list")
     const [User, setUser] = useState()
     const [Ots, setOts] = useState()
-    const handleSetUser = (newUser) => {
-        setUser(newUser)
-    }
 
     useEffect(() => {
         reload(setUser, setOts);
@@ -26,15 +20,9 @@ function OtAsingPages() {
                 <SelectView SetFormat={SetFormat} format={format} />
             </Box> */}
             {Ots ? (
-                format === "cards" ? (
-                    <div className={Style.ContentAssing}>
-                        <ListCards User={User} Ots={Ots} setUser={handleSetUser} />
-                    </div>
-                ) : (
-                    <Box sx={{ width: "100%", height: "76vh", display: "flex", justifyContent: "center", marginTop: "40px" }}>
-                        <ListItems Ots={Ots} reload={() => reload(setUser, setOts, true)} user={User} />
-                    </Box>
-                )
+                <Box sx={{ width: "100%", height: "76vh", display: "flex", justifyContent: "center", marginTop: "40px" }}>
+                    <ListItems Ots={Ots} reload={() => reload(setUser, setOts, true)} user={User} />
+                </Box>
             ) : (
                 <HandleNoOT />
             )}

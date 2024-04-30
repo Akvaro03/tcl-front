@@ -1,0 +1,21 @@
+.header {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+.tittle {
+    display: flex;
+    justify-content: space-around;
+}
+.dateNumber {
+    width: 23%;
+    display: flex;
+    justify-content: space-between;
+}
+.numberOrder {
+    justify-content: space-around;
+    margin-top: 1%;
+    display: flex;
+    width: 100%;
+}

@@ -3,42 +3,42 @@ import ButtonRadius from '../../../../components/buttonRadius';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import getDataFromUrl from '../../../../hooks/getDataFromUrl';
 import messageHistory from '../../../../hooks/messageHistory';
+import ClassPriorityOt from '../../../../classes/priorityOt';
 import ModalPortal from "../../../../components/modelPortal";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import PriorityOt from '../../../../components/priorityOt';
 import permissions from '../../../../classes/permissions';
 import inputClass from '../../../../classes/inputClass';
 import formatDateM from "../../../../hooks/formatDateM";
+import { Box, Button, Fab, Fade } from "@mui/material";
 import formatDate from '../../../../hooks/formatDate';
 import changeActOt from "../../../../db/changeActOt";
+import PrintOt from '../../../../components/printOt';
 import Alerts from '../../../../components/alerts';
 import changeAuth from "../../../../db/changeAuth";
 import PrintIcon from '@mui/icons-material/Print';
-import { Box, Button, Fab, Fade } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import AddAvailability from '../addAvailability';
 import changePay from '../../../../db/changePay';
 import getUser from "../../../../hooks/getUser";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import TypeOt from '../../../../types/typeOt';
 import { useEffect, useState } from "react";
 import editOt from "../../../../db/editOT";
 import AddActivity from "../addActivity";
 import SelectUsers from "../selectUsers";
+import AddContact from '../addContact';
 import ContentPay from '../contentPay';
 import Style from "./Data.module.css";
 import OptionPay from '../optionPay';
 import dayjs from "dayjs";
-import PrintOt from '../../../../components/printOt';
-import AddContact from '../addContact';
-import PriorityOt from '../../../../components/priorityOt';
-import ClassPriorityOt from '../../../../classes/priorityOt';
-import TypeOt from '../../../../types/typeOt';
+import SelectContact from '../../../../components/selectContract';
 
 function DataOt({ otSelected, reload }) {
     const [availability, setAvailability] = useState(JSON.parse(otSelected.Availability))
     const [addAvailability, setAddAvailability] = useState(false)
-    const [expiredDate, setExpiredDate] = useState(otSelected.FechaVencimiento)
     const [addPay, setAddPay] = useState(false)
     const [pay, setPay] = useState()
     const Description = JSON.parse(otSelected.Description)
@@ -51,7 +51,8 @@ function DataOt({ otSelected, reload }) {
     const [priority, setPriority] = useState(otSelected.priority)
     const [userSelect, setUserSelect] = useState(false)
     const [auth, setAuth] = useState(otSelected.Auth)
-    const [OT, SetOT] = useState(otSelected)
+    console.log(otSelected)
+    const [OT, SetOT] = useState({ ...otSelected, contractName: JSON.parse(otSelected.contractName) })
     const [edit, setEdit] = useState(false)
     const rol = getUser("roles")
     const [result, setResult] = useState()
@@ -134,18 +135,17 @@ function DataOt({ otSelected, reload }) {
         setEdit(prev => !prev)
 
     }
-    const sendOTEdit = (Contacts) => {
-        Contacts && setContacts(Contacts);
-        Contacts && setAddContact();
-        // const otEdit = new TypeOt(otSelected.Date, otSelected.Client, otSelected.IdClient, OT.Producto, OT.Marca, OT.Modelo, OT.NormaAplicar, OT.Cotizacion, OT.FechaVencimiento, OT.FechaEstimada, OT.Type,)
-        const otEdit = new TypeOt(OT)
-        // editOt(otEdit, otSelected.id, messageHistory.tittleEditOT)
-        // reload()
-        // setEdit(false)
+    const sendOTEdit = (newContacts) => {
+        newContacts && setContacts(newContacts);
+        newContacts && setAddContact();
+        const otEdit = new TypeOt({ ...OT, "Contact": newContacts ? JSON.stringify(newContacts) : JSON.stringify(Contacts) })
+        editOt(otEdit, otSelected.id, messageHistory.tittleEditOT)
+        reload()
+        setEdit(false)
     }
     const closeEdit = () => {
         reload()
-        SetOT(otSelected)
+        SetOT({ ...otSelected, contractName: JSON.parse(otSelected.contractName) })
         setEdit(false)
     }
     const addListPay = (newPay) => {
@@ -157,7 +157,7 @@ function DataOt({ otSelected, reload }) {
     const inputDataOt = new inputClass(sendOTEdit)
     const H1Editable = ({ edit, text, onChange }) => {
         if (edit) {
-            return inputDataOt.getInput(text, onChange)
+            return inputDataOt.getInput(text ? text : " ", onChange)
         }
 
         return <h1>{text}</h1>
@@ -181,7 +181,6 @@ function DataOt({ otSelected, reload }) {
                 </Box>
                 {/* Encabezados */}
                 <div className={Style.tittlesCategories}>
-
                     {/* OT */}
                     <div className={Style.contentTittle}>
                         <h1 className={Style.tittlePage}>OT Seleccionada</h1>
@@ -198,8 +197,14 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.contentTittle}>
                         <h1>Fecha</h1>
                     </div>
-                    <div className={Style.ProductSection}>
-                        <h1>FECHA DE VENCIMIENTO DEL CERTIFICADO</h1>
+                    <div className={Style.contentTittle}>
+                        <h1>Vto. DEL CERTIFICADO</h1>
+                    </div>
+                    <div className={Style.contentTittle}>
+                        <h1>Nº Lacre</h1>
+                    </div>
+                    <div className={Style.contentTittle}>
+                        <h1>Contrato</h1>
                     </div>
                     {/* Cliente */}
                     <hr className={Style.line} />
@@ -253,6 +258,9 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductSection}>
                         <h1>Disposición</h1>
                     </div>
+                    <div className={Style.ProductSection}>
+                        <h1>Observación</h1>
+                    </div>
 
                     {/* Facturación */}
                     <hr className={Style.line} />
@@ -301,10 +309,19 @@ function DataOt({ otSelected, reload }) {
                         {<H1EditableDate onChange={(data) => handleOtSelected(formatDate(data), "Date")} edit={edit} text={OT.Date} />}
                     </div>
                     <div className={Style.contentTittle}>
-                        {<H1Editable edit={edit} onChange={(data) => setExpiredDate(data)} text={expiredDate} />}
+                        {<H1EditableDate onChange={(data) => handleOtSelected(formatDate(data), "FechaVencimiento")} edit={edit} text={OT.FechaVencimiento} />}
+                    </div>
+                    <div className={Style.contentTittle}>
+                        <H1Editable onChange={data => handleOtSelected(data, "nLacre")} edit={edit} text={OT.nLacre} />
+                    </div>
+                    <div className={Style.contentTittle}>
+                        {edit ? (
+                            <SelectContact defaultValue={OT.contractName.label} setData={data => handleOtSelected(data, "contractName")} />
+                        ) : (
+                            <h1>{OT.contractName.label}</h1>
+                        )}
                     </div>
                     {/* Cliente */}
-
                     <hr className={Style.line} />
                     <div className={Style.ProductTittle}>
                     </div>
@@ -317,7 +334,10 @@ function DataOt({ otSelected, reload }) {
                     {Contacts ?
                         Contacts.map((contact, key) => (
                             <div className={Style.ProductContent} key={key}>
-                                <h1 onClick={setAddContact}>{contact.type + ": " + contact.value} </h1>
+                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Tipo: ${contact.type} `} </h1></Box>
+                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Contact: ${contact.contact} `} </h1></Box>
+                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Email: ${contact.contact} `} </h1></Box>
+                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Telefono: ${contact.contact} `} </h1></Box>
                             </div>
                         ))
                         :
@@ -386,7 +406,9 @@ function DataOt({ otSelected, reload }) {
                                 <h1>Pendiente</h1>
                         )}
                     </div>
-
+                    <div className={Style.ProductContent}>
+                        <H1Editable onChange={data => handleOtSelected(data, "Observations")} edit={edit} text={OT.Observations} />
+                    </div>
                     {/* Facturación */}
                     <hr className={Style.line} />
                     <div className={Style.ProductTittle}>

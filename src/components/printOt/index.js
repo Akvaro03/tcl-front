@@ -1,15 +1,14 @@
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import FormPrototype from "../formPrototype";
 import Style from "./printOt.module.css"
 import getIp from "../../hooks/getIp";
 import { useState } from "react";
-import FormPrototype from "../formPrototype";
 
 export default function PrintOt({ Result, close }) {
     const [numberEt, setNumberEt] = useState(2)
     const printPdf = (nameUrl, numberEt) => {
         window.open(`${getIp()}:3000/${nameUrl}/${Result}` + (numberEt ? "/" + numberEt : ""))
     }
-
     return (
         <FormPrototype tittle={"Imprimir"} close={close}>
             <div className={Style.selectNumber}>
@@ -24,7 +23,7 @@ export default function PrintOt({ Result, close }) {
                         value={numberEt}
                         onChange={({ target: { value } }) => { setNumberEt(value) }}
                     >
-                        {retornAllNumbers()}
+                        {returnAllNumbers()}
                     </Select>
                 </FormControl>
             </div>
@@ -36,7 +35,7 @@ export default function PrintOt({ Result, close }) {
         </FormPrototype>
     );
 }
-const retornAllNumbers = () => {
+const returnAllNumbers = () => {
     const items = [];
     for (let i = 0; i < 40; i++) {
         items.push(<MenuItem key={i} value={i}>{i}</MenuItem>)

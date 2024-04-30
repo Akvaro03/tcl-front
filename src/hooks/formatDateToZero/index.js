@@ -1,4 +1,4 @@
-const formatDateToZero = date => date.set("seconds", 0).set("minute", 0).set("hour", 0);
+const formatDateToZero = date => new Date(date).setHours(0, 0, 0, 0);
 
 
 export default formatDateToZero;

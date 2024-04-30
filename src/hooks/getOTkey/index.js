@@ -1,9 +1,10 @@
 import getOtKey from "../../db/getOtKey";
 import createNewDate from "../createNewDay";
+import formatDateToZero from "../formatDateToZero";
 
 async function getOTkey(propDate = createNewDate()) {
-    const otCount = await getOtKey(propDate)
-    const date = new formatDay(new Date(propDate));
+    const otCount = await getOtKey(formatDateToZero(propDate))
+    const date = new formatDay(new Date(formatDateToZero(propDate)));
 
     if (otCount >= 9) {
         date.addDay()
