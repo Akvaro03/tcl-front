@@ -336,8 +336,8 @@ function DataOt({ otSelected, reload }) {
                             <div className={Style.ProductContent} key={key}>
                                 <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Tipo: ${contact.type} `} </h1></Box>
                                 <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Contact: ${contact.contact} `} </h1></Box>
-                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Email: ${contact.contact} `} </h1></Box>
-                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Telefono: ${contact.contact} `} </h1></Box>
+                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Email: ${contact.email} `} </h1></Box>
+                                <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Telefono: ${contact.cell} `} </h1></Box>
                             </div>
                         ))
                         :

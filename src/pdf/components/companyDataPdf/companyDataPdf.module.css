@@ -20,16 +20,23 @@
 .dataContent {
     display: flex;
     margin: 5px;
-    width: 80%;
+    /* justify-content: space-between; */
+    align-items: center;
+    width: 40vw;
+}
+.contactData .dataLabel {
+    width: 7vw;
+}
+.contactData .dataValue {
+    width: 10vw;
 }
 
 .dataLabel {
-    width: 30%;
+    width: 10vw;
     margin-right: 15px;
 }
-.contactData {
-    width: 50%;
-}
+
 .dataValue {
     line-height: 1.4;
+    width: 20vw;
 }
