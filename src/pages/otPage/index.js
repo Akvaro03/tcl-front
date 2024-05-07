@@ -6,7 +6,6 @@ import isActivitiesEnd from "../../hooks/isActivitiesEnd";
 import ErrorBoundary from "../../utilities/ErrorBoundary";
 import TableFact from "../../components/tables/TableFact";
 import isUserAssigned from "../../hooks/isUserAssigned";
-import getDataFromUrl from "../../hooks/getDataFromUrl";
 import ModalPortal from "../../components/modelPortal";
 import ResponsiveAppBar from "../../components/navbar";
 import TableOT from "../../components/tables/TableOt";
@@ -18,6 +17,7 @@ import Filters from "./components/filters";
 import Style from "./otPage.module.css";
 import editPay from "../../db/editPay";
 import { Box } from "@mui/material";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 function OtPage() {
     const [otFilter, setOtFilter] = useState({})
     const [listOt, setListOt] = useState()
@@ -42,7 +42,7 @@ function OtPage() {
     const [clients, setClients] = useState({})
 
     useEffect(() => {
-        getDataFromUrl("/getOT")
+        fetchAsyncUrl("/getOT")
             .then(data => data.reverse())
             .then(data => {
                 setListOt(data)
@@ -51,7 +51,7 @@ function OtPage() {
                 return data
             })
             .then(allOt => {
-                getDataFromUrl("/getPay")
+                fetchAsyncUrl("/getPay")
                     .then(data => data.reverse())
                     .then(data => {
                         return data.map(fact => { return { ...fact, OTFact: getOTFact(allOt, fact.id) } })
@@ -61,7 +61,7 @@ function OtPage() {
                         setPaysEdit(data)
                     })
             })
-        getDataFromUrl("/getClients")
+        fetchAsyncUrl("/getClients")
             .then(data => setClients(data.map(client => client.Name).sort()))
 
         const getOTFact = (otList, id) => {
@@ -205,7 +205,7 @@ function OtPage() {
         editPay({ ...pay, prevId: editFact.id })
     }
     const resetPay = () => {
-        getDataFromUrl("/getPay")
+        fetchAsyncUrl("/getPay")
             .then(data => data.reverse())
             .then(data => {
                 setPays(data)

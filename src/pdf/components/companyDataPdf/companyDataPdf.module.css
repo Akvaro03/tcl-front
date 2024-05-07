@@ -25,18 +25,16 @@
     width: 40vw;
 }
 .contactData .dataLabel {
-    width: 7vw;
+    width: 9vw;
 }
 .contactData .dataValue {
-    width: 10vw;
+    width: 8vw;
 }
 
 .dataLabel {
     width: 10vw;
-    margin-right: 15px;
 }
 
 .dataValue {
     line-height: 1.4;
-    width: 20vw;
 }

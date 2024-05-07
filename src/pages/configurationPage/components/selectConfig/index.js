@@ -4,13 +4,13 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormCreateType from "../../../../components/forms/formCreateType";
 import TableActivity from "../../../../components/tables/TableActivity";
 import ListPrototype from "../../../../components/listPrototype";
-import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import ModalPortal from "../../../../components/modelPortal";
 import headerList from "../../../../classes/headerList";
 import Alerts from "../../../../components/alerts";
 import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import TableType from "../../../../components/tables/TableTypes";
+import fetchAsyncUrl from "../../../../hooks/fetchAsyncUrl";
 
 function SelectConfig() {
     const [menssage, setMenssage] = useState()
@@ -31,21 +31,21 @@ function SelectConfig() {
     const getActivities = (wait) => {
         if (wait) {
             setTimeout(() => {
-                getDataFromUrl("/getActivities")
+                fetchAsyncUrl("/getActivities")
                     .then(activities => setActivities(activities))
             }, 1000);
         }
-        getDataFromUrl("/getActivities")
+        fetchAsyncUrl("/getActivities")
             .then(activities => setActivities(activities))
     }
     const getTypes = (wait) => {
         if (wait) {
             setTimeout(() => {
-                getDataFromUrl("/getTypeOt")
+                fetchAsyncUrl("/getTypeOt")
                     .then(activities => setTypes(activities))
             }, 1000);
         }
-        getDataFromUrl("/getTypeOt")
+        fetchAsyncUrl("/getTypeOt")
             .then(type => setTypes(type))
     }
     return (

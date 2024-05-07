@@ -1,4 +1,4 @@
-import getDataFromUrl from "../../hooks/getDataFromUrl"
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 
 async function nameUsed(newName, type) {
     const nameFormat = newName.trim().toLowerCase();
@@ -15,31 +15,31 @@ async function nameUsed(newName, type) {
     return names.includes(nameFormat);
 }
 function getCodeClient() {
-    return getDataFromUrl("/getClients")
+    return fetchAsyncUrl("/getClients")
         .then(data => data.map(type => type.KeyUnique.trim().toLowerCase()));
 }
 function getAbbreviationNames() {
-    return getDataFromUrl("/getTypeOt")
+    return fetchAsyncUrl("/getTypeOt")
         .then(data => data.map(type => type.abbreviation.trim().toLowerCase()));
 }
 function getTypesNames() {
-    return getDataFromUrl("/getTypeOt")
+    return fetchAsyncUrl("/getTypeOt")
         .then(data => data.map(type => type.nameType.trim().toLowerCase()));
 }
 function getActivitiesNames() {
-    return getDataFromUrl("/getActivities")
+    return fetchAsyncUrl("/getActivities")
         .then(data => data.map(activity => activity.name.trim().toLowerCase()))
 }
 function getClientsNames() {
-    return getDataFromUrl("/getClients")
+    return fetchAsyncUrl("/getClients")
         .then(data => data.map(client => client.Name.trim().toLowerCase()))
 }
 function getPaysNames() {
-    return getDataFromUrl("/getPay")
+    return fetchAsyncUrl("/getPay")
         .then(data => data.map(pay => pay.id.trim().toLowerCase()))
 }
 function getUserNames() {
-    return getDataFromUrl("/getUsers")
+    return fetchAsyncUrl("/getUsers")
         .then(data => data.map(client => client.name.trim().toLowerCase()))
 }
 export default nameUsed;

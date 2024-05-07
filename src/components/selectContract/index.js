@@ -1,11 +1,11 @@
 import { Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import getDataFromUrl from "../../hooks/getDataFromUrl";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 
 function SelectContact({ setData, defaultValue = "Ninguno" }) {
     const [contracts, setContracts] = useState()
     useEffect(() => {
-        getDataFromUrl('/getContracts')
+        fetchAsyncUrl('/getContracts')
             .then(json => {
                 let newJson = []
                 json.forEach(element => {

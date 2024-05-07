@@ -1,15 +1,15 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
-import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import inputClass from "../../../../classes/inputClass";
 import { useEffect, useState } from "react";
 import FormPrototype from "../../../../components/formPrototype";
+import fetchAsyncUrl from "../../../../hooks/fetchAsyncUrl";
 
 function SelectUsers({ closeForm, activitySelected, handleUsers }) {
     const [users, setUsers] = useState()
     const [userAct, setUserAct] = useState(JSON.parse(activitySelected.users))
     const [score, setScore] = useState(activitySelected.score)
     useEffect(() => {
-        getDataFromUrl("/getUsers")
+        fetchAsyncUrl("/getUsers")
             .then(data => setUsers(data))
     }, [])
     const compare = (name) => {

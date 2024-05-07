@@ -1,6 +1,5 @@
 import FilterClients from "../../components/list/listClientsComponent/filter";
 import FormCreateClient from "../../components/forms/formCreateClient";
-import getDataFromUrl from "../../hooks/getDataFromUrl";
 import ResponsiveAppBar from "../../components/navbar";
 import ModalPortal from "../../components/modelPortal";
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +11,7 @@ import headerList from "../../classes/headerList";
 import TableClients from "../../components/tables/TableClients";
 import classToastList from "../../classes/classToastList";
 import ToastList from "../../components/toastList";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 
 function ListClients() {
     const [clientsFiltered, setClientsFiltered] = useState()
@@ -20,7 +20,7 @@ function ListClients() {
     const [toasts, setToasts] = useState([]);
 
     useEffect(() => {
-        getDataFromUrl("/getClients")
+        fetchAsyncUrl("/getClients")
             .then(data => {
                 setClients(data)
                 setClientsFiltered(data)
@@ -28,7 +28,7 @@ function ListClients() {
     }, [])
     const reload = () => {
         setTimeout(() => {
-            getDataFromUrl("/getClients")
+            fetchAsyncUrl("/getClients")
                 .then(data => {
                     setClients(data)
                     setClientsFiltered(data)

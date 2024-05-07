@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Style from "./companyDataPdf.module.css"
 
 function CompanyDataPdf({ ot, location, contact, client, document }) {

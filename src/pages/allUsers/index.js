@@ -1,7 +1,6 @@
 import FormCreateUser from "../../components/forms/formCreateUser";
 import TableUsers from "../../components/tables/TableUsers";
 import ListPrototype from "../../components/listPrototype";
-import getDataFromUrl from "../../hooks/getDataFromUrl";
 import ModalPortal from "../../components/modelPortal";
 import ResponsiveAppBar from "../../components/navbar";
 import headerList from "../../classes/headerList";
@@ -10,6 +9,7 @@ import Alerts from "../../components/alerts";
 import { useEffect, useState } from "react";
 import Style from "./allUsers.module.css"
 import { Fab } from "@mui/material";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 
 function AllUser() {
     const [isForm, setIsForm] = useState()
@@ -65,12 +65,12 @@ headerUsers.addHeader("Correo", "30%")
 const reload = (setData, wait) => {
     if (wait) {
         setTimeout(() => {
-            getDataFromUrl('/getUsers')
+            fetchAsyncUrl('/getUsers')
                 .then(json => setData(json))
         }, 1000);
         return
     }
-    getDataFromUrl('/getUsers')
+    fetchAsyncUrl('/getUsers')
         .then(json => setData(json))
 }
 export default AllUser;

@@ -21,7 +21,7 @@ export default function OptionPay({ reload, pay, pays, deleteModal, savePay }) {
                         <Button size="medium" sx={{ width: "150px", height: "50px" }} variant="contained" onClick={setEditPay}>Cobrar</Button>
                     </Box>
                     <Box component={"div"} display={"flex"} justifyContent={"flex-end"} width={"80%"} >
-                        <Button size="large" onClick={() => deleteModal(null)}>Cancelar</Button>
+                        <Button size="large" onClick={() => deleteModal()}>Cancelar</Button>
                     </Box>
                 </Box>
             </Fade>

@@ -1,9 +1,9 @@
-import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import formatDateM from "../../../hooks/formatDateM";
 import { Box, Button, Fade, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from "react";
 import Style from "./listPays.module.css";
+import fetchAsyncUrl from "../../../hooks/fetchAsyncUrl";
 
 
 function ListPays({ pays, select, saveList, listPay, close }) {
@@ -11,7 +11,7 @@ function ListPays({ pays, select, saveList, listPay, close }) {
     useEffect(() => {
         if (!pays) {
             const searchData = async () => {
-                let paysFound = await getDataFromUrl("/getPay")
+                let paysFound = await fetchAsyncUrl("/getPay")
                 paysFound = select ? paysFound.filter(pay => !listPay.includes(pay.id)) : paysFound
                 setPaysData(paysFound)
             }

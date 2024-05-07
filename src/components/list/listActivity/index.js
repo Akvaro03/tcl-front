@@ -1,10 +1,10 @@
 import FormCreateActivity from "../../forms/formCreateActivity";
-import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import CloseIcon from '@mui/icons-material/Close';
 import Style from "./listActivity.module.css"
 import ModalPortal from "../../modelPortal";
 import { useEffect, useState } from "react";
 import { Box, Button, Fade } from "@mui/material";
+import fetchAsyncUrl from "../../../hooks/fetchAsyncUrl";
 function ListActivity({ menssage, close }) {
     const [isFormEditActivity, setIsFormEditActivity] = useState(false)
     const [listActivity, setListActivity] = useState()
@@ -74,9 +74,9 @@ const Colum = ({ data, width = "13%", onClick }) => (
 const searchData = async (setData, isAwait) => {
     if (isAwait) {
         setTimeout(async () => {
-            setData(await getDataFromUrl("/getActivities"));
+            setData(await fetchAsyncUrl("/getActivities"));
         }, 500);
     }
-    setData(await getDataFromUrl("/getActivities"));
+    setData(await fetchAsyncUrl("/getActivities"));
 }
 export default ListActivity;

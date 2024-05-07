@@ -1,5 +1,4 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
-import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import inputClass from "../../../classes/inputClass";
 import deleteTypeOt from "../../../db/deleteTypeOt";
 import FormPrototype from "../../formPrototype";
@@ -7,6 +6,7 @@ import editTypeOt from "../../../db/editTypeOt";
 import Style from "./formCreateType.module.css"
 import { useEffect, useState } from "react";
 import addType from "../../../db/addType";
+import fetchAsyncUrl from "../../../hooks/fetchAsyncUrl";
 
 function FormCreateType({ close, menssage, data, reload }) {
     const [activity, setActivity] = useState({})
@@ -55,7 +55,7 @@ function FormCreateType({ close, menssage, data, reload }) {
         close()
     }
     const searchAndSet = (data, reset) => {
-        getDataFromUrl("/getActivities")
+        fetchAsyncUrl("/getActivities")
             .then(activities => {
                 return formatActivities(activities, data);
             })

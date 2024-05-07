@@ -1,17 +1,17 @@
 import CircleStatistics from '../../../../components/statistics/Circle';
 import UsersChart from '../../../../components/statistics/usersChart';
+import fetchAsyncUrl from '../../../../hooks/fetchAsyncUrl';
 import Style from './statisticsContent.module.css'
-import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import { useEffect, useState } from 'react';
 function StatisticsContent() {
     const [Users, setUsers] = useState([])
     const [Ot, setOt] = useState()
     useEffect(() => {
-        getDataFromUrl('/getUsers')
+        fetchAsyncUrl('/getUsers')
             .then(json => {
                 setUsers(json)
             })
-        getDataFromUrl('/getOT')
+        fetchAsyncUrl('/getOT')
             .then(json => {
                 setOt(json)
             })

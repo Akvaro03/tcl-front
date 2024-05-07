@@ -154,7 +154,9 @@
     font-weight: 400;
     margin-left: 5%;
 }
-
+.ProductContent h1{
+    width: 20vw;
+}
 .authNone,
 .authNoneClickable {
     height: 5vh;

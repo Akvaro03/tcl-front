@@ -1,31 +1,28 @@
-import getDataFromUrl from "../../../hooks/getDataFromUrl";
 import ModalPortal from "../../../components/modelPortal";
 import inputClass from "../../../classes/inputClass";
 import Style from "./formConfiguration.module.css";
 import Upload from "../../../components/upload";
 import Alerts from "../../../components/alerts";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from '@mui/material/Button';
 import getIp from "../../../hooks/getIp";
 import { Box } from "@mui/material";
 import axios from 'axios';
 import FormPrototype from "../../formPrototype";
+import useFetchUrl from "../../../hooks/useFetchUrl";
 function FormConfiguration({ close, menssage }) {
+    const { data: nameCompanyData, isLoading: isLoadingCompany } = useFetchUrl("/getConfig")
     const [result, setResult] = useState()
 
-    const [nameCompany, setnameCompany] = useState("")
+    const [nameCompany, setnameCompany] = useState(isLoadingCompany ? nameCompanyData : "")
     const [browserLogo, setBrowserLogo] = useState("")
     const [companyLogo, setCompanyLogo] = useState("")
 
     const [browserLogoFile, setBrowserLogoFile] = useState("")
     const [companyLogoFile, setCompanyLogoFile] = useState("")
 
-    useEffect(() => {
-        getDataFromUrl("/getConfig")
-            .then(data => setnameCompany(data))
-        setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
-        setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
-    }, [])
+    setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
+    setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
 
     const handleSaveConfig = async () => {
         if (!nameCompany || !browserLogo || !companyLogo) {

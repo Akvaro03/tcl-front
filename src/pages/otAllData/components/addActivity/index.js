@@ -1,13 +1,13 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { useEffect, useState } from "react";
-import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import FormPrototype from "../../../../components/formPrototype";
+import fetchAsyncUrl from "../../../../hooks/fetchAsyncUrl";
 
 function AddActivity({ setAddActivity, otActivities, handleActivities }) {
     const [activities, setActivities] = useState()
     const [activitiesOt, setActivitiesOt] = useState(otActivities)
     useEffect(() => {
-        getDataFromUrl("/getActivities")
+        fetchAsyncUrl("/getActivities")
             .then(data => setActivities(data))
     }, [])
 

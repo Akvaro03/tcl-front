@@ -1,7 +1,6 @@
 import changeAvailability from '../../../../db/changeAvailability';
 import ButtonRadius from '../../../../components/buttonRadius';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import getDataFromUrl from '../../../../hooks/getDataFromUrl';
 import messageHistory from '../../../../hooks/messageHistory';
 import ClassPriorityOt from '../../../../classes/priorityOt';
 import ModalPortal from "../../../../components/modelPortal";
@@ -25,7 +24,7 @@ import getUser from "../../../../hooks/getUser";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import TypeOt from '../../../../types/typeOt';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import editOt from "../../../../db/editOT";
 import AddActivity from "../addActivity";
 import SelectUsers from "../selectUsers";
@@ -36,36 +35,44 @@ import OptionPay from '../optionPay';
 import dayjs from "dayjs";
 import SelectContact from '../../../../components/selectContract';
 
-function DataOt({ otSelected, reload }) {
-    const [availability, setAvailability] = useState(JSON.parse(otSelected.Availability))
+function DataOt({ otSelected, reload, setOTSelected }) {
+    const { Activities, id, Contact, pay, Auth, Type, Description,
+        contractName, Observations,
+        FechaVencimiento, OTKey, Availability, IdClient, nLacre, Date, priority,
+        Client, Producto, Marca, Modelo, Cotizacion } = otSelected
+
     const [addAvailability, setAddAvailability] = useState(false)
-    const [addPay, setAddPay] = useState(false)
-    const [pay, setPay] = useState()
-    const Description = JSON.parse(otSelected.Description)
-    const [editPay, setEditPay] = useState()
-    const [activities, setActivities] = useState(otSelected.Activities && JSON.parse(otSelected.Activities))
     const [activitySelected, setActivitySelected] = useState()
     const [addActivity, setAddActivity] = useState(false)
     const [addContact, setAddContact] = useState(false)
-    const [Contacts, setContacts] = useState(otSelected.Contact);
-    const [priority, setPriority] = useState(otSelected.priority)
     const [userSelect, setUserSelect] = useState(false)
-    const [auth, setAuth] = useState(otSelected.Auth)
-    console.log(otSelected)
-    const [OT, SetOT] = useState({ ...otSelected, contractName: JSON.parse(otSelected.contractName) })
+    const [addPay, setAddPay] = useState(false)
     const [edit, setEdit] = useState(false)
-    const rol = getUser("roles")
     const [result, setResult] = useState()
     const [printOt, setPrintOt] = useState(false)
-    useEffect(() => {
-        const searchData = async () => {
-            const pays = await getDataFromUrl('/getPay')
-            const parsedFactura = JSON.parse(otSelected.Factura);
-            const filteredPays = pays.filter(data => parsedFactura && parsedFactura.includes(data.id));
-            setPay(filteredPays);
-        }
-        searchData()
-    }, [otSelected.Factura])
+
+    const [uiState, setUIState] = useState({
+        addAvailability: false,
+        activitySelected: null,
+        addActivity: false,
+        addContact: false,
+        userSelect: false,
+        addPay: false,
+        editPay: null,
+        edit: false,
+        result: null,
+        printOt: false
+    });
+
+    const handleUIStateChange = (key, value) => {
+        setUIState(prevState => ({
+            ...prevState,
+            [key]: value
+        }));
+    };
+
+    const rol = getUser("roles")
+
     const selectUsers = (activity) => {
         setUserSelect(true)
         setActivitySelected(activity)
@@ -75,9 +82,9 @@ function DataOt({ otSelected, reload }) {
     }
     const handleUsers = (users, score) => {
         try {
-            const newActivities = activities.map(act => act === activitySelected ? { ...activitySelected, users: JSON.stringify(users), score } : act);
-            changeActOt({ id: otSelected.id, activity: newActivities }, otSelected.id, messageHistory.tittleEditUser, messageHistory.editUsersActivity(activitySelected.name, users.join(", ")))
-            setActivities(newActivities)
+            const newActivities = Activities.map(act => act === activitySelected ? { ...activitySelected, users: JSON.stringify(users), score } : act);
+            changeActOt({ id: id, activity: newActivities }, id, messageHistory.tittleEditUser, messageHistory.editUsersActivity(activitySelected.name, users.join(", ")))
+            setOTSelected(newActivities, "Activities")
             closeForm()
             reload()
         } catch (error) {
@@ -85,8 +92,8 @@ function DataOt({ otSelected, reload }) {
     }
     const handleActivities = (newActivities) => {
         try {
-            setActivities(newActivities)
-            changeActOt({ id: otSelected.id, activity: newActivities }, otSelected.id, messageHistory.tittleEditActivities, messageHistory.editActivity(newActivities, activities))
+            setOTSelected(newActivities, "Activities")
+            changeActOt({ id: id, activity: newActivities }, id, messageHistory.tittleEditActivities, messageHistory.editActivity(newActivities, Activities))
             setAddActivity(false)
             reload()
         } catch (error) {
@@ -94,8 +101,8 @@ function DataOt({ otSelected, reload }) {
     }
     const saveAvailability = (availability) => {
         try {
-            setAvailability(availability)
-            changeAvailability([{ id: otSelected.id, availability }], otSelected.id, messageHistory.tittleEditAvailability, messageHistory.editAvailability(availability))
+            setOTSelected(availability, "Availability")
+            changeAvailability([{ id: id, availability }], id, messageHistory.tittleEditAvailability, messageHistory.editAvailability(availability))
             setAddAvailability(false)
             reload()
         } catch (error) {
@@ -103,7 +110,7 @@ function DataOt({ otSelected, reload }) {
     }
     const savePay = (pay) => {
         try {
-            changePay({ id: otSelected.id, pay }, otSelected.id, messageHistory.tittleEditPay, messageHistory.editPay(pay))
+            changePay({ id: id, pay }, id, messageHistory.tittleEditPay, messageHistory.editPay(pay))
                 .then(data => {
                     setResult(data);
                     setTimeout(() => {
@@ -111,22 +118,18 @@ function DataOt({ otSelected, reload }) {
                     }, 2000);
                 })
             setAddPay(false)
-            setEditPay(false)
+            handleUIStateChange("editPay", null)
             reload()
         } catch (error) {
             reload()
         }
     }
     const changeAuthButton = () => {
-        const newAuth = otSelected.Auth === "1" ? 0 : 1;
-        const dataToSend = { otId: otSelected.id, newAuth };
-        changeAuth(dataToSend, otSelected.id,
+        const newAuth = Auth === "1" ? 0 : 1;
+        const dataToSend = { otId: id, newAuth };
+        changeAuth(dataToSend, id,
             messageHistory.tittleEditaAuth, "")
-        setAuth(auth === "1" ? "0" : "1")
         reload()
-    }
-    const handleOtSelected = (a, type) => {
-        SetOT(prev => { return { ...prev, [type]: a } })
     }
     const handleEdit = () => {
         if (edit) {
@@ -136,16 +139,15 @@ function DataOt({ otSelected, reload }) {
 
     }
     const sendOTEdit = (newContacts) => {
-        newContacts && setContacts(newContacts);
+        newContacts && setOTSelected(newContacts, "Contact")
         newContacts && setAddContact();
-        const otEdit = new TypeOt({ ...OT, "Contact": newContacts ? JSON.stringify(newContacts) : JSON.stringify(Contacts) })
-        editOt(otEdit, otSelected.id, messageHistory.tittleEditOT)
+        const otEdit = new TypeOt({ ...otSelected, "Contact": newContacts ? newContacts : Contact })
+        editOt(otEdit, id, messageHistory.tittleEditOT)
         reload()
         setEdit(false)
     }
     const closeEdit = () => {
         reload()
-        SetOT({ ...otSelected, contractName: JSON.parse(otSelected.contractName) })
         setEdit(false)
     }
     const addListPay = (newPay) => {
@@ -164,13 +166,13 @@ function DataOt({ otSelected, reload }) {
     }
     const closeEditPay = () => {
         reload()
-        setEditPay()
+        handleUIStateChange("editPay", null)
     }
     const handlePriority = () => {
         const newPriority = ClassPriorityOt.handleClick(priority)
-        setPriority(newPriority)
-        const otEdit = new TypeOt({ ...OT, priority: newPriority })
-        editOt(otEdit, otSelected.id, messageHistory.tittleEditPriority)
+        setOTSelected(newPriority, "priority")
+        const otEdit = new TypeOt({ ...otSelected, priority: newPriority })
+        editOt(otEdit, id, messageHistory.tittleEditPriority)
         reload()
     }
     return (
@@ -217,8 +219,8 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductSection}>
                         <h1>N° Cliente</h1>
                     </div>
-                    {Contacts ? (
-                        Contacts.map((contact, key) => (
+                    {Contact ? (
+                        Contact.map((contact, key) => (
                             <div key={key} className={Style.ProductSection}>
                                 {key === 0 && <h1 >Contacto</h1>}
                             </div>
@@ -283,9 +285,9 @@ function DataOt({ otSelected, reload }) {
 
                     {/* OT */}
                     <div className={Style.contentTittle}>
-                        {otSelected.OTKey}
+                        {OTKey}
                     </div>
-                    {auth === "1" ? (
+                    {Auth === "1" ? (
                         <div className={permissions.editAuth(rol) ? Style.authClickable : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
                             <h1>
                                 Autorizado
@@ -300,25 +302,25 @@ function DataOt({ otSelected, reload }) {
                         </div>
                     )}
                     <div className={Style.contentTittle}>
-                        <h1>{otSelected.id}</h1>
+                        <h1>{id}</h1>
                     </div>
                     <div className={Style.contentTittle}>
-                        <h1>{otSelected.Type}</h1>
+                        <h1>{Type}</h1>
                     </div>
                     <div className={Style.contentTittle}>
-                        {<H1EditableDate onChange={(data) => handleOtSelected(formatDate(data), "Date")} edit={edit} text={OT.Date} />}
+                        {<H1EditableDate onChange={(data) => setOTSelected(formatDate(data), "Date")} edit={edit} text={Date} />}
                     </div>
                     <div className={Style.contentTittle}>
-                        {<H1EditableDate onChange={(data) => handleOtSelected(formatDate(data), "FechaVencimiento")} edit={edit} text={OT.FechaVencimiento} />}
+                        {<H1EditableDate onChange={(data) => setOTSelected(formatDate(data), "FechaVencimiento")} edit={edit} text={FechaVencimiento} />}
                     </div>
                     <div className={Style.contentTittle}>
-                        <H1Editable onChange={data => handleOtSelected(data, "nLacre")} edit={edit} text={OT.nLacre} />
+                        <H1Editable onChange={data => setOTSelected(data, "nLacre")} edit={edit} text={nLacre} />
                     </div>
                     <div className={Style.contentTittle}>
                         {edit ? (
-                            <SelectContact defaultValue={OT.contractName.label} setData={data => handleOtSelected(data, "contractName")} />
+                            <SelectContact defaultValue={contractName.label} setData={data => setOTSelected(data, "contractName")} />
                         ) : (
-                            <h1>{OT.contractName.label}</h1>
+                            <h1>{contractName.label}</h1>
                         )}
                     </div>
                     {/* Cliente */}
@@ -326,13 +328,13 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
-                        <h1>{otSelected.Client}</h1>
+                        <h1>{Client}</h1>
                     </div>
                     <div className={Style.ProductContent}>
-                        <h1>{otSelected.IdClient}</h1>
+                        <h1>{IdClient}</h1>
                     </div>
-                    {Contacts ?
-                        Contacts.map((contact, key) => (
+                    {Contact ?
+                        Contact.map((contact, key) => (
                             <div className={Style.ProductContent} key={key}>
                                 <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Tipo: ${contact.type} `} </h1></Box>
                                 <Box sx={{ paddingLeft: "15px" }}><h1 onClick={setAddContact}>{`Contact: ${contact.contact} `} </h1></Box>
@@ -352,8 +354,8 @@ function DataOt({ otSelected, reload }) {
                     {/* Actividades */}
                     <hr className={Style.line} />
                     <div className={Style.Activities}>
-                        {activities && (
-                            activities.map((activity, key) => {
+                        {Activities && (
+                            Activities.map((activity, key) => {
                                 const users = JSON.parse(activity.users)
                                 return permissions.editActv(rol) ? (
                                     <div key={key} className={activity.state === "End" && users[0] ? Style.activityEndClickable : activity.state === "Started" && users[0] ? Style.activityProcessClickable : getUserActivity(activity) ? Style.activityAssignedClickable : Style.activityClickable}
@@ -385,20 +387,20 @@ function DataOt({ otSelected, reload }) {
                     <div className={Style.ProductTittle}>
                     </div>
                     <div className={Style.ProductContent}>
-                        <H1Editable onChange={data => handleOtSelected(data, "Producto")} edit={edit} text={OT.Producto} />
+                        <H1Editable onChange={data => setOTSelected(data, "Producto")} edit={edit} text={Producto} />
                     </div>
                     <div className={Style.ProductContent}>
-                        <H1Editable onChange={data => handleOtSelected(data, "Marca")} edit={edit} text={OT.Marca} />
+                        <H1Editable onChange={data => setOTSelected(data, "Marca")} edit={edit} text={Marca} />
                     </div>
                     <div className={Style.ProductContent}>
-                        <H1Editable onChange={data => handleOtSelected(data, "Modelo")} edit={edit} text={OT.Modelo} />
+                        <H1Editable onChange={data => setOTSelected(data, "Modelo")} edit={edit} text={Modelo} />
                     </div>
                     <div className={Style.ProductContent}>
-                        <H1Editable onChange={data => handleOtSelected(data, "Cotizacion")} edit={edit} text={OT.Cotizacion} />
+                        <H1Editable onChange={data => setOTSelected(data, "Cotizacion")} edit={edit} text={Cotizacion} />
                     </div>
                     <div className={Style.ProductContent}>
-                        {availability ? (
-                            <ButtonRadius onClick={() => permissions.editMuestra(rol) && setAddAvailability(true)} text={`${availability.type}  ${formatDateM(availability.date)}`} type={"success"} />
+                        {Availability ? (
+                            <ButtonRadius onClick={() => permissions.editMuestra(rol) && setAddAvailability(true)} text={`${Availability.type}  ${formatDateM(Availability.date)}`} type={"success"} />
                         ) : (
                             permissions.editMuestra(rol) ?
                                 < ButtonRadius onClick={() => setAddAvailability(true)} text={"Agregar Disposición"} />
@@ -407,7 +409,7 @@ function DataOt({ otSelected, reload }) {
                         )}
                     </div>
                     <div className={Style.ProductContent}>
-                        <H1Editable onChange={data => handleOtSelected(data, "Observations")} edit={edit} text={OT.Observations} />
+                        <H1Editable onChange={data => setOTSelected(data, "Observations")} edit={edit} text={Observations} />
                     </div>
                     {/* Facturación */}
                     <hr className={Style.line} />
@@ -418,9 +420,9 @@ function DataOt({ otSelected, reload }) {
                             <>
                                 {pay.map((pay, key) => (
                                     pay.datePay ?
-                                        <ButtonRadius onClick={() => permissions.editPay(rol) && setEditPay(pay)} key={key} text={`${pay.id}`} type={"success"} />
+                                        <ButtonRadius onClick={() => permissions.editPay(rol) && handleUIStateChange("editPay", pay)} key={key} text={`${pay.id}`} type={"success"} />
                                         :
-                                        <ButtonRadius onClick={() => permissions.editPay(rol) && setEditPay(pay)} key={key} text={`${pay.id}`} type={"error"} />
+                                        <ButtonRadius onClick={() => permissions.editPay(rol) && handleUIStateChange("editPay", pay)} key={key} text={`${pay.id}`} type={"error"} />
                                 ))}
                             </>
                         )}
@@ -456,22 +458,22 @@ function DataOt({ otSelected, reload }) {
             )}
             {addActivity && (
                 <ModalPortal type={"form"}>
-                    <AddActivity ot={otSelected} handleActivities={handleActivities} setOtActivities={setActivities} otActivities={activities} setAddActivity={setAddActivity} />
+                    <AddActivity handleActivities={handleActivities} otActivities={Activities} setAddActivity={setAddActivity} />
                 </ModalPortal>
             )}
             {addAvailability && (
                 <ModalPortal type={"form"}>
-                    <AddAvailability addAvailability={setAddAvailability} saveAvailability={saveAvailability} isDeletable={availability} />
+                    <AddAvailability addAvailability={setAddAvailability} saveAvailability={saveAvailability} isDeletable={Availability} />
                 </ModalPortal>
             )}
             {addContact && (
                 <ModalPortal type={"form"}>
-                    <AddContact close={setAddContact} save={sendOTEdit} prevContacts={Contacts} />
+                    <AddContact close={setAddContact} save={sendOTEdit} prevContacts={Contact} />
                 </ModalPortal>
             )}
-            {editPay && (
+            {uiState.editPay && (
                 <ModalPortal type={"form"}>
-                    <OptionPay pay={editPay} pays={pay} deleteModal={closeEditPay} savePay={savePay} />
+                    <OptionPay pay={uiState.editPay} pays={pay} deleteModal={closeEditPay} savePay={savePay} />
                 </ModalPortal>
             )}
             {addPay && (
@@ -486,7 +488,7 @@ function DataOt({ otSelected, reload }) {
             )}
             {printOt && (
                 <ModalPortal type={"form"}>
-                    <PrintOt Result={otSelected.id} close={setPrintOt} />
+                    <PrintOt Result={id} close={setPrintOt} />
                 </ModalPortal>
             )}
 

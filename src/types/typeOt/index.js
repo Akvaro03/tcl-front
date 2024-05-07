@@ -43,7 +43,7 @@ export default class TypeOt extends typeMaster {
             this.nLacre = otDate.nLacre;
             this.Description = otDate.Description;
             this.Observations = otDate.Observations;
-            this.Contact = otDate.Contact;
+            this.Contact = JSON.stringify(otDate.Contact);
             this.Changes = otDate.Changes;
             this.Activities = otDate.Activities;
             this.Identificación = otDate.OTKey;
@@ -67,7 +67,7 @@ export default class TypeOt extends typeMaster {
             this.Type = Type;
             this.Description = Description;
             this.Observations = Observations;
-            this.Contact = Contact;
+            this.Contact = JSON.stringify(Contact);
             this.Changes = Changes;
             this.Activities = Activities;
             this.Identificación = OTKey;

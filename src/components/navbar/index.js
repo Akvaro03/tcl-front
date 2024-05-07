@@ -4,11 +4,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import { useEffect } from 'react';
-import getDataFromUrl from '../../hooks/getDataFromUrl';
 import { useState } from 'react';
 import getUser from '../../hooks/getUser';
 import typesUsers from '../../classes/typesUsers';
 import getIp from '../../hooks/getIp';
+import fetchAsyncUrl from '../../hooks/fetchAsyncUrl';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -19,7 +19,7 @@ function ResponsiveAppBar() {
   const urlPath = window.location.pathname;
   useEffect(() => {
     const getConfig = async () => {
-      const responseConfig = await getDataFromUrl('/getConfig').catch(err => console.log("Hubo un problema con el servidor"))
+      const responseConfig = await fetchAsyncUrl('/getConfig').catch(err => console.log("Hubo un problema con el servidor"))
       if (responseConfig) {
         setConfig(responseConfig)
         fetch(`${getIp()}:4000/getBrowserLogo`)

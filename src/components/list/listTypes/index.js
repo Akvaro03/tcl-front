@@ -71,10 +71,10 @@ const Colum = ({ data, width = "13%", onClick }) => (
 const searchData = async (setData, isAwait) => {
     if (isAwait) {
         setTimeout(async () => {
-            setData(await getDataFromUrl("/getTypeOt"));
+            setData(await fetchAsyncUrl("/getTypeOt"));
         }, 700);
     }
-    setData(await getDataFromUrl("/getTypeOt"));
+    setData(await fetchAsyncUrl("/getTypeOt"));
 }
 
 export default ListTypes;

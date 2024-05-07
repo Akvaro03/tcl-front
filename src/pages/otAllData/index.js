@@ -9,6 +9,7 @@ import getUser from "../../hooks/getUser";
 import getOneOt from "../../db/getOneOt";
 import ErrorBoundary from "../../utilities/ErrorBoundary";
 import ComponentError from "../../components/componentError";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 
 function OtAllData() {
     const [otSelected, setOtSelected] = useState()
@@ -21,8 +22,12 @@ function OtAllData() {
     useEffect(() => {
         let getData = async () => {
             let data = await getOneOt({ id: params.id })
-                .then(resolve => resolve = formatData(resolve[0]))
-            setOtSelected(data)
+                .then(resolve => resolve = formatData(resolve[0]));
+            const pays = await fetchAsyncUrl('/getPay')
+
+            const parsedFactura = JSON.parse(data.Factura);
+            const filteredPays = pays.filter(data => parsedFactura && parsedFactura.includes(data.id));
+            setOtSelected({ ...data, pay: filteredPays })
             setChanges(data.Changes)
         }
         getData()
@@ -31,13 +36,18 @@ function OtAllData() {
             });
     }, [params])
 
-
+    const setOt = (a, type) => {
+        setOtSelected(prev => { return { ...prev, [type]: a } })
+    }
     const reload = async () => {
         setTimeout(async () => {
             let data = await getOneOt({ id: params.id })
-                .then(resolve => resolve[0])
-                .then(resolve => resolve = formatData(resolve));
-            setOtSelected(data)
+                .then(resolve => resolve = formatData(resolve[0]));
+            const pays = await fetchAsyncUrl('/getPay')
+
+            const parsedFactura = JSON.parse(data.Factura);
+            const filteredPays = pays.filter(data => parsedFactura && parsedFactura.includes(data.id));
+            setOtSelected({ ...data, pay: filteredPays })
             setChanges(data.Changes)
         }, 500);
     }
@@ -47,7 +57,7 @@ function OtAllData() {
             <ErrorBoundary fallBackComponent={<ComponentError />} error={error}>
                 <div className={Style.ContentAllData}>
                     {otSelected && (
-                        <DataOt otSelected={otSelected} reload={reload} />
+                        <DataOt setOTSelected={setOt} otSelected={otSelected} reload={reload} />
                     )}
                     {Changes && (
                         permissions.seeHistory(rol) && (
@@ -60,7 +70,11 @@ function OtAllData() {
     );
 }
 let formatData = (data) => {
+    data.Availability = JSON.parse(data.Availability)
     data.Contact = data.Contact ? JSON.parse(data.Contact) : data.Contact
+    data.Description = JSON.parse(data.Description)
+    data.Activities = data.Activities ? JSON.parse(data.Activities) : data.Activities
+    data.contractName = data.contractName ? JSON.parse(data.contractName) : data.contractName
     return data
 }
 export default OtAllData;

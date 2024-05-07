@@ -1,10 +1,10 @@
-import getDataFromUrl from "../../hooks/getDataFromUrl";
 import ResponsiveAppBar from "../../components/navbar";
 import React, { useEffect, useState } from 'react';
 import ListItems from "./components/lisItems";
 import getOneUser from "../../db/getOneUser";
 import getUser from "../../hooks/getUser";
 import { Box } from "@mui/material";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 function OtAsingPages() {
     const [User, setUser] = useState()
     const [Ots, setOts] = useState()
@@ -49,7 +49,7 @@ const reload = async (setUser, setOts, setEmit, wait) => {
     fetchData(setOts, setEmit, user)
 }
 const fetchData = async (setOts, setEmit, user) => {
-    return getDataFromUrl('/getOT')
+    return fetchAsyncUrl('/getOT')
         .then(json => {
             json = filterByName(json, user.name);
             setOts(json.length > 0 ? json : null)

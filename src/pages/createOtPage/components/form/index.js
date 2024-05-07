@@ -3,7 +3,6 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import MultipleSelect from '../../../../components/multipleSelect';
 import classToastList from '../../../../classes/classToastList';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import getDataFromUrl from "../../../../hooks/getDataFromUrl";
 import ModalPortal from '../../../../components/modelPortal';
 import ToastList from '../../../../components/toastList';
 import toUppercase from '../../../../hooks/toUppercase';
@@ -19,87 +18,98 @@ import styled from "@emotion/styled";
 import Input from '@mui/base/Input';
 import dayjs from 'dayjs';
 import SelectContact from '../../../../components/selectContract';
+import useCreateOT from '../../../../hooks/useCreateOT';
+import fetchAsyncUrl from '../../../../hooks/fetchAsyncUrl';
+import useFetchUrl from '../../../../hooks/useFetchUrl';
 
 function FormCreateOt() {
-    const [Clients, setClients] = useState([{ label: "Seleccione" }])
-    const [contractSelect, setContractSelect] = useState()
+    const [userLogin, setUserLogin] = useState()
+    const { OT, editOT, getOt } = useCreateOT()
+    const { data: allTypes, isLoading: loadingTypes } = useFetchUrl('/getTypeOt')
+    const { data: Clients } = useFetchUrl('/getClients')
+    let clientsFormate = []
+
+    if (Clients) {
+        let array = []
+        Clients.forEach(element => {
+            let data = { label: `${element.KeyUnique}  -   ${element.Name}`, idEditable: element.idEditable, id: element.id, KeyUnique: element.KeyUnique, Name: element.Name, Contacts: element.Contacts ? JSON.parse(element.Contacts) : "" };
+            array.push(data)
+        });
+        clientsFormate = array
+    }
+
+
+    const [Type, SetType] = useState("")
+    // const [Clients, setClients] = useState([{ label: "Seleccione" }])
     const [ClientObjet, setClientObjet] = useState(top100Films[0])
-    const [FechaVencimiento, setFechaVencimiento] = useState(dayjs)
-    const [Observations, setObservations] = useState("")
-    const [NormaAplicar, setNormaAplicar] = useState("")
-    const [OTKey, setOTKey] = useState("")
+
+
 
     const [Description, setDescription] = useState([{ item: "", Description: "", import: 0 }]);
 
-    const [DateForm, setDateForm] = useState(dayjs)
     const [FechaEstimada, setFechaEstimada] = useState(dayjs)
 
-    const [Cotizacion, setCotizacion] = useState("")
-    const [nLacre, setNLacre] = useState("")
-    const [Contacts, setContacts] = useState("")
-    const [Producto, setProducto] = useState("")
-    const [allTypes, setAllTypes] = useState([])
-    const [Modelo, setModelo] = useState("")
-    const [Marca, setMarca] = useState("")
-    const [Type, SetType] = useState("")
 
     const [toasts, setToasts] = useState([]);
     const [Result, setResult] = useState(null)
-    const [userLogin, setUserLogin] = useState()
+    // const [userLogin, setUserLogin] = useState()
     const [isSaveOtDisabled, setIsSaveOtDisabled] = useState(false)
 
-    const handleSubmit = async () => {
-        try {
-            setIsSaveOtDisabled(true)
-            const Activities = allTypes[Type].activities;
-            const ContactSelect = Contacts ? Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]) : "";
-            const { Name: Client } = ClientObjet;
-            const TypeString = allTypes[Type];
-            const Changes = {
-                userId: userLogin.id,
-                userName: userLogin.name,
-                ChangeDescription: `Se creó la OT`,
-                date: new Date(DateForm).getTime(),
-                comment: ""
-            };
-            const newOt = new TypeOt({
-                Date: DateForm,
-                Client,
-                IdClient: ClientObjet.idEditable,
-                Producto,
-                Marca,
-                Modelo,
-                NormaAplicar,
-                Cotizacion,
-                nLacre,
-                FechaVencimiento,
-                FechaEstimada,
-                Type: TypeString,
-                Description,
-                Observations,
-                Contact: ContactSelect,
-                Changes,
-                Activities,
-                OTKey,
-                contractName: contractSelect
-            });
-            if (!newOt.verificateCreateOt()) {
-                classToastList.addToast(setToasts, "missed data");
-                setIsSaveOtDisabled(false)
-                return
-            }
-            const resultPost = await addOt(newOt);
-            if (resultPost.substring(0, 5) === "ok ot") {
-                resetAllData()
-            }
-            setResult(resultPost.substring(6, 10));
-            setIsSaveOtDisabled(false)
-        } catch (error) {
-            console.log(error)
-            classToastList.addToast(setToasts, "missed data");
-            setIsSaveOtDisabled(false)
-        }
-    };
+    // const handleSubmit = async () => {
+    //     try {
+    //         setIsSaveOtDisabled(true)
+    //         const Activities = allTypes[Type].activities;
+    //         const ContactSelect = Contacts ? Contacts.map(data => ClientObjet.Contacts[Number(data.substring(0, 1)) - 1]) : "";
+    //         const { Name: Client } = ClientObjet;
+    //         const TypeString = allTypes[Type];
+    //         const Changes = {
+    //             userId: userLogin.id,
+    //             userName: userLogin.name,
+    //             ChangeDescription: `Se creó la OT`,
+    //             date: new Date(DateForm).getTime(),
+    //             comment: ""
+    //         };
+    //         const newOt = new TypeOt({
+    //             Date: DateForm,
+    //             Client,
+    //             IdClient: ClientObjet.idEditable,
+    //             Producto,
+    //             Marca,
+    //             Modelo,
+    //             NormaAplicar,
+    //             Cotizacion,
+    //             nLacre,
+    //             FechaVencimiento,
+    //             FechaEstimada,
+    //             Type: TypeString,
+    //             Description,
+    //             Observations,
+    //             Contact: ContactSelect,
+    //             Changes,
+    //             Activities,
+    //             OTKey,
+    //             contractName: contractSelect
+    //         });
+    //         if (!newOt.verificateCreateOt()) {
+    //             classToastList.addToast(setToasts, "missed data");
+    //             setIsSaveOtDisabled(false)
+    //             return
+    //         }
+    //         const resultPost = await addOt(newOt);
+    //         if (resultPost.substring(0, 5) === "ok ot") {
+    //             // resetAllData()
+    //         }
+    //         setResult(resultPost.substring(6, 10));
+    //         setIsSaveOtDisabled(false)
+    //     } catch (error) {
+    //         console.log(error)
+    //         classToastList.addToast(setToasts, "missed data");
+    //         setIsSaveOtDisabled(false)
+    //     }
+    // };
+    const submitUseOT = async () => {
+        console.log(getOt())
+    }
     const handleTypeChange = (value) => {
         SetType(value)
         formatKey(value, ClientObjet)
@@ -110,47 +120,26 @@ function FormCreateOt() {
         setClientObjet(data);
         formatKey(Type, data)
     }
-    const resetAllData = () => {
-        const resets = [
-            setProducto,
-            setMarca,
-            setModelo,
-            setNormaAplicar,
-            setCotizacion,
-            setObservations
-        ];
-        resetInputs(resets);
-    }
 
     useEffect(() => {
-        getDataFromUrl('/getClients')
-            .then(json => {
-                setUserLogin(getUser())
-                let newJson = []
-                json.forEach(element => {
-                    let data = { label: `${element.KeyUnique}  -   ${element.Name}`, idEditable: element.idEditable, id: element.id, KeyUnique: element.KeyUnique, Name: element.Name, Contacts: element.Contacts ? JSON.parse(element.Contacts) : "" };
-                    newJson.push(data)
-                });
-                setClients(newJson)
-            })
-        getDataFromUrl('/getTypeOt')
-            .then(json => {
-                setAllTypes(json)
-            });
+        setUserLogin(getUser())
         getOTkey()
-            .then(data => setOTKey(prevValue => prevValue ? prevValue : data))
+            .then(data => editOT("OTKey", data))
     }, [])
 
     const onChangeDate = (date) => {
-        setDateForm(date)
+        editOT("Date", date)
         formatKey(Type, ClientObjet, date)
     }
 
-    const formatKey = (tipo, Client, date = DateForm) => {
+    const formatKey = (tipo, Client, date = OT.Date) => {
         getOTkey(date)
         const type = allTypes[tipo] ? allTypes[tipo].abbreviation : "";
         getOTkey(date)
-            .then(data => setOTKey(data + " " + type + " " + Client.KeyUnique))
+            .then(data => {
+                const string = data + " " + type + " " + Client.KeyUnique
+                editOT("OTKey", string)
+            })
     }
     const addDescription = () => {
         setDescription(prev => [...prev, { item: "", Description: "", import: 0 }])
@@ -171,7 +160,7 @@ function FormCreateOt() {
                         <div className={Style.Identification}>
                             <p >ID:</p>
                             <div className={Style.InputIdentification}>
-                                <BootstrapInput value={OTKey} disabled id="outlined-basic" variant="outlined" />
+                                <BootstrapInput value={OT.OTKey} disabled id="outlined-basic" variant="outlined" />
                             </div>
                         </div>
                         <Box sx={{ paddingTop: "10px" }}>
@@ -180,14 +169,14 @@ function FormCreateOt() {
                                     disableFuture
                                     format="DD/MM/YYYY"
                                     slotProps={{ textField: { size: 'small' } }}
-                                    value={DateForm} onChange={onChangeDate} />
+                                    value={OT.Date} onChange={onChangeDate} />
                             </LocalizationProvider>
                         </Box>
 
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar Tipo:</p>
                             <Select sx={{ height: "45px", width: "80%" }} fullWidth onChange={({ target: { value } }) => handleTypeChange(value)} placeholder='Selecciona el tipo de OT' defaultValue={""}>
-                                {allTypes.map((type, index) => (
+                                {!loadingTypes && allTypes.map((type, index) => (
                                     <MenuItem key={index} value={index}>{type.nameType}</MenuItem >
                                 ))}
                             </Select>
@@ -201,13 +190,13 @@ function FormCreateOt() {
                                     handleClient(newValue);
                                 }}
                                 id="combo-box-demo"
-                                options={Clients}
+                                options={clientsFormate[0] ? clientsFormate : [{ label: "Seleccione" }]}
                                 sx={{ width: "80%" }}
                                 renderInput={(params) => <TextField {...params} label="Cliente" />}
                             />
                         </div>
                         <div className={Style.SelectClient}>
-                            <SelectContact setData={setContractSelect} />
+                            <SelectContact setData={(e) => editOT("contractSelect", e)} />
                         </div>
                         <div className={Style.ClientData}>
                             <div className={Style.ClientDataContent}>
@@ -227,38 +216,38 @@ function FormCreateOt() {
                         <div className={Style.SelectType}>
                             <p className={Style.TittleType}>Seleccionar Contacto:</p>
                             {ClientObjet.Contacts && (
-                                <MultipleSelect size={"medium"} onchange={(value) => setContacts(value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Contactos seleccionados"} />
+                                <MultipleSelect size={"medium"} onchange={(value) => editOT("Contact", value)} names={ClientObjet.Contacts.map(((ContactClient, key) => ((key + 1) + " " + ContactClient.type + ": " + ContactClient.value)))} label={"Contactos seleccionados"} />
                             )}
                         </div>
 
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                                <CustomInput value={Producto} onChange={setProducto} placeholder={"Producto"} />
+                                <CustomInput value={OT.Producto} onChange={(e) => editOT("Producto", e)} placeholder={"Producto"} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                                <CustomInput placeholder={"Marca"} value={Marca} onChange={setMarca} />
+                                <CustomInput value={OT.Marca} onChange={(e) => editOT("Marca", e)} placeholder={"Marca"} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                                <CustomInput placeholder={"Modelo"} value={Modelo} onChange={setModelo} />
+                                <CustomInput value={OT.Modelo} onChange={(e) => editOT("Modelo", e)} placeholder={"Modelo"} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                                <CustomInput placeholder={"Norma a aplicar"} value={NormaAplicar} onChange={setNormaAplicar} />
+                                <CustomInput value={OT.NormaAplicar} onChange={(e) => editOT("NormaAplicar", e)} placeholder={"Norma a aplicar"} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                                <CustomInput placeholder={"Cotización"} value={Cotizacion} onChange={setCotizacion} />
+                                <CustomInput value={OT.Cotizacion} onChange={(e) => editOT("Cotización", e)} placeholder={"Cotización"} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
                             <div className={Style.Input}>
-                                <CustomInput placeholder={"Numero de Lacre"} value={nLacre} onChange={setNLacre} />
+                                <CustomInput value={OT.nLacre} onChange={(e) => editOT("nLacre", e)} placeholder={"Numero de Lacre"} />
                             </div>
                         </div>
                         <div className={Style.DataInput}>
@@ -269,7 +258,8 @@ function FormCreateOt() {
                                         <DatePicker
                                             format="DD/MM/YYYY"
                                             slotProps={{ textField: { size: 'small' } }}
-                                            value={FechaVencimiento} onChange={setFechaVencimiento} />
+                                            value={OT.FechaVencimiento} onChange={(e) => editOT("FechaVencimiento", e)} />
+
                                     </LocalizationProvider>
                                 </Box>
                             </div>
@@ -282,7 +272,7 @@ function FormCreateOt() {
                                         <DatePicker
                                             format="DD/MM/YYYY"
                                             slotProps={{ textField: { size: 'small' } }}
-                                            value={FechaEstimada} onChange={setFechaEstimada} />
+                                            value={OT.FechaEstimada} onChange={(e) => editOT("FechaEstimada", e)} />
                                     </LocalizationProvider>
                                 </Box>
                             </div>
@@ -305,7 +295,7 @@ function FormCreateOt() {
                                         <span>Importe</span>
                                     </Box>
                                 </Box>
-                                {Description.map((data, key) => (
+                                {OT.Description.map((data, key) => (
                                     <Box key={key} display={"grid"} gridTemplateColumns={"1fr 1fr 1fr"} justifyItems={"center"} gap={"5px"} marginBottom={"5px"}>
                                         <div className={Style.ItemTable}>
                                             <BootstrapInput value={data.item} onChange={(e) => handleChangeDescription(e, key, "item")} id="outlined-basic" variant="outlined" />
@@ -332,8 +322,8 @@ function FormCreateOt() {
                             <TextField
                                 placeholder={"Observaciones"}
                                 fullWidth
-                                value={Observations}
-                                onChange={({ target: { value } }) => setObservations(value)}
+                                value={OT.Observations}
+                                onChange={({ target: { value } }) => editOT("Observations", value)}
                                 sx={{ marginTop: 2 }}
                                 id="outlined-multiline-flexible"
                                 multiline
@@ -343,7 +333,7 @@ function FormCreateOt() {
                     </div>
                 </div>
                 <div className={Style.ButtonSave}>
-                    <Button disabled={isSaveOtDisabled} onClick={handleSubmit} fullWidth variant="contained">Guardar OT</Button>
+                    <Button disabled={isSaveOtDisabled} onClick={submitUseOT} fullWidth variant="contained">Guardar OT</Button>
                 </div>
             </div>
             <ToastList
