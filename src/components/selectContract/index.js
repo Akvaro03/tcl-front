@@ -24,10 +24,8 @@ function SelectContact({ setData, defaultValue = "Ninguno" }) {
                 onChange={(event, newValue) => {
                     setData(newValue);
                 }}
-                defaultValue={{ label: defaultValue, id: "25555555", url: " " }}
                 id="combo-box-demo"
                 options={contracts}
-                sx={{ width: "80%" }}
                 renderInput={(params) => <TextField {...params} label="Contrato" />}
             />
         )

@@ -1,0 +1,315 @@
+import AddIcon from '@mui/icons-material/Add';
+import { Autocomplete, Box, Button, InputBase, MenuItem, Select, TextField, styled } from "@mui/material";
+import classToastList from '../../../../classes/classToastList';
+import Style from "./formCreateOt.module.css"
+import Input from '@mui/base/Input';
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import useCreateOT from "../../../../hooks/useCreateOT";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import useFetchUrl from "../../../../hooks/useFetchUrl";
+import getOTkey from "../../../../hooks/getOTkey";
+import { forwardRef, useEffect, useState } from "react";
+import SelectContact from "../../../../components/selectContract";
+import toUppercase from "../../../../hooks/toUppercase";
+import ToastList from '../../../../components/toastList';
+
+function FormCreateOt() {
+    const [isSaveOTDisabled, setIsSaveOTDisabled] = useState(false)
+    const [toasts, setToasts] = useState([])
+    const { OT, editOT, getOt, verifyOT } = useCreateOT()
+    const { data: allTypes } = useFetchUrl('/getTypeOt')
+    const { data: clientsData } = useFetchUrl('/getClients')
+    const clientsFormate = clientsData ? clientsData.map(client => ({
+        label: `${client.KeyUnique} - ${client.Name}`,
+        idEditable: client.idEditable,
+        id: client.id,
+        KeyUnique: client.KeyUnique,
+        Name: client.Name,
+        Contacts: client.Contacts ? JSON.parse(client.Contacts) : ""
+    })) : [];
+
+    useEffect(() => {
+        getOTkey(OT.Date)
+            .then(data => editOT("OTKey", data))
+    }, [OT.Date, editOT])
+
+    const submitUseOT = async () => {
+        setIsSaveOTDisabled(true)
+
+        if (!verifyOT()) {
+            classToastList.addToast(setToasts, "missed data")
+            setIsSaveOTDisabled(false)
+            return
+        }
+        
+        const OTFormatted = getOt()
+        console.log(OTFormatted)
+        setIsSaveOTDisabled(false)
+    }
+    const handleChangeDescription = (e, number, type) => {
+        const { value } = e.target
+        let copy = [...OT.Description]
+        copy[number][type] = type === "Description" && value ? toUppercase(value) : value;
+        editOT("Description", copy)
+    };
+    const handleType = (value) => {
+        editOT("Activities", allTypes[value].activities)
+        editOT("Type", allTypes[value].abbreviation)
+    }
+    return (
+        <form className={Style.Form}>
+            <div className={Style.idOT}>
+                <label htmlFor="ot-id">ID:</label>
+                <BootstrapInput value={OT.OTKey + " " + isNullUndefined(OT.Type) + " " + isNullUndefined(OT.Client?.KeyUnique)} disabled id="ot-id" variant="outlined" />
+            </div>
+            <div className={Style.dateSection}>
+                <label htmlFor="ot-date">Fecha:</label>
+                <Box sx={{ paddingTop: "10px" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            disableFuture
+                            format="DD/MM/YYYY"
+                            slotProps={{ textField: { size: 'small' } }}
+                            value={OT.Date} onChange={(value) => editOT("Date", value)} />
+                    </LocalizationProvider>
+                </Box>
+            </div>
+            <div className={Style.SelectContainer}>
+                <label htmlFor="ot-type">Tipo:</label>
+                {allTypes && (
+                    <Select sx={{ height: "45px", width: "100%" }}
+                        fullWidth
+                        onChange={({ target: { value } }) => handleType(value)}
+                        placeholder='Selecciona el tipo de OT'
+                        defaultValue={""}>
+                        {allTypes.map((type, index) => (
+                            <MenuItem key={index} value={index}>{type.nameType}</MenuItem >
+                        ))}
+                    </Select>
+                )}
+            </div>
+            <div className={Style.SelectContainer}>
+                <label htmlFor="ot-client">Cliente:</label>
+                {clientsFormate && (
+                    <Autocomplete
+                        disablePortal
+                        disableClearable
+                        onChange={(event, newValue) => {
+                            editOT("Client", newValue);
+                        }}
+                        value={OT.Client}
+                        id="ot-client"
+                        isOptionEqualToValue={(options, value) => (options.Name === value.Name)}
+                        options={clientsFormate}
+                        sx={{ width: "100%" }}
+                        renderInput={(params) => <TextField {...params} label="Cliente" />}
+                    />
+                )}
+            </div>
+            <div className={Style.SelectContainer}>
+                <SelectContact setData={(e) => editOT("contractSelect", e)} />
+            </div>
+            <div className={Style.dataOT}>
+                <div className={Style.inputsContainer}>
+                    <div className={Style.ClientData}>
+                        <div className={Style.ClientDataContent}>
+                            <p >Número de Cliente:</p>
+                            <BootstrapInput value={isNullUndefined(OT.Client?.idEditable)} disabled id="client-number" variant="outlined" />
+                        </div>
+                        <div className={Style.ClientDataContent}>
+                            <p >Clave Única del Cliente:</p>
+                            <BootstrapInput value={isNullUndefined(OT.Client?.KeyUnique)} disabled id="client-key" variant="outlined" />
+                        </div>
+                    </div>
+                    <div className={Style.DataInput}>
+                        <CustomInput value={OT.Producto} onChange={(e) => editOT("Producto", e)} placeholder={"Producto"} />
+                    </div>
+                    <div className={Style.DataInput}>
+                        <CustomInput value={OT.Marca} onChange={(e) => editOT("Marca", e)} placeholder={"Marca"} />
+                    </div>
+                    <div className={Style.DataInput}>
+                        <CustomInput value={OT.Modelo} onChange={(e) => editOT("Modelo", e)} placeholder={"Modelo"} />
+                    </div>
+                    <div className={Style.DataInput}>
+                        <CustomInput value={OT.NormaAplicar} onChange={(e) => editOT("NormaAplicar", e)} placeholder={"Norma a aplicar"} />
+                    </div>
+                    <div className={Style.DataInput}>
+                        <CustomInput value={OT.Cotizacion} onChange={(e) => editOT("Cotizacion", e)} placeholder={"Cotización"} />
+                    </div>
+                    <div className={Style.DataInput}>
+                        <CustomInput value={OT.nLacre} onChange={(e) => editOT("nLacre", e)} placeholder={"Numero de Lacre"} />
+                    </div>
+                    <div className={Style.DataInput}>
+                        <TextField
+                            placeholder={"Observaciones"}
+                            fullWidth
+                            value={OT.Observations}
+                            onChange={({ target: { value } }) => editOT("Observations", value)}
+                            id="outlined-multiline-flexible"
+                            multiline
+                            maxRows={3}
+                        />
+                    </div>
+                </div>
+                <div className={Style.inputsContainer}>
+                    <div className={Style.DataInput}>
+                        <div className={Style.Description}>
+                            <Box display={"grid"} marginBottom={"5px"} gap={"5px"} gridTemplateColumns={"1fr 1fr 1fr"} justifyItems={"center"}>
+                                <Box height={"5%"}>
+                                    <span>Item</span>
+                                </Box>
+                                <Box height={"5%"}>
+                                    <span>Descripción</span>
+                                </Box>
+                                <Box height={"5%"}>
+                                    <span>Importe</span>
+                                </Box>
+                            </Box>
+                            {OT.Description.map((data, key) => (
+                                <Box key={key} display={"grid"} gridTemplateColumns={"1fr 1fr 1fr"} justifyItems={"center"} gap={"5px"} marginBottom={"5px"}>
+                                    <div className={Style.ItemTable}>
+                                        <BootstrapInput value={data.item} onChange={(e) => handleChangeDescription(e, key, "item")} id="outlined-basic" variant="outlined" />
+                                    </div>
+                                    <div className={Style.DescriptionTable}>
+                                        <BootstrapInput value={data.Description} onChange={(e) => handleChangeDescription(e, key, "Description")} id="outlined-basic" variant="outlined" />
+                                    </div>
+                                    <div >
+                                        <BootstrapInput type='number' value={data.import} onChange={(e) => handleChangeDescription(e, key, "import")} id="outlined-basic" variant="outlined" />
+                                    </div>
+                                </Box>
+                            ))}
+                            <Button onClick={() => editOT("Description", [...OT.Description, { item: "", Description: "", import: 0 }])} variant='outlined' sx={{ borderRadius: "15px", margin: "15px 0", width: "100%" }}>
+                                <div>
+                                    <AddIcon />
+                                </div>
+                                <p>
+                                    Agregar Descripción
+                                </p>
+                            </Button>
+                        </div>
+                    </div>
+                    <div className={Style.dateSection}>
+                        <p className={Style.TittleType}>Fecha de vencimiento del certificado:</p>
+                        <Box sx={{ paddingTop: "10px" }}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    format="DD/MM/YYYY"
+                                    slotProps={{ textField: { size: 'small' } }}
+                                    value={OT.FechaVencimiento} onChange={(e) => editOT("FechaVencimiento", e)} />
+
+                            </LocalizationProvider>
+                        </Box>
+                    </div>
+                    <div className={Style.dateSection}>
+                        <p className={Style.TittleType}>Fecha de entrega estimada:</p>
+                        <Box sx={{ paddingTop: "10px" }}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker
+                                    format="DD/MM/YYYY"
+                                    slotProps={{ textField: { size: 'small' } }}
+                                    value={OT.FechaEstimada} onChange={(e) => editOT("FechaEstimada", e)} />
+                            </LocalizationProvider>
+                        </Box>
+                    </div>
+                </div>
+            </div >
+            <div className={Style.ButtonSave}>
+                <Button disabled={isSaveOTDisabled} onClick={submitUseOT} fullWidth variant="contained">Guardar OT</Button>
+            </div>
+            <ToastList
+                listData={toasts}
+            />
+        </form >
+    );
+}
+
+const isNullUndefined = (data) => (data === null | data === undefined ? "" : data)
+
+const BootstrapInput = styled(InputBase)(({ theme }) => ({
+    '& .MuiInputBase-input': {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: '#bed1d8',
+        height: "20px",
+        padding: '10px 12px',
+        // Use the system font instead of the default Roboto font.
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+    },
+}));
+const CustomInput = forwardRef(function CustomInput(props, ref) {
+    let value = props.value;
+    let onChange = props.onChange;
+    let placeholder = props.placeholder;
+    return (
+        <Input
+            placeholder={placeholder}
+            value={value}
+            onChange={({ target: { value } }) => {
+                onChange(value)
+            }}
+            slots={{ input: StyledInputElement }}
+            ref={ref} />
+    );
+});
+const blue = {
+    100: '#DAECFF',
+    200: '#99CCF3',
+    400: '#3399FF',
+    500: '#007FFF',
+    600: '#0072E5',
+    900: '#003A75',
+};
+const grey = {
+    50: '#f6f8fa',
+    100: '#eaeef2',
+    200: '#d0d7de',
+    300: '#afb8c1',
+    400: '#8c959f',
+    500: '#6e7781',
+    600: '#57606a',
+    700: '#424a53',
+    800: '#32383f',
+    900: '#24292f',
+};
+const StyledInputElement = styled('input')(
+    ({ theme }) => `
+    width: 100%;
+    height: 20px;
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 17px;
+    border-radius: 12px;
+    color: ${grey[900]};
+    background: ${'#fff'};
+    border: 1px solid ${grey[200]};
+    box-shadow: 0px 2px 2px ${grey[50]};
+  
+    &:hover {
+      border-color: ${blue[400]};
+    }
+  
+    &:focus {
+      border-color: ${blue[400]};
+      box-shadow: 0 0 0 3px ${blue[200]};
+    }
+  
+    // firefox
+    &:focus-visible {
+      outline: 0;
+    }
+  `,
+);
+export default FormCreateOt;

@@ -1,9 +1,9 @@
 import ResponsiveAppBar from "../../components/navbar";
 import Style from './createOtPage.module.css'
-import FormCreateOt from "./components/form";
 import React from 'react';
 import { Fade } from '@mui/material';
 import TittleComponent from '../../components/tittleComponent';
+import FormCreateOt from "./components/FormCreateOt";
 
 function CreateOtPage() {
 
