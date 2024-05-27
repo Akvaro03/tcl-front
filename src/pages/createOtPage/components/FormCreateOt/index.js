@@ -12,11 +12,16 @@ import { forwardRef, useEffect, useState } from "react";
 import SelectContact from "../../../../components/selectContract";
 import toUppercase from "../../../../hooks/toUppercase";
 import ToastList from '../../../../components/toastList';
+import addOt from '../../../../db/addOt';
+import MultipleSelect from '../../../../components/multipleSelect';
+import PrintOt from '../../../../components/printOt';
+import ModalPortal from '../../../../components/modelPortal';
 
 function FormCreateOt() {
+    const [isSave, setIsSave] = useState(null)
     const [isSaveOTDisabled, setIsSaveOTDisabled] = useState(false)
     const [toasts, setToasts] = useState([])
-    const { OT, editOT, getOt, verifyOT } = useCreateOT()
+    const { OT, editOT, getOt, verifyOT, resetOt } = useCreateOT()
     const { data: allTypes } = useFetchUrl('/getTypeOt')
     const { data: clientsData } = useFetchUrl('/getClients')
     const clientsFormate = clientsData ? clientsData.map(client => ({
@@ -35,19 +40,20 @@ function FormCreateOt() {
 
     const submitUseOT = async () => {
         setIsSaveOTDisabled(true)
+        const isVerify = verifyOT()
 
-        if (!verifyOT()) {
+        if (isVerify !== true) {
+            console.log(isVerify)
             classToastList.addToast(setToasts, "missed data")
             setIsSaveOTDisabled(false)
             return
         }
-        
-        const OTFormatted = getOt()
-        console.log(OTFormatted)
+        const resOt = await addOt(getOt())
+        setIsSave(resOt)
         setIsSaveOTDisabled(false)
+        resetOt()
     }
-    const handleChangeDescription = (e, number, type) => {
-        const { value } = e.target
+    const handleChangeDescription = (value, number, type) => {
         let copy = [...OT.Description]
         copy[number][type] = type === "Description" && value ? toUppercase(value) : value;
         editOT("Description", copy)
@@ -94,9 +100,7 @@ function FormCreateOt() {
                     <Autocomplete
                         disablePortal
                         disableClearable
-                        onChange={(event, newValue) => {
-                            editOT("Client", newValue);
-                        }}
+                        onChange={(event, newValue) => (editOT("Client", newValue))}
                         value={OT.Client}
                         id="ot-client"
                         isOptionEqualToValue={(options, value) => (options.Name === value.Name)}
@@ -109,16 +113,25 @@ function FormCreateOt() {
             <div className={Style.SelectContainer}>
                 <SelectContact setData={(e) => editOT("contractSelect", e)} />
             </div>
+            <div className={Style.SelectContainer}>
+                {OT.Client && OT.Client.Contacts[0] && (
+                    <MultipleSelect
+                        size={"medium"}
+                        onchange={(value) => editOT("Contact", value)}
+                        names={OT.Client.Contacts.map(((ContactClient, key) => (`${key + 1} ${ContactClient.type}: ${ContactClient.contact} ${ContactClient.email}`)))}
+                        label={"Contactos seleccionados"} />
+                )}
+            </div>
             <div className={Style.dataOT}>
                 <div className={Style.inputsContainer}>
                     <div className={Style.ClientData}>
                         <div className={Style.ClientDataContent}>
                             <p >Número de Cliente:</p>
-                            <BootstrapInput value={isNullUndefined(OT.Client?.idEditable)} disabled id="client-number" variant="outlined" />
+                            <BootstrapInput style={{ width: "100%" }} value={isNullUndefined(OT.Client?.idEditable)} disabled id="client-number" variant="outlined" />
                         </div>
                         <div className={Style.ClientDataContent}>
                             <p >Clave Única del Cliente:</p>
-                            <BootstrapInput value={isNullUndefined(OT.Client?.KeyUnique)} disabled id="client-key" variant="outlined" />
+                            <BootstrapInput style={{ width: "100%" }} value={isNullUndefined(OT.Client?.KeyUnique)} disabled id="client-key" variant="outlined" />
                         </div>
                     </div>
                     <div className={Style.DataInput}>
@@ -152,64 +165,63 @@ function FormCreateOt() {
                     </div>
                 </div>
                 <div className={Style.inputsContainer}>
-                    <div className={Style.DataInput}>
-                        <div className={Style.Description}>
-                            <Box display={"grid"} marginBottom={"5px"} gap={"5px"} gridTemplateColumns={"1fr 1fr 1fr"} justifyItems={"center"}>
-                                <Box height={"5%"}>
+                    {OT.Description.map((data, key) => (
+                        <div key={key} className={Style.DataInput}>
+                            <div className={Style.Description}>
+                                <div className={Style.ItemTable}>
                                     <span>Item</span>
-                                </Box>
-                                <Box height={"5%"}>
-                                    <span>Descripción</span>
-                                </Box>
-                                <Box height={"5%"}>
-                                    <span>Importe</span>
-                                </Box>
-                            </Box>
-                            {OT.Description.map((data, key) => (
-                                <Box key={key} display={"grid"} gridTemplateColumns={"1fr 1fr 1fr"} justifyItems={"center"} gap={"5px"} marginBottom={"5px"}>
-                                    <div className={Style.ItemTable}>
-                                        <BootstrapInput value={data.item} onChange={(e) => handleChangeDescription(e, key, "item")} id="outlined-basic" variant="outlined" />
-                                    </div>
-                                    <div className={Style.DescriptionTable}>
-                                        <BootstrapInput value={data.Description} onChange={(e) => handleChangeDescription(e, key, "Description")} id="outlined-basic" variant="outlined" />
-                                    </div>
-                                    <div >
-                                        <BootstrapInput type='number' value={data.import} onChange={(e) => handleChangeDescription(e, key, "import")} id="outlined-basic" variant="outlined" />
-                                    </div>
-                                </Box>
-                            ))}
-                            <Button onClick={() => editOT("Description", [...OT.Description, { item: "", Description: "", import: 0 }])} variant='outlined' sx={{ borderRadius: "15px", margin: "15px 0", width: "100%" }}>
-                                <div>
-                                    <AddIcon />
+                                    <CustomInput
+                                        value={data.item}
+                                        onChange={(e) => handleChangeDescription(e, key, "item")}
+                                    />
                                 </div>
-                                <p>
-                                    Agregar Descripción
-                                </p>
-                            </Button>
+                                <div className={Style.ItemTable}>
+                                    <span>Importe</span>
+                                    <CustomInput
+                                        value={data.import}
+                                        onChange={(e) => handleChangeDescription(e, key, "import")}
+                                    />
+                                </div>
+                            </div>
+                            <TextField
+                                placeholder={"Descripción"}
+                                fullWidth
+                                value={data.Description}
+                                onChange={(e) => handleChangeDescription(e.target.value, key, "Description")}
+                                id="outlined-multiline-flexible"
+                                multiline
+                                maxRows={3}
+                            />
                         </div>
-                    </div>
+                    ))}
+                    <Button onClick={() => editOT("Description", [...OT.Description, { item: "", Description: "", import: 0 }])} variant='outlined' sx={{ borderRadius: "15px", margin: "15px 0", width: "100%" }}>
+                        <div>
+                            <AddIcon />
+                        </div>
+                        <p>
+                            Agregar Descripción
+                        </p>
+                    </Button>
                     <div className={Style.dateSection}>
                         <p className={Style.TittleType}>Fecha de vencimiento del certificado:</p>
-                        <Box sx={{ paddingTop: "10px" }}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    format="DD/MM/YYYY"
-                                    slotProps={{ textField: { size: 'small' } }}
-                                    value={OT.FechaVencimiento} onChange={(e) => editOT("FechaVencimiento", e)} />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                sx={{ paddingTop: "10px", width: "100%" }}
+                                format="DD/MM/YYYY"
+                                slotProps={{ textField: { size: 'small' } }}
+                                value={OT.FechaVencimiento} onChange={(e) => editOT("FechaVencimiento", e)} />
 
-                            </LocalizationProvider>
-                        </Box>
+                        </LocalizationProvider>
                     </div>
                     <div className={Style.dateSection}>
                         <p className={Style.TittleType}>Fecha de entrega estimada:</p>
-                        <Box sx={{ paddingTop: "10px" }}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    format="DD/MM/YYYY"
-                                    slotProps={{ textField: { size: 'small' } }}
-                                    value={OT.FechaEstimada} onChange={(e) => editOT("FechaEstimada", e)} />
-                            </LocalizationProvider>
-                        </Box>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                sx={{ paddingTop: "10px", width: "100%" }}
+                                format="DD/MM/YYYY"
+                                slotProps={{ textField: { size: 'small' } }}
+                                value={OT.FechaEstimada} onChange={(e) => editOT("FechaEstimada", e)} />
+                        </LocalizationProvider>
                     </div>
                 </div>
             </div >
@@ -219,6 +231,11 @@ function FormCreateOt() {
             <ToastList
                 listData={toasts}
             />
+            {isSave && (
+                <ModalPortal type={"form"}>
+                    <PrintOt Result={isSave} close={setIsSave} />
+                </ModalPortal>
+            )}
         </form >
     );
 }
@@ -231,6 +248,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         position: 'relative',
         backgroundColor: '#bed1d8',
         height: "20px",
+        width: "100%",
         padding: '10px 12px',
         // Use the system font instead of the default Roboto font.
         fontFamily: [

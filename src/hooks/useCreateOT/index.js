@@ -1,21 +1,39 @@
 import dayjs from "dayjs"
 import { useState } from "react"
 import createNewDate from "../createNewDay"
+import getUser from "../getUser"
 
-const useCreateOT = (props) => {
+const useCreateOT = (props = null) => {
     const [OT, setOT] = useState({ ...initialValue, props })
+
     const editOT = (category, value) => {
+        if (category === "Client") {
+            editOT("Contact", initialValue.Contact)
+        }
         setOT(prev => ({ ...prev, [category]: value }))
     }
     const getOt = () => {
         const OTClear = clearOt()
+        const { id, name } = getUser()
+        const Changes = [{
+            userId: id,
+            userName: name,
+            ChangeDescription: `Se creó la OT`,
+            date: new Date(OT.Date).getTime(),
+            comment: ""
+        }];
         return {
             ...OTClear,
-            contractName: OTClear.contractSelect ? OTClear.contractSelect.label : OTClear.contractName,
+            contractName: OTClear.contractSelect ? JSON.stringify(OTClear.contractSelect) : null,
             Description: OTClear.Description ? JSON.stringify(OTClear.Description) : OTClear.Description,
             Date: createNewDate(OTClear.Date),
             FechaEstimada: createNewDate(OTClear.FechaEstimada),
-            FechaVencimiento: createNewDate(OTClear.FechaVencimiento)
+            FechaVencimiento: createNewDate(OTClear.FechaVencimiento),
+            Contact: OTClear.Contact ? JSON.stringify(OTClear.Contact) : "[]",
+            Client: OTClear.Client ? OTClear.Client.Name : "",
+            IdClient: OTClear.Client ? OTClear.Client.idEditable : "",
+            Identificación: OTClear.OTKey + " " + isNullUndefined(OTClear.Type) + " " + isNullUndefined(OTClear.Client?.KeyUnique),
+            Changes: JSON.stringify(Changes)
         }
     }
     const clearOt = () => {
@@ -29,16 +47,27 @@ const useCreateOT = (props) => {
         }
         return copyOT
     }
-    const verifyOT = () => {
-        const ot = getOt()
-        const allProperty = Object.getOwnPropertyNames(ot)
-        return propertiesVerify.every(data =>
-            allProperty.includes(data)
-        )
+    const verifyOT = (propertiesVerify = initialPropertiesVerify) => {
+        const ot = getOt();
+        const allProperty = Object.getOwnPropertyNames(ot);
+        for (const data of propertiesVerify) {
+            if (!allProperty.includes(data)) {
+                return data; // Retorna la propiedad que dio false
+            }
+        }
+        return true; // Retorna true si todas las propiedades están presentes
+    };
+
+    const resetOt = () => {
+        setOT({
+            ...initialValue,
+            Activities: OT.Activities,
+            Type: OT.Type,
+            contractSelect: OT.contractName
+        })
     }
 
-
-    return { OT, editOT, getOt, verifyOT }
+    return { OT, editOT, getOt, verifyOT, resetOt }
 }
 
 const initialValue = {
@@ -58,7 +87,6 @@ const initialValue = {
     "Description": [{ item: "", Description: "", import: 0 }],
     "StateProcess": null,
     "Observations": "",
-    "Contact": null,
     "Changes": null,
     "Auth": null,
     "Activities": null,
@@ -66,10 +94,11 @@ const initialValue = {
     "Availability": null,
     "Factura": null,
     "nLacre": "",
-    "contractName": null
+    "contractName": null,
+    "Contact": []
 }
-
-const propertiesVerify = [
+const isNullUndefined = (data) => (data === null | data === undefined ? "" : data)
+const initialPropertiesVerify = [
     "Date",
     "Producto",
     "Marca",

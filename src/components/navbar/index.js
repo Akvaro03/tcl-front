@@ -43,8 +43,8 @@ function ResponsiveAppBar() {
     user = getUser();
     roles = getUser("roles")
     switch (roles) {
-      case typesUsers.Trabajador:
-        Pages = linkTrabajador
+      case typesUsers.Colaborador:
+        Pages = linkColaborador
         break;
       case typesUsers.Admin:
         Pages = linkAdmin
@@ -215,7 +215,7 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-const linkTrabajador = [
+const linkColaborador = [
   {
     "name": "Actividades asignadas",
     "url": "/OtAsingPages"

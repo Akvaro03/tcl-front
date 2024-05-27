@@ -1,8 +1,7 @@
 import { Typography } from "@mui/material";
 import Style from "./companyDataPdf.module.css"
 
-function CompanyDataPdf({ ot, location, contact, client, document }) {
-    console.log(contact)
+function CompanyDataPdf({ ot, location = "", contact = null, client, document }) {
     return (
         <div className={Style.companyData}>
             <div className={Style.data}>
@@ -16,7 +15,7 @@ function CompanyDataPdf({ ot, location, contact, client, document }) {
                 </div>
                 <div className={Style.dataContent}>
                     <p className={Style.dataLabel}>Ref:</p>
-                    {contact && (
+                    {contact[0] && (
                         <p className={Style.dataValue} >
                             {JSON.parse(ot.Contact)[0].email}
                         </p>
@@ -32,13 +31,13 @@ function CompanyDataPdf({ ot, location, contact, client, document }) {
             <div className={Style.contactData}>
                 <div className={Style.rowData}>
                     <p className={Style.dataLabel}>Cliente N°:</p>
-                    <Typography variant="p" gutterBottom border={"1px solid black"} padding={"4px"} width={"50px"} textAlign={"center "}>
+                    <Typography variant="p" border={"1px solid black"} padding={"4px"} width={"50px"} textAlign={"center "}>
                         {client && client.idEditable}
                     </Typography>
                 </div>
                 <div className={Style.rowData}>
                     <p className={Style.dataLabel}></p>
-                    <Typography variant="p" gutterBottom border={"1px solid black"} padding={"4px"} width={"50px"} textAlign={"center "}>
+                    <Typography variant="p" border={"1px solid black"} padding={"4px"} width={"50px"} textAlign={"center "}>
                         {client.KeyUnique}
                     </Typography>
                 </div>
@@ -46,14 +45,16 @@ function CompanyDataPdf({ ot, location, contact, client, document }) {
                     <p className={Style.dataLabel}>{document && document.type}:</p>
                     <p className={Style.dataValue}>{document && document.value}</p>
                 </div>
-                {contact && contact.map((contactValue, key) => (
-                    <div className={Style.dataContent} key={key}>
-                        <p className={Style.dataLabel}>Contacto:</p>
-                        <p className={Style.dataValue}>{contactValue.contact}</p>
-                        <p className={Style.dataLabel}>Telefono:</p>
-                        <p className={Style.dataValue}>{contactValue.cell}</p>
-                    </div>
-                ))}
+                {contact[0] && (
+                    contact.map((contactValue, key) => (
+                        <div className={Style.dataContent} key={key}>
+                            <p className={Style.dataLabel}>Contacto:</p>
+                            <p className={Style.dataValue}>{contactValue.contact}</p>
+                            <p className={Style.dataLabel}>Telefono:</p>
+                            <p className={Style.dataValue}>{contactValue.cell}</p>
+                        </div>
+                    )
+                    ))}
             </div>
         </div>
     );

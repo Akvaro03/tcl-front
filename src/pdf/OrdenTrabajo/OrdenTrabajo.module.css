@@ -1,32 +1,3 @@
-body {
-    background: white !important;
-}
-
-.container {
-    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
-    margin: 30px 50px 20px 110px;
-}
-
-.container {
-    border: 1px solid black;
-}
-
-
-.observations {
-    margin: 30px;
-}
-
-.observationsContent {
-    margin: 30px;
-}
-
-.note {
-    background: black;
-    padding: 10px;
-    color: white;
-    font-size: 15px;
-}
-
 .firms {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -57,32 +28,4 @@ body {
     border-top: 1px solid black;
     padding: 5px;
     font-size: 11px;
-}
-
-.items {
-    height: 270px;
-    border-bottom: 1px solid black;
-}
-
-.itemHeader {
-    padding: 5px 20px;
-    display: grid;
-    grid-template-columns: 1fr 4fr 1.5fr;
-    border-bottom: 1px solid black;
-}
-
-.itemHeader p:nth-child(1) {
-    width: 15%;
-}
-
-.product {
-    padding: 10px 20px;
-    grid-template-columns: 1fr 4fr 1fr;
-    display: grid;
-}
-
-.total {
-    padding: 10px 20px;
-    grid-template-columns: 1fr 3fr 1fr 1fr;
-    display: grid;
 }

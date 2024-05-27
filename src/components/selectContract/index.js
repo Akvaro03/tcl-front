@@ -4,6 +4,7 @@ import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 
 function SelectContact({ setData, defaultValue = "Ninguno" }) {
     const [contracts, setContracts] = useState()
+
     useEffect(() => {
         fetchAsyncUrl('/getContracts')
             .then(json => {
@@ -16,6 +17,7 @@ function SelectContact({ setData, defaultValue = "Ninguno" }) {
                 setContracts(newJson)
             })
     }, [])
+
     return (
         contracts && (
             <Autocomplete

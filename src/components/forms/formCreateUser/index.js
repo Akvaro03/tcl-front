@@ -126,6 +126,6 @@ function FormCreateUser({ close, reload, user, alert }) {
 }
 
 
-const rolesUser = [typesUsers.Admin, typesUsers.AdminSystem, typesUsers.Director, typesUsers.Trabajador]
+const rolesUser = [typesUsers.Admin, typesUsers.AdminSystem, typesUsers.Director, typesUsers.Colaborador]
 
 export default FormCreateUser;

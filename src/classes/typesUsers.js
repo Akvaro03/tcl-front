@@ -1,20 +1,20 @@
 export default class typesUsers {
     static AdminSystem = "Administrador del sistema"
-    static Trabajador = "Trabajador"
-    static Admin = "Administrador"
+    static Colaborador = "Colaborador"
+    static Admin = "Administracion"
     static Director = "Director"
 
 
     static getDefaultPage(rol) {
         const defaultPage = {
             "Administrador del sistema" : "/configuración",
-            Trabajador : "/OtAsingPages",
-            Administrador : "/OtList",
+            Colaborador : "/OtAsingPages",
+            Administracion : "/OtList",
             Director : "/OtList",
         }
         return defaultPage[rol]
     }
-    // TRABAJADOR
+    // Colaborador
     // Empieza - Termina actividad
 
 

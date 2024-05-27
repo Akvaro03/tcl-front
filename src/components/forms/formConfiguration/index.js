@@ -3,7 +3,7 @@ import inputClass from "../../../classes/inputClass";
 import Style from "./formConfiguration.module.css";
 import Upload from "../../../components/upload";
 import Alerts from "../../../components/alerts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import getIp from "../../../hooks/getIp";
 import { Box } from "@mui/material";
@@ -20,9 +20,11 @@ function FormConfiguration({ close, menssage }) {
 
     const [browserLogoFile, setBrowserLogoFile] = useState("")
     const [companyLogoFile, setCompanyLogoFile] = useState("")
+    useEffect(() => {
+        setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
+        setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
+    }, [])
 
-    setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
-    setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
 
     const handleSaveConfig = async () => {
         if (!nameCompany || !browserLogo || !companyLogo) {

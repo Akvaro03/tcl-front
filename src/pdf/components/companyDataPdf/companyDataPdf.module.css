@@ -2,14 +2,18 @@
     border-bottom: 1px solid black;
     width: 100%;
     display: flex;
-    padding: 5px 0;
+    padding: 5px 20px;
 }
 
-.companyData .rowData {
+.rowData {
     width: 100%;
     display: flex;
+    gap: 5px;
+    align-items: center;
 }
-
+.contactData .rowData {
+    padding-bottom: 5px;
+}
 .data {
     width: 50%;
     display: flex;
@@ -20,15 +24,12 @@
 .dataContent {
     display: flex;
     margin: 5px;
-    /* justify-content: space-between; */
     align-items: center;
+    gap: 10px;
     width: 40vw;
 }
 .contactData .dataLabel {
     width: 9vw;
-}
-.contactData .dataValue {
-    width: 8vw;
 }
 
 .dataLabel {

@@ -29,6 +29,10 @@
     width: 15vw;
 }
 
+.ClientDataContent p {
+    padding-bottom: 10px;
+}
+
 .DataInput {
     width: 35vw;
 }
@@ -53,6 +57,16 @@
     .ClientData {
         flex-direction: column;
         gap: 15px;
+        width: 100%;
+    }
+
+    .ClientDataContent {
+        width: 100%;
+    }
+
+    .ItemTable div,
+    .ItemTable {
+        width: 100%;
     }
 }
 
@@ -60,4 +74,23 @@
     .dataOT {
         flex-direction: column;
     }
+
+    .DataInput {
+        width: 100%;
+    }
+}
+
+.Description {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+    gap: 5px;
+}
+
+.ItemTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }

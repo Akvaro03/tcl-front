@@ -10,7 +10,7 @@ function formatDataToTable(json, setOts) {
                 }
             })
         } else {
-            element.Users = "Ningun trabajador selecionado"
+            element.Users = "Ningun Colaborador selecionado"
         }
 
         json[index] = element;

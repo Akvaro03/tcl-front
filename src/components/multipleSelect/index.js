@@ -39,7 +39,7 @@ export default function MultipleSelect({ label, names, onchange, size = "small" 
     };
     return (
         <div>
-            <FormControl sx={{ m: 1, width: 300 }} size='small'>
+            <FormControl sx={{ width: "100%" }} size='small'>
                 <InputLabel id="demo-multiple-name-label">{label}</InputLabel>
                 <Select
                     size={size}

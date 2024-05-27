@@ -1,15 +1,15 @@
 import typesUsers from "./typesUsers";
 
 export default class permissions {
-    static seeOt = [typesUsers.AdminSystem, typesUsers.Admin, typesUsers.Director, typesUsers.Trabajador]
+    static seeOt = [typesUsers.AdminSystem, typesUsers.Admin, typesUsers.Director, typesUsers.Colaborador]
     static listClients = [typesUsers.Admin, typesUsers.Director, typesUsers.AdminSystem]
     static statistics = [typesUsers.AdminSystem, typesUsers.Admin, typesUsers.Director]
     static createFact = [typesUsers.Admin, typesUsers.Director]
     static createOt = [typesUsers.Admin, typesUsers.Director]
     static OtList = [typesUsers.Admin, typesUsers.Director]
-    static asingActv = [typesUsers.Trabajador]
+    static asingActv = [typesUsers.Colaborador]
     // static allUser = [typesUsers.AdminSystem] 
-    static allUser = [typesUsers.AdminSystem, typesUsers.Admin, typesUsers.Director, typesUsers.Trabajador]
+    static allUser = [typesUsers.AdminSystem, typesUsers.Admin, typesUsers.Director, typesUsers.Colaborador]
     static config = [typesUsers.AdminSystem]
 
     static editOt(rol) {
