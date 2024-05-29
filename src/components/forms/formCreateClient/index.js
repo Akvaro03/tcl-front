@@ -8,30 +8,13 @@ import AddIcon from '@mui/icons-material/Add';
 import AddContact from '../../../pages/otAllData/components/addContact';
 import ModalPortal from '../../modelPortal';
 import useCreateClient from '../../../hooks/useCreateClient';
-import { default as editClientDb } from '../../../db/editClient';
 
 function FormCreateClient({ close, reload, data, message }) {
-    const { client, editClient, resetClient, getClient, verifyClient } = useCreateClient(data)
+    const { client, submitClient, editClient, resetClient } = useCreateClient(data)
     const [addContact, setAddContact] = useState(false)
 
     const handleSubmit = async () => {
-        let resultClient;
-
-        if (!verifyClient()) {
-            console.log("vacio")
-            return
-        }
-
-        const clientFormatted = getClient()
-        if (data) {
-            const sameName = clientFormatted.Name === data.Name
-            const sameKey = clientFormatted.KeyUnique === data.KeyUnique
-            const sameIdEditable = clientFormatted.idEditable === data.idEditable
-            const dataToEdit = { ...clientFormatted, id: data.id }
-            resultClient = editClientDb(dataToEdit, sameKey, sameName, sameIdEditable)
-        } else {
-            resultClient = await editClientDb(clientFormatted)
-        }
+        let resultClient = await submitClient();
         message(resultClient)
         if (resultClient !== "name used" && resultClient !== "id used") {
             close && reload()

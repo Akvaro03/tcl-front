@@ -36,7 +36,7 @@ function Alerts({ Result: { text } }) {
     return (
         <Fade in={isVisible}>
             <div className={className}>
-                {states[text]}
+                {states[text.text]}
             </div>
         </Fade>
 
