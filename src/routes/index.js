@@ -6,6 +6,7 @@ import LoadingCircle from '../pages/Loading';
 import { Navigate } from "react-router-dom";
 import React, { Suspense } from 'react';
 import OrdenTrabajo from "../pdf/OrdenTrabajo";
+import OtListPage from "../pages/otListPage";
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
@@ -86,6 +87,11 @@ export const routes = createBrowserRouter([
                     </Await>
                 </Suspense>
             </ProtectedRoute>
+    },
+    {
+        path: "/OtListPrueba",
+        element:
+            <OtListPage />
     },
     {
         path: "/AllUser",

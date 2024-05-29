@@ -60,13 +60,14 @@ function FormCreateOt() {
     };
     const handleType = (value) => {
         editOT("Activities", allTypes[value].activities)
-        editOT("Type", allTypes[value].abbreviation)
+        editOT("Type", allTypes[value])
+        console.log(allTypes[value])
     }
     return (
         <form className={Style.Form}>
             <div className={Style.idOT}>
                 <label htmlFor="ot-id">ID:</label>
-                <BootstrapInput value={OT.OTKey + " " + isNullUndefined(OT.Type) + " " + isNullUndefined(OT.Client?.KeyUnique)} disabled id="ot-id" variant="outlined" />
+                <BootstrapInput value={OT.OTKey + " " + isNullUndefined(OT.Type?.abbreviation) + " " + isNullUndefined(OT.Client?.KeyUnique)} disabled id="ot-id" variant="outlined" />
             </div>
             <div className={Style.dateSection}>
                 <label htmlFor="ot-date">Fecha:</label>

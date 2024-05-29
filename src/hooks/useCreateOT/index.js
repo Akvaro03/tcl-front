@@ -33,7 +33,8 @@ const useCreateOT = (props = null) => {
             Client: OTClear.Client ? OTClear.Client.Name : "",
             IdClient: OTClear.Client ? OTClear.Client.idEditable : "",
             Identificación: OTClear.OTKey + " " + isNullUndefined(OTClear.Type) + " " + isNullUndefined(OTClear.Client?.KeyUnique),
-            Changes: JSON.stringify(Changes)
+            Changes: JSON.stringify(Changes),
+            Type: OT.Type?.nameType
         }
     }
     const clearOt = () => {

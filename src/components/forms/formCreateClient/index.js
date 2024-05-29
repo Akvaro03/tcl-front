@@ -1,79 +1,47 @@
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import inputClass from '../../../classes/inputClass';
-import TypeClient from '../../../types/typeClient';
 import Style from './formCreateClient.module.css';
 import FormPrototype from '../../formPrototype';
-import editClient from '../../../db/editClient';
 import addClient from '../../../db/addClient';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import AddContact from '../../../pages/otAllData/components/addContact';
 import ModalPortal from '../../modelPortal';
+import useCreateClient from '../../../hooks/useCreateClient';
+import { default as editClientDb } from '../../../db/editClient';
 
 function FormCreateClient({ close, reload, data, message }) {
+    const { client, editClient, resetClient, getClient, verifyClient } = useCreateClient(data)
     const [addContact, setAddContact] = useState(false)
 
-    const initialDocument = data && data.Document ? JSON.parse(data.Document) : { type: '', value: '' };
-    const [Contacts, setContacts] = useState(data && data.Contacts ? JSON.parse(data.Contacts) : null);
-    const [Document, setDocument] = useState({ type: initialDocument.type, value: initialDocument.value });
-    const [idEditable, setIdEditable] = useState(data ? data.idEditable : "")
-    const [nameClient, setNameClient] = useState(data ? data.Name : "");
-    const [location, setLocation] = useState(data ? data.location : "")
-    const [Key, setKey] = useState(data ? data.KeyUnique : "");
     const handleSubmit = async () => {
-        let isFull = (Contacts) => {
-            let newContacts = Contacts.filter(e => (
-                e.type.length > 0 && e.contact.length > 0
-            ))
-            return newContacts
-        }
-        let ContactVerificate = isFull(Contacts)
+        let resultClient;
 
-        const newClient = new TypeClient(nameClient, Document, location, Key, ContactVerificate, idEditable)
-
-        if (!newClient.verificate()) {
-            message("missed data")
+        if (!verifyClient()) {
+            console.log("vacio")
             return
         }
-        let resultClient;
+
+        const clientFormatted = getClient()
         if (data) {
-            const sameName = nameClient === data.Name
-            const sameKey = Key === data.KeyUnique
-            const sameIdEditable = idEditable === data.idEditable
-            const dataToEdit = { ...newClient, id: data.id }
-            resultClient = await editClient(dataToEdit, sameKey, sameName, sameIdEditable)
-            console.log(dataToEdit)
+            const sameName = clientFormatted.Name === data.Name
+            const sameKey = clientFormatted.KeyUnique === data.KeyUnique
+            const sameIdEditable = clientFormatted.idEditable === data.idEditable
+            const dataToEdit = { ...clientFormatted, id: data.id }
+            resultClient = editClientDb(dataToEdit, sameKey, sameName, sameIdEditable)
         } else {
-            resultClient = await addClient(newClient)
+            resultClient = await editClientDb(clientFormatted)
         }
         message(resultClient)
         if (resultClient !== "name used" && resultClient !== "id used") {
             close && reload()
             close && close()
             reload()
-            resetAllData()
+            resetClient()
         }
         return
     };
-    const handleChangeDocument = (e, type) => {
-        const value = e.target ? e.target.value : e
-        let updateValue = {};
-        updateValue[type] = value;
-        setDocument(Document => ({
-            ...Document,
-            ...updateValue
-        }))
-    };
-    const resetAllData = () => {
-        setNameClient("")
-        setDocument({ type: "", value: "" })
-        setKey("")
-        setContacts([{ type: "", value: "", id: 0 }, { type: "", value: "", id: 1 }, { type: "", value: "", id: 2 }])
-    }
-    const saveNewContacts = (data) => {
-        setContacts(data)
-        setAddContact(false)
-    }
+
     const inputClient = new inputClass(handleSubmit)
     return (
         <FormPrototype close={close} tittle={data ? "Editar Cliente" : "Crear Cliente"} width='60%' >
@@ -83,25 +51,25 @@ function FormCreateClient({ close, reload, data, message }) {
                         <div className={Style.InputTittle}>
                             <p>Id:</p>
                         </div>
-                        {inputClient.getInput(idEditable, setIdEditable)}
+                        {inputClient.getInput(client.idEditable, (value) => editClient("idEditable", value))}
                     </div>
                     <div className={Style.Input}>
                         <div className={Style.InputTittle}>
                             <p>Nombre:</p>
                         </div>
-                        {inputClient.getInput(nameClient, setNameClient)}
+                        {inputClient.getInput(client.Name, (value) => editClient("Name", value))}
                     </div>
                     <div className={Style.Input}>
                         <div className={Style.InputTittle}>
                             <p>Código:</p>
                         </div>
-                        {inputClient.getInput(Key, setKey)}
+                        {inputClient.getInput(client.KeyUnique, (value) => editClient("KeyUnique", value))}
                     </div>
                     <div className={Style.Input}>
                         <div className={Style.InputTittle}>
                             <p>Dirección total:</p>
                         </div>
-                        {inputClient.getInput(location, setLocation)}
+                        {inputClient.getInput(client.location, (value) => editClient("location", value))}
                     </div>
                     <div className={Style.InputDocument}>
                         <div className={Style.TypeDocument}>
@@ -114,8 +82,8 @@ function FormCreateClient({ close, reload, data, message }) {
                                     <Select
                                         labelId="demo-simple-select-standard-label"
                                         id="demo-simple-select-standard"
-                                        value={Document.type}
-                                        onChange={(e) => handleChangeDocument(e, "type")}
+                                        value={client.Document.type}
+                                        onChange={(e) => editClient("Document", { ...client.Document, type: e.target.value })}
                                         label="Documento"
                                     >
                                         <MenuItem value={"DNI"}>DNI</MenuItem>
@@ -130,7 +98,7 @@ function FormCreateClient({ close, reload, data, message }) {
                                 <p>ID fiscal:</p>
                             </div>
                             <div className={Style.CustomInput}>
-                                {inputClient.getInput(Document.value, (e) => handleChangeDocument(e, "value"))}
+                                {inputClient.getInput(client.Document.value, (value) => editClient("Document", { ...client.Document, value }))}
                             </div>
                         </div>
                     </div>
@@ -153,7 +121,7 @@ function FormCreateClient({ close, reload, data, message }) {
             </form>
             {addContact && (
                 <ModalPortal type={"form"}>
-                    <AddContact close={setAddContact} save={saveNewContacts} prevContacts={Contacts} />
+                    <AddContact close={setAddContact} save={(e) => editClient("Contacts", e)} prevContacts={client.Contacts} />
                 </ModalPortal>
             )}
         </FormPrototype>

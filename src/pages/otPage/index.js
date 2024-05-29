@@ -238,7 +238,6 @@ function OtPage() {
                                     <FilterPrototype
                                         search={{ onChange: searchById, label: "Por ID" }}
                                         select={{ onChange: selectClient, namesMultiple: clients }}
-
                                     />
                                     <ListPrototype
                                         Table={TableOT}
