@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { default as editClientDb } from '../../db/editClient';
+import addClient from "../../db/addClient";
 
 function useCreateClient(data) {
     const [client, setClient] = useState({ ...initialClient, ...data, Contacts: data ? JSON.parse(data.Contacts) : [], Document: data ? JSON.parse(data.Document) : { type: '', value: '' } })
@@ -32,7 +33,7 @@ function useCreateClient(data) {
             return editClientDb(dataToEdit, sameKey, sameName, sameIdEditable)
         }
 
-        return editClientDb(clientFormatted)
+        return addClient(clientFormatted)
     }
 
     return { client, editClient, resetClient, getClient, verifyClient, submitClient }
@@ -45,7 +46,7 @@ const initialClient = {
     "Name": "",
     "Document": { type: '', value: '' },
     "KeyUnique": "",
-    "Contacts": null,
+    "Contacts": [],
     "location": ""
 }
 export default useCreateClient;

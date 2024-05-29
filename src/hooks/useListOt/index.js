@@ -19,7 +19,7 @@ function useListOt() {
     }
 
     useEffect(() => {
-        setOt(data)
+        setOt(data?.reverse())
         setAllTypes(data ? removeDuplicates(data.map(data => data.Type)) : [])
         setAllClients(data ? removeDuplicates(data.map(data => data.Client)) : [])
     }, [data])

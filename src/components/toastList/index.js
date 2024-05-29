@@ -7,7 +7,7 @@ export default function ToastList({ listData }) {
             aria-live="assertive"
         >
             {listData.map((toast, index) => (
-                <Alerts Result={toast} key={index} />
+                <Alerts text={toast.text} key={index} />
             ))}
         </div>
 

@@ -2,7 +2,7 @@ import Style from "./alerts.module.css"
 import { Alert, Fade } from "@mui/material";
 import { useEffect, useState } from "react";
 import classToastList from "../../classes/classToastList";
-function Alerts({ Result: { text } }) {
+function Alerts({ text: { text } }) {
     const [className, setClassName] = useState(Style.AlertStyleDefault)
     const [isVisible, setIsVisible] = useState(true)
     const states = {
@@ -36,7 +36,7 @@ function Alerts({ Result: { text } }) {
     return (
         <Fade in={isVisible}>
             <div className={className}>
-                {states[text.text]}
+                {states[text]}
             </div>
         </Fade>
 

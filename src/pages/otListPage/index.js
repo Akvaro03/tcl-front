@@ -31,7 +31,7 @@ function OtListPage() {
                             <SelectFilter data={allTypes} handleChange={handleChange} label={"Por Tipo"} value={age} />
                             <SelectFilter data={allClients} minWidth="150px" handleChange={handleChange} label={"Por Cliente"} value={age} />
                             <SelectFilter data={allStates} minWidth="150px" handleChange={handleChange} label={"Por Estado"} value={age} />
-                            <ReplayIcon />
+                            <ReplayIcon onClick={reloadOT}/>
                         </div>
                     </div>
                     {ot ? (
