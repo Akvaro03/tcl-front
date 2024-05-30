@@ -320,7 +320,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                         {edit ? (
                             <SelectContact defaultValue={contractName.label} setData={data => setOTSelected(data, "contractName")} />
                         ) : (
-                            <h1>{contractName.label}</h1>
+                            <h1>{contractName?.label}</h1>
                         )}
                     </div>
                     {/* Cliente */}

@@ -1,37 +1,30 @@
 import { FormControl, InputLabel, MenuItem, Select, Skeleton } from "@mui/material";
-import ResponsiveAppBar from "../../components/navbar";
-import Style from "./otListPage.module.css"
-import useListOt from "../../hooks/useListOt";
 import ListPrototype from "../../components/listPrototype";
+import ResponsiveAppBar from "../../components/navbar";
 import TableOT from "../../components/tables/TableOt";
+import ReplayIcon from '@mui/icons-material/Replay';
 import headerList from "../../classes/headerList";
 import openNewTab from "../../hooks/openNewTab";
-import ReplayIcon from '@mui/icons-material/Replay';
-import { useState } from "react";
+import useListOt from "../../hooks/useListOt";
+import Style from "./otListPage.module.css"
 
 function OtListPage() {
-    const { ot, reloadOT, allTypes, allClients, allStates } = useListOt()
-    const [age, setAge] = useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
+    const { ot, reloadOT, filterValues, allTypes, allClients, allStates, filterClient, filterState, filterType } = useListOt()
 
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.bodyList}>
-                <Skeleton component={"div"}
-                    sx={{ background: "grey", width: "15%", margin: "3vmin", height: "80vh", borderRadius: "10px", transform: "none " }}
-                />
                 <div className={Style.listOt}>
                     <div className={Style.filterAndTittle}>
                         <h3>OT List</h3>
                         <div className={Style.filters}>
-                            <SelectFilter data={allTypes} handleChange={handleChange} label={"Por Tipo"} value={age} />
-                            <SelectFilter data={allClients} minWidth="150px" handleChange={handleChange} label={"Por Cliente"} value={age} />
-                            <SelectFilter data={allStates} minWidth="150px" handleChange={handleChange} label={"Por Estado"} value={age} />
-                            <ReplayIcon onClick={reloadOT}/>
+                            <SelectFilter data={allTypes} handleChange={filterType} label={"Por Tipo"} value={filterValues.Type} />
+                            <SelectFilter data={allClients} handleChange={filterClient} label={"Por Cliente"} value={filterValues.Client} minWidth="150px" />
+                            <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
+                            <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
+                            <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
+                            <ReplayIcon onClick={reloadOT} />
                         </div>
                     </div>
                     {ot ? (

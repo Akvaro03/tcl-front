@@ -13,7 +13,7 @@ function ListItems({ Ots, reload, user }) {
         reload()
     }
     const activities = getActivities(Ots, count, user, handleStateActivity);
-    return ( 
+    return (
         <div className={Style.contentListOt}>
             <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
                 <Colum data={"OT"} />
@@ -62,7 +62,7 @@ const filterOT = (Ots, user, handleStateActivity) => {
                 onDoubleClick={() => openNewTab(`/events/${OT.id}`)}>
                 <Colum data={OT.OTKey} />
                 <Colum data={activity.name} />
-                {activity.state === "created" ? (
+                {activity.state.toUpperCase() === "CREATED" ? (
                     <>
                         <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <h1>Sin empezar</h1>
@@ -71,7 +71,7 @@ const filterOT = (Ots, user, handleStateActivity) => {
                             <Button onClick={() => handleStateActivity("Started", activity, OT)}>Empezar</Button>
                         </div>
                     </>
-                ) : activity.state === "Started" ? (
+                ) : activity.state.toUpperCase() === "STARTED" ? (
                     <>
                         <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <h1>En Proceso</h1>

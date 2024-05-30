@@ -10,9 +10,10 @@ import ClassPriorityOt from "../../../classes/priorityOt";
 import editOt from "../../../db/editOT";
 import getUser from "../../../hooks/getUser";
 import permissions from "../../../classes/permissions";
+import getStateOt from "../../../utilities/getStateOt";
 export default function TableOT({ data, Colum, dataHover, recharge }) {
     const rol = getUser("roles");
-
+    const stateOt = getStateOt(data)
     const handleChangeAuth = (data) => {
         const newAuth = data.Auth === "1" ? 0 : 1;
         const dataToSend = { otId: data.id, newAuth };
@@ -38,23 +39,23 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
             <Colum data={data.Type} width="13%" />
             <Colum data={data.Client} width="15%" />
             <Colum data={data.Producto} width="22%" />
-            {data.Auth === "0" ? (
+            {stateOt === "Sin Autorizar" ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b8c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Sin Autorizar</h1>
                 </Box>
-            ) : !isUserAssigned(data) ? (
+            ) : stateOt === "Sin Asignar" ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Sin Asignar</h1>
                 </Box>
-            ) : isActivitiesEnd(data.Activities) ? (
+            ) : stateOt === "Terminadas" ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#92ff6c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Terminada</h1>
                 </Box>
-            ) : getStateActivity(data) === "En proceso" ? (
+            ) : stateOt === "En Proceso" ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>En Proceso</h1>
                 </Box>
-            ) : (
+            ) : stateOt === "En Espera" && (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#00000029", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>En espera</h1>
                 </Box>
