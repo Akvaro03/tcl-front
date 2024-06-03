@@ -13,12 +13,16 @@ import getUser from "../../hooks/getUser";
 import Style from './login.module.css'
 import login from "../../db/login";
 import { useState } from "react";
+import ToastList from "../../components/toastList";
+import classToastList from "../../classes/classToastList";
 
 function LoginPage() {
     const [Email, SetEmail] = useState("")
     const [Password, setPassword] = useState("")
-    const [Result, SetResult] = useState(null)
     const [showPassword, setShowPassword] = useState(false)
+    
+    const [toasts, setToasts] = useState([])
+    
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -26,10 +30,7 @@ function LoginPage() {
     const navigate = useNavigate();
     const onLogin = () => {
         if (!Email || !Password) {
-            SetResult("missed data")
-            setTimeout(() => {
-                SetResult()
-            }, 3000);
+            classToastList.addToast(setToasts, "missed data")
             return
         }
         let user = {
@@ -37,10 +38,8 @@ function LoginPage() {
             password: Password
         }
         login(user)
-            .then(json => checkResult(SetResult, json))
-        setTimeout(() => {
-            SetResult()
-        }, 3000);
+            .then(json => checkResult(json))
+            .then(text => classToastList.addToast(setToasts, text))
         setTimeout(async () => {
             const url = await typesUsers.getDefaultPage(getUser("roles"))
             navigate(url);
@@ -103,17 +102,15 @@ function LoginPage() {
                     </div>
                 </div>
             </div>
-            {Result && (
-                <ModalPortal type={"alert"}>
-                    <Alerts Result={Result} />
-                </ModalPortal>
-            )}
+            <ToastList
+                listData={toasts}
+            />
         </>
     );
 }
-const checkResult = (SetResult, result) => {
-    SetResult(result.result);
+const checkResult = (result) => {
     saveLogin(result.user)
+    return result.result;
 }
 
 export default LoginPage;
