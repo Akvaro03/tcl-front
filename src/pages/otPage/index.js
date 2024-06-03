@@ -54,12 +54,13 @@ function OtPage() {
                 fetchAsyncUrl("/getPay")
                     .then(data => data.reverse())
                     .then(data => {
+                        console.log("first")
                         return data.map(fact => { return { ...fact, OTFact: getOTFact(allOt, fact.id) } })
                     })
                     .then(data => {
                         setPays(data)
                         setPaysEdit(data)
-                    })
+                    }) 
             })
         fetchAsyncUrl("/getClients")
             .then(data => setClients(data.map(client => client.Name).sort()))

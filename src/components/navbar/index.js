@@ -80,7 +80,7 @@ function ResponsiveAppBar() {
   };
   const handleCloseAccount = () => {
     deleteLogin()
-    window.location.reload()
+    navigate("/login")
   }
   return (
     <AppBar position="static" sx={{height:"12vh"}}>

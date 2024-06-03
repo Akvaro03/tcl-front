@@ -7,10 +7,19 @@ import headerList from "../../classes/headerList";
 import openNewTab from "../../hooks/openNewTab";
 import useListOt from "../../hooks/useListOt";
 import Style from "./otListPage.module.css"
+import useListFactura from "../../hooks/useListFactura";
+import TableFact from "../../components/tables/TableFact";
 
 function OtListPage() {
-    const { ot, reloadOT, filterValues, allTypes, allClients, allStates, filterClient, filterState, filterType } = useListOt()
-
+    const { ot, filterValues, allTypes, allClients, allStates, allProduct, reloadOT, filterClient, filterState, filterType, filterProduct } = useListOt()
+    const { facturas, allFactura, filterValueFactura, reloadFactura, filterFactura } = useListFactura(ot)
+    const resetAll = () => {
+        reloadOT()
+        reloadFactura()
+    }
+    const editData = (a) =>{
+        console.log(a)
+    }
     return (
         <>
             <ResponsiveAppBar />
@@ -22,12 +31,12 @@ function OtListPage() {
                             <SelectFilter data={allTypes} handleChange={filterType} label={"Por Tipo"} value={filterValues.Type} />
                             <SelectFilter data={allClients} handleChange={filterClient} label={"Por Cliente"} value={filterValues.Client} minWidth="150px" />
                             <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
-                            <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
-                            <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
-                            <ReplayIcon onClick={reloadOT} />
+                            <SelectFilter data={allProduct} handleChange={filterProduct} label={"Por Producto"} value={filterValues.product} minWidth="150px" />
+                            <SelectFilter data={allFactura} handleChange={filterFactura} label={"Por Factura"} value={filterValueFactura} minWidth="150px" />
+                            <ReplayIcon onClick={resetAll} />
                         </div>
                     </div>
-                    {ot ? (
+                    {ot && filterValueFactura === "" ? (
                         <ListPrototype
                             Table={TableOT}
                             header={headersOt.getHeader()}
@@ -35,6 +44,14 @@ function OtListPage() {
                             clickable={(data) => openNewTab(`/events/${data.id}`)}
                             recharge={reloadOT}
                             height={"90%"} />
+                    ) : ot && facturas ? (
+                        <ListPrototype
+                            Table={TableFact}
+                            header={headersFact.getHeader()}
+                            list={facturas}
+                            clickable={(data) => editData(data)}
+                            recharge={resetAll}
+                            height={"85%"} />
                     ) : (
                         <Skeleton component={"div"}
                             sx={{ background: "grey", height: "90%", borderRadius: "10px", transform: "none" }}
@@ -57,6 +74,12 @@ headersOt.addHeader("Cliente", "15%")
 headersOt.addHeader("Nombre Producto", "22%")
 headersOt.addHeader("Estado", "15%")
 
+const headersFact = new headerList()
+headersFact.addHeader("ID", "15%")
+headersFact.addHeader("Creación", "9%")
+headersFact.addHeader("Vencimiento", "20%")
+headersFact.addHeader("Cobro", "15%")
+headersFact.addHeader("OT relacionada", "35%")
 
 const SelectFilter = ({ data, label, handleChange, value, minWidth = "100px" }) => (
     <FormControl size="small" sx={{ minWidth, margin: 0 }}>
