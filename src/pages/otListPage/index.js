@@ -12,7 +12,7 @@ import TableFact from "../../components/tables/TableFact";
 
 function OtListPage() {
     const { ot, filterValues, allTypes, allClients, allStates, allProduct, reloadOT, filterClient, filterState, filterType, filterProduct } = useListOt()
-    const { facturas, allFactura, filterValueFactura, reloadFactura, filterFactura } = useListFactura(ot)
+    const { facturas, isFormated,allFactura, filterValueFactura, reloadFactura, filterFactura } = useListFactura(ot)
     const resetAll = () => {
         reloadOT()
         reloadFactura()
@@ -44,7 +44,7 @@ function OtListPage() {
                             clickable={(data) => openNewTab(`/events/${data.id}`)}
                             recharge={reloadOT}
                             height={"90%"} />
-                    ) : ot && facturas ? (
+                    ) : ot && isFormated ? (
                         <ListPrototype
                             Table={TableFact}
                             header={headersFact.getHeader()}

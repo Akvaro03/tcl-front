@@ -57,9 +57,11 @@ function useListOt() {
     }, [filterValues])
 
     useEffect(() => {
-        setOt(data?.reverse())
-        setAllTypes(data ? removeDuplicates(data.map(data => data.Type)) : [])
-        setAllClients(data ? removeDuplicates(data.map(data => data.Client)) : [])
+        if (data) {
+            setOt(data?.reverse())
+            setAllTypes(data ? removeDuplicates(data.map(data => data.Type)) : [])
+            setAllClients(data ? removeDuplicates(data.map(data => data.Client)) : [])
+        }
     }, [data])
 
     return { ot, allTypes, allClients, allStates, isLoading, filterValues, allProduct, reloadOT, filterType, filterState, filterClient, filterProduct }

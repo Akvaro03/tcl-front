@@ -3,6 +3,7 @@ import { Alert, Fade } from "@mui/material";
 import { useEffect, useState } from "react";
 import classToastList from "../../classes/classToastList";
 function Alerts({ text: { text } }) {
+    
     const [className, setClassName] = useState(Style.AlertStyleDefault)
     const [isVisible, setIsVisible] = useState(true)
     const states = {
