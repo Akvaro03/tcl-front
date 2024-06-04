@@ -18,6 +18,9 @@ import Style from "./otPage.module.css";
 import editPay from "../../db/editPay";
 import { Box } from "@mui/material";
 import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
+import { useNavigate } from 'react-router-dom';
+
+
 function OtPage() {
     const [otFilter, setOtFilter] = useState({})
     const [listOt, setListOt] = useState()
@@ -32,6 +35,8 @@ function OtPage() {
     const [otRetired, setOtRetired] = useState({})
     const [otSend, setOtSend] = useState({})
     const [otDFR, setOtDFR] = useState({})
+    
+    const navigate = useNavigate()
 
     const [paysEdit, setPaysEdit] = useState()
     const [pays, setPays] = useState()
@@ -54,13 +59,12 @@ function OtPage() {
                 fetchAsyncUrl("/getPay")
                     .then(data => data.reverse())
                     .then(data => {
-                        console.log("first")
                         return data.map(fact => { return { ...fact, OTFact: getOTFact(allOt, fact.id) } })
                     })
                     .then(data => {
                         setPays(data)
                         setPaysEdit(data)
-                    }) 
+                    })
             })
         fetchAsyncUrl("/getClients")
             .then(data => setClients(data.map(client => client.Name).sort()))
@@ -239,12 +243,13 @@ function OtPage() {
                                     <FilterPrototype
                                         search={{ onChange: searchById, label: "Por ID" }}
                                         select={{ onChange: selectClient, namesMultiple: clients }}
+
                                     />
                                     <ListPrototype
                                         Table={TableOT}
                                         header={headersOt.getHeader()}
                                         list={otFilter}
-                                        clickable={(data) => openNewTab(`/events/${data.id}`)}
+                                        clickable={(data) => navigate(`/events/${data.id}`)}
                                         recharge={recharge}
                                         height={"85%"} />
                                 </Box>
