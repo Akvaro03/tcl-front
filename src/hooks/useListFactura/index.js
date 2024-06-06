@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import useFetchUrl from "../useFetchUrl"
+import editPay from "../../db/editPay"
 
 function useListFactura(ot) {
     const [facturas, setFacturas] = useState([])
     const [filterValueFactura, setFilterValue] = useState("")
-    const allFactura = ["OT Sin Facturar", "Pendientes", "Vencidas", "Cobradas"]
+    const allFactura = useMemo(() => ["Pendientes", "Vencidas", "Cobradas"], [])
+
     const [facturasFormated, setFacturasFormated] = useState()
+
     const [isFormated, setIsFormated] = useState(false)
-    const { data, isLoading: isLoadingFactura } = useFetchUrl("/getpay")
+    const [isEditFactura, setIsEditFactura] = useState(null)
+
+    const { data, isLoading: isLoadingFactura, rechargeData } = useFetchUrl("/getpay")
 
     const filterFactura = ({ target }) => {
         setFilterValue(target.value)
@@ -16,6 +21,13 @@ function useListFactura(ot) {
         setFacturas(formateFacturas(data, ot))
         setFacturasFormated(formateFacturas(data, ot))
         setFilterValue("")
+    }
+    const handleIsEditFactura = (data) => {
+        setIsEditFactura(data)
+    }
+    const saveFactura = (pay) => {
+        editPay({ ...pay, prevId: isEditFactura.id })
+        rechargeData()
     }
     useEffect(() => {
         const valueFilter = allFactura[filterValueFactura]
@@ -39,7 +51,7 @@ function useListFactura(ot) {
         if (valueFilter === "Cobradas") {
             setFacturas(facturasFormated.filter(factura => factura.datePay))
         }
-    }, [filterValueFactura])
+    }, [filterValueFactura, allFactura, facturasFormated])
 
     useEffect(() => {
         if (data && ot) {
@@ -49,7 +61,7 @@ function useListFactura(ot) {
         }
     }, [ot, data])
 
-    return { facturas, isFormated, allFactura, filterValueFactura, filterFactura, reloadFactura }
+    return { facturas, isFormated, allFactura, filterValueFactura, isEditFactura, isLoadingFactura, saveFactura, handleIsEditFactura, filterFactura, reloadFactura }
 }
 
 const getOTFact = (otList, id) => {

@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, Skeleton } from "@mui/material";
+import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Skeleton } from "@mui/material";
 import ListPrototype from "../../components/listPrototype";
 import ResponsiveAppBar from "../../components/navbar";
 import TableOT from "../../components/tables/TableOt";
@@ -9,17 +9,17 @@ import useListOt from "../../hooks/useListOt";
 import Style from "./otListPage.module.css"
 import useListFactura from "../../hooks/useListFactura";
 import TableFact from "../../components/tables/TableFact";
+import ModalPortal from "../../components/modelPortal";
+import FormPay from "../../components/forms/formPay";
 
 function OtListPage() {
-    const { ot, filterValues, allTypes, allClients, allStates, allProduct, reloadOT, filterClient, filterState, filterType, filterProduct } = useListOt()
-    const { facturas, isFormated,allFactura, filterValueFactura, reloadFactura, filterFactura } = useListFactura(ot)
+    const { ot, filterValues, allTypes, allClients, allStates, allProduct, reloadOT, filterFacturaOt, filterClient, filterState, filterType, filterProduct } = useListOt()
+    const { facturas, isFormated, allFactura, filterValueFactura, isEditFactura, handleIsEditFactura, reloadFactura, filterFactura, saveFactura } = useListFactura(ot)
     const resetAll = () => {
         reloadOT()
         reloadFactura()
     }
-    const editData = (a) =>{
-        console.log(a)
-    }
+
     return (
         <>
             <ResponsiveAppBar />
@@ -33,6 +33,7 @@ function OtListPage() {
                             <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
                             <SelectFilter data={allProduct} handleChange={filterProduct} label={"Por Producto"} value={filterValues.product} minWidth="150px" />
                             <SelectFilter data={allFactura} handleChange={filterFactura} label={"Por Factura"} value={filterValueFactura} minWidth="150px" />
+                            <FormControlLabel control={<Checkbox checked={filterValues.isNoFactura} onChange={filterFacturaOt} />} label="Sin Facturas" />
                             <ReplayIcon onClick={resetAll} />
                         </div>
                     </div>
@@ -49,13 +50,18 @@ function OtListPage() {
                             Table={TableFact}
                             header={headersFact.getHeader()}
                             list={facturas}
-                            clickable={(data) => editData(data)}
+                            clickable={(data) => handleIsEditFactura(data)}
                             recharge={resetAll}
                             height={"85%"} />
                     ) : (
                         <Skeleton component={"div"}
                             sx={{ background: "grey", height: "90%", borderRadius: "10px", transform: "none" }}
                         />
+                    )}
+                    {isEditFactura && (
+                        <ModalPortal type={"form"}>
+                            <FormPay save={saveFactura} close={handleIsEditFactura} pay={isEditFactura} />
+                        </ModalPortal>
                     )}
                 </div>
             </div>

@@ -12,7 +12,6 @@ function FormPay({ close, save, pay = [], missedData }) {
     const [dateCreated, setDateCreated] = useState(pay ? dayjs(pay.dateCreated) : dayjs(Date.now()))
     const [datePay, setDatePay] = useState(pay && dayjs(pay.datePay))
     const [isPay, SetIsPay] = useState(pay.datePay ? true : false)
-
     const [id, setId] = useState(pay ? pay.id : undefined)
 
     const handleSubmit = () => {

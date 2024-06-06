@@ -16,15 +16,17 @@ function useListOt() {
         setFilterValues(initialFilterValues)
     }
     const filterType = ({ target }) => {
-        setFilterValues(prev => ({ ...prev, Type: target.value, product: initialFilterValues.product, factura: initialFilterValues.factura }))
+        setFilterValues(prev => ({ ...prev, Type: target.value, product: initialFilterValues.product }))
     }
     const filterClient = ({ target }) => {
-        setFilterValues(prev => ({ ...prev, Client: target.value, product: initialFilterValues.product, factura: initialFilterValues.factura }))
+        setFilterValues(prev => ({ ...prev, Client: target.value, product: initialFilterValues.product }))
     }
     const filterState = ({ target }) => {
-        setFilterValues(prev => ({ ...prev, state: target.value, product: initialFilterValues.product, factura: initialFilterValues.factura }))
+        setFilterValues(prev => ({ ...prev, state: target.value, product: initialFilterValues.product }))
     }
-
+    const filterFacturaOt = ({ target }) => {
+        setFilterValues(prev => ({ ...prev, isNoFactura: target.checked, product: initialFilterValues.product }))
+    }
 
     const filterProduct = ({ target }) => {
         setFilterValues(({ ...initialFilterValues, product: target.value }))
@@ -53,6 +55,10 @@ function useListOt() {
         if (filterValues.state !== "") {
             filtered = filtered.filter(ot => getStateOt(ot) === allStates[filterValues.state]);
         }
+        if (filterValues.isNoFactura) {
+            console.log(filtered)
+            filtered = filtered.filter(ot => !ot.Factura);
+        }
         setOt(filtered)
     }, [filterValues])
 
@@ -64,10 +70,10 @@ function useListOt() {
         }
     }, [data])
 
-    return { ot, allTypes, allClients, allStates, isLoading, filterValues, allProduct, reloadOT, filterType, filterState, filterClient, filterProduct }
+    return { ot, allTypes, allClients, allStates, isLoading, filterValues, allProduct, reloadOT, filterFacturaOt, filterType, filterState, filterClient, filterProduct }
 }
 
-const initialFilterValues = { Type: "", Client: "", state: "", product: "", factura: "" }
+const initialFilterValues = { Type: "", Client: "", state: "", product: "", isNoFactura: false }
 const removeDuplicates = (data) => {
     return data.filter((value, index) => data.indexOf(value) === index)
 }

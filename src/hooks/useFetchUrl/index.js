@@ -9,6 +9,10 @@ import getIp from "../getIp";
 function useFetchUrl(url) {
     const [data, setData] = useState()
     const [isLoading, setIsLoading] = useState(true)
+    const [reloadData, setReloadData] = useState(false)
+    const rechargeData = () => {
+        setReloadData(prev => !prev)
+    }
     useEffect(() => {
         fetch(`${getIp()}:4000${url}`)
             .then(data => data.json())
@@ -16,9 +20,9 @@ function useFetchUrl(url) {
                 setData(data)
                 setIsLoading(false)
             })
-    }, [url])
+    }, [url, reloadData])
 
-    return { data, isLoading };
+    return { data, isLoading, rechargeData };
 }
 
 export default useFetchUrl;
