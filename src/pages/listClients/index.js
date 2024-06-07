@@ -22,6 +22,7 @@ function ListClients() {
     useEffect(() => {
         fetchAsyncUrl("/getClients")
             .then(data => {
+                data = data.sort((a, b) => a.idEditable > b.idEditable ? 1 : -1)
                 setClients(data)
                 setClientsFiltered(data)
             })

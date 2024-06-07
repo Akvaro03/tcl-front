@@ -13,10 +13,11 @@ async function nameUsed(newName, type) {
     };
     const names = states[type];
     return names.includes(nameFormat);
-}
+} 
 function getCodeClient() {
+    console.log("first")
     return fetchAsyncUrl("/getClients")
-        .then(data => data.map(type => type.KeyUnique.trim().toLowerCase()));
+        .then(data => data.map(type => type.KeyUnique !== null ? type.KeyUnique.trim().toLowerCase() : ""));
 }
 function getAbbreviationNames() {
     return fetchAsyncUrl("/getTypeOt")
