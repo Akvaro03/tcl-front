@@ -3,12 +3,22 @@
     display: flex;
     min-height: 8vmin;
     position: relative;
+    overflow: hidden;
+}
+
+.isFirst {
+    border-radius: 15px 15px 0 0;
+}
+
+.isLast {
+    border-radius: 0 0 15px 15px;
 }
 
 .spaceItemCard {
     min-height: 3vmin;
 }
-.spaceItemCard::after{
+
+.spaceItemCard::after {
     content: "";
     height: 50%;
     width: 100%;
@@ -16,6 +26,7 @@
     position: absolute;
     top: 0;
 }
+
 .tittleItem,
 .spaceTittleItem,
 .subTittleItem {
@@ -31,6 +42,7 @@
 
 .subTittleItem {
     font-size: 2.5vmin;
+    font-weight: 400;
 }
 
 .contentItem,

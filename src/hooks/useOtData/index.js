@@ -8,6 +8,13 @@ function useOtData() {
     const [ot, setOt] = useState(initialValue)
     const [changes, setChanges] = useState()
     const [reset, setReset] = useState(false)
+    const [valuesChanged, SetValuesChanged] = useState([])
+    useEffect(() => {
+        if (valuesChanged.includes("Auth")) {
+            save()
+        }
+    }, [ot])
+
     useEffect(() => {
         id && getOneOt({ id })
             .then(data => formatOt(data[0]))
@@ -22,7 +29,20 @@ function useOtData() {
     const resetOt = () => {
         setReset(prev => !prev)
     }
-    return { ot, changes, resetOt }
+    const handleChangeOt = (type, value) => {
+        setOt(prev => ({ ...prev, [type]: value }))
+        SetValuesChanged(prev => {
+            if (!prev.includes(type)) {
+                return [...prev, type];
+            }
+            return prev;
+        });
+    }
+    const save = () => {
+        console.log(valuesChanged)
+    }
+
+    return { ot, changes, resetOt, handleChangeOt }
 }
 const initialValue = {
     "id": null,

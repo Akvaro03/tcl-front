@@ -1,0 +1,22 @@
+.auth,
+.noAuth {
+    padding: 7px 13px;
+    border-radius: 10px;
+}
+
+.clickable:hover {
+    transform: scale(.9);
+    box-shadow: rgba(149, 157, 165, 0.109) 0px 8px 10px;
+}
+
+.clickable {
+    transition: all ease-in-out .2s;
+    cursor: pointer;
+}
+
+.noAuth{
+    background: #ff7373;
+}
+.auth{
+    background-color: #a1ff75;
+}

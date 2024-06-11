@@ -4,17 +4,17 @@ import getUser from "../../hooks/getUser";
 import useOtData from "../../hooks/useOtData";
 import HistoryOt from "../otAllData/components/histoyOt";
 import Style from "./OtDataPage.module.css"
-import CardOt from "./components/CardData";
+import CardOt from "./components/CardOt/CardOt";
 
 function OtDataPage() {
-    const { ot, changes, resetOt } = useOtData()
+    const { ot, changes, resetOt, handleChangeOt } = useOtData()
     const rol = getUser("roles");
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.bodyDataPage}>
                 {ot && (
-                    <CardOt ot={ot} resetOt={resetOt} />
+                    <CardOt ot={ot} resetOt={resetOt} handleChangeOt={handleChangeOt} />
                 )}
                 {changes && (
                     permissions.seeHistory(rol) && (
