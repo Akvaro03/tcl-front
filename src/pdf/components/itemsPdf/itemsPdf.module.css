@@ -1,6 +1,6 @@
 .items {
     height: 270px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(255, 0, 0);
 }
 
 .product {
@@ -45,4 +45,9 @@
     display: flex;
     gap: 30px;
     padding-bottom: 10px;
+}
+
+h1{
+
+    font-weight: bolder;
 }

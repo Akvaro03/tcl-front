@@ -5,14 +5,22 @@
 }
 
 .productDiv {
-    height: 70px !important;
+    height: 60px !important;
     width: 100%;
     padding: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.productDiv h1{
+    padding-left: 8px;
+    padding-top: 2px;
 }
 
 .productDiv h1 {
-    font-weight: 600;
+    font-weight: bolder;
     font-size: 13px;
+
 }
 
 .productDiv:nth-child(1),

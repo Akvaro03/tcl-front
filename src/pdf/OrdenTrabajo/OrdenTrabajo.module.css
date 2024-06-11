@@ -1,4 +1,47 @@
+body {
+    background: white !important;
+}
+
+.container {
+    font-family: Segoe UI, Roboto, Helvetica Neue, Ubuntu, sans-serif;
+    margin: 30px 50px 20px 110px;
+    border: 1px solid black;
+}
+
+
+.data {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.data p {
+    flex: 1;
+    text-align: center;
+}
+
+.observations {
+    margin: 30px;
+}
+
+.observationsContent {
+    margin: 30px;
+}
+
+.note {
+    background: black;
+    padding: 10px;
+    color: white;
+    font-size: 15px;
+}
+
 .firms {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.firms2{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
@@ -28,4 +71,36 @@
     border-top: 1px solid black;
     padding: 5px;
     font-size: 11px;
+}
+
+.items {
+    border-bottom: 1px solid black;
+}
+
+.itemHeader, .product, .total {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+.itemHeader{
+    border-bottom: 1px solid black;
+
+}
+
+.itemHeader p, .product p, .total p {
+    flex: 1;
+    text-align: center;
+}
+
+.itemHeader p:last-child, .product p:last-child, .total p:last-child {
+    text-align: right;
+}
+
+.total p:last-child {
+    font-weight: bold;
+}
+
+.total .allPrices {
+    text-align: right;
+    flex: 1;
 }

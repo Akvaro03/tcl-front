@@ -11,6 +11,7 @@ import useListFactura from "../../hooks/useListFactura";
 import TableFact from "../../components/tables/TableFact";
 import ModalPortal from "../../components/modelPortal";
 import FormPay from "../../components/forms/formPay";
+import { useNavigate } from 'react-router-dom';
 
 function OtListPage() {
     const { ot, filterValues, allTypes, allClients, allStates, allProduct, reloadOT, filterFacturaOt, filterClient, filterState, filterType, filterProduct } = useListOt()
@@ -19,6 +20,7 @@ function OtListPage() {
         reloadOT()
         reloadFactura()
     }
+    const navigate = useNavigate()
 
     return (
         <>
@@ -42,7 +44,7 @@ function OtListPage() {
                             Table={TableOT}
                             header={headersOt.getHeader()}
                             list={ot}
-                            clickable={(data) => openNewTab(`/events/${data.id}`)}
+                            clickable={(data) => navigate(`/events/${data.id}`)}
                             recharge={reloadOT}
                             height={"90%"} />
                     ) : ot && isFormated ? (
