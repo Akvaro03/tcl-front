@@ -10,14 +10,13 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Style from "./historyOt.module.css"
 function HistoryOt({ history }) {
-
     const [History, setHistory] = useState();
     const [HistoryModified, setHistoryModified] = useState();
 
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const changes = JSON.parse(history);
+                const changes = history[0] ? history : JSON.parse(history);
                 const changesOrdened = orderChanges(changes, false);
                 setHistory(changesOrdened);
                 setHistoryModified(changesOrdened);

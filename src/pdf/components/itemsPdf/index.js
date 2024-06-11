@@ -42,7 +42,7 @@ function ItemsPdf({ ot, description, isTotal }) {
             </div>
             <div className={Style.dueDate}>
                 <p >
-                    Fecha de vencimiento:
+                    Fecha de vencimiento del certificado:
                 </p>
                 {formatDateM(ot.FechaVencimiento)}
             </div>

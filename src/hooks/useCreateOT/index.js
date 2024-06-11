@@ -28,7 +28,7 @@ const useCreateOT = (props = null) => {
             Description: OTClear.Description ? JSON.stringify(OTClear.Description) : OTClear.Description,
             Date: createNewDate(OTClear.Date),
             FechaEstimada: createNewDate(OTClear.FechaEstimada),
-            FechaVencimiento: createNewDate(OTClear.FechaVencimiento),
+            FechaVencimiento: OTClear.FechaVencimiento ? createNewDate(OTClear.FechaVencimiento) : OTClear.FechaVencimiento,
             Contact: OTClear.Contact ? JSON.stringify(OTClear.Contact) : "[]",
             Client: OTClear.Client ? OTClear.Client.Name : "",
             IdClient: OTClear.Client ? OTClear.Client.idEditable : "",
@@ -58,7 +58,6 @@ const useCreateOT = (props = null) => {
         }
         return true; // Retorna true si todas las propiedades están presentes
     };
-
     const resetOt = () => {
         setOT({
             ...initialValue,
@@ -67,7 +66,6 @@ const useCreateOT = (props = null) => {
             contractSelect: OT.contractName
         })
     }
-
     return { OT, editOT, getOt, verifyOT, resetOt }
 }
 
@@ -82,7 +80,7 @@ const initialValue = {
     "Modelo": "",
     "NormaAplicar": "",
     "Cotizacion": "",
-    "FechaVencimiento": dayjs(),
+    "FechaVencimiento": null,
     "FechaEstimada": dayjs(),
     "Type": null,
     "Description": [{ item: "", Description: "", import: 0 }],
@@ -110,7 +108,6 @@ const initialPropertiesVerify = [
     "Observations",
     "Activities",
     "FechaEstimada",
-    "FechaVencimiento",
 ]
 
 export default useCreateOT;

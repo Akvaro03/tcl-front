@@ -1,5 +1,5 @@
-function formatDateM(mili) {
-    return new Date(mili).toLocaleDateString("en-GB");
+function formatDateM(ms) {
+    return ms ? new Date(ms).toLocaleDateString("en-GB") : "";
 }
 
 export default formatDateM;

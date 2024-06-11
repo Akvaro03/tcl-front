@@ -6,6 +6,7 @@ class messageHistory {
     static tittleEditUser = "Se editó una actividad";
     static tittleEditOT = "Se modificaron valores";
     static tittleEditPriority = "Se modifico la prioridad";
+    static tittleEditItems = "Se modificaron los items";
     static editUsersActivity(nameActivity, users) {
         try {
             return `Actividad: ${firstLetterUpperCase(nameActivity)} - Usuario/s: ${users}`

@@ -1,0 +1,6 @@
+.cardData {
+    width: 70%;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

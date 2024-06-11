@@ -34,6 +34,8 @@ import Style from "./Data.module.css";
 import OptionPay from '../optionPay';
 import dayjs from "dayjs";
 import SelectContact from '../../../../components/selectContract';
+import AddItems from '../../../../components/addItems';
+import changeItems from '../../../../db/changeItems';
 
 function DataOt({ otSelected, reload, setOTSelected }) {
     const { Activities, id, Contact, pay, Auth, Type, Description,
@@ -50,6 +52,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
     const [edit, setEdit] = useState(false)
     const [result, setResult] = useState()
     const [printOt, setPrintOt] = useState(false)
+    const [addItems, setAddItems] = useState(false)
 
     const [uiState, setUIState] = useState({
         addAvailability: false,
@@ -122,6 +125,16 @@ function DataOt({ otSelected, reload, setOTSelected }) {
             reload()
         } catch (error) {
             reload()
+        }
+    }
+    const saveItems = (Description) => {
+        try {
+            setOTSelected(Description, "Description")
+            changeItems({ id: id, Description }, id, messageHistory.tittleEditAvailability, messageHistory.tittleEditItems)
+            setAddItems()
+            reload()
+        } catch (error) {
+            console.log(error)
         }
     }
     const changeAuthButton = () => {
@@ -433,7 +446,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                         }
                     </div>
                     {permissions.seeDetails(rol) && (
-                        <div className={Style.ProductContent}>
+                        <div className={Style.ProductContent} onClick={() => setAddItems(true)}>
                             {Description.map((data, key) => (
                                 <Box display={"flex"} gap={"15px"} key={key} margin={"5px 0"} width={"100%"}>
                                     <Box sx={{ width: "7%" }}>{data.item}</Box>
@@ -480,6 +493,9 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                 <ModalPortal type={"form"}>
                     <ContentPay close={setAddPay} save={savePay} pay={pay} saveList={addListPay} listPay={pay.map(data => data.id)} />
                 </ModalPortal>
+            )}
+            {addItems && (
+                <AddItems close={setAddItems} prevItems={Description} save={saveItems} />
             )}
             {result && (
                 <ModalPortal type={"alert"}>

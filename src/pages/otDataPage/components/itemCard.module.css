@@ -1,0 +1,43 @@
+.itemCard,
+.spaceItemCard {
+    display: flex;
+    min-height: 8vmin;
+    position: relative;
+}
+
+.spaceItemCard {
+    min-height: 3vmin;
+}
+.spaceItemCard::after{
+    content: "";
+    height: 50%;
+    width: 100%;
+    border-bottom: 1px solid rgb(215, 215, 215);
+    position: absolute;
+    top: 0;
+}
+.tittleItem,
+.spaceTittleItem,
+.subTittleItem {
+    width: 25%;
+    background: #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-right: 25px;
+    font-weight: 600;
+    font-size: 3vmin;
+}
+
+.subTittleItem {
+    font-size: 2.5vmin;
+}
+
+.contentItem,
+.spaceContentItem {
+    background-color: #FFFFFF;
+    width: 75%;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+}

@@ -1,0 +1,14 @@
+.Description {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+    gap: 5px;
+}
+
+.ItemTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
