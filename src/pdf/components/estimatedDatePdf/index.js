@@ -7,7 +7,7 @@ function EstimatedDatePdf({ ot }) {
         <div className={Style.estimatedDate}>
             <div className={Style.date}>
                 <p className={Style.estimatedDateTittle}>Fecha estimada de entrega:</p>
-                <Box sx={{ fontSize: "13px" }}>{formatDateM(ot.FechaEstimada)}</Box>
+                <Box sx={{ fontSize: "13px", fontWeight: "bolder"}}>{formatDateM(ot.FechaEstimada)}</Box>
             </div>
             <div className={Style.price}>
                 <p className={Style.estimatedDateTittle}>Cotizacion:</p>

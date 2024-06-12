@@ -2,18 +2,102 @@
     border-bottom: 1px solid black;
     width: 100%;
     display: flex;
-    padding: 5px 20px;
+    padding: 10px ;
+    justify-content: space-between;
+
+ }
+
+.companyData .rowData {
+
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    flex-direction: row;
+
 }
 
-.rowData {
+
+
+ .rowData3 {
+
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row;
+
+}
+
+.rowData2{
+
     width: 100%;
     display: flex;
-    gap: 5px;
-    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
 }
-.contactData .rowData {
-    padding-bottom: 5px;
+
+.data{
+
+
+display: flex;
+flex-direction: column;
+
 }
+
+.dataLabel {
+
+padding-right: 10px;
+padding-top: 10px;
+font-size: smaller;   
+
+}
+
+.dataValue {
+
+    padding-right: 10px;
+    padding-top: 10px;
+    font-size: smaller;
+    font-weight: bolder;
+
+}
+.contactData{
+
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+}
+
+.contactData2{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.companyDataTotal{
+
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+
+}
+
+.dataContent{
+
+display: flex;
+flex-direction: column;
+
+}
+
+/*
+.companyData .rowData {
+    width: 100%;
+    display: flex;
+}
+
 .data {
     width: 50%;
     display: flex;
@@ -23,19 +107,25 @@
 
 .dataContent {
     display: flex;
-    margin: 5px;
-    align-items: center;
-    gap: 10px;
+    margin-top: 20px;
+    /* justify-content: space-between; */
+    /* align-items: center;
     width: 40vw;
 }
+
 .contactData .dataLabel {
     width: 9vw;
+}
+.contactData .dataValue {
+    width: 15vw;
 }
 
 .dataLabel {
     width: 10vw;
+    padding-left: 10px;
 }
 
 .dataValue {
-    line-height: 1.4;
-}
+     line-height: 1.4; 
+    
+}  */
