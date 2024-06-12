@@ -7,14 +7,14 @@ import Style from "./OtDataPage.module.css"
 import CardOt from "./components/CardOt/CardOt";
 
 function OtDataPage() {
-    const { ot, changes, resetOt, handleChangeOt } = useOtData()
+    const { ot, changes, resetOt, handleChangeOt, handlePriority } = useOtData()
     const rol = getUser("roles");
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.bodyDataPage}>
                 {ot && (
-                    <CardOt ot={ot} resetOt={resetOt} handleChangeOt={handleChangeOt} />
+                    <CardOt ot={ot} resetOt={resetOt} handleChangeOt={handleChangeOt} handlePriority={handlePriority} />
                 )}
                 {changes && (
                     permissions.seeHistory(rol) && (

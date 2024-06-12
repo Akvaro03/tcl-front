@@ -22,6 +22,7 @@ const useCreateOT = (props = null) => {
             date: new Date(OT.Date).getTime(),
             comment: ""
         }];
+        console.log(OTClear.Type)
         return {
             ...OTClear,
             contractName: OTClear.contractSelect ? JSON.stringify(OTClear.contractSelect) : null,
@@ -29,10 +30,10 @@ const useCreateOT = (props = null) => {
             Date: createNewDate(OTClear.Date),
             FechaEstimada: createNewDate(OTClear.FechaEstimada),
             FechaVencimiento: OTClear.FechaVencimiento ? createNewDate(OTClear.FechaVencimiento) : OTClear.FechaVencimiento,
-            Contact: OTClear.Contact ? JSON.stringify(OTClear.Contact) : "[]",
+            Contact: OTClear.Contact ? JSON.stringify(OTClear.Contact.map(data => OTClear.Client.Contacts[data])) : "[]",
             Client: OTClear.Client ? OTClear.Client.Name : "",
             IdClient: OTClear.Client ? OTClear.Client.idEditable : "",
-            Identificación: OTClear.OTKey + " " + isNullUndefined(OTClear.Type) + " " + isNullUndefined(OTClear.Client?.KeyUnique),
+            Identificación: OTClear.OTKey + " " + isNullUndefined(OTClear.Type.abbreviation) + " " + isNullUndefined(OTClear.Client?.KeyUnique),
             Changes: JSON.stringify(Changes),
             Type: OT.Type?.nameType
         }

@@ -4,10 +4,11 @@ import formatDateM from "../../../../hooks/formatDateM";
 import ButtonAuth from "../../../../components/buttonAuth";
 import { Box } from "@mui/material";
 import PriorityOt from "../../../../components/priorityOt";
-function CardOt({ ot, resetOt, handleChangeOt }) {
+import ClientContactComponent from "../../../../components/ClientContactComponent";
+function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
     return (
         <div className={Style.cardData}>
-            <Box position={"absolute"} right={"6%"} zIndex={2} top={"-1%"} color={"white"} component={"div"} onClick={handleChangeOt}>
+            <Box position={"absolute"} right={"6%"} zIndex={2} top={"-1%"} color={"white"} component={"div"} onClick={handlePriority}>
                 <PriorityOt priority={ot.priority} />
             </Box>
             <ItemCard tittle={"OT Seleccionada"} isTittle isFirst>
@@ -45,7 +46,7 @@ function CardOt({ ot, resetOt, handleChangeOt }) {
                 {ot.IdClient}
             </ItemCard>
             <ItemCard tittle={"Contacto"}>
-                {ot.IdClient}
+                <ClientContactComponent contacts={ot.Contact} />
             </ItemCard>
 
             <ItemCard isSpace />

@@ -43,7 +43,6 @@ function FormCreateOt() {
         const isVerify = verifyOT()
 
         if (isVerify !== true) {
-            console.log(isVerify)
             classToastList.addToast(setToasts, "missed data")
             setIsSaveOTDisabled(false)
             return
@@ -118,7 +117,7 @@ function FormCreateOt() {
                 {OT.Client && OT.Client.Contacts[0] && (
                     <MultipleSelect
                         size={"medium"}
-                        onchange={(value) => editOT("Contact", value)}
+                        onchange={(value) => editOT("Contact", value.map(data => Number(data[0]) - 1))}
                         names={OT.Client.Contacts.map(((ContactClient, key) => (`${key + 1} ${ContactClient.type}: ${ContactClient.contact} ${ContactClient.email}`)))}
                         label={"Contactos seleccionados"} />
                 )}

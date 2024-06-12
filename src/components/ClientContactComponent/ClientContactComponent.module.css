@@ -1,0 +1,5 @@
+.displayContacts {
+    display: flex;
+    gap: 40%;
+    justify-content: space-between;
+}

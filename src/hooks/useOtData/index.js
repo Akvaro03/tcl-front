@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getOneOt from "../../db/getOneOt";
+import ClassPriorityOt from "../../classes/priorityOt";
 
 function useOtData() {
     let { id } = useParams();
@@ -10,10 +11,10 @@ function useOtData() {
     const [reset, setReset] = useState(false)
     const [valuesChanged, SetValuesChanged] = useState([])
     useEffect(() => {
-        if (valuesChanged.includes("Auth")) {
+        if (valuesChanged.some(value => ['Auth', 'priority'].includes(value))) {
             save()
         }
-    }, [ot])
+    }, [ot, valuesChanged])
 
     useEffect(() => {
         id && getOneOt({ id })
@@ -40,9 +41,15 @@ function useOtData() {
     }
     const save = () => {
         console.log(valuesChanged)
+        SetValuesChanged([])
     }
 
-    return { ot, changes, resetOt, handleChangeOt }
+    const handlePriority = () => {
+        const newPriority = ClassPriorityOt.handleClick(ot.priority)
+        handleChangeOt("priority", newPriority)
+    }
+
+    return { ot, changes, resetOt, handleChangeOt, handlePriority }
 }
 const initialValue = {
     "id": null,
