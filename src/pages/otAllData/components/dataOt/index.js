@@ -480,9 +480,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                 </ModalPortal>
             )}
             {addContact && (
-                <ModalPortal type={"form"}>
-                    <AddContact close={setAddContact} save={sendOTEdit} prevContacts={Contact} />
-                </ModalPortal>
+                <AddContact close={setAddContact} save={sendOTEdit} prevContacts={Contact} />
             )}
             {uiState.editPay && (
                 <ModalPortal type={"form"}>

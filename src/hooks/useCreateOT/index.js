@@ -22,7 +22,6 @@ const useCreateOT = (props = null) => {
             date: new Date(OT.Date).getTime(),
             comment: ""
         }];
-        console.log(OTClear.Type)
         return {
             ...OTClear,
             contractName: OTClear.contractSelect ? JSON.stringify(OTClear.contractSelect) : null,

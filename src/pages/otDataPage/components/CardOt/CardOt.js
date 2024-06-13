@@ -46,7 +46,7 @@ function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
                 {ot.IdClient}
             </ItemCard>
             <ItemCard tittle={"Contacto"}>
-                <ClientContactComponent contacts={ot.Contact} />
+                <ClientContactComponent contacts={ot.Contact} saveChanges={(data) => handleChangeOt("Contact", data)} />
             </ItemCard>
 
             <ItemCard isSpace />

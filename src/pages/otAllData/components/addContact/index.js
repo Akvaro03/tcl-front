@@ -7,6 +7,7 @@ import Style from './addContact.module.css';
 import FormPrototype from "../../../../components/formPrototype";
 import toUppercase from "../../../../hooks/toUppercase";
 import BackspaceIcon from '@mui/icons-material/Backspace';
+import ModalPortal from "../../../../components/modelPortal";
 export default function AddContact({ close, save, prevContacts }) {
     const [Contacts, setContacts] = useState(prevContacts ? prevContacts : [{ ...formatContact }]);
 
@@ -24,61 +25,63 @@ export default function AddContact({ close, save, prevContacts }) {
     }
     const inputClient = new inputClass(save)
     return (
-        <FormPrototype close={close} tittle={"Agregar contactos"} width="70%">
-            <Box display={"flex"} height={"40%"} width={"90%"} flexDirection={"column"}>
-                <Box>
-                    {Contacts.map((data, key) => (
-                        <div className={Style.InputContact} key={key}>
-                            <div className={Style.NDocument}>
-                                <div className={Style.InputTittleDocument}>
-                                    <p>Tipo:</p>
+        <ModalPortal type={"form"}>
+            <FormPrototype close={close} tittle={"Agregar contactos"} width="70%">
+                <Box display={"flex"} height={"40%"} width={"90%"} flexDirection={"column"}>
+                    <Box>
+                        {Contacts.map((data, key) => (
+                            <div className={Style.InputContact} key={key}>
+                                <div className={Style.NDocument}>
+                                    <div className={Style.InputTittleDocument}>
+                                        <p>Tipo:</p>
+                                    </div>
+                                    <div className={Style.CustomInput}>
+                                        {inputClient.getInput(data.type, (e) => handleChangeContacts(e, key, "type"))}
+                                    </div>
                                 </div>
-                                <div className={Style.CustomInput}>
-                                    {inputClient.getInput(data.type, (e) => handleChangeContacts(e, key, "type"))}
+                                <div className={Style.NDocument}>
+                                    <div className={Style.InputTittleDocument}>
+                                        <p>Contacto:</p>
+                                    </div>
+                                    <div className={Style.CustomInput}>
+                                        {inputClient.getInput(data.contact, (e) => handleChangeContacts(e, key, "contact"))}
+                                    </div>
                                 </div>
+                                <div className={Style.NDocument}>
+                                    <div className={Style.InputTittleDocument}>
+                                        <p>Email:</p>
+                                    </div>
+                                    <div className={Style.CustomInput}>
+                                        {inputClient.getInput(data.email, (e) => handleChangeContacts(e, key, "email"))}
+                                    </div>
+                                </div>
+                                <div className={Style.NDocument}>
+                                    <div className={Style.InputTittleDocument}>
+                                        <p>Telefono:</p>
+                                    </div>
+                                    <div className={Style.CustomInput}>
+                                        {inputClient.getInput(data.cell, (e) => handleChangeContacts(e, key, "cell"))}
+                                    </div>
+                                </div>
+                                <BackspaceIcon onClick={() => deleteContact(data)} />
                             </div>
-                            <div className={Style.NDocument}>
-                                <div className={Style.InputTittleDocument}>
-                                    <p>Contacto:</p>
-                                </div>
-                                <div className={Style.CustomInput}>
-                                    {inputClient.getInput(data.contact, (e) => handleChangeContacts(e, key, "contact"))}
-                                </div>
-                            </div>
-                            <div className={Style.NDocument}>
-                                <div className={Style.InputTittleDocument}>
-                                    <p>Email:</p>
-                                </div>
-                                <div className={Style.CustomInput}>
-                                    {inputClient.getInput(data.email, (e) => handleChangeContacts(e, key, "email"))}
-                                </div>
-                            </div>
-                            <div className={Style.NDocument}>
-                                <div className={Style.InputTittleDocument}>
-                                    <p>Telefono:</p>
-                                </div>
-                                <div className={Style.CustomInput}>
-                                    {inputClient.getInput(data.cell, (e) => handleChangeContacts(e, key, "cell"))}
-                                </div>
-                            </div>
-                            <BackspaceIcon onClick={() => deleteContact(data)} />
+                        ))}
+                    </Box>
+                    <Button onClick={() => addContact()} variant='outlined' sx={{ borderRadius: "15px", margin: "15px 0" }}>
+                        <div>
+                            <AddIcon />
                         </div>
-                    ))}
+                        <p>
+                            Agregar Contacto
+                        </p>
+                    </Button>
                 </Box>
-                <Button onClick={() => addContact()} variant='outlined' sx={{ borderRadius: "15px", margin: "15px 0" }}>
-                    <div>
-                        <AddIcon />
-                    </div>
-                    <p>
-                        Agregar Contacto
-                    </p>
-                </Button>
-            </Box>
-            <Box margin={"15px 0"} height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
-                <Button size="small" variant="outlined" onClick={() => close(false)}>Cerrar</Button>
-                <Button size="large" variant="contained" onClick={() => save(Contacts)}>Guardar</Button>
-            </Box>
-        </FormPrototype>
+                <Box margin={"15px 0"} height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
+                    <Button size="small" variant="outlined" onClick={() => close(false)}>Cerrar</Button>
+                    <Button size="large" variant="contained" onClick={() => save(Contacts)}>Guardar</Button>
+                </Box>
+            </FormPrototype>
+        </ModalPortal>
     )
 }
 

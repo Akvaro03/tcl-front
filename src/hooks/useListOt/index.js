@@ -56,7 +56,6 @@ function useListOt() {
             filtered = filtered.filter(ot => getStateOt(ot) === allStates[filterValues.state]);
         }
         if (filterValues.isNoFactura) {
-            console.log(filtered)
             filtered = filtered.filter(ot => !ot.Factura);
         }
         setOt(filtered)

@@ -103,9 +103,7 @@ function FormCreateClient({ close, reload, data, message }) {
                 </div>
             </form>
             {addContact && (
-                <ModalPortal type={"form"}>
-                    <AddContact close={setAddContact} save={(e) => editClient("Contacts", e)} prevContacts={client.Contacts} />
-                </ModalPortal>
+                <AddContact close={setAddContact} save={(e) => editClient("Contacts", e)} prevContacts={client.Contacts} />
             )}
         </FormPrototype>
     );

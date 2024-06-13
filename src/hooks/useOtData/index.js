@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getOneOt from "../../db/getOneOt";
 import ClassPriorityOt from "../../classes/priorityOt";
+import classToastList from "../../classes/classToastList";
 
 function useOtData() {
     let { id } = useParams();
@@ -10,8 +11,10 @@ function useOtData() {
     const [changes, setChanges] = useState()
     const [reset, setReset] = useState(false)
     const [valuesChanged, SetValuesChanged] = useState([])
+    const [messageList, setMessageList] = useState([])
+
     useEffect(() => {
-        if (valuesChanged.some(value => ['Auth', 'priority'].includes(value))) {
+        if (valuesChanged.some(value => ['Auth', 'priority', "Contact"].includes(value))) {
             save()
         }
     }, [ot, valuesChanged])
@@ -42,6 +45,7 @@ function useOtData() {
     const save = () => {
         console.log(valuesChanged)
         SetValuesChanged([])
+        classToastList.addToast(setMessageList, "ok")
     }
 
     const handlePriority = () => {
@@ -49,7 +53,7 @@ function useOtData() {
         handleChangeOt("priority", newPriority)
     }
 
-    return { ot, changes, resetOt, handleChangeOt, handlePriority }
+    return { ot, changes, messageList, resetOt, handleChangeOt, handlePriority }
 }
 const initialValue = {
     "id": null,
