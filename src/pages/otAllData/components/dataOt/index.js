@@ -465,19 +465,13 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                 </div>
             </div >
             {userSelect && (
-                <ModalPortal type={"form"}>
-                    <SelectUsers handleUsers={handleUsers} closeForm={closeForm} activitySelected={activitySelected} />
-                </ModalPortal>
+                <SelectUsers handleUsers={handleUsers} closeForm={closeForm} activitySelected={activitySelected} />
             )}
             {addActivity && (
-                <ModalPortal type={"form"}>
-                    <AddActivity handleActivities={handleActivities} otActivities={Activities} setAddActivity={setAddActivity} />
-                </ModalPortal>
+                <AddActivity handleActivities={handleActivities} otActivities={Activities} setAddActivity={setAddActivity} />
             )}
             {addAvailability && (
-                <ModalPortal type={"form"}>
-                    <AddAvailability addAvailability={setAddAvailability} saveAvailability={saveAvailability} isDeletable={Availability} />
-                </ModalPortal>
+                <AddAvailability addAvailability={setAddAvailability} saveAvailability={saveAvailability} isDeletable={Availability} />
             )}
             {addContact && (
                 <AddContact close={setAddContact} save={sendOTEdit} prevContacts={Contact} />

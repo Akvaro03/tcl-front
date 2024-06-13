@@ -1,0 +1,20 @@
+.ActivitiesBody{
+    display: flex;
+    flex-direction: column;
+    gap: 4vmin;
+    padding: 2vmin 0;
+}
+
+.contentActivities{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.activityButton{
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 1vmin;
+    height: fit-content;
+    width: fit-content;
+}

@@ -2,6 +2,7 @@ import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import FormPrototype from "../../../../components/formPrototype";
 import fetchAsyncUrl from "../../../../hooks/fetchAsyncUrl";
+import ModalPortal from "../../../../components/modelPortal";
 
 function AddActivity({ setAddActivity, otActivities, handleActivities }) {
     const [activities, setActivities] = useState()
@@ -11,7 +12,7 @@ function AddActivity({ setAddActivity, otActivities, handleActivities }) {
             .then(data => setActivities(data))
     }, [])
 
-    const compare = (name) => activitiesOt ? activitiesOt.some(activity => activity.name === name) : false;
+    const compare = (name) => activitiesOt ? activitiesOt.some(activity => activity.name.toUpperCase() === name.toUpperCase()) : false;
 
     const handleChecked = (checked, activityNew) => {
         setActivitiesOt(prev => {
@@ -27,18 +28,20 @@ function AddActivity({ setAddActivity, otActivities, handleActivities }) {
     }
 
     return (
-        <FormPrototype close={() => setAddActivity(false)} tittle={"Seleccione actividades"}>
-            <Box display={"flex"} height={"40%"} width={"90%"} flexWrap={"wrap"}>
-                {activities && activities.map((activity, key) => (
-                    <div key={key}>
-                        <FormControlLabel control={<Checkbox checked={compare(activity.name)} onChange={({ target: { checked } }) => { handleChecked(checked, activity) }} />} label={activity.name} />
-                    </div>
-                ))}
-            </Box>
-            <Box height={"40%"} display={"flex"} width={"100%"} margin={"10px 0  20px 0"} alignItems={"center"} justifyContent={"center"}>
-                <Button size="large" variant="contained" onClick={() => saveActivities()}>Guardar</Button>
-            </Box>
-        </FormPrototype>
+        <ModalPortal type={"form"}>
+            <FormPrototype close={() => setAddActivity(false)} tittle={"Seleccione actividades"}>
+                <Box display={"flex"} height={"40%"} width={"90%"} flexWrap={"wrap"}>
+                    {activities && activities.map((activity, key) => (
+                        <div key={key}>
+                            <FormControlLabel control={<Checkbox checked={compare(activity.name)} onChange={({ target: { checked } }) => { handleChecked(checked, activity) }} />} label={activity.name} />
+                        </div>
+                    ))}
+                </Box>
+                <Box height={"40%"} display={"flex"} width={"100%"} margin={"10px 0  20px 0"} alignItems={"center"} justifyContent={"center"}>
+                    <Button size="large" variant="contained" onClick={() => saveActivities()}>Guardar</Button>
+                </Box>
+            </FormPrototype>
+        </ModalPortal>
     );
 }
 

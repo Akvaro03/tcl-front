@@ -3,6 +3,7 @@ import inputClass from "../../../../classes/inputClass";
 import { useEffect, useState } from "react";
 import FormPrototype from "../../../../components/formPrototype";
 import fetchAsyncUrl from "../../../../hooks/fetchAsyncUrl";
+import ModalPortal from "../../../../components/modelPortal";
 
 function SelectUsers({ closeForm, activitySelected, handleUsers }) {
     const [users, setUsers] = useState()
@@ -24,26 +25,28 @@ function SelectUsers({ closeForm, activitySelected, handleUsers }) {
     }
     const inputUsers = new inputClass(() => handleUsers(userAct, score))
     return (
-        <FormPrototype close={closeForm} tittle={"Asignar usuario"} width="70%">
-            <Box sx={{ display: "grid", gridTemplateColumns:"1fr 1fr 1fr", width: "70%", flexWrap: "wrap", paddingBottom: "15px" }}>
-                {users && (
-                    users.map((user, key) => (
-                        <div key={key}>
-                            <FormControlLabel control={<Checkbox checked={compare(user.name)} onChange={({ target: { checked } }) => { handleChecked(checked, user.name) }} />} label={user.name} />
-                        </div>
-                    ))
-                )}
-            </Box>
-            <Box sx={{ height: "10%", display: "flex", gap: "15px", alignItems: "center", marginBottom: "5%" }}>
-                <h1>Score</h1>
-                {inputUsers.getInput(score, setScore)}
-            </Box>
-            <Box>
-                <Button variant="contained" onClick={() => { handleUsers(userAct, score) }}>
-                    Guardar
-                </Button>
-            </Box>
-        </FormPrototype>
+        <ModalPortal type={"form"}>
+            <FormPrototype close={closeForm} tittle={"Asignar usuario"} width="70%">
+                <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", width: "70%", flexWrap: "wrap", paddingBottom: "15px" }}>
+                    {users && (
+                        users.map((user, key) => (
+                            <div key={key}>
+                                <FormControlLabel control={<Checkbox checked={compare(user.name)} onChange={({ target: { checked } }) => { handleChecked(checked, user.name) }} />} label={user.name} />
+                            </div>
+                        ))
+                    )}
+                </Box>
+                <Box sx={{ height: "10%", display: "flex", gap: "15px", alignItems: "center", marginBottom: "5%" }}>
+                    <h1>Score</h1>
+                    {inputUsers.getInput(score, setScore)}
+                </Box>
+                <Box>
+                    <Button variant="contained" onClick={() => { handleUsers(userAct, score) }}>
+                        Guardar
+                    </Button>
+                </Box>
+            </FormPrototype>
+        </ModalPortal>
     );
 }
 
