@@ -4,6 +4,7 @@
     min-height: 8vmin;
     position: relative;
     overflow: hidden;
+    flex-wrap: wrap;
 }
 
 .isFirst {

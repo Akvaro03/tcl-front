@@ -5,6 +5,7 @@ import Style from "./ActivitiesComponent.module.css"
 import { useState } from "react";
 import AddActivity from "../../pages/otAllData/components/addActivity";
 import SelectUsers from "../../pages/otAllData/components/selectUsers";
+import ActivityButton from "../activityButton";
 
 function ActivitiesComponent({ Activities, saveChanges }) {
     const [isFormActivity, setIsFormActivity] = useState()
@@ -16,13 +17,14 @@ function ActivitiesComponent({ Activities, saveChanges }) {
     }
     return (
         <div className={Style.ActivitiesBody}>
+
             <div className={Style.contentActivities}>
                 {Activities.map((activity, key) => (
-                    <p key={key}
-                        onClick={() => setActivitySelected(activity)}
-                        className={Style.activityButton}>{activity.name}</p>
+                    <ActivityButton isClickable={permissions.editActv(rol)} key={key} activity={activity} onClick={setActivitySelected} />
                 ))}
             </div>
+
+
             {permissions.editActv(rol) && (
                 <Button size="small" variant="outlined"
                     onClick={setIsFormActivity}>Editar actividades</Button>

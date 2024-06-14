@@ -1,11 +1,14 @@
-.AvailabilityButton {
-    background: #A1FF75;
+.AvailabilityButton,
+.addAvailability {
     padding: 1vmin 2vmin;
+    border: 1px solid black;
     border-radius: 15px;
     transition: all ease-in-out .2s;
     cursor: pointer;
 }
-
+.AvailabilityButton{
+    background: #A1FF75;
+}
 .AvailabilityButton:hover {
     transform: scale(.9);
 }

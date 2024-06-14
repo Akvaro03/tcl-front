@@ -7,6 +7,7 @@ import PriorityOt from "../../../../components/priorityOt";
 import ClientContactComponent from "../../../../components/ClientContactComponent";
 import ActivitiesComponent from "../../../../components/ActivitiesComponent";
 import AvailabilityComponent from "../../../../components/AvailabilityComponent";
+import FacturaComponent from "../../../../components/FacturaComponent";
 function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
     return (
         <div className={Style.cardData}>
@@ -73,7 +74,7 @@ function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
                 {ot.Cotizacion}
             </ItemCard>
             <ItemCard tittle={"Disposición"}>
-                <AvailabilityComponent Availability={ot.Availability} saveChanges={(data) => handleChangeOt("Availability", data)}/>
+                <AvailabilityComponent Availability={ot.Availability} saveChanges={(data) => handleChangeOt("Availability", data)} />
             </ItemCard>
             <ItemCard tittle={"Observación"}>
                 {ot.Observations}
@@ -83,7 +84,7 @@ function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
 
             <ItemCard tittle={"Facturación"} isTittle />
             <ItemCard tittle={"Facturación"}>
-                Facturación
+                <FacturaComponent facturas={ot.Factura} />
             </ItemCard>
             <ItemCard tittle={"Detalles"} isLast>
                 Detalles

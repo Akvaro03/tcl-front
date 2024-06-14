@@ -1,0 +1,28 @@
+.activityButton {
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 1vmin;
+    height: fit-content;
+    width: fit-content;
+}
+
+.isClickable {
+    cursor: pointer;
+    transition: all ease-in-out .2s;
+}
+
+.isClickable:hover {
+    transform: scale(.9);
+}
+
+.activityAssigned {
+    background: #D6D6D6;
+}
+
+.activityEnd {
+    background-color: #92ff6c;
+}
+
+.activityProcess{
+    background-color: #ffff0052;
+}

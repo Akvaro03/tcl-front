@@ -14,7 +14,7 @@ function useOtData() {
     const [messageList, setMessageList] = useState([])
 
     useEffect(() => {
-        if (valuesChanged.some(value => ['Auth', 'priority', "Contact", "Activities"].includes(value))) {
+        if (valuesChanged.some(value => ['Auth', "Factura", "Availability", 'priority', "Contact", "Activities"].includes(value))) {
             save()
         }
     }, [ot, valuesChanged])
@@ -35,6 +35,7 @@ function useOtData() {
             Contact: formatString(ot.Contact),
             Description: formatString(ot.Description),
             contractName: formatString(ot.contractName),
+            Factura: formatString(ot.Factura),
             Availability: formatString(ot.Availability)
         }
     }
