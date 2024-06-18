@@ -4,17 +4,16 @@ import Style from "./AvailabilityComponent.module.css"
 import permissions from "../../classes/permissions";
 import getUser from "../../hooks/getUser";
 import AddAvailability from "../../pages/otAllData/components/addAvailability";
+import CircleButton from "../CircleButton";
 function AvailabilityComponent({ Availability, saveChanges }) {
     const [isAvailability, setIsAvailability] = useState()
     const rol = getUser("roles")
     if (!permissions.editMuestra(rol)) return ""
     if (!Availability && permissions.editMuestra(rol)) return (
         <>
-            <p
+            <CircleButton
                 onClick={() => setIsAvailability(true)}
-                className={Style.addAvailability}>
-                Agregar Disposición
-            </p>
+                tittle={"Agregar Disposición"} />
             {isAvailability && (
                 <AddAvailability
                     addAvailability={setIsAvailability}

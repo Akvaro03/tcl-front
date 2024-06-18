@@ -42,7 +42,6 @@ function DataOt({ otSelected, reload, setOTSelected }) {
         contractName, Observations,
         FechaVencimiento, OTKey, Availability, IdClient, nLacre, Date, priority,
         Client, Producto, Marca, Modelo, Cotizacion } = otSelected
-
     const [addAvailability, setAddAvailability] = useState(false)
     const [activitySelected, setActivitySelected] = useState()
     const [addActivity, setAddActivity] = useState(false)
@@ -440,7 +439,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                             </>
                         )}
                         {permissions.editPay(rol) ?
-                            <ButtonRadius text={"Agregar Factura"} onClick={() => setAddPay(true)} />
+                            <ButtonRadius text={"Agregar Facturaaaa"} onClick={() => setAddPay(true)} />
                             :
                             !pay && <h1>Pendiente</h1>
                         }
@@ -482,9 +481,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                 </ModalPortal>
             )}
             {addPay && (
-                <ModalPortal type={"form"}>
-                    <ContentPay close={setAddPay} save={savePay} pay={pay} saveList={addListPay} listPay={pay.map(data => data.id)} />
-                </ModalPortal>
+                <ContentPay close={setAddPay} save={savePay} pay={pay} saveList={addListPay} listPay={pay.map(data => data.id)} />
             )}
             {addItems && (
                 <AddItems close={setAddItems} prevItems={Description} save={saveItems} />

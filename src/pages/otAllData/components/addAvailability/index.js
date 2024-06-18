@@ -1,4 +1,4 @@
-import { Box, Button, Fade, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -6,6 +6,7 @@ import formatDate from "../../../../hooks/formatDate";
 import { useState } from "react";
 import dayjs from "dayjs";
 import ModalPortal from "../../../../components/modelPortal";
+import FormPrototype from "../../../../components/formPrototype";
 function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
     const [date, setDate] = useState(dayjs(Date.now()))
     const types = ["DFR", "Retiro", "Entrega"]
@@ -15,23 +16,8 @@ function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
     };
     return (
         <ModalPortal type={"form"}>
-            <Fade in={true}>
-                <Box sx={{ width: "40%", height: "40%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
-                    <Box sx={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-around", height: "25%" }}>
-                        <h1>
-                        </h1>
-                        <h1>
-                            Selecciona Disposición
-                        </h1>
-                        {isDeletable ? (
-                            <Box component={"div"} onClick={() => saveAvailability(null)}>
-                                <DeleteForeverIcon fontSize="large" sx={{ cursor: "pointer" }} />
-                            </Box>
-                        ) : (
-                            <h1>
-                            </h1>
-                        )}
-                    </Box>
+            <FormPrototype close={() => addAvailability(false)} tittle={"Selecciona Disposición"}>
+                <Box sx={{ height: "35vmin", alignItems:"center", justifyContent: "center", display: "flex", flexDirection: "column" }}>
                     <Box display={"flex"} height={"40%"} width={"90%"} flexWrap={"wrap"} justifyContent={"center"}>
                         <FormControl>
                             <RadioGroup
@@ -43,6 +29,11 @@ function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
                                 {types && types.map((activity, key) => (
                                     <FormControlLabel key={key} value={activity} control={<Radio />} label={activity} />
                                 ))}
+                                {isDeletable && (
+                                    <Box component={"div"} onClick={() => saveAvailability(null)}>
+                                        <DeleteForeverIcon fontSize="large" sx={{ cursor: "pointer" }} />
+                                    </Box>
+                                )}
                             </RadioGroup>
                         </FormControl>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -52,13 +43,11 @@ function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
                                 value={date} onChange={(date) => setDate(date)} />
                         </LocalizationProvider>
                     </Box>
-
                     <Box height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
-                        <Button size="small" variant="outlined" onClick={() => addAvailability(false)}>Cerrar</Button>
                         <Button size="large" variant="contained" onClick={() => saveAvailability({ type, date: formatDate(date) })}>Guardar</Button>
                     </Box>
                 </Box>
-            </Fade>
+            </FormPrototype>
         </ModalPortal>
     );
 }

@@ -6,6 +6,7 @@ import { Box, Button, Checkbox } from "@mui/material";
 import { useState } from "react";
 import dayjs from "dayjs";
 import typePay from "../../../types/typePay";
+import ModalPortal from "../../modelPortal";
 
 function FormPay({ close, save, pay = [], missedData }) {
     const [dateExpiration, setDateExpiration] = useState(pay ? dayjs(pay.dateExpiration) : dayjs(Date.now()))
@@ -41,56 +42,58 @@ function FormPay({ close, save, pay = [], missedData }) {
 
     const inputPay = new inputClass(handleSubmit)
     return (
-        <FormPrototype close={close} tittle={pay.id ? "Editar Factura" : "Agregar Factura"} >
-            <Box display={"flex"} flexDirection={"column"} gap={"20px"} marginTop={"30px"} marginBottom={"30px"} alignItems={"center"}>
-                <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box marginRight={"20px"}>ID:</Box>
-                    <Box width={"100%"}>
-                        {inputPay.getInput(id, (data) => setId(data))}
+        <ModalPortal type={"form"}>
+            <FormPrototype close={close} tittle={pay.id ? "Editar Factura" : "Agregar Factura"} >
+                <Box display={"flex"} flexDirection={"column"} gap={"20px"} marginTop={"30px"} marginBottom={"30px"} alignItems={"center"}>
+                    <Box width={"80%"} display={"flex"} alignItems={"center"}>
+                        <Box marginRight={"20px"}>ID:</Box>
+                        <Box width={"100%"}>
+                            {inputPay.getInput(id, (data) => setId(data))}
+                        </Box>
+                    </Box>
+                    <Box width={"80%"} display={"flex"} alignItems={"center"}>
+                        <Box sx={{ width: "50%" }}>Creación:</Box>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                format="DD/MM/YYYY"
+                                slotProps={{ textField: { size: 'small' } }}
+                                value={dateCreated} onChange={(date) => setDateCreated(date)} />
+                        </LocalizationProvider>
+                    </Box>
+                    <Box width={"80%"} display={"flex"} alignItems={"center"}>
+                        <Box sx={{ width: "50%" }}>Vencimiento:</Box>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                format="DD/MM/YYYY"
+                                slotProps={{ textField: { size: 'small' } }}
+                                value={dateExpiration} onChange={(date) => setDateExpiration(date)} />
+                        </LocalizationProvider>
+                    </Box>
+                    <Box width={"80%"} display={"flex"} alignItems={"center"}>
+                        <Box sx={{ width: "50%" }}>Cobro:</Box>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                format="DD/MM/YYYY"
+                                disabled={!isPay}
+                                slotProps={{ textField: { size: 'small' } }}
+                                value={datePay} onChange={(date) => setDatePay(date)} />
+                        </LocalizationProvider>
+                        <Checkbox
+                            checked={isPay}
+                            onChange={handleChange}
+                            inputProps={{ 'aria-label': 'controlled' }}
+                        />
                     </Box>
                 </Box>
-                <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%" }}>Creación:</Box>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            format="DD/MM/YYYY"
-                            slotProps={{ textField: { size: 'small' } }}
-                            value={dateCreated} onChange={(date) => setDateCreated(date)} />
-                    </LocalizationProvider>
-                </Box>
-                <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%" }}>Vencimiento:</Box>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            format="DD/MM/YYYY"
-                            slotProps={{ textField: { size: 'small' } }}
-                            value={dateExpiration} onChange={(date) => setDateExpiration(date)} />
-                    </LocalizationProvider>
-                </Box>
-                <Box width={"80%"} display={"flex"} alignItems={"center"}>
-                    <Box sx={{ width: "50%" }}>Cobro:</Box>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            format="DD/MM/YYYY"
-                            disabled={!isPay}
-                            slotProps={{ textField: { size: 'small' } }}
-                            value={datePay} onChange={(date) => setDatePay(date)} />
-                    </LocalizationProvider>
-                    <Checkbox
-                        checked={isPay}
-                        onChange={handleChange}
-                        inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                </Box>
-            </Box>
 
-            <Box height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
-                {close && (
-                    <Button size="small" onClick={() => close(false)} variant="outlined"  >Cerrar</Button>
-                )}
-                <Button size="large" onClick={() => handleSubmit()} variant="contained" >Guardar</Button>
-            </Box>
-        </FormPrototype>
+                <Box height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
+                    {close && (
+                        <Button size="small" onClick={() => close(false)} variant="outlined"  >Cerrar</Button>
+                    )}
+                    <Button size="large" onClick={() => handleSubmit()} variant="contained" >Guardar</Button>
+                </Box>
+            </FormPrototype>
+        </ModalPortal>
     );
 }
 
