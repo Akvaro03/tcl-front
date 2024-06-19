@@ -5,6 +5,7 @@ import getOneUser from "../../db/getOneUser";
 import getUser from "../../hooks/getUser";
 import { Box } from "@mui/material";
 import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
+
 function OtAsingPages() {
     const [User, setUser] = useState()
     const [Ots, setOts] = useState()
