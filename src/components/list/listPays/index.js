@@ -48,7 +48,7 @@ function ListPays({ pays, select, saveList, listPay, close }) {
                         <div className={Style.contentListOt}>
                             {paysData && paysData[0] ? (
                                 paysData.map((Pay, key) => (
-                                    <div key={key} className={Style.ColumOt} onDoubleClick={() => select && saveList(Pay)}>
+                                    <div key={key} className={Style.ColumOt} onDoubleClick={() => select && saveList(Pay.id)}>
                                         <Colum data={Pay.id} width="35%" />
                                         <Colum data={formatDateM(Pay.dateCreated)} />
                                         <Colum data={formatDateM(Pay.dateExpiration)} width="20%" />

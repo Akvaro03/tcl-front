@@ -1,7 +1,15 @@
-.addFactura{
-    padding: 1vmin 2vmin;
-    border: 1px solid black;
-    border-radius: 15px;
-    transition: all ease-in-out .2s;
-    cursor: pointer;
+.bodyFacturas{
+    display: flex;
+    flex-direction: column;
+    gap: 4vmin;
+    width: 100%;
+    padding: 2vmin 0;
+}
+
+.facturasButtons{
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    row-gap: 5px;
+    width: 100%;
 }

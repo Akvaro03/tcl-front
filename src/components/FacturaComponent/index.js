@@ -1,33 +1,50 @@
-import { useState } from "react";
-import permissions from "../../classes/permissions";
-import getUser from "../../hooks/getUser";
 import ContentPay from "../../pages/otAllData/components/contentPay";
-import CircleButton from "../CircleButton";
+import permissions from "../../classes/permissions";
 import Style from "./FacturaComponent.module.css"
+import CircleButton from "../CircleButton";
+import getUser from "../../hooks/getUser";
+import { Button } from "@mui/material";
+import OptionPay from "../../pages/otAllData/components/optionPay";
+import useFacturaOT from "../../hooks/useFacturasOt";
 
-function FacturaComponent({ facturas, saveChanges }) {
-    const [addPay, setAddPay] = useState()
+function FacturaComponent({ facturas = [], saveChanges }) {
+    const { addPay, editPay, addFactura, deleteFactura, editFactura, handleUi } = useFacturaOT(facturas ? facturas : [], saveChanges)
     const rol = getUser("roles")
-    const nose = (a) => console.log(a)
     if (!facturas && !permissions.editPay(rol)) return ""
     if (!facturas && permissions.editPay(rol)) return (
-        <>
-            <CircleButton onClick={setAddPay} tittle={"Agregar Factura"} />
+        <div className={Style.bodyFacturas}>
+            <Button size="small" variant="outlined"
+                onClick={() => handleUi("add", true)}>Agregar Factura</Button>
             {addPay && (
-                <ContentPay close={() => setAddPay(false)} save={saveChanges} pay={facturas} saveList={nose} listPay={facturas} />
+                <ContentPay close={() => handleUi("add", false)} save={saveChanges} pay={facturas} saveList={addFactura} listPay={facturas} />
             )}
-        </>
+        </div>
     )
     return (
-        <>
-            {facturas.map((data, key) => (
-                <CircleButton key={key} tittle={data} />
-            ))}
-            <CircleButton onClick={setAddPay} tittle={"Agregar Factura"} />
+        <div className={Style.bodyFacturas}>
+            <div className={Style.facturasButtons}>
+                {facturas.map((data, key) => (
+                    <CircleButton onClick={() => handleUi("edit", data)} key={key} tittle={data} />
+                ))}
+            </div>
+            <Button size="small" variant="outlined"
+                onClick={() => handleUi("add", true)}>Agregar Factura</Button>
             {addPay && (
-                <ContentPay close={() => setAddPay(false)} save={saveChanges} pay={facturas} saveList={nose} listPay={facturas} />
+                <ContentPay
+                    close={() => handleUi("add", false)}
+                    save={saveChanges}
+                    pay={facturas}
+                    saveList={addFactura}
+                    listPay={facturas} />
             )}
-        </>
+            {editPay && (
+                <OptionPay
+                    pay={editPay}
+                    close={() => handleUi("edit", false)}
+                    deletePay={deleteFactura}
+                />
+            )}
+        </div>
     );
 }
 

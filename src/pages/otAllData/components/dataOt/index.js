@@ -476,9 +476,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                 <AddContact close={setAddContact} save={sendOTEdit} prevContacts={Contact} />
             )}
             {uiState.editPay && (
-                <ModalPortal type={"form"}>
-                    <OptionPay pay={uiState.editPay} pays={pay} deleteModal={closeEditPay} savePay={savePay} />
-                </ModalPortal>
+                <OptionPay pay={uiState.editPay} pays={pay} deleteModal={closeEditPay} savePay={savePay} />
             )}
             {addPay && (
                 <ContentPay close={setAddPay} save={savePay} pay={pay} saveList={addListPay} listPay={pay.map(data => data.id)} />
