@@ -3,15 +3,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Box, Button, Fade } from "@mui/material";
 import { useState } from "react";
 import dayjs from "dayjs";
-import changePay from "../../../../db/changePay";
 
-export default function EditPay({ pay, deleteModal}) {
+export default function EditPay({ pay, payFactura }) {
     const [datePaid, setDatePaid] = useState(dayjs(Date.now()))
-    const paidPay = () => {
-        let copyPay = { ...pay, datePay: datePaid, paid: true }
-        changePay(copyPay)
-        deleteModal(null)
-    }
     return (
         <Fade in={true}>
             <Box sx={{ width: "40%", height: "50%", background: "white", alignItems: "center", display: "flex", flexDirection: "column", borderRadius: "15px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
@@ -34,8 +28,7 @@ export default function EditPay({ pay, deleteModal}) {
                 </Box>
 
                 <Box height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
-                    <Button size="small" variant="outlined" onClick={() => deleteModal(null)}>Cerrar</Button>
-                    <Button size="large" variant="contained" onClick={() => paidPay()}>Guardar</Button>
+                    <Button size="large" variant="contained" onClick={() => payFactura(pay, datePaid)}>Guardar</Button>
                 </Box>
             </Box>
         </Fade>

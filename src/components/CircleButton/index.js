@@ -1,8 +1,9 @@
 import Style from "./CircleButton.module.css"
 
-function CircleButton({ tittle, onClick }) {
+function CircleButton({ tittle, onClick, background = "white" }) {
     return (
         <p
+            style={{ background: background }}
             onClick={onClick}
             className={Style.CircleButton}>
             {tittle}

@@ -6,9 +6,10 @@ import getUser from "../../hooks/getUser";
 import { Button } from "@mui/material";
 import OptionPay from "../../pages/otAllData/components/optionPay";
 import useFacturaOT from "../../hooks/useFacturasOt";
+import CircleFacturaButton from "./circleFacturaButton";
 
 function FacturaComponent({ facturas = [], saveChanges }) {
-    const { addPay, editPay, addFactura, deleteFactura, editFactura, handleUi } = useFacturaOT(facturas ? facturas : [], saveChanges)
+    const { addPay, editPay, addFactura, deleteFactura, payFactura, editFactura, handleUi } = useFacturaOT(facturas ? facturas : [], saveChanges)
     const rol = getUser("roles")
     if (!facturas && !permissions.editPay(rol)) return ""
     if (!facturas && permissions.editPay(rol)) return (
@@ -24,7 +25,7 @@ function FacturaComponent({ facturas = [], saveChanges }) {
         <div className={Style.bodyFacturas}>
             <div className={Style.facturasButtons}>
                 {facturas.map((data, key) => (
-                    <CircleButton onClick={() => handleUi("edit", data)} key={key} tittle={data} />
+                    <CircleFacturaButton onClick={() => handleUi("edit", data)} key={key} data={data} />
                 ))}
             </div>
             <Button size="small" variant="outlined"
@@ -42,6 +43,7 @@ function FacturaComponent({ facturas = [], saveChanges }) {
                     pay={editPay}
                     close={() => handleUi("edit", false)}
                     deletePay={deleteFactura}
+                    payFactura={payFactura}
                 />
             )}
         </div>

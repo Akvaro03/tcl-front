@@ -61,9 +61,7 @@ function OtListPage() {
                         />
                     )}
                     {isEditFactura && (
-                        <ModalPortal type={"form"}>
-                            <FormPay save={saveFactura} close={handleIsEditFactura} pay={isEditFactura} />
-                        </ModalPortal>
+                        <FormPay save={saveFactura} close={handleIsEditFactura} pay={isEditFactura} />
                     )}
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { default as EditPay } from "../../db/editPay"
 
 function useFacturaOT(facturas, saveChanges) {
     const [addPay, setAddPay] = useState()
@@ -14,6 +15,13 @@ function useFacturaOT(facturas, saveChanges) {
     const editFactura = (editFactura) => {
         console.log(editFactura)
     }
+    const payFactura = (payFactura, dayPaid) => {
+        const dateFormated = new Date(dayPaid).getTime()
+        console.log("pagar factura")
+        EditPay({ datePay: dateFormated, id: payFactura })
+        handleUi("edit", false)
+
+    }
     const handleUi = (type, data) => {
         if (type === "add") {
             setAddPay(data)
@@ -21,7 +29,7 @@ function useFacturaOT(facturas, saveChanges) {
         }
         setEditPay(data)
     }
-    return { addPay, editPay, handleUi, editFactura, addFactura, deleteFactura }
+    return { addPay, editPay, handleUi, payFactura, editFactura, addFactura, deleteFactura }
 }
 
 export default useFacturaOT;

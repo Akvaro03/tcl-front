@@ -4,7 +4,7 @@ import ModalPortal from "../../../../components/modelPortal";
 import EditPay from "../editPay";
 import FormPrototype from "../../../../components/formPrototype";
 
-export default function OptionPay({ pay, close, deletePay }) {
+export default function OptionPay({ pay, close, deletePay, payFactura }) {
     const [editPay, setEditPay] = useState()
 
     return (
@@ -18,7 +18,7 @@ export default function OptionPay({ pay, close, deletePay }) {
                 </Box>
                 {editPay && (
                     <ModalPortal type={"form"}>
-                        <EditPay pay={pay} deleteModal={close} />
+                        <EditPay pay={pay} payFactura={payFactura} />
                     </ModalPortal>
                 )}
             </FormPrototype>
