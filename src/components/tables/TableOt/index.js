@@ -1,5 +1,6 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import isUserAssigned from "../../../hooks/isUserAssigned";
+import DeleteIcon from '@mui/icons-material/Delete';
 import isActivitiesEnd from "../../../hooks/isActivitiesEnd";
 import getStateActivity from "../../../hooks/getStateActivity";
 import formatDateM from "../../../hooks/formatDateM";
@@ -11,22 +12,44 @@ import editOt from "../../../db/editOT";
 import getUser from "../../../hooks/getUser";
 import permissions from "../../../classes/permissions";
 import getStateOt from "../../../utilities/getStateOt";
+import delete_ot from "../../../db/delete_ot"; 
+import { useState } from "react";
+
 export default function TableOT({ data, Colum, dataHover, recharge }) {
     const rol = getUser("roles");
-    const stateOt = getStateOt(data)
+    const stateOt = getStateOt(data);
+    const [open, setOpen] = useState(false);
+
     const handleChangeAuth = (data) => {
         const newAuth = data.Auth === "1" ? 0 : 1;
         const dataToSend = { otId: data.id, newAuth };
         data.Auth = newAuth;
-        changeAuth(dataToSend, data.id,messageHistory.tittleEditaAuth, "") 
-        recharge(data)
-    }
+        changeAuth(dataToSend, data.id, messageHistory.tittleEditaAuth, ""); 
+        recharge(data);
+    };
+
+    const handleDelete = () => {
+        delete_ot({ id: data.id }) 
+            .then(() => {
+                window.location.reload(); 
+            })
+            .catch((error) => {
+                console.error("Error deleting OT:", error);
+            });
+        setOpen(false); // Close the dialog after deletion
+    };
+
     const handlePriority = () => {
-        const newPriority = ClassPriorityOt.handleClick(data.priority)
+        const newPriority = ClassPriorityOt.handleClick(data.priority);
         data.priority = newPriority;
-        editOt(data, data.id, messageHistory.tittleEditPriority)
-        recharge(data)
-    }
+        editOt(data, data.id, messageHistory.tittleEditPriority);
+        recharge(data);
+    };
+
+    const handleDialog = () => {
+        setOpen(!open);
+    };
+
     return (
         <>
             <Colum data={
@@ -34,6 +57,37 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
                     {<PriorityOt priority={data.priority} size="small" />}
                 </Box>
             } width="3%" />
+
+            <Colum data={
+                <Box onClick={handleDialog}>
+                    <IconButton sx={{ padding: "0px"}}>
+                        <DeleteIcon />
+                    </IconButton>
+                </Box>
+            } width="3%" />
+
+            <Dialog
+                open={open}
+                onClose={handleDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Confirmar eliminación"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        ¿Está seguro de que desea eliminar este OT?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialog}>Cancelar</Button>
+                    <Button onClick={handleDelete} autoFocus>
+                        Aceptar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             <Colum data={data.OTKey} width="15%" />
             <Colum data={formatDateM(data.Date)} width="9%" />
             <Colum data={data.Type} width="13%" />
