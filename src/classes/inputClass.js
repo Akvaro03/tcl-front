@@ -6,6 +6,6 @@ export default class inputClass {
     }
 
     getInput(value, onchange) {
-        return <InputMui value={value} onChange={onchange} sendData={this.submitFunction}/>
+        return <InputMui value={value} onChange={onchange} sendData={this.submitFunction} />
     }
 } 

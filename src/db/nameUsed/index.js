@@ -15,7 +15,6 @@ async function nameUsed(newName, type) {
     return names.includes(nameFormat);
 } 
 function getCodeClient() {
-    console.log("first")
     return fetchAsyncUrl("/getClients")
         .then(data => data.map(type => type.KeyUnique !== null ? type.KeyUnique.trim().toLowerCase() : ""));
 }

@@ -61,7 +61,7 @@ function OtListPage() {
                         />
                     )}
                     {isEditFactura && (
-                        <FormPay save={saveFactura} close={handleIsEditFactura} pay={isEditFactura} />
+                        <FormPay anotherSave={saveFactura} pay={isEditFactura} close={handleIsEditFactura} />
                     )}
                 </div>
             </div>

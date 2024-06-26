@@ -6,9 +6,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function FormPrototype({ close, children, tittle, onDelete, width = "50%" }) {
     useEffect(() => {
-        window.addEventListener('keydown', e => closeEsc(e, close));
+        close && window.addEventListener('keydown', e => closeEsc(e, close));
         return () => {
-            window.removeEventListener('keydown', closeEsc);
+            close && window.removeEventListener('keydown', closeEsc);
         };
     }, [close])
     return (

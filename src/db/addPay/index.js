@@ -6,5 +6,5 @@ export default async function addPay(dataToSend) {
     if (isNameUsed) {
         return "name used"
     }
-    editDb.postData("postPay", dataToSend)
+    return editDb.postData("postPay", dataToSend)
 }

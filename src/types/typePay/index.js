@@ -1,9 +1,9 @@
 export default class typePay {
     constructor({ id, dateCreated, dateExpiration, datePay }) {
-        this.dateExpiration = dateExpiration;
-        this.dateCreated = dateCreated;
-        this.datePay = datePay;
-        this.id = id;
+        this.dateExpiration = new Date(dateExpiration).getTime();
+        this.dateCreated = new Date(dateCreated).getTime();
+        this.datePay = new Date(datePay).getTime();
+        this.id = String(id);
     }
     verifyPay() {
         return (

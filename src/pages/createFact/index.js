@@ -5,23 +5,16 @@ import ToastList from "../../components/toastList";
 import Style from "./createFact.module.css"
 import addPay from "../../db/addPay";
 import { useState } from "react";
+import useFacturaOT from "../../hooks/useFacturasOt";
 
 function CreateFact() {
     const [toasts, setToasts] = useState([]);
-    const savePay = async (pay) => {
-        try {
-            addPay({ pay })
-                .then(() => {
-                    classToastList.addToast(setToasts, "ok Fact")
-                })
-        } catch (error) {
-        }
-    }
+    const { createFactura } = useFacturaOT()
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.BodyCreateOt}>
-                <FormPay save={savePay} missedData={() => classToastList.addToast(setToasts, { id: Date.now(), text: "missed data" })} />
+                <FormPay save={createFactura} addNotification={setToasts} />
             </div>
             <ToastList
                 listData={toasts}
