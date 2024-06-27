@@ -20,8 +20,7 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
     const stateOt = getStateOt(data);
     const [open, setOpen] = useState(false);
 
-    const handleChangeAuth = (data) => {
-        const newAuth = data.Auth === "1" ? 0 : 1;
+    const handleChangeAuth = (data, newAuth) => {
         const dataToSend = { otId: data.id, newAuth };
         data.Auth = newAuth;
         changeAuth(dataToSend, data.id, messageHistory.tittleEditaAuth, ""); 
@@ -49,6 +48,14 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
     const handleDialog = () => {
         setOpen(!open);
     };
+
+    const toggleAnulado = () => {
+        const newAuth = data.Auth === "-1" ? "0" : "-1";
+        handleChangeAuth(data, newAuth);
+    };
+
+    const isAdminOrDirector = rol === "Director" || rol === "Administracion";
+    const isDirector = rol === "Director";
 
     return (
         <>
@@ -80,12 +87,18 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
                         ¿Está seguro de que desea eliminar este OT?
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleDialog}>Cancelar</Button>
-                    <Button onClick={handleDelete} autoFocus>
-                        Aceptar
+                <DialogActions sx={{color: "black", padding: "0",  borderRadius: "5px", margin: "1px", display: "flex", justifyContent: "space-between" }}>
+                    <Button sx={{color:"black", margin: "5px", padding: "10px", background: "#9BC9DD"}} onClick={handleDialog}>Cancelar</Button>
+                    {isDirector && (
+                    <Button sx={{color:"black", margin: "5px",  padding: "10px", background: "#9BC9DD"}} onClick={handleDelete} autoFocus>
+                        Eliminar
+                    </Button>
+                    )}
+                    <Button sx={{color:"black", margin: "5px",padding: "10px" , background: "#9BC9DD"}} onClick={toggleAnulado} color="secondary">
+                        {data.Auth === "-1" ? "Revertir Anulación" : "Anular OT"}
                     </Button>
                 </DialogActions>
+
             </Dialog>
 
             <Colum data={data.OTKey} width="15%" />
@@ -109,24 +122,28 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>En Proceso</h1>
                 </Box>
-            ) : stateOt === "En Espera" && (
+            ) : stateOt === "En Espera" ? (
                 <Box sx={{ borderRadius: "20px", margin: "5px", background: "#00000029", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>En espera</h1>
+                </Box>
+            ) : (
+                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff0000", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <h1>Anulado</h1>
                 </Box>
             )}
             {data.Auth === "0" && permissions.editAuth(rol) ? (
                 dataHover === data.id ? (
                     <Box sx={{ opacity: "1", width: "15%", justifyContent: "center", visibility: "visible", transition: "visibility 0s, opacity 0.1s linear, width 0.15s linear" }}>
-                        <Button onClick={() => handleChangeAuth(data)}>Autorizar OT</Button>
+                        <Button onClick={() => handleChangeAuth(data, 1)}>Autorizar OT</Button>
                     </Box>
                 ) : (
                     <Box sx={{ opacity: "0", width: "5%", justifyContent: "center", visibility: "hidden", transition: "visibility 0s, opacity 0.1s linear, width 0.1s linear" }}>
-                        <Button onClick={() => handleChangeAuth(data)}>Autorizar OT</Button>
+                        <Button onClick={() => handleChangeAuth(data, 1)}>Autorizar OT</Button>
                     </Box>
                 )
             ) : (
                 <Colum width="5%" />
             )}
         </>
-    )
+    );
 }

@@ -36,6 +36,7 @@ import dayjs from "dayjs";
 import SelectContact from '../../../../components/selectContract';
 import AddItems from '../../../../components/addItems';
 import changeItems from '../../../../db/changeItems';
+import getStateOt from "../../../../utilities/getStateOt";
 
 function DataOt({ otSelected, reload, setOTSelected }) {
     const { Activities, id, Contact, pay, Auth, Type, Description,
@@ -301,19 +302,25 @@ function DataOt({ otSelected, reload, setOTSelected }) {
                         {OTKey}
                     </div>
                     {Auth === "1" ? (
-                        <div className={permissions.editAuth(rol) ? Style.authClickable : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
-                            <h1>
-                                Autorizado
-                            </h1>
-                        </div>
+    <div className={permissions.editAuth(rol) ? Style.authClickable : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
+        <h1>
+            Autorizado
+        </h1>
+    </div>
+) : Auth === "0" ? (
+    <div className={permissions.editAuth(rol) ? Style.authNone : Style.authNone} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
+        <h1>
+           No Autorizado
+        </h1>
+    </div>
+) : (
+    <div className={Style.authNone}>
+        <h1>
+            Anulado
+        </h1>
+    </div>
+)}
 
-                    ) : (
-                        <div className={permissions.editAuth(rol) ? Style.authNoneClickable : Style.auth} onClick={() => permissions.editAuth(rol) && changeAuthButton()}>
-                            <h1>
-                                No Autorizado
-                            </h1>
-                        </div>
-                    )}
                     <div className={Style.contentTittle}>
                         <h1>{id}</h1>
                     </div>

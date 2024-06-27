@@ -5,6 +5,8 @@ import { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
+import getStateOt from "../../../../utilities/getStateOt";
+
 
 function ListItems({ Ots, reload, user }) {
     const [count, setCount] = useState(0);
@@ -67,7 +69,11 @@ const filterOT = (Ots, user, handleStateActivity, navigate) => {
                 onDoubleClick={() => navigate(`/events/${OT.id}`)}>
                 <Colum data={OT.OTKey} />
                 <Colum data={activity.name} />
-                {activity.state.toUpperCase() === "CREATED" ? (
+                {getStateOt(OT) === "Anulado" ? (
+                    <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff0000", width: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <h1>Anulado</h1>
+                    </Box>
+                ) : activity.state.toUpperCase() === "CREATED" ? (
                     <>
                         <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <h1>Sin empezar</h1>
