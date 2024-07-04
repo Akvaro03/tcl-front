@@ -38,6 +38,14 @@ function CompanyDataPdf({ ot, location, contact, client, document }) {
                             {client && client.KeyUnique}
                         </Typography>
                     </div>
+                    <div className={Style.rowData}>
+                        {contact && contact.map((contactValue, key) => (
+                            <div className={Style.dataContent} key={key}>
+                                <p className={Style.dataLabel}>Contacto:</p>
+                                <p className={Style.dataValue}>{contactValue.contact}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
                 <div className={Style.contactDataTotal}>
                 <div className={Style.contactData2}>
@@ -55,14 +63,6 @@ function CompanyDataPdf({ ot, location, contact, client, document }) {
                         ))}
                     </div>
                 </div>
-                <div className={Style.rowData}>
-                        {contact && contact.map((contactValue, key) => (
-                            <div className={Style.dataContent} key={key}>
-                                <p className={Style.dataLabel}>Contacto:</p>
-                                <p className={Style.dataValue}>{contactValue.contact}</p>
-                            </div>
-                        ))}
-                    </div>
             </div>
         </div>
     );

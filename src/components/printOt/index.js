@@ -1,14 +1,16 @@
 import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import FormPrototype from "../formPrototype";
-import Style from "./printOt.module.css"
+import Style from "./printOt.module.css";
 import getIp from "../../hooks/getIp";
 import { useState } from "react";
 
 export default function PrintOt({ Result, close }) {
-    const [numberEt, setNumberEt] = useState(2)
+    const [numberEt, setNumberEt] = useState(2);
+
     const printPdf = (nameUrl, numberEt) => {
-        window.open(`${getIp()}:3000/${nameUrl}/${Result}` + (numberEt ? "/" + numberEt : ""))
+        window.open(`${getIp()}:3000/${nameUrl}/${Result}` + (numberEt ? "/" + numberEt : ""));
     }
+
     return (
         <FormPrototype tittle={"Imprimir"} close={close}>
             <div className={Style.selectNumber}>
@@ -27,18 +29,24 @@ export default function PrintOt({ Result, close }) {
                     </Select>
                 </FormControl>
             </div>
-            <div className={Style.buttons}>
-                <Button variant="contained" onClick={() => { printPdf("Remito") }} >Imprimir Remito</Button>
-                <Button variant="contained" onClick={() => { printPdf("ordentrabajo") }} >Imprimir Orden de trabajo</Button>
-                <Button variant="contained" onClick={() => { printPdf("Etiqueta", numberEt) }} >Imprimir Etiqueta</Button>
+            <div className={Style.allbuttons}>
+                <div className={Style.buttons}>
+                    <Button variant="contained" onClick={() => { printPdf("Remito") }} >Imprimir Remito</Button>
+                    <Button variant="contained" onClick={() => { printPdf("ordentrabajo") }} >Imprimir Orden de trabajo</Button>
+                    <Button variant="contained" onClick={() => { printPdf("Etiqueta", numberEt) }} >Imprimir Etiqueta</Button>
+                </div>
+                <div className={Style.buttons}>
+                <button variant="contained" onClick={() => { close();  }}>CANCELAR</button>
+                </div>
             </div>
         </FormPrototype>
     );
 }
+
 const returnAllNumbers = () => {
     const items = [];
     for (let i = 0; i < 40; i++) {
-        items.push(<MenuItem key={i} value={i}>{i}</MenuItem>)
+        items.push(<MenuItem key={i} value={i}>{i}</MenuItem>);
     }
-    return items
+    return items;
 }

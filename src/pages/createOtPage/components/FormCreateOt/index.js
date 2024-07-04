@@ -17,6 +17,8 @@ import MultipleSelect from '../../../../components/multipleSelect';
 import PrintOt from '../../../../components/printOt';
 import ModalPortal from '../../../../components/modelPortal';
 
+import dayjs from 'dayjs';
+
 function FormCreateOt() {
     const [isSave, setIsSave] = useState(null)
     const [isSaveOTDisabled, setIsSaveOTDisabled] = useState(false)
@@ -32,6 +34,18 @@ function FormCreateOt() {
         Name: client.Name,
         Contacts: client.Contacts ? JSON.parse(client.Contacts) : ""
     })) : [];
+
+    useEffect(() => {
+        // Obtener la fecha actual
+        const today = dayjs();
+        // Calcular la fecha de entrega estimada (30 días después)
+        const deliveryDate = today.add(30, 'day');
+        
+        // Verificar si OT.FechaEstimada ya tiene un valor (para no sobrescribirlo si ya está establecido)
+        if (!OT.FechaEstimada) {
+            editOT('FechaEstimada', deliveryDate); // Establecer la fecha de entrega estimada en el estado OT
+        }
+    }, []); 
 
     useEffect(() => {
         getOTkey(OT.Date)
@@ -202,6 +216,17 @@ function FormCreateOt() {
                             Agregar Descripción
                         </p>
                     </Button>
+
+                    <div className={Style.dateSection}>
+                        <p className={Style.TittleType}>Fecha de entrega estimada:</p>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                sx={{ paddingTop: "10px", width: "100%" }}
+                                format="DD/MM/YYYY"
+                                slotProps={{ textField: { size: 'small' } }}
+                                value={OT.FechaEstimada} onChange={(e) => editOT("FechaEstimada", e)} />
+                        </LocalizationProvider>
+                    </div>
                     <div className={Style.dateSection}>
                         <p className={Style.TittleType}>Fecha de vencimiento del certificado:</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -211,16 +236,6 @@ function FormCreateOt() {
                                 slotProps={{ textField: { size: 'small' } }}
                                 value={OT.FechaVencimiento} onChange={(e) => editOT("FechaVencimiento", e)} />
 
-                        </LocalizationProvider>
-                    </div>
-                    <div className={Style.dateSection}>
-                        <p className={Style.TittleType}>Fecha de entrega estimada:</p>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                sx={{ paddingTop: "10px", width: "100%" }}
-                                format="DD/MM/YYYY"
-                                slotProps={{ textField: { size: 'small' } }}
-                                value={OT.FechaEstimada} onChange={(e) => editOT("FechaEstimada", e)} />
                         </LocalizationProvider>
                     </div>
                 </div>

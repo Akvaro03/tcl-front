@@ -9,18 +9,13 @@
     width: 100%;
     padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .productDiv h1{
-    padding-left: 8px;
-    padding-top: 2px;
-}
-
-.productDiv h1 {
+    padding-top: 5px;
     font-weight: bolder;
     font-size: 13px;
-
 }
 
 .productDiv:nth-child(1),

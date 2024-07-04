@@ -1,18 +1,24 @@
 import changeActOt from "../../../../db/changeActOt";
 import { Box, Button } from "@mui/material";
-import Style from "./listItems.module.css"
-import openNewTab from "../../../../hooks/openNewTab";
+import Style from "./listItems.module.css";
 import { useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useNavigate } from 'react-router-dom';
+import getStateOt from "../../../../utilities/getStateOt";
+
 
 function ListItems({ Ots, reload, user }) {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
+    const navigate = useNavigate(); // Utilizamos useNavigate en el componente ListItems
+
     const handleStateActivity = (newState, activity, OT) => {
-        changeActOt({ id: OT.id, activity: addNewActivity(OT, { ...activity, state: newState }) }, OT.id, "Se cambio el estado")
-        reload()
+        changeActOt({ id: OT.id, activity: addNewActivity(OT, { ...activity, state: newState }) }, OT.id, "Se cambio el estado");
+        reload();
     }
-    const activities = getActivities(Ots, count, user, handleStateActivity);
+
+    const activities = getActivities(Ots, count, user, handleStateActivity, navigate); // Pasamos navigate como argumento a getActivities
+
     return (
         <div className={Style.contentListOt}>
             <Box sx={{ display: "flex", borderBottom: "3px solid #1976D2", width: "95%", height: "45px", fontWeight: "bold" }}>
@@ -44,25 +50,30 @@ function ListItems({ Ots, reload, user }) {
                     </Box>
                 )}
             </Box>
-
-        </div >
+        </div>
     );
 }
-const getActivities = (Ots, count, user, handleStateActivity) => {
-    const result = filterOT(Ots, user, handleStateActivity)
-    const mergedArray = concatArray(result)
-    return mergedArray.map((data, key) => [{ ...data, key }])
+
+const getActivities = (Ots, count, user, handleStateActivity, navigate) => {
+    const result = filterOT(Ots, user, handleStateActivity, navigate);
+    const mergedArray = concatArray(result);
+    return mergedArray.map((data, key) => ({ ...data, key }));
 }
-const filterOT = (Ots, user, handleStateActivity) => {
+
+const filterOT = (Ots, user, handleStateActivity, navigate) => {
     return Ots.map((OT) => {
         const activities = JSON.parse(OT.Activities);
         const activitiesFiltered = activities.filter(activity => JSON.parse(activity.users).includes(user.name))
         const dataFiltered = activitiesFiltered.map((activity) => (
-            <div className={Style.ColumOt}
-                onDoubleClick={() => openNewTab(`/events/${OT.id}`)}>
+            <div className={Style.ColumOt} key={activity.id} // Añadido key prop para evitar advertencias
+                onDoubleClick={() => navigate(`/events/${OT.id}`)}>
                 <Colum data={OT.OTKey} />
                 <Colum data={activity.name} />
-                {activity.state.toUpperCase() === "CREATED" ? (
+                {getStateOt(OT) === "Anulado" ? (
+                    <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff0000", width: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <h1>Anulado</h1>
+                    </Box>
+                ) : activity.state.toUpperCase() === "CREATED" ? (
                     <>
                         <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b36", width: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                             <h1>Sin empezar</h1>
@@ -87,24 +98,28 @@ const filterOT = (Ots, user, handleStateActivity) => {
                 )}
             </div>
         ));
-        return dataFiltered
-    })
+        return dataFiltered;
+    });
 }
+
 const concatArray = (result) => {
     let mergedArray = [];
     for (var i = 0; i < result.length; i++) {
         mergedArray = mergedArray.concat(result[i]);
     }
-    return mergedArray
+    return mergedArray;
 }
+
 const Colum = ({ data }) => {
     return (
         <Box sx={{ alignItems: "center", padding: "6px", width: "13%", display: "flex", justifyContent: "center" }}>
             {data}
         </Box>
-    )
+    );
 }
+
 const addNewActivity = (prevActivities, newActivity) => {
-    return JSON.parse(prevActivities.Activities).map(prevActivity => prevActivity.name === newActivity.name ? newActivity : prevActivity)
+    return JSON.parse(prevActivities.Activities).map(prevActivity => prevActivity.name === newActivity.name ? newActivity : prevActivity);
 }
+
 export default ListItems;
