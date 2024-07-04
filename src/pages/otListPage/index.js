@@ -4,12 +4,10 @@ import ResponsiveAppBar from "../../components/navbar";
 import TableOT from "../../components/tables/TableOt";
 import ReplayIcon from '@mui/icons-material/Replay';
 import headerList from "../../classes/headerList";
-import openNewTab from "../../hooks/openNewTab";
 import useListOt from "../../hooks/useListOt";
 import Style from "./otListPage.module.css"
 import useListFactura from "../../hooks/useListFactura";
 import TableFact from "../../components/tables/TableFact";
-import ModalPortal from "../../components/modelPortal";
 import FormPay from "../../components/forms/formPay";
 import { useNavigate } from 'react-router-dom';
 

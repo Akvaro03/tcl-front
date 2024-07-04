@@ -22,7 +22,6 @@ function useCreateFactura(prevFactura, addNotification) {
     const createFactura = async () => {
         const facturaFormatted = getFactura()
         if (facturaFormatted.id === "") return classToastList.addToast(addNotification, "missed data")
-        console.log(facturaFormatted)
         const response = await addPay({ pay: facturaFormatted })
         if (response === "name used") return classToastList.addToast(addNotification, "name used")
         classToastList.addToast(addNotification, "ok Fact")

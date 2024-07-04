@@ -6,17 +6,17 @@ import useOtData from "../../hooks/useOtData";
 import HistoryOt from "../otAllData/components/histoyOt";
 import Style from "./OtDataPage.module.css"
 import CardOt from "./components/CardOt/CardOt";
+import EditOt from "./components/EditOt";
 
 function OtDataPage() {
-    const { ot, changes, messageList, resetOt, handleChangeOt, handlePriority } = useOtData()
+    const { ot, changes, messageList, isEditing, handleEditingOt, resetOt, handleChangeOt, handlePriority } = useOtData()
     const rol = getUser("roles");
-
     return (
         <>
             <ResponsiveAppBar />
             <div className={Style.bodyDataPage}>
                 {ot && (
-                    <CardOt ot={ot} resetOt={resetOt} handleChangeOt={handleChangeOt} handlePriority={handlePriority} />
+                    <CardOt ot={ot} isEditing={isEditing} handleChangeOt={handleChangeOt} handlePriority={handlePriority} />
                 )}
                 {changes && (
                     permissions.seeHistory(rol) && (
@@ -24,6 +24,7 @@ function OtDataPage() {
                     )
                 )}
             </div>
+            <EditOt edit={isEditing} handleEdit={handleEditingOt} />
             <ToastList
                 listData={messageList}
             />

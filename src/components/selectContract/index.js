@@ -23,6 +23,8 @@ function SelectContact({ setData, defaultValue = "Ninguno" }) {
             <Autocomplete
                 disablePortal
                 disableClearable
+                sx={{ minWidth: "300px" }}
+                size="small"
                 onChange={(event, newValue) => {
                     setData(newValue);
                 }}

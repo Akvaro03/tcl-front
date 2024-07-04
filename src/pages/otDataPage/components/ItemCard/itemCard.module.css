@@ -3,7 +3,7 @@
     display: flex;
     min-height: 8vmin;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     flex-wrap: wrap;
 }
 

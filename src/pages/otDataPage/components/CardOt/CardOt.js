@@ -8,7 +8,12 @@ import ClientContactComponent from "../../../../components/ClientContactComponen
 import ActivitiesComponent from "../../../../components/ActivitiesComponent";
 import AvailabilityComponent from "../../../../components/AvailabilityComponent";
 import FacturaComponent from "../../../../components/FacturaComponent";
-function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import InputMui from "../../../../components/inputMui";
+import SelectContact from "../../../../components/selectContract";
+function CardOt({ ot, handleChangeOt, handlePriority, isEditing }) {
     return (
         <div className={Style.cardData}>
             <Box position={"absolute"} right={"6%"} zIndex={2} top={"-1%"} color={"white"} component={"div"} onClick={handlePriority}>
@@ -27,16 +32,23 @@ function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
                 {ot.Type}
             </ItemCard>
             <ItemCard tittle={"Fecha"}>
-                {formatDateM(ot.Date)}
+                {<H1EditableDate
+                    onChange={(data) => handleChangeOt("Date", data)}
+                    edit={isEditing}
+                    text={ot.Date} />}
             </ItemCard>
             <ItemCard tittle={"Vto. DEL CERTIFICADO"}>
-                {formatDateM(ot.FechaVencimiento)}
+                {<H1EditableDate
+                    onChange={(data) => handleChangeOt("FechaVencimiento", data)}
+                    edit={isEditing}
+                    text={ot.FechaVencimiento} />}
             </ItemCard>
             <ItemCard tittle={"Nº Lacre"}>
-                {ot.nLacre}
+                <H1Editable text={ot.nLacre} edit={isEditing} onChange={(data) => handleChangeOt("nLacre", data)} />
             </ItemCard>
             <ItemCard tittle={"Contrato"}>
-                {ot.contractName?.label}
+                {/* {ot.contractName?.label} */}
+                <H1EditableContract text={ot.contractName?.label} edit={isEditing} onChange={(data) => handleChangeOt("contractName", data)} />
             </ItemCard>
 
             <ItemCard isSpace />
@@ -62,29 +74,34 @@ function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
 
             <ItemCard tittle={"Producto"} isTittle />
             <ItemCard tittle={"Nombre"}>
-                {ot.Producto}
+                <H1Editable text={ot.Producto} edit={isEditing}
+                    onChange={(data) => handleChangeOt("Producto", data)} />
             </ItemCard>
             <ItemCard tittle={"Marca"}>
-                {ot.Marca}
+                <H1Editable text={ot.Marca} edit={isEditing}
+                    onChange={(data) => handleChangeOt("Marca", data)} />
             </ItemCard>
             <ItemCard tittle={"Modelo"}>
-                {ot.Modelo}
+                <H1Editable text={ot.Modelo} edit={isEditing}
+                    onChange={(data) => handleChangeOt("Modelo", data)} />
             </ItemCard>
             <ItemCard tittle={"Cotizacion"}>
-                {ot.Cotizacion}
+                <H1Editable text={ot.Cotizacion} edit={isEditing}
+                    onChange={(data) => handleChangeOt("Cotizacion", data)} />
             </ItemCard>
             <ItemCard tittle={"Disposición"}>
                 <AvailabilityComponent Availability={ot.Availability} saveChanges={(data) => handleChangeOt("Availability", data)} />
             </ItemCard>
             <ItemCard tittle={"Observación"}>
-                {ot.Observations}
+                <H1Editable text={ot.Observations} edit={isEditing}
+                    onChange={(data) => handleChangeOt("Observations", data)} />
             </ItemCard>
 
             <ItemCard isSpace />
 
             <ItemCard tittle={"Facturación"} isTittle />
             <ItemCard tittle={"Facturación"}>
-                <FacturaComponent facturas={ot.Factura} saveChanges={(data) => handleChangeOt("Factura", data)}/>
+                <FacturaComponent facturas={ot.Factura} saveChanges={(data) => handleChangeOt("Factura", data)} />
             </ItemCard>
             <ItemCard tittle={"Detalles"} isLast>
                 Detalles
@@ -92,5 +109,30 @@ function CardOt({ ot, resetOt, handleChangeOt, handlePriority }) {
         </div>
     );
 }
+const H1EditableDate = ({ edit, text, onChange }) => {
+    if (edit) {
+        return <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                format="DD/MM/YYYY"
+                slotProps={{ textField: { size: 'small' } }}
+                value={dayjs(text)} onChange={(date) => onChange(new Date(date).getTime())} />
+        </LocalizationProvider>
+    }
 
+    return <h1>{formatDateM(text)}</h1>
+}
+const H1Editable = ({ edit, text, onChange }) => {
+    if (edit) {
+        return <InputMui value={text ? text : " "} onChange={onChange} />
+    }
+
+    return <h1>{text}</h1>
+}
+
+const H1EditableContract = ({ edit, text, onChange }) => {
+    if (edit) {
+        return <SelectContact defaultValue={text} setData={onChange} />
+    }
+    return <h1>{text}</h1>
+}
 export default CardOt;

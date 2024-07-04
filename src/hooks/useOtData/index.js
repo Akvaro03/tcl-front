@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import getOneOt from "../../db/getOneOt";
 import ClassPriorityOt from "../../classes/priorityOt";
 import classToastList from "../../classes/classToastList";
+import editOt from "../../db/editOT";
+import messageHistory from "../messageHistory";
 
 function useOtData() {
     let { id } = useParams();
@@ -12,6 +14,8 @@ function useOtData() {
     const [reset, setReset] = useState(false)
     const [valuesChanged, SetValuesChanged] = useState([])
     const [messageList, setMessageList] = useState([])
+    const [isEditing, setIsEditing] = useState(false)
+
 
     useEffect(() => {
         if (valuesChanged.some(value => ['Auth', "Factura", "Availability", 'priority', "Contact", "Activities"].includes(value))) {
@@ -40,7 +44,9 @@ function useOtData() {
         }
     }
     const resetOt = () => {
-        setReset(prev => !prev)
+        setTimeout(() => {
+            setReset(prev => !prev)
+        }, 500);
     }
     const handleChangeOt = (type, value) => {
         setOt(prev => ({ ...prev, [type]: value }))
@@ -51,18 +57,35 @@ function useOtData() {
             return prev;
         });
     }
+    const getOt = () => {
+        return {
+            ...ot,
+            Activities: formatToString(ot.Activities),
+            Changes: formatToString(ot.Changes),
+            contractName: formatToString(ot.contractName),
+            Contact: formatToString(ot.Contact),
+            Description: formatToString(ot.Description),
+            Factura: formatToString(ot.Factura),
+            Availability: formatToString(ot.Availability),
+        }
+    }
     const save = () => {
-        console.log(valuesChanged)
+        editOt(getOt(), id, messageHistory.tittleEditOT, (`Se han modificado los siguientes campos: ${valuesChanged.join(", ")}`))
         SetValuesChanged([])
         classToastList.addToast(setMessageList, "ok")
+        resetOt()
     }
 
     const handlePriority = () => {
         const newPriority = ClassPriorityOt.handleClick(ot.priority)
         handleChangeOt("priority", newPriority)
     }
-
-    return { ot, changes, messageList, resetOt, handleChangeOt, handlePriority }
+    const handleEditingOt = (isSaving) => {
+        if (isSaving === true) save()
+        if (isSaving === false) resetOt()
+        setIsEditing(prev => !prev)
+    }
+    return { ot, changes, messageList, isEditing, handleEditingOt, resetOt, handleChangeOt, handlePriority }
 }
 const initialValue = {
     "id": null,
@@ -93,4 +116,5 @@ const initialValue = {
 }
 
 const formatString = (string) => string ? JSON.parse(string) : string
+const formatToString = (array) => array ? JSON.stringify(array) : array
 export default useOtData;

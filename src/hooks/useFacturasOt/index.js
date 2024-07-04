@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { default as EditPay } from "../../db/editPay"
-import { default as AddPay } from "../../db/addPay"
 
 function useFacturaOT(facturas, saveChanges) {
     const [addPay, setAddPay] = useState()
@@ -29,14 +28,7 @@ function useFacturaOT(facturas, saveChanges) {
         }
         setEditPay(data)
     }
-    const createFactura = (newFactura) => {
-        console.log(newFactura)
-        // AddPay({ pay: newFactura })
-        // facturas && setTimeout(() => {
-        //     addFactura(newFactura.id)
-        // }, 500);
-    }
-    return { addPay, editPay, createFactura, handleUi, payFactura, editFactura, addFactura, deleteFactura }
+    return { addPay, editPay, handleUi, payFactura, editFactura, addFactura, deleteFactura }
 }
 
 export default useFacturaOT;

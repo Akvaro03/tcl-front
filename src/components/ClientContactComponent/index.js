@@ -10,10 +10,15 @@ function ClientContactComponent({ contacts, saveChanges }) {
     const rol = getUser("roles")
 
     if (!contacts | !contacts[0]) return (
-        permissions.editActv(rol) && (
-            <Button size="small" variant="outlined"
-                onClick={() => setAddContact(true)}>Agregar contacto</Button>
-        )
+        <>
+            {permissions.editActv(rol) && (
+                <Button size="small" variant="outlined"
+                    onClick={() => setAddContact(true)}>Agregar contacto</Button>
+            )}
+            {addContact && (
+                <AddContact close={setAddContact} save={saveChanges} prevContacts={contacts} />
+            )}
+        </>
     )
 
     return (
