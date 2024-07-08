@@ -13,7 +13,6 @@ import formatDateM from "../../../../hooks/formatDateM";
 import { Box, Button, Fab, Fade } from "@mui/material";
 import formatDate from '../../../../hooks/formatDate';
 import changeActOt from "../../../../db/changeActOt";
-import PrintOt from '../../../../components/printOt';
 import Alerts from '../../../../components/alerts';
 import changeAuth from "../../../../db/changeAuth";
 import PrintIcon from '@mui/icons-material/Print';
@@ -37,6 +36,7 @@ import SelectContact from '../../../../components/selectContract';
 import AddItems from '../../../../components/addItems';
 import changeItems from '../../../../db/changeItems';
 import getStateOt from "../../../../utilities/getStateOt";
+import PrintOtModal from '../../../../components/PrintOtModal';
 
 function DataOt({ otSelected, reload, setOTSelected }) {
     const { Activities, id, Contact, pay, Auth, Type, Description,
@@ -498,7 +498,7 @@ function DataOt({ otSelected, reload, setOTSelected }) {
             )}
             {printOt && (
                 <ModalPortal type={"form"}>
-                    <PrintOt Result={id} close={setPrintOt} />
+                    <PrintOtModal Result={id} close={setPrintOt} />
                 </ModalPortal>
             )}
 

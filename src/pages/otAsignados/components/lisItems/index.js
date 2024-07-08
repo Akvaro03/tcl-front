@@ -66,7 +66,7 @@ const filterOT = (Ots, user, handleStateActivity, navigate) => {
         const activitiesFiltered = activities.filter(activity => JSON.parse(activity.users).includes(user.name))
         const dataFiltered = activitiesFiltered.map((activity) => (
             <div className={Style.ColumOt} key={activity.id} // Añadido key prop para evitar advertencias
-                onDoubleClick={() => navigate(`/events/${OT.id}`)}>
+                onDoubleClick={() => navigate(`/ot/${OT.id}`)}>
                 <Colum data={OT.OTKey} />
                 <Colum data={activity.name} />
                 {getStateOt(OT) === "Anulado" ? (

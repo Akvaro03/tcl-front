@@ -1,5 +1,6 @@
 .auth,
-.noAuth {
+.noAuth,
+.canceled {
     padding: 7px 13px;
     border-radius: 10px;
 }
@@ -14,9 +15,14 @@
     cursor: pointer;
 }
 
-.noAuth{
+.noAuth {
     background: #ff7373;
 }
-.auth{
+
+.canceled {
+    background: #ff0000;
+}
+
+.auth {
     background-color: #a1ff75;
 }

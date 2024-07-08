@@ -14,10 +14,10 @@ import toUppercase from "../../../../hooks/toUppercase";
 import ToastList from '../../../../components/toastList';
 import addOt from '../../../../db/addOt';
 import MultipleSelect from '../../../../components/multipleSelect';
-import PrintOt from '../../../../components/printOt';
 import ModalPortal from '../../../../components/modelPortal';
 
 import dayjs from 'dayjs';
+import PrintOtModal from '../../../../components/PrintOtModal';
 
 function FormCreateOt() {
     const [isSave, setIsSave] = useState(null)
@@ -248,7 +248,7 @@ function FormCreateOt() {
             />
             {isSave && (
                 <ModalPortal type={"form"}>
-                    <PrintOt Result={isSave} close={setIsSave} />
+                    <PrintOtModal Result={isSave} close={setIsSave} />
                 </ModalPortal>
             )}
         </form >

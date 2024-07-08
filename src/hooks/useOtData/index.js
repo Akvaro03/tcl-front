@@ -15,6 +15,7 @@ function useOtData() {
     const [valuesChanged, SetValuesChanged] = useState([])
     const [messageList, setMessageList] = useState([])
     const [isEditing, setIsEditing] = useState(false)
+    const [isPrint, setIsPrint] = useState(false)
 
 
     useEffect(() => {
@@ -85,7 +86,10 @@ function useOtData() {
         if (isSaving === false) resetOt()
         setIsEditing(prev => !prev)
     }
-    return { ot, changes, messageList, isEditing, handleEditingOt, resetOt, handleChangeOt, handlePriority }
+    const handlePrintOt = () => {
+        setIsPrint(prev => !prev)
+    }
+    return { ot, changes, messageList, isEditing, isPrint, handleEditingOt, handleChangeOt, handlePriority, handlePrintOt }
 }
 const initialValue = {
     "id": null,

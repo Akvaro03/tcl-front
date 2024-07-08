@@ -4,7 +4,7 @@ import Style from "./printOt.module.css";
 import getIp from "../../hooks/getIp";
 import { useState } from "react";
 
-export default function PrintOt({ Result, close }) {
+export default function PrintOtModal({ Result, close }) {
     const [numberEt, setNumberEt] = useState(2);
 
     const printPdf = (nameUrl, numberEt) => {

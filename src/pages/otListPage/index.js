@@ -42,7 +42,7 @@ function OtListPage() {
                             Table={TableOT}
                             header={headersOt.getHeader()}
                             list={ot}
-                            clickable={(data) => navigate(`/events/${data.id}`)}
+                            clickable={(data) => navigate(`/ot/${data.id}`)}
                             recharge={reloadOT}
                             height={"90%"} />
                     ) : ot && isFormated ? (

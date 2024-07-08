@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import Style from "./buttonAuth.module.css"
 import getUser from "../../hooks/getUser";
 import permissions from "../../classes/permissions";
@@ -9,6 +8,11 @@ function ButtonAuth({ auth, onclick }) {
     if (auth === "1") return (
         <div onClick={isCanEdit && onclick} className={`${Style.auth} ${styleEdit}`}>
             Autorizado
+        </div>
+    )
+    if (auth === "-1") return (
+        <div className={`${Style.canceled} ${styleEdit}`}>
+            Anulada
         </div>
     )
     return (
