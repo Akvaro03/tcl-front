@@ -1,17 +1,23 @@
 import dayjs from "dayjs"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import createNewDate from "../createNewDay"
 import getUser from "../getUser"
 
 const useCreateOT = (props = null) => {
     const [OT, setOT] = useState({ ...initialValue, props })
 
-    const editOT = (category, value) => {
+    const editOT = useCallback((category, value) => {
         if (category === "Client") {
             editOT("Contact", initialValue.Contact)
         }
+        if (category === "Type") {
+            const sumDays = JSON.parse(value.activities).reduce((a, b) => a + b.time, 0)
+            editOT("FechaEstimada", dayjs().add(sumDays, "day"))
+        }
         setOT(prev => ({ ...prev, [category]: value }))
-    }
+    }, []);
+
+
     const getOt = () => {
         const OTClear = clearOt()
         const { id, name } = getUser()
@@ -81,7 +87,7 @@ const initialValue = {
     "NormaAplicar": "",
     "Cotizacion": "",
     "FechaVencimiento": null,
-    "FechaEstimada": dayjs(),
+    "FechaEstimada": dayjs().add(30, "day"),
     "Type": null,
     "Description": [{ item: "", Description: "", import: 0 }],
     "StateProcess": null,

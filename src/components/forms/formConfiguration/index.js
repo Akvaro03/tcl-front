@@ -15,19 +15,17 @@ function FormConfiguration({ close, menssage }) {
     const [result, setResult] = useState()
 
     const [nameCompany, setnameCompany] = useState(isLoadingCompany ? nameCompanyData : "")
-    const [browserLogo, setBrowserLogo] = useState("")
-    const [companyLogo, setCompanyLogo] = useState("")
 
     const [browserLogoFile, setBrowserLogoFile] = useState("")
     const [companyLogoFile, setCompanyLogoFile] = useState("")
     useEffect(() => {
-        setBrowserLogo(`${getIp()}:4000/getBrowserLogo`)
-        setCompanyLogo(`${getIp()}:4000/getCompanyLogo`)
+        setBrowserLogoFile(`${getIp()}:4000/getBrowserLogo`)
+        setCompanyLogoFile(`${getIp()}:4000/getCompanyLogo`)
     }, [])
 
 
     const handleSaveConfig = async () => {
-        if (!nameCompany || !browserLogo || !companyLogo) {
+        if (!nameCompany || !browserLogoFile || !companyLogoFile) {
             menssage("missed data")
             setTimeout(() => {
                 menssage()
@@ -54,12 +52,12 @@ function FormConfiguration({ close, menssage }) {
             console.log(error);
         }
     }
-    const loadImage = () => {
-        setResult("ok loadedImage")
-        setTimeout(() => {
-            setResult()
-        }, 2000);
-    }
+    // const loadImage = () => {
+    //     setResult("ok loadedImage")
+    //     setTimeout(() => {
+    //         setResult()
+    //     }, 2000);
+    // }
     const inputConfig = new inputClass(handleSaveConfig)
     return (
         <FormPrototype close={close} tittle={"Configuracion"} width="70%">
@@ -75,13 +73,13 @@ function FormConfiguration({ close, menssage }) {
                         <p>Logo del navegador:</p>
                     </div>
                     <Box sx={{ width: "30%", height: "100%" }}>
-                        <Upload data={browserLogo} loadImage={loadImage} setData={setBrowserLogo} setFile={setBrowserLogoFile} />
+                        <Upload setFile={setBrowserLogoFile} />
                     </Box>
                     <div className={Style.inputTittle}>
                         <p>Logo de la empresa:</p>
                     </div>
                     <Box sx={{ width: "30%", height: "100%" }}>
-                        <Upload data={companyLogo} loadImage={loadImage} setData={setCompanyLogo} setFile={setCompanyLogoFile} />
+                        <Upload setFile={setCompanyLogoFile} />
                     </Box>
                 </div>
                 <div className={Style.buttons}>

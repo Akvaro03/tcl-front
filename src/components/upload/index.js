@@ -1,18 +1,19 @@
 
 import EditIcon from '@mui/icons-material/Edit';
 import { Box } from '@mui/material';
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./upload.css"
 
 
-function Upload({ data, setData, setFile, loadImage}) {
+function Upload({ setFile, loadImage = () => { } }) {
+    const [dataFile, setDataFile] = useState("")
     const imageUploadRef = useRef(null);
 
     const handleBrowser = (e) => {
         if (e.target.files && e.target.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                setData(e.target.result);
+                setDataFile(e.target.result);
             };
             reader.readAsDataURL(e.target.files[0]);
         }
@@ -34,7 +35,7 @@ function Upload({ data, setData, setFile, loadImage}) {
                 </div>
                 <div className="avatar-preview">
                     <div
-                        style={{ backgroundImage: `url(${data})` }}
+                        style={{ backgroundImage: `url(${dataFile})` }}
                     ></div>
                 </div>
             </div>

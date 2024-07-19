@@ -36,18 +36,6 @@ function FormCreateOt() {
     })) : [];
 
     useEffect(() => {
-        // Obtener la fecha actual
-        const today = dayjs();
-        // Calcular la fecha de entrega estimada (30 días después)
-        const deliveryDate = today.add(30, 'day');
-        
-        // Verificar si OT.FechaEstimada ya tiene un valor (para no sobrescribirlo si ya está establecido)
-        if (!OT.FechaEstimada) {
-            editOT('FechaEstimada', deliveryDate); // Establecer la fecha de entrega estimada en el estado OT
-        }
-    }, []); 
-
-    useEffect(() => {
         getOTkey(OT.Date)
             .then(data => editOT("OTKey", data))
     }, [OT.Date, editOT])
@@ -74,7 +62,6 @@ function FormCreateOt() {
     const handleType = (value) => {
         editOT("Activities", allTypes[value].activities)
         editOT("Type", allTypes[value])
-        console.log(allTypes[value])
     }
     return (
         <form className={Style.Form}>

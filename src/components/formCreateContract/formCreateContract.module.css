@@ -1,0 +1,17 @@
+.inputsBox{
+    display: flex;
+    gap: 10vmin;
+    padding: 5vmin 0;
+}
+
+.inputFormContent{
+    display: flex;
+    flex-direction: column;
+    gap: 1vmin;
+}
+
+.buttonBox{
+    display: flex;
+    justify-content: center;
+    padding: 3vmin 0;
+}
