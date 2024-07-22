@@ -1,16 +1,21 @@
 import { useState } from "react"
+import postFiles from "../../db/postFiles"
 
 function useCreateContract(contractToEdit) {
     const [contract, setContract] = useState(contractToEdit ? contractToEdit : contractDefault)
-    const getContractFormatted = () => {
-        return contract
-    }
-    const saveContract = () => {
-        console.log(getContractFormatted)
-    }
-
     const handleChangeContract = (value, type) => {
         setContract(prev => { return { ...prev, [type]: value } })
+    }
+
+    const getContractFormatted = () => {
+        const newForm = new FormData()
+        newForm.append("name", contract.name)
+        newForm.append("contractFile", contract.contractFile)
+        return newForm
+    }
+
+    const saveContract = () => {
+        postFiles(getContractFormatted(),"/postContract")
     }
 
     return { contract, handleChangeContract, saveContract }
@@ -18,8 +23,7 @@ function useCreateContract(contractToEdit) {
 
 const contractDefault = {
     name: "",
-    nickname: "",
-    file: null
+    contractFile: null
 }
 
 export default useCreateContract;
