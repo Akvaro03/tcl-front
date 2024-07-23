@@ -1,8 +1,9 @@
 import { useState } from "react"
 import postFiles from "../../db/postFiles"
 
-function useCreateContract(contractToEdit) {
+function useCreateContract(contractToEdit, close) {
     const [contract, setContract] = useState(contractToEdit ? contractToEdit : contractDefault)
+
     const handleChangeContract = (value, type) => {
         setContract(prev => { return { ...prev, [type]: value } })
     }
@@ -14,11 +15,16 @@ function useCreateContract(contractToEdit) {
         return newForm
     }
 
+    const isContractValid = () => {
+        return contract.name.length > 0 && contract.contractFile !== null
+    }
     const saveContract = () => {
-        postFiles(getContractFormatted(),"/postContract")
+        if (!isContractValid()) return
+        postFiles(getContractFormatted(), "/postContract")
+        close()
     }
 
-    return { contract, handleChangeContract, saveContract }
+    return { contract, handleChangeContract, saveContract, isContractValid }
 }
 
 const contractDefault = {

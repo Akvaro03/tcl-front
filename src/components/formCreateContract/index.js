@@ -6,7 +6,7 @@ import { Box, Button } from "@mui/material";
 import Upload from "../upload";
 
 function FormCreateContract({ contractToEdit, close }) {
-    const { contract, handleChangeContract, saveContract } = useCreateContract(contractToEdit)
+    const { contract, handleChangeContract, saveContract } = useCreateContract(contractToEdit, close)
     const inputType = new inputClass(saveContract)
     return (
         <FormPrototype close={close} tittle={contract ? "Editar Contrato" : "Nuevo Contrato"}>
