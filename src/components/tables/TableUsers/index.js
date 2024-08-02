@@ -1,6 +1,6 @@
 export default function TableUsers({ data, Colum }) {
     const getRoles = (roles) => {
-        return roles ? JSON.parse(roles).join(", ") : ""
+        return roles ? roles : ""
     }
     return (
         <>

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import addType from "../../../db/addType";
 import fetchAsyncUrl from "../../../hooks/fetchAsyncUrl";
 
-function FormCreateType({ close, menssage, data, reload }) {
+function FormCreateType({ close, menssage, data, reload }) { 
     const [activity, setActivity] = useState({})
     const [name, setName] = useState(data ? data.nameType : "")
     const [abbr, setAbbr] = useState(data ? data.abbreviation : "")

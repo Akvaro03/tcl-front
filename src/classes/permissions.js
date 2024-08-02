@@ -20,6 +20,14 @@ export default class permissions {
             return false;
         }
     }
+    static editPriority(rol) {
+        const roles = [typesUsers.Director]
+        try {
+            return roles.includes(rol)
+        } catch (error) {
+            return false;
+        }
+    }
     static editAuth(rol) {
         const roles = [typesUsers.Director]
         try {

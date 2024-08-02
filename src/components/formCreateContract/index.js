@@ -23,10 +23,10 @@ function FormCreateContract({ contractToEdit, close }) {
                 </div>
                 <div className={Style.inputFormContent}>
                     <p className={Style.TittleInput}>
-                        Archivo:
+                        {contractToEdit ? "Nuevo Archivo:" : "Archivo:"}
                     </p>
                     <Box sx={{ width: "30%", height: "100%" }}>
-                        <Upload setFile={(data => handleChangeContract(data, "contractFile"))} />
+                        <Upload data={contract.contractData} setData setFile={(data => handleChangeContract(data, "contractFile"))} />
                     </Box>
                 </div>
                 <div className={Style.buttonBox}>

@@ -6,6 +6,8 @@ import ClassPriorityOt from "../../classes/priorityOt";
 import classToastList from "../../classes/classToastList";
 import editOt from "../../db/editOT";
 import messageHistory from "../messageHistory";
+import permissions from "../../classes/permissions";
+import getUser from "../getUser";
 
 function useOtData() {
     let { id } = useParams();
@@ -16,8 +18,7 @@ function useOtData() {
     const [messageList, setMessageList] = useState([])
     const [isEditing, setIsEditing] = useState(false)
     const [isPrint, setIsPrint] = useState(false)
-
-
+    const rol = getUser("roles");
     useEffect(() => {
         if (valuesChanged.some(value => ['Auth', "Factura", "Availability", 'priority', "Contact", "Activities"].includes(value))) {
             save()
@@ -78,6 +79,8 @@ function useOtData() {
     }
 
     const handlePriority = () => {
+        const isCanEdit = permissions.editPriority(rol)
+        if (!isCanEdit) return 
         const newPriority = ClassPriorityOt.handleClick(ot.priority)
         handleChangeOt("priority", newPriority)
     }

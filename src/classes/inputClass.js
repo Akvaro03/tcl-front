@@ -5,7 +5,7 @@ export default class inputClass {
         this.submitFunction = submitFunction;
     }
 
-    getInput(value, onchange) {
-        return <InputMui value={value} onChange={onchange} sendData={this.submitFunction} />
+    getInput(value, onchange, type) {
+        return <InputMui type={type} value={value} onChange={onchange} sendData={this.submitFunction} />
     }
 } 

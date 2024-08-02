@@ -2,7 +2,7 @@ import { useState } from "react"
 import postFiles from "../../db/postFiles"
 
 function useCreateContract(contractToEdit, close) {
-    const [contract, setContract] = useState(contractToEdit ? contractToEdit : contractDefault)
+    const [contract, setContract] = useState(contractToEdit.name ? contractToEdit : contractDefault)
 
     const handleChangeContract = (value, type) => {
         setContract(prev => { return { ...prev, [type]: value } })
@@ -29,7 +29,8 @@ function useCreateContract(contractToEdit, close) {
 
 const contractDefault = {
     name: "",
-    contractFile: null
+    contractFile: null,
+    contractData: ""
 }
 
 export default useCreateContract;

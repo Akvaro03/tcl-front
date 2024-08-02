@@ -3,24 +3,25 @@ import Input from '@mui/base/Input';
 import styled from "@emotion/styled";
 import { sendDataEnter } from "../../hooks/sendDataEnter";
 
-function InputMui({ value, onChange, sendData }) {
-  return <CustomInput value={value} onChange={onChange} sendData={sendData} />;
+function InputMui({ value, onChange, sendData, type = 'text' }) {
+  return <CustomInput value={value} onChange={onChange} sendData={sendData} type={type} />;
 }
-const CustomInput = React.forwardRef(function CustomInput(props, ref) {
-  let value = props.value;
-  let onChange = props.onChange;
-  let sendData = props.sendData;
+
+const CustomInput = React.forwardRef(function CustomInput({ value, onChange, sendData, type, ...rest }, ref) {
   return (
     <Input
       value={value}
-      onChange={({ target: { value } }) => {
-        onChange(value)
-      }}
+      type={type}
+      onChange={({ target: { value } }) => onChange(value)}
       onKeyDown={(e) => sendDataEnter(e, sendData)}
       slots={{ input: StyledInputElement }}
-      ref={ref} />
+      ref={ref}
+      {...rest}
+    />
   );
 });
+
+
 const StyledInputElement = styled('input')(
   ({ theme }) => `
     width: 100%;

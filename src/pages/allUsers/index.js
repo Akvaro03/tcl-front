@@ -10,12 +10,24 @@ import { useEffect, useState } from "react";
 import Style from "./allUsers.module.css"
 import { Fab } from "@mui/material";
 import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
+import classToastList from "../../classes/classToastList";
+import ToastList from "../../components/toastList";
 
 function AllUser() {
     const [isForm, setIsForm] = useState()
     const [isFormEdit, setIsFormEdit] = useState()
-    const [alert, SetAlert] = useState()
+    const [messageList, setMessageList] = useState([])
     const [Users, setUsers] = useState([{ id: 1, name: "", type: '', Team: "[]" }])
+    const addAlert = (newAlert) => {
+        classToastList.addToast(setMessageList, newAlert)
+    }
+
+    const closeReload = () => {
+        setIsForm(false)
+        setIsFormEdit(false)
+        reload(setUsers, true)
+    }
+
     useEffect(() => {
         const getData = async () => {
             reload(setUsers)
@@ -39,26 +51,23 @@ function AllUser() {
             </Fab>
             {isForm && (
                 <ModalPortal type={"form"}>
-                    <FormCreateUser alert={SetAlert} close={setIsForm} reload={() => reload(setUsers, true)} />
+                    <FormCreateUser alert={addAlert} close={closeReload} />
                 </ModalPortal>
             )}
             {isFormEdit && (
                 <ModalPortal type={"form"}>
-                    <FormCreateUser alert={SetAlert} user={isFormEdit} close={setIsFormEdit} reload={() => reload(setUsers, true)} />
+                    <FormCreateUser alert={addAlert} close={closeReload} user={isFormEdit} />
                 </ModalPortal>
             )}
-            {alert && (
-                < ModalPortal type={"alert"}>
-                    <Alerts Result={alert} />
-                </ModalPortal >
-            )
-            }
+            <ToastList
+                listData={messageList}
+            />
         </>
     );
 }
 const headerUsers = new headerList()
 headerUsers.addHeader("Nombre", "30%")
-headerUsers.addHeader("Rol",    "30%")
+headerUsers.addHeader("Rol", "30%")
 headerUsers.addHeader("Correo", "30%")
 
 

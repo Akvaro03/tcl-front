@@ -10,7 +10,7 @@ import { Box } from "@mui/material";
 import axios from 'axios';
 import FormPrototype from "../../formPrototype";
 import useFetchUrl from "../../../hooks/useFetchUrl";
-function FormConfiguration({ close, menssage }) {
+function FormConfiguration({ close, menssage }) { 
     const { data: nameCompanyData, isLoading: isLoadingCompany } = useFetchUrl("/getConfig")
     const [result, setResult] = useState()
 

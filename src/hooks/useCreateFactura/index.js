@@ -4,7 +4,7 @@ import classToastList from "../../classes/classToastList"
 import addPay from "../../db/addPay"
 
 function useCreateFactura(prevFactura, addNotification) {
-    const [factura, setFactura] = useState(prevFactura ? prevFactura : facturaDefault)
+    const [factura, setFactura] = useState({ ...facturaDefault, ...prevFactura })
 
     const handleChange = (value, type) => {
         setFactura({ ...factura, [type]: value })

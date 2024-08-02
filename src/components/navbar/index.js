@@ -83,7 +83,7 @@ function ResponsiveAppBar() {
     navigate("/login")
   }
   return (
-    <AppBar position="static" sx={{height:"12vh"}}>
+    <AppBar position="static" sx={{ height: "12vh" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

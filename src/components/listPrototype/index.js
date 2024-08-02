@@ -77,7 +77,7 @@ const ComponentSkeleton = () => {
 }
 const Colum = ({ data, width = "13%", color }) => (
     <Box key={"1"} sx={{ width: width, color: color ? color : "black", alignItems: "center", padding: "6px", display: "flex", justifyContent: "center" }}>
-        <Box component={"p"} sx={{ height: "100%", width: "100%", textAlignLast: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "center" }} title={data}>
+        <Box component={"span"} sx={{ height: "100%", width: "100%", textAlignLast: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", textAlign: "center" }} title={data}>
             {data}
         </Box>
     </Box>

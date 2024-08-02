@@ -8,7 +8,7 @@ function getUser(data) {
         const user = JSON.parse(JSON.parse(descript).userString)
 
         if (data === "roles") {
-            return JSON.parse(user.type)[0]
+            return user.type
         }
         return user;
     } catch (error) {

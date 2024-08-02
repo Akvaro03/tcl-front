@@ -5,8 +5,8 @@ import { useRef, useState } from "react";
 import "./upload.css"
 
 
-function Upload({ setFile, loadImage = () => { } }) {
-    const [dataFile, setDataFile] = useState("")
+function Upload({ data, setFile, loadImage = () => { } }) {
+    const [dataFile, setDataFile] = useState(data ? data : "")
     const imageUploadRef = useRef(null);
 
     const handleBrowser = (e) => {

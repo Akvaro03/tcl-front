@@ -12,7 +12,7 @@ import editOt from "../../../db/editOT";
 import getUser from "../../../hooks/getUser";
 import permissions from "../../../classes/permissions";
 import getStateOt from "../../../utilities/getStateOt";
-import delete_ot from "../../../db/delete_ot"; 
+import delete_ot from "../../../db/delete_ot";
 import { useState } from "react";
 
 export default function TableOT({ data, Colum, dataHover, recharge }) {
@@ -23,14 +23,14 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
     const handleChangeAuth = (data, newAuth) => {
         const dataToSend = { otId: data.id, newAuth };
         data.Auth = newAuth;
-        changeAuth(dataToSend, data.id, messageHistory.tittleEditaAuth, ""); 
+        changeAuth(dataToSend, data.id, messageHistory.tittleEditaAuth, "");
         recharge(data);
     };
 
     const handleDelete = () => {
-        delete_ot({ id: data.id }) 
+        delete_ot({ id: data.id })
             .then(() => {
-                window.location.reload(); 
+                window.location.reload();
             })
             .catch((error) => {
                 console.error("Error deleting OT:", error);
@@ -60,14 +60,14 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
     return (
         <>
             <Colum data={
-                <Box component={"span"} onClick={() => handlePriority()}>
+                <Box component={"div"} onClick={() => handlePriority()}>
                     {<PriorityOt priority={data.priority} size="small" />}
                 </Box>
             } width="3%" />
 
             <Colum data={
-                <Box onClick={handleDialog}>
-                    <IconButton sx={{ padding: "0px"}}>
+                <Box component={"div"} onClick={handleDialog}>
+                    <IconButton sx={{ padding: "0px" }}>
                         <DeleteIcon />
                     </IconButton>
                 </Box>
@@ -87,14 +87,14 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
                         ¿Está seguro de que desea eliminar este OT?
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions sx={{color: "black", padding: "0",  borderRadius: "5px", margin: "1px", display: "flex", justifyContent: "space-between" }}>
-                    <Button sx={{color:"black", margin: "5px", padding: "10px", background: "#9BC9DD"}} onClick={handleDialog}>Cancelar</Button>
+                <DialogActions sx={{ color: "black", padding: "0", borderRadius: "5px", margin: "1px", display: "flex", justifyContent: "space-between" }}>
+                    <Button sx={{ color: "black", margin: "5px", padding: "10px", background: "#9BC9DD" }} onClick={handleDialog}>Cancelar</Button>
                     {isDirector && (
-                    <Button sx={{color:"black", margin: "5px",  padding: "10px", background: "#9BC9DD"}} onClick={handleDelete} autoFocus>
-                        Eliminar
-                    </Button>
+                        <Button sx={{ color: "black", margin: "5px", padding: "10px", background: "#9BC9DD" }} onClick={handleDelete} autoFocus>
+                            Eliminar
+                        </Button>
                     )}
-                    <Button sx={{color:"black", margin: "5px",padding: "10px" , background: "#9BC9DD"}} onClick={toggleAnulado} color="secondary">
+                    <Button sx={{ color: "black", margin: "5px", padding: "10px", background: "#9BC9DD" }} onClick={toggleAnulado} color="secondary">
                         {data.Auth === "-1" ? "Revertir Anulación" : "Anular OT"}
                     </Button>
                 </DialogActions>
@@ -107,37 +107,37 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
             <Colum data={data.Client} width="15%" />
             <Colum data={data.Producto} width="22%" />
             {stateOt === "Sin Autorizar" ? (
-                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b8c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box component={"div"} sx={{ borderRadius: "20px", margin: "5px", background: "#ff7b7b8c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Sin Autorizar</h1>
                 </Box>
             ) : stateOt === "Sin Asignar" ? (
-                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box component={"div"} sx={{ borderRadius: "20px", margin: "5px", background: "#ff80008c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Sin Asignar</h1>
                 </Box>
             ) : stateOt === "Terminadas" ? (
-                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#92ff6c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box component={"div"} sx={{ borderRadius: "20px", margin: "5px", background: "#92ff6c", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Terminada</h1>
                 </Box>
             ) : stateOt === "En Proceso" ? (
-                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box component={"div"} sx={{ borderRadius: "20px", margin: "5px", background: "#ffff0052", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>En Proceso</h1>
                 </Box>
             ) : stateOt === "En Espera" ? (
-                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#00000029", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box component={"div"} sx={{ borderRadius: "20px", margin: "5px", background: "#00000029", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>En espera</h1>
                 </Box>
             ) : (
-                <Box sx={{ borderRadius: "20px", margin: "5px", background: "#ff0000", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box component={"div"} sx={{ borderRadius: "20px", margin: "5px", background: "#ff0000", width: "16%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1>Anulado</h1>
                 </Box>
             )}
             {data.Auth === "0" && permissions.editAuth(rol) ? (
                 dataHover === data.id ? (
-                    <Box sx={{ opacity: "1", width: "15%", justifyContent: "center", visibility: "visible", transition: "visibility 0s, opacity 0.1s linear, width 0.15s linear" }}>
+                    <Box component={"div"} sx={{ opacity: "1", width: "15%", justifyContent: "center", visibility: "visible", transition: "visibility 0s, opacity 0.1s linear, width 0.15s linear" }}>
                         <Button onClick={() => handleChangeAuth(data, 1)}>Autorizar OT</Button>
                     </Box>
                 ) : (
-                    <Box sx={{ opacity: "0", width: "5%", justifyContent: "center", visibility: "hidden", transition: "visibility 0s, opacity 0.1s linear, width 0.1s linear" }}>
+                    <Box component={"div"} sx={{ opacity: "0", width: "5%", justifyContent: "center", visibility: "hidden", transition: "visibility 0s, opacity 0.1s linear, width 0.1s linear" }}>
                         <Button onClick={() => handleChangeAuth(data, 1)}>Autorizar OT</Button>
                     </Box>
                 )

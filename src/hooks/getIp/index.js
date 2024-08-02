@@ -1,3 +1,3 @@
 export default function getIp() {
-    return "http://192.168.0.224"
+    return "http://192.168.0.211"
 } 

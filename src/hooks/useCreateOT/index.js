@@ -4,7 +4,7 @@ import createNewDate from "../createNewDay"
 import getUser from "../getUser"
 
 const useCreateOT = (props = null) => {
-    const [OT, setOT] = useState({ ...initialValue, props })
+    const [OT, setOT] = useState({ ...initialValue, ...props })
 
     const editOT = useCallback((category, value) => {
         if (category === "Client") {
@@ -16,7 +16,6 @@ const useCreateOT = (props = null) => {
         }
         setOT(prev => ({ ...prev, [category]: value }))
     }, []);
-
 
     const getOt = () => {
         const OTClear = clearOt()

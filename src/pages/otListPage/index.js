@@ -71,6 +71,7 @@ function OtListPage() {
 
 const headersOt = new headerList()
 headersOt.addHeader(" ", "3%")
+headersOt.addHeader(" ", "3%")
 headersOt.addHeader("ID", "15%")
 headersOt.addHeader("Fecha", "9%")
 headersOt.addHeader("Tipo", "13%")

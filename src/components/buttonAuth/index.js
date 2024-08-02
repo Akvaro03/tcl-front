@@ -5,8 +5,12 @@ function ButtonAuth({ auth, onclick }) {
     const rol = getUser("roles");
     const isCanEdit = permissions.editAuth(rol)
     const styleEdit = isCanEdit ? Style.clickable : ""
+
+    const handleClick = isCanEdit ? onclick : null;
+
+
     if (auth === "1") return (
-        <div onClick={isCanEdit && onclick} className={`${Style.auth} ${styleEdit}`}>
+        <div onClick={handleClick} className={`${Style.auth} ${styleEdit}`}>
             Autorizado
         </div>
     )
@@ -16,7 +20,7 @@ function ButtonAuth({ auth, onclick }) {
         </div>
     )
     return (
-        <div onClick={isCanEdit && onclick} className={`${Style.noAuth} ${styleEdit}`}>
+        <div onClick={handleClick} className={`${Style.noAuth} ${styleEdit}`}>
             No Autorizado
         </div>
     );
