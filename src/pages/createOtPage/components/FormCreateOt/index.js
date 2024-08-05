@@ -36,21 +36,18 @@ function FormCreateOt() {
     })) : [];
 
     const submitUseOT = async () => {
-        console.log(OT)
-        console.log(getOt())
-        resetOt()
-        // setIsSaveOTDisabled(true)
-        // const isVerify = verifyOT()
+        setIsSaveOTDisabled(true)
+        const isVerify = verifyOT()
 
-        // if (isVerify !== true) {
-        //     classToastList.addToast(setToasts, "missed data")
-        //     setIsSaveOTDisabled(false)
-        //     return
-        // }
-        // const resOt = await addOt(getOt())
-        // setIsSave(resOt)
-        // setIsSaveOTDisabled(false)
-        // resetOt()
+        if (isVerify !== true) {
+            classToastList.addToast(setToasts, "missed data")
+            setIsSaveOTDisabled(false)
+            return
+        }
+        const resOt = await addOt(getOt())
+        setIsSave(resOt)
+        setIsSaveOTDisabled(false)
+        resetOt()
     }
     const handleChangeDescription = (value, number, type) => {
         let copy = [...OT.Description]
