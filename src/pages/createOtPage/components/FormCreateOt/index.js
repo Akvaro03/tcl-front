@@ -35,24 +35,22 @@ function FormCreateOt() {
         Contacts: client.Contacts ? JSON.parse(client.Contacts) : ""
     })) : [];
 
-    useEffect(() => {
-        getOTkey(OT.Date)
-            .then(data => editOT("OTKey", data))
-    }, [OT.Date, editOT])
-
     const submitUseOT = async () => {
-        setIsSaveOTDisabled(true)
-        const isVerify = verifyOT()
-
-        if (isVerify !== true) {
-            classToastList.addToast(setToasts, "missed data")
-            setIsSaveOTDisabled(false)
-            return
-        }
-        const resOt = await addOt(getOt())
-        setIsSave(resOt)
-        setIsSaveOTDisabled(false)
+        console.log(OT)
+        console.log(getOt())
         resetOt()
+        // setIsSaveOTDisabled(true)
+        // const isVerify = verifyOT()
+
+        // if (isVerify !== true) {
+        //     classToastList.addToast(setToasts, "missed data")
+        //     setIsSaveOTDisabled(false)
+        //     return
+        // }
+        // const resOt = await addOt(getOt())
+        // setIsSave(resOt)
+        // setIsSaveOTDisabled(false)
+        // resetOt()
     }
     const handleChangeDescription = (value, number, type) => {
         let copy = [...OT.Description]

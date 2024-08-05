@@ -1,7 +1,8 @@
 import dayjs from "dayjs"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import createNewDate from "../createNewDay"
 import getUser from "../getUser"
+import getOTkey from "../getOTkey"
 
 const useCreateOT = (props = null) => {
     const [OT, setOT] = useState({ ...initialValue, ...props })
@@ -16,6 +17,11 @@ const useCreateOT = (props = null) => {
         }
         setOT(prev => ({ ...prev, [category]: value }))
     }, []);
+
+    useEffect(() => {
+        getOTkey(OT.Date)
+            .then(data => editOT("OTKey", data))
+    }, [OT.Date, editOT])
 
     const getOt = () => {
         const OTClear = clearOt()
@@ -68,7 +74,9 @@ const useCreateOT = (props = null) => {
             ...initialValue,
             Activities: OT.Activities,
             Type: OT.Type,
-            contractSelect: OT.contractName
+            contractSelect: OT.contractName,
+            Date: dayjs(),
+            FechaEstimada: OT.FechaEstimada
         })
     }
     return { OT, editOT, getOt, verifyOT, resetOt }
@@ -77,7 +85,7 @@ const useCreateOT = (props = null) => {
 const initialValue = {
     "id": null,
     "priority": null,
-    "OTKey": "",
+    "OTKey": getOTkey(dayjs()),
     "Client": null,
     "Date": dayjs(),
     "Producto": "",
