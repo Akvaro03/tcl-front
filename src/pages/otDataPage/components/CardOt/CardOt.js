@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import InputMui from "../../../../components/inputMui";
 import SelectContact from "../../../../components/selectContract";
+import DescriptionComponent from "../../../../components/DescriptionComponent";
 function CardOt({ ot, handleChangeOt, handlePriority, isEditing }) {
     return (
         <div className={Style.cardData}>
@@ -104,7 +105,7 @@ function CardOt({ ot, handleChangeOt, handlePriority, isEditing }) {
                 <FacturaComponent facturas={ot.Factura} saveChanges={(data) => handleChangeOt("Factura", data)} />
             </ItemCard>
             <ItemCard tittle={"Detalles"} isLast>
-                Detalles
+                <DescriptionComponent Description={ot.Description} />
             </ItemCard>
         </div>
     );

@@ -38,7 +38,7 @@ export default function ListPrototype({ header, list, clickable, recharge, Table
                     <CloseIcon />
                 </Box>
             )}
-            <Box position={"absolute"} display={"flex"} component={"div"} bgcolor={"#1976d2"} gap={"10px"} padding={"0 10px"} color={"#e5e7eb"} alignItems={"center"} height={"40px"} bottom={"-20px"} right={"5%"} borderRadius={"25px"} border={"1px solid black"}>
+            <Box position={"absolute"} display={"flex"} component={"div"} bgcolor={"#1976d2"} gap={"10px"} padding={"0 10px"} color={"#e5e7eb"} alignItems={"center"} height={"40px"} bottom={"-40px"} right={"5%"} borderRadius={"25px"} border={"1px solid black"}>
                 {count > 0 ? (
                     <Box component={"div"} sx={{ cursor: "pointer" }} onClick={() => setCount(prev => prev === 0 ? 0 : prev - 1)}>
                         <ArrowBackIcon />

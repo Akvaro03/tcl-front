@@ -5,6 +5,7 @@ import toUppercase from "../toUppercase";
 
 import addUser from "../../db/addUser";
 import { default as userEdit } from "../../db/editUser";
+import emailUsed from "../../db/emailUsed";
 
 function useCreateUser(props = initialState, alert, funcAfterSubmit) {
     const [newUser, setNewUser] = useState({ ...props, password: "" })
@@ -17,9 +18,9 @@ function useCreateUser(props = initialState, alert, funcAfterSubmit) {
         const propertiesVerify = props.name[2] ? ["name", "email", "type"] : ["name", "email", "password", "type"]
         const allProperty = Object.getOwnPropertyNames(user);
         if (allProperty.length === 0) return false
+
         for (const data of propertiesVerify) {
             if (!allProperty.includes(data)) {
-                // return data; // Retorna la propiedad que dio false
                 return false
             }
         }
@@ -36,9 +37,6 @@ function useCreateUser(props = initialState, alert, funcAfterSubmit) {
         }
         return user
     }
-    const formatUser = () => {
-        return { ...newUser, name: toUppercase(newUser.name) }
-    }
     const onSubmitUser = async (e) => {
         e.preventDefault()
         if (!isComplete()) {
@@ -46,11 +44,16 @@ function useCreateUser(props = initialState, alert, funcAfterSubmit) {
             return
         }
         const isNameUsed = await nameUsed(newUser.name, "user")
+        const isNameEmail = await emailUsed(newUser.email)
+        
+        if ((isNameEmail && !props.name[2]) || (isNameEmail && newUser.email !== props?.email)) {
+            alert("email used")
+            return
+        }
         if ((isNameUsed && !props.name[2]) || (isNameUsed && newUser.name !== props?.name)) {
             alert("name used")
             return
         }
-        console.log(formatUser())
         if (!props.name[2]) {
             addUser(newUser).then(result => alert(result.result))
         } else {

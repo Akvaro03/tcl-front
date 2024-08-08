@@ -10,6 +10,7 @@ function Alerts({ text: { text } }) {
         "error password": <AlertCustomError text={"Error en la contraseña"} />,
         "missed data": <AlertCustomError text={"Completa todos los campos"} />,
         "name used": <AlertCustomError text={"Ese nombre ya esta en uso"} />,
+        "email used": <AlertCustomError text={"Ese email ya esta en uso"} />,
         "id used": <AlertCustomError text={"Ese id ya esta en uso"} />,
         "error": <AlertCustomError text={"Hubo un error desconocido"} />,
         "error email": <AlertCustomError text={"Error en el email"} />,
