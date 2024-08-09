@@ -4,6 +4,7 @@ import getUser from "../../hooks/getUser";
 import AddDescriptionComponent from "../addDescriptionComponent";
 import ModalPortal from "../modelPortal";
 import { Button } from "@mui/material";
+import formatMoney from "../../hooks/formatMoney";
 
 function DescriptionComponent({ Description, saveDescription }) {
     const [isAddDescription, setIsAddDescription] = useState(false)
@@ -29,14 +30,14 @@ const DescriptionData = ({ Description, onClick }) => {
         <div style={{ display: "flex", width: "100%",flexDirection:"column" }}>
             {Description.map((data, key) => (
                 <div onClick={onClick} key={key} style={{ cursor: "pointer", display: "flex", justifyContent: "space-evenly", width: "40%" }}>
-                    <span>
-                        {data.item ? data.item : "aa"}
+                    <span style={{width:"5vmin"}}>
+                        {data.item ? data.item : ""}
                     </span>
-                    <span>
-                        {data.Description ? data.Description : "aa"}
+                    <span style={{width:"25vmin"}}>
+                        {data.Description ? data.Description : ""}
                     </span>
-                    <span>
-                        {data.import ? data.import : "aa"}
+                    <span style={{width:"5vmin"}}>
+                        {data.import ? formatMoney.format(data.import) : ""}
                     </span>
                 </div>
             ))
