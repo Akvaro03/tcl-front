@@ -62,6 +62,7 @@ const useCreateOT = (props = null) => {
     }
     const verifyOT = (propertiesVerify = initialPropertiesVerify) => {
         const ot = getOt();
+        console.log(ot)
         const allProperty = Object.getOwnPropertyNames(ot);
         for (const data of propertiesVerify) {
             if (!allProperty.includes(data)) {
@@ -113,6 +114,7 @@ const initialValue = {
 const isNullUndefined = (data) => (data === null | data === undefined ? "" : data)
 const initialPropertiesVerify = [
     "Date",
+    "Activities",
     "Producto",
     "Marca",
     "Modelo",
@@ -120,7 +122,6 @@ const initialPropertiesVerify = [
     "Cotizacion",
     "nLacre",
     "Observations",
-    "Activities",
     "FechaEstimada",
 ]
 

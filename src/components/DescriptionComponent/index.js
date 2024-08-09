@@ -27,13 +27,13 @@ function DescriptionComponent({ Description, saveDescription }) {
 
 const DescriptionData = ({ Description, onClick }) => {
     return (
-        <div style={{ display: "flex", width: "100%",flexDirection:"column" }}>
+        <div style={{ display: "flex", width: "100%",flexDirection:"column",gap:"1vmin" }}>
             {Description.map((data, key) => (
-                <div onClick={onClick} key={key} style={{ cursor: "pointer", display: "flex", justifyContent: "space-evenly", width: "40%" }}>
+                <div onClick={onClick} key={key} style={{ cursor: "pointer", display: "flex", justifyContent: "space-evenly",width:"60%" }}>
                     <span style={{width:"5vmin"}}>
                         {data.item ? data.item : ""}
                     </span>
-                    <span style={{width:"25vmin"}}>
+                    <span style={{width:"15vmin"}}>
                         {data.Description ? data.Description : ""}
                     </span>
                     <span style={{width:"5vmin"}}>

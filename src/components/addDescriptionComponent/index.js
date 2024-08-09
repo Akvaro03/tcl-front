@@ -63,6 +63,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
             placeholder={placeholder}
             value={value}
             type={type}
+            
             onChange={({ target: { value } }) => {
                 onChange(value)
             }}
