@@ -1,9 +1,9 @@
-import FormPrototype from "../../../../components/formPrototype";
-import ModalPortal from "../../../../components/modelPortal";
-import ListPays from "../../../../components/list/listPays";
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ModalPortal from "../modelPortal";
+import FormPrototype from "../formPrototype";
+import ListPays from "../list/listPays";
 
 export default function ContentPay({ close, createFactura, addFactura, listPay = [] }) {
     const [select, setSelect] = useState(false)

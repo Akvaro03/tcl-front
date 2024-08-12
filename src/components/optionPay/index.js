@@ -1,8 +1,8 @@
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
-import ModalPortal from "../../../../components/modelPortal";
+import ModalPortal from "../modelPortal";
+import FormPrototype from "../formPrototype";
 import EditPay from "../editPay";
-import FormPrototype from "../../../../components/formPrototype";
 
 export default function OptionPay({ pay, close, deletePay, payFactura }) {
     const [editPay, setEditPay] = useState()

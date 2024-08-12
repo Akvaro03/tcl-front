@@ -1,13 +1,13 @@
 import { Box, Button } from "@mui/material"
-import inputClass from "../../../../classes/inputClass"
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 
 import Style from './addContact.module.css';
-import FormPrototype from "../../../../components/formPrototype";
-import toUppercase from "../../../../hooks/toUppercase";
 import BackspaceIcon from '@mui/icons-material/Backspace';
-import ModalPortal from "../../../../components/modelPortal";
+import toUppercase from "../../hooks/toUppercase";
+import inputClass from "../../classes/inputClass";
+import ModalPortal from "../modelPortal";
+import FormPrototype from "../formPrototype";
 export default function AddContact({ close, save, prevContacts }) {
     const [Contacts, setContacts] = useState(prevContacts ? prevContacts : [{ ...formatContact }]);
 

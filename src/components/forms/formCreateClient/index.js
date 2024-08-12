@@ -2,12 +2,10 @@ import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material
 import inputClass from '../../../classes/inputClass';
 import Style from './formCreateClient.module.css';
 import FormPrototype from '../../formPrototype';
-import addClient from '../../../db/addClient';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import AddContact from '../../../pages/otAllData/components/addContact';
-import ModalPortal from '../../modelPortal';
 import useCreateClient from '../../../hooks/useCreateClient';
+import AddContact from '../../addContact';
 
 function FormCreateClient({ close, reload, data, message }) {
     const { client, submitClient, editClient, resetClient } = useCreateClient(data)

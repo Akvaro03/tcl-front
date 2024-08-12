@@ -1,11 +1,11 @@
-import ContentPay from "../../pages/otAllData/components/contentPay";
 import permissions from "../../classes/permissions";
 import Style from "./FacturaComponent.module.css"
 import getUser from "../../hooks/getUser";
 import { Button } from "@mui/material";
-import OptionPay from "../../pages/otAllData/components/optionPay";
 import useFacturaOT from "../../hooks/useFacturasOt";
 import CircleFacturaButton from "./circleFacturaButton";
+import OptionPay from "../optionPay";
+import ContentPay from "../contentPay";
 
 function FacturaComponent({ facturas = [], saveChanges }) {
     const { addPay, editPay, createFactura, addFactura, deleteFactura, payFactura, handleUi } = useFacturaOT(facturas ? facturas : [], saveChanges)

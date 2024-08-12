@@ -1,8 +1,8 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
 import { useEffect, useState } from "react";
-import FormPrototype from "../../../../components/formPrototype";
-import fetchAsyncUrl from "../../../../hooks/fetchAsyncUrl";
-import ModalPortal from "../../../../components/modelPortal";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
+import FormPrototype from "../formPrototype";
+import ModalPortal from "../modelPortal";
 
 function AddActivity({ setAddActivity, otActivities, handleActivities }) {
     const [activities, setActivities] = useState()

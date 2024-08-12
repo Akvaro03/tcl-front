@@ -2,11 +2,11 @@ import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup } from "@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import formatDate from "../../../../hooks/formatDate";
 import { useState } from "react";
 import dayjs from "dayjs";
-import ModalPortal from "../../../../components/modelPortal";
-import FormPrototype from "../../../../components/formPrototype";
+import ModalPortal from "../modelPortal";
+import FormPrototype from "../formPrototype";
+import formatDateM from "../../hooks/formatDateM";
 function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
     const [date, setDate] = useState(dayjs(Date.now()))
     const types = ["DFR", "Retiro", "Entrega"]
@@ -44,7 +44,7 @@ function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
                         </LocalizationProvider>
                     </Box>
                     <Box height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
-                        <Button size="large" variant="contained" onClick={() => saveAvailability({ type, date: formatDate(date) })}>Guardar</Button>
+                        <Button size="large" variant="contained" onClick={() => saveAvailability({ type, date: formatDateM(date) })}>Guardar</Button>
                     </Box>
                 </Box>
             </FormPrototype>

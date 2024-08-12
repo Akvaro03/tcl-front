@@ -3,8 +3,8 @@ import formatDateM from "../../hooks/formatDateM";
 import Style from "./AvailabilityComponent.module.css"
 import permissions from "../../classes/permissions";
 import getUser from "../../hooks/getUser";
-import AddAvailability from "../../pages/otAllData/components/addAvailability";
 import CircleButton from "../CircleButton";
+import AddAvailability from "../addAvailability";
 function AvailabilityComponent({ Availability, saveChanges }) {
     const [isAvailability, setIsAvailability] = useState()
     const rol = getUser("roles")

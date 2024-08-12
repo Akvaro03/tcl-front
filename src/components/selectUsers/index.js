@@ -1,9 +1,9 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
-import inputClass from "../../../../classes/inputClass";
 import { useEffect, useState } from "react";
-import FormPrototype from "../../../../components/formPrototype";
-import fetchAsyncUrl from "../../../../hooks/fetchAsyncUrl";
-import ModalPortal from "../../../../components/modelPortal";
+import inputClass from "../../classes/inputClass";
+import ModalPortal from "../modelPortal";
+import FormPrototype from "../formPrototype";
+import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 
 function SelectUsers({ closeForm, activitySelected, handleUsers }) {
     const [users, setUsers] = useState()

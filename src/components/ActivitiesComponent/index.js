@@ -3,9 +3,9 @@ import permissions from "../../classes/permissions";
 import getUser from "../../hooks/getUser";
 import Style from "./ActivitiesComponent.module.css"
 import { useState } from "react";
-import AddActivity from "../../pages/otAllData/components/addActivity";
-import SelectUsers from "../../pages/otAllData/components/selectUsers";
 import ActivityButton from "../activityButton";
+import SelectUsers from "../selectUsers";
+import AddActivity from "../addActivity";
 
 function ActivitiesComponent({ Activities, saveChanges }) {
     const [isFormActivity, setIsFormActivity] = useState()

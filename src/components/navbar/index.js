@@ -47,10 +47,10 @@ function ResponsiveAppBar() {
         Pages = linkColaborador
         break;
       case typesUsers.Admin:
-        Pages = linkAdmin
+        Pages = linkAdminWithOutFactura
         break;
       case typesUsers.Director:
-        Pages = linkDirector
+        Pages = linkDirectorWithOutFactura
         break;
       case typesUsers.AdminSystem:
         Pages = linkAdminSystem
@@ -221,6 +221,20 @@ const linkColaborador = [
     "url": "/OtAsingPages"
   }]
 
+const linkAdminWithOutFactura = [
+  {
+    "name": "Listado OTs",
+    "url": "/OtList"
+  },
+  {
+    "name": "Listado Clientes",
+    "url": "/listClients"
+  },
+  {
+    "name": "Nueva OT",
+    "url": "/createOt"
+  },
+]
 const linkAdmin = [
   {
     "name": "Listado OTs",
@@ -233,6 +247,20 @@ const linkAdmin = [
   {
     "name": "Nueva Factura",
     "url": "/createFact"
+  },
+  {
+    "name": "Nueva OT",
+    "url": "/createOt"
+  },
+]
+const linkDirectorWithOutFactura = [
+  {
+    "name": "Listado OTs",
+    "url": "/OtList"
+  },
+  {
+    "name": "Listado Clientes",
+    "url": "/listClients"
   },
   {
     "name": "Nueva OT",

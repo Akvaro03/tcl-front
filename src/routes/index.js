@@ -14,7 +14,6 @@ const StatisticsPage = React.lazy(() => import('../pages/statisticsPage')); // L
 const CreateOtPage = React.lazy(() => import('../pages/createOtPage')); // Lazy-loaded
 const OtAsingPages = React.lazy(() => import('../pages/otAsignados')); // Lazy-loaded
 const CreateFact = React.lazy(() => import('../pages/createFact')); // Lazy-loaded
-const OtAllData = React.lazy(() => import('../pages/otAllData')); // Lazy-loaded
 const AllUser = React.lazy(() => import('../pages/allUsers')); // Lazy-loaded
 const Etiquetas = React.lazy(() => import('../pdf/Etiqueta')); // Lazy-loaded
 const LoginPage = React.lazy(() => import('../pages/login')); // Lazy-loaded
@@ -104,17 +103,6 @@ export const routes = createBrowserRouter([
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={StatisticsPage}>
                         <StatisticsPage />
-                    </Await>
-                </Suspense>
-            </ProtectedRoute>
-    },
-    {
-        path: "/events/:id",
-        element:
-            <ProtectedRoute type={permissions.seeOt}>
-                <Suspense fallback={<LoadingCircle />}>
-                    <Await resolve={OtAllData}>
-                        <OtAllData />
                     </Await>
                 </Suspense>
             </ProtectedRoute>

@@ -3,7 +3,7 @@ import permissions from "../../classes/permissions";
 import Style from "./ClientContactComponent.module.css"
 import { Button } from "@mui/material";
 import getUser from "../../hooks/getUser";
-import AddContact from "../../pages/otAllData/components/addContact";
+import AddContact from "../addContact";
 
 function ClientContactComponent({ contacts, saveChanges }) {
     const [addContact, setAddContact] = useState(false)
