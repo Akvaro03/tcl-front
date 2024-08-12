@@ -32,8 +32,8 @@ function OtListPage() {
                             <SelectFilter data={allClients} handleChange={filterClient} label={"Por Cliente"} value={filterValues.Client} minWidth="150px" />
                             <SelectFilter data={allStates} handleChange={filterState} label={"Por Estado"} value={filterValues.state} minWidth="150px" />
                             <SelectFilter data={allProduct} handleChange={filterProduct} label={"Por Producto"} value={filterValues.product} minWidth="150px" />
-                            <SelectFilter data={allFactura} handleChange={filterFactura} label={"Por Factura"} value={filterValueFactura} minWidth="150px" />
-                            <FormControlLabel control={<Checkbox checked={filterValues.isNoFactura} onChange={filterFacturaOt} />} label="Sin Facturas" />
+                            {/* <SelectFilter data={allFactura} handleChange={filterFactura} label={"Por Factura"} value={filterValueFactura} minWidth="150px" />
+                            <FormControlLabel control={<Checkbox checked={filterValues.isNoFactura} onChange={filterFacturaOt} />} label="Sin Facturas" /> */}
                             <ReplayIcon onClick={resetAll} />
                         </div>
                     </div>

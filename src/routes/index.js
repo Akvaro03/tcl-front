@@ -54,17 +54,17 @@ export const routes = createBrowserRouter([
                 <ListClients />
             </ProtectedRoute>
     },
-    {
-        path: "/createFact",
-        element:
-            <ProtectedRoute type={permissions.createFact}>
-                <Suspense fallback={<LoadingCircle />}>
-                    <Await resolve={CreateFact}>
-                        <CreateFact />
-                    </Await>
-                </Suspense>
-            </ProtectedRoute>
-    },
+    // {
+    //     path: "/createFact",
+    //     element:
+    //         <ProtectedRoute type={permissions.createFact}>
+    //             <Suspense fallback={<LoadingCircle />}>
+    //                 <Await resolve={CreateFact}>
+    //                     <CreateFact />
+    //                 </Await>
+    //             </Suspense>
+    //         </ProtectedRoute>
+    // },
     {
         path: "/OtAsingPages",
         element:

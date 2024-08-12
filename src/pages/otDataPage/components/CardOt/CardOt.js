@@ -100,10 +100,10 @@ function CardOt({ ot, handleChangeOt, handlePriority, isEditing }) {
 
             <ItemCard isSpace />
 
-            <ItemCard tittle={"Facturación"} isTittle />
+            {/* <ItemCard tittle={"Facturación"} isTittle />
             <ItemCard tittle={"Facturación"}>
                 <FacturaComponent facturas={ot.Factura} saveChanges={(data) => handleChangeOt("Factura", data)} />
-            </ItemCard>
+            </ItemCard> */}
             <ItemCard tittle={"Detalles"} isLast>
                 <DescriptionComponent Description={ot.Description} saveDescription={(data) => handleChangeOt("Description", data)} />
             </ItemCard>
