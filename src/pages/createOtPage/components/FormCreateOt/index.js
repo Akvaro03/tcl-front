@@ -36,9 +36,8 @@ function FormCreateOt() {
     const submitUseOT = async () => {
         setIsSaveOTDisabled(true)
         const isVerify = verifyOT()
-
-        if (isVerify !== true) {
-            classToastList.addToast(setToasts, "missed data")
+        if (typeof isVerify === "string") {
+            classToastList.addToast(setToasts, `missed ${isVerify}`)
             setIsSaveOTDisabled(false)
             return
         }
