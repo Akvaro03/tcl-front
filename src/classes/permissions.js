@@ -13,7 +13,7 @@ export default class permissions {
     static config = [typesUsers.AdminSystem]
 
     static editOt(rol) {
-        const roles = [typesUsers.Director]
+        const roles = [typesUsers.Director, typesUsers.Admin]
         try {
             return roles.includes(rol)
         } catch (error) {
