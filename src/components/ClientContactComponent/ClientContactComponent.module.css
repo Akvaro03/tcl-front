@@ -2,7 +2,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     row-gap: .5vmin;
-    cursor: pointer;
     width: 100%;
 }
 .displayContacts div{
@@ -11,4 +10,10 @@
 }
 .tittleContact{
     width: 12vmin;
+}
+
+.containerContacts{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vmin;
 }

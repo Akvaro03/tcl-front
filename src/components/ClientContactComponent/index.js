@@ -8,12 +8,15 @@ import AddContact from "../addContact";
 function ClientContactComponent({ contacts, saveChanges }) {
     const [addContact, setAddContact] = useState(false)
     const rol = getUser("roles")
-
+    const ButtonEdit = () => (
+        <Button size="small" variant="outlined" onClick={() => setAddContact(true)}>
+            Agregar contacto
+        </Button>
+    )
     if (!contacts | !contacts[0]) return (
         <>
             {permissions.editActv(rol) && (
-                <Button size="small" variant="outlined"
-                    onClick={() => setAddContact(true)}>Agregar contacto</Button>
+                <ButtonEdit />
             )}
             {addContact && (
                 <AddContact close={setAddContact} save={saveChanges} prevContacts={contacts} />
@@ -22,9 +25,9 @@ function ClientContactComponent({ contacts, saveChanges }) {
     )
 
     return (
-        <>
+        <div className={Style.containerContacts}>
             {contacts.map((contact, key) => (
-                <div key={key} className={Style.displayContacts} onClick={setAddContact}>
+                <div key={key} className={Style.displayContacts}>
                     <div>
                         <span className={Style.tittleContact}>Tipo:</span>{contact.type}
                     </div>
@@ -39,11 +42,16 @@ function ClientContactComponent({ contacts, saveChanges }) {
                     </div>
                 </div>
             ))}
+            {permissions.editActv(rol) && (
+                <ButtonEdit />
+            )}
             {addContact && (
                 <AddContact close={setAddContact} save={saveChanges} prevContacts={contacts} />
             )}
-        </>
+        </div>
     );
 }
+
+
 
 export default ClientContactComponent;

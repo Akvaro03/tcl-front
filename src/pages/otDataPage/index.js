@@ -26,7 +26,9 @@ function OtDataPage() {
                 )}
             </div>
             <EditOt edit={isEditing} handleEdit={handleEditingOt} />
-            <PrintOt id={ot.id} isPrinting={isPrint} handlePrint={handlePrintOt} />
+            {permissions.printOT(rol) && (
+                <PrintOt id={ot.id} isPrinting={isPrint} handlePrint={handlePrintOt} />
+            )}
             <ToastList
                 listData={messageList}
             />

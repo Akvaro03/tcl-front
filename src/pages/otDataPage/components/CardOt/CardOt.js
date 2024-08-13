@@ -15,7 +15,7 @@ import InputMui from "../../../../components/inputMui";
 import SelectContact from "../../../../components/selectContract";
 import DescriptionComponent from "../../../../components/DescriptionComponent";
 function CardOt({ ot, handleChangeOt, handlePriority, isEditing }) {
-    return (
+    return ( 
         <div className={Style.cardData}>
             <Box position={"absolute"} right={"6%"} zIndex={2} top={"-1%"} color={"white"} component={"div"} onClick={handlePriority}>
                 <PriorityOt priority={ot.priority} />
