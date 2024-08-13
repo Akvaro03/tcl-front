@@ -39,6 +39,7 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
     };
 
     const handlePriority = () => {
+        if (!permissions.editPriority(rol)) return
         const newPriority = ClassPriorityOt.handleClick(data.priority);
         data.priority = newPriority;
         editOt(data, data.id, messageHistory.tittleEditPriority);
