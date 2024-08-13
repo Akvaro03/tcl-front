@@ -27,7 +27,6 @@ function Remito() {
                         <div className={Style.itemHeader}>
                             <p>Item</p>
                             <p>Descripción</p>
-                            
                         </div>
                         <div className={Style.itemsContent}>
                             {description !== undefined && description.map((data, key) => (
