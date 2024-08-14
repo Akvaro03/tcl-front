@@ -1,11 +1,12 @@
 import Style from "./activityButton.module.css"
 
 function ActivityButton({ activity, onClick, isClickable }) {
+    console.log(isClickable)
     const styles = `${Style.activityButton} ${getStyle(activity)}`
-    if (!isClickable) {
+    if (!isClickable) return (
         <p
             className={Style.activityButton}>{activity.name}</p>
-    }
+    )
 
     return (
         <p
