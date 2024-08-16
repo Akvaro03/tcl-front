@@ -5,11 +5,11 @@ import FormPrototype from "../formPrototype";
 import { Box, Button } from "@mui/material";
 import Upload from "../upload";
 
-function FormCreateContract({ contractToEdit, close }) {
-    const { contract, handleChangeContract, saveContract } = useCreateContract(contractToEdit, close)
+function FormCreateContract({ contractToEdit, close, menssage }) {
+    const { contract, handleChangeContract, saveContract, deleteContract } = useCreateContract(contractToEdit, close, menssage)
     const inputType = new inputClass(saveContract)
     return (
-        <FormPrototype close={close} tittle={contract ? "Editar Contrato" : "Nuevo Contrato"}>
+        <FormPrototype close={close} onDelete={contractToEdit ? deleteContract : undefined} tittle={contractToEdit ? "Editar Contrato" : "Nuevo Contrato"}>
             <div className={Style.contentForm}>
                 <div className={Style.inputsBox}>
                     <div className={Style.inputFormContent}>

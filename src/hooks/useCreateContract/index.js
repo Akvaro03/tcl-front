@@ -1,7 +1,8 @@
 import { useState } from "react"
 import postFiles from "../../db/postFiles"
+import nameUsed from "../../db/nameUsed"
 
-function useCreateContract(contractToEdit, close) {
+function useCreateContract(contractToEdit, close, createAlert) {
     const [contract, setContract] = useState(contractToEdit.name ? contractToEdit : contractDefault)
 
     const handleChangeContract = (value, type) => {
@@ -11,20 +12,38 @@ function useCreateContract(contractToEdit, close) {
     const getContractFormatted = () => {
         const newForm = new FormData()
         newForm.append("name", contract.name)
-        newForm.append("contractFile", contract.contractFile)
+        newForm.append("id", contract.id)
+        newForm.append("contractFile", contract.contractFile ? contract.contractFile : "null")
         return newForm
     }
 
-    const isContractValid = () => {
-        return contract.name.length > 0 && contract.contractFile !== null
-    }
-    const saveContract = () => {
-        if (!isContractValid()) return
-        postFiles(getContractFormatted(), "/postContract")
+    const isContractValid = () => contract.name.length > 0 && contract.contractFile !== null
+
+    const saveContract = async () => {
+        if (await isNameUsed()) {
+            createAlert("name used")
+            return
+        }
+        if (!isContractValid()) {
+            createAlert("missed data")
+            return
+        }
+        let response;
+        if (contractToEdit) {
+            response = await postFiles(getContractFormatted(), "/editContract")
+        } else {
+            response = await postFiles(getContractFormatted(), "/postContract")
+        }
+        createAlert(response)
         close()
     }
+    const deleteContract = () => {
+        console.log(contract)
+    }
+    
+    const isNameUsed = async () => contractToEdit ? contractToEdit.name.toLowerCase() !== contract.name.toLowerCase() ? await nameUsed(contract.name, "contract") : false : await nameUsed(contract.name, "contract")
 
-    return { contract, handleChangeContract, saveContract, isContractValid }
+    return { contract, handleChangeContract, saveContract, isContractValid, deleteContract }
 }
 
 const contractDefault = {

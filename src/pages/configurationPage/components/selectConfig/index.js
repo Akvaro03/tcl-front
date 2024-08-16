@@ -100,7 +100,7 @@ function SelectConfig() {
             )}
             {isFormContract && (
                 <ModalPortal type={"form"}>
-                    <FormCreateContract menssage={addAlert} contractToEdit={isFormContract} close={setIsFormContract} />
+                    <FormCreateContract menssage={addAlert} contractToEdit={isFormContract === true ? false : isFormContract} close={() => { setIsFormContract(); getContracts(true) }} />
                 </ModalPortal>
             )}
             {isFormConfig && (

@@ -1,4 +1,13 @@
 import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
+/**
+ * @typedef {'codeClient' | 'abbreviation' | 'activity' | 'client' | 'typeOT' | 'user' | 'pays' | 'contract'} StateKeys
+ */
+
+/**
+ * @param {string} newName
+ * @param {StateKeys} type
+ * @returns {Promise<boolean>}
+ */
 
 async function nameUsed(newName, type) {
     const nameFormat = newName.trim().toLowerCase();
@@ -10,10 +19,11 @@ async function nameUsed(newName, type) {
         typeOT: await getTypesNames(),
         user: await getUserNames(),
         pays: await getPaysNames(),
+        contract: await getContractsNames(),
     };
     const names = states[type];
     return names.includes(nameFormat);
-} 
+}
 function getCodeClient() {
     return fetchAsyncUrl("/getClients")
         .then(data => data.map(type => type.KeyUnique !== null ? type.KeyUnique.trim().toLowerCase() : ""));
@@ -40,6 +50,10 @@ function getPaysNames() {
 }
 function getUserNames() {
     return fetchAsyncUrl("/getUsers")
+        .then(data => data.map(client => client.name.trim().toLowerCase()))
+}
+function getContractsNames() {
+    return fetchAsyncUrl("/getcontracts")
         .then(data => data.map(client => client.name.trim().toLowerCase()))
 }
 export default nameUsed;

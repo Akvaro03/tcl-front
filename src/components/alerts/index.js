@@ -3,7 +3,6 @@ import { Alert, Fade } from "@mui/material";
 import { useEffect, useState } from "react";
 import classToastList from "../../classes/classToastList";
 function Alerts({ text: { text } }) {
-    console.log(text)
     const [className, setClassName] = useState(Style.AlertStyleDefault)
     const [isVisible, setIsVisible] = useState(true)
     const states = {
@@ -19,6 +18,7 @@ function Alerts({ text: { text } }) {
         "ok Config": <AlertCustomSucces text={"Se guardó la configuración"} />,
         "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
         "ok loadedImage": <AlertCustomSucces text={"Se cargó la imagen"} />,
+        "ok Contract": <AlertCustomSucces text={"Se guardo el Contrato"} />,
         "ok Activity": <AlertCustomSucces text={"Se creó la actividad"} />,
         "ok client": <AlertCustomSucces text={"Se creó el Cliente"} />,
         "ok Fact": <AlertCustomSucces text={"Se creó la factura"} />,
