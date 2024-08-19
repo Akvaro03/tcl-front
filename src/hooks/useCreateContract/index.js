@@ -1,6 +1,7 @@
 import { useState } from "react"
 import postFiles from "../../db/postFiles"
 import nameUsed from "../../db/nameUsed"
+import deleteContractDb from "../../db/deleteContractDb"
 
 function useCreateContract(contractToEdit, close, createAlert) {
     const [contract, setContract] = useState(contractToEdit.name ? contractToEdit : contractDefault)
@@ -38,9 +39,12 @@ function useCreateContract(contractToEdit, close, createAlert) {
         close()
     }
     const deleteContract = () => {
-        console.log(contract)
+        deleteContractDb({ id: contract.id, url: contract.url })
+            .then(res => createAlert(res))
+            .then(close())
+
     }
-    
+
     const isNameUsed = async () => contractToEdit ? contractToEdit.name.toLowerCase() !== contract.name.toLowerCase() ? await nameUsed(contract.name, "contract") : false : await nameUsed(contract.name, "contract")
 
     return { contract, handleChangeContract, saveContract, isContractValid, deleteContract }
