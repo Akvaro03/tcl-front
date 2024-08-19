@@ -16,13 +16,18 @@ function useCreateClient(data) {
     }
 
     const verifyClient = () => {
+        if (!client.Contacts[1]) {
+            return false
+        }
         return Object.values(client).every(valor => valor !== undefined && valor !== null && valor !== '');
     }
 
     const submitClient = () => {
+
         if (!verifyClient()) {
-            return "void"
+            return "missed data"
         }
+
         const clientFormatted = getClient()
 
         if (data) {

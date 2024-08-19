@@ -46,7 +46,7 @@ function ListClients() {
         }
     }
     const message = (text) => {
-        classToastList.addToast(setToasts, { id: Date.now(), text })
+        classToastList.addToast(setToasts, text )
     }
     return (
         <>

@@ -14,7 +14,7 @@ function Alerts({ text: { text } }) {
         "id used": <AlertCustomError text={"Ese id ya está en uso"} />,
         "error": <AlertCustomError text={"Hubo un error desconocido"} />,
         "error email": <AlertCustomError text={"Error en el email"} />,
-
+        
         "ok Config": <AlertCustomSucces text={"Se guardó la configuración"} />,
         "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
         "ok loadedImage": <AlertCustomSucces text={"Se cargó la imagen"} />,
@@ -28,7 +28,7 @@ function Alerts({ text: { text } }) {
         "ok ot": <AlertCustomSucces text={"Se guardó la OT"} />,
         "ok edit": <AlertCustomSucces text={"Se editó"} />,
         "ok": <AlertCustomSucces text={"Se guardó"} />,
-
+        
         "missed Type": <AlertCustomError text={"Completa el campo Tipo"} />,
         "missed Client": <AlertCustomError text={"Completa el campo Cliente"} />,
         "missed contractSelect": <AlertCustomError text={"Completa el campo Contrato"} />,
@@ -38,6 +38,7 @@ function Alerts({ text: { text } }) {
         "missed Modelo": <AlertCustomError text={"Completa el campo Modelo"} />,
         "missed Observations": <AlertCustomError text={"Completa el campo Observaciones"} />,
         "missed Description": <AlertCustomError text={"Completa Item, Importe y Descripción"} />,
+        "missed Contacts": <AlertCustomError text={"Completa todos los campos"} />,
     }
     useEffect(() => {
         setTimeout(() => {

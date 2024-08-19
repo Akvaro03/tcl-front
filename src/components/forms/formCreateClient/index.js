@@ -13,8 +13,10 @@ function FormCreateClient({ close, reload, data, message }) {
 
     const handleSubmit = async () => {
         let resultClient = await submitClient();
+        console.log(resultClient)
         message(resultClient)
-        if (resultClient !== "name used" && resultClient !== "id used") {
+        if (resultClient !== "name used" && resultClient !== "id used" && resultClient !== "missed data") {
+            console.log("entro")
             close && reload()
             close && close()
             reload()
@@ -48,7 +50,7 @@ function FormCreateClient({ close, reload, data, message }) {
                     </div>
                     <div className={Style.Input}>
                         <div className={Style.InputTittle}>
-                            <p>Dirección total:</p>
+                            <p>Dirección:</p>
                         </div>
                         {inputClient.getInput(client.location, (value) => editClient("location", value))}
                     </div>
@@ -77,7 +79,7 @@ function FormCreateClient({ close, reload, data, message }) {
                         <div className={Style.NDocument}>
                             <div className={Style.InputTittleDocument}>
                                 <p>ID fiscal:</p>
-                            </div>
+                            </div> 
                             <div className={Style.CustomInput}>
                                 {inputClient.getInput(client.Document.value, (value) => editClient("Document", { ...client.Document, value }))}
                             </div>
@@ -89,7 +91,10 @@ function FormCreateClient({ close, reload, data, message }) {
                         <AddIcon />
                     </div>
                     <p>
-                        Editar contactos
+                        Agregar contactos 
+                    </p>
+                    <p>
+                        {` (${client?.Contacts?.length})`}
                     </p>
                 </Button>
                 <div className={Style.ButtonSave}>
