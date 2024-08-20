@@ -16,9 +16,11 @@ function useCreateClient(data) {
     }
 
     const verifyClient = () => {
-        if (!client.Contacts[1]) {
+        if (!client.Contacts[0]) {
+            console.log(client.Contacts)
             return false
         }
+        console.log("paso")
         return Object.values(client).every(valor => valor !== undefined && valor !== null && valor !== '');
     }
 

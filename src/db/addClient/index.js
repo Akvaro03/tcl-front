@@ -11,6 +11,6 @@ export default async function addClient(data) {
     }
     if (isIdEditableUsed) {
         return "id used"
-    }
+    } 
     return editDb.postData("postClients", data)
 }

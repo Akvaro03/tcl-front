@@ -28,7 +28,6 @@ const useCreateOT = (props = null) => {
         for (const data of propertiesVerify) {
             if (!allProperty.includes(data)) {
                 return data; // Retorna la propiedad que dio false
-                return false
             }
         }
         return true; // Retorna true si todas las propiedades están presentes
@@ -137,6 +136,7 @@ const initialPropertiesVerify = [
     "Observations",
     "FechaEstimada",
     "Description",
+    "Contact",
 ]
 // const initialPropertiesVerify = [
 //     "Date",

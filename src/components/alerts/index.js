@@ -39,6 +39,7 @@ function Alerts({ text: { text } }) {
         "missed Observations": <AlertCustomError text={"Completa el campo Observaciones"} />,
         "missed Description": <AlertCustomError text={"Completa Item, Importe y Descripción"} />,
         "missed Contacts": <AlertCustomError text={"Completa todos los campos"} />,
+        "missed Contact": <AlertCustomError text={"El cliente no tiene contactos asociados"} />,
     }
     useEffect(() => {
         setTimeout(() => {
