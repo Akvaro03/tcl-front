@@ -31,7 +31,7 @@ function FormCreateClient({ close, reload, data, message }) {
                         <div className={Style.InputTittle}>
                             <p>Id:</p>
                         </div>
-                        {inputClient.getInput(client.idEditable, (value) => editClient("idEditable", value))}
+                        {inputClient.getInput(client.idEditable, (value) => editClient("idEditable", value), "number")}
                     </div>
                     <div className={Style.Input}>
                         <div className={Style.InputTittle}>
@@ -78,7 +78,7 @@ function FormCreateClient({ close, reload, data, message }) {
                                 <p>ID fiscal:</p>
                             </div>
                             <div className={Style.CustomInput}>
-                                {inputClient.getInput(client.Document.value, (value) => editClient("Document", { ...client.Document, value }))}
+                                {inputClient.getInput(client.Document.value, (value) => editClient("Document", { ...client.Document, value }), "number")}
                             </div>
                         </div>
                     </div>
