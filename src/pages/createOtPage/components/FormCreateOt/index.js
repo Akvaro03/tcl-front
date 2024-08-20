@@ -165,6 +165,7 @@ function FormCreateOt() {
                                     <span>Item</span>
                                     <CustomInput
                                         value={data.item}
+                                        type={"number"}
                                         onChange={(e) => handleChangeDescription(e, key, "item")}
                                     />
                                 </div>
@@ -263,6 +264,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
     let value = props.value;
     let onChange = props.onChange;
     let placeholder = props.placeholder;
+    let type = props.type;
     return (
         <Input
             placeholder={placeholder}
@@ -270,6 +272,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
             onChange={({ target: { value } }) => {
                 onChange(value)
             }}
+            type={type}
             slots={{ input: StyledInputElement }}
             ref={ref} />
     );
