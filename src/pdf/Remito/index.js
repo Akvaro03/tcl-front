@@ -49,7 +49,7 @@ function Remito() {
                                 Fecha de vencimiento del certificado:
                             </p>
                            <h1> {formatDateM(ot.FechaVencimiento)}</h1>
-                        </div>
+                        </div> 
                     </div>
                     <FormatSendPdf />
                     <DateTablePdf />

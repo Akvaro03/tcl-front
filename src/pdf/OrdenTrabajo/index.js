@@ -9,6 +9,7 @@ import ProductDataPdF from "../components/productDataPdf";
 import EstimatedDatePdf from "../components/estimatedDatePdf";
 import FormatSendPdf from "../components/formatSendPdf";
 import DateTablePdf from "../components/dateTablePdf";
+import formatDateM from "../../hooks/formatDateM";
 
 function OrdenTrabajo() {
     const { ot, client, contact, document, location, description } = useGetDataPdf();
@@ -55,6 +56,13 @@ function OrdenTrabajo() {
                                     {ot.Observations}
                                 </div>
                             </div>
+                            <div className={Style.dueDate}>
+                                <p >
+                                    Fecha de vencimiento del certificado:
+                                </p>
+                                <h1> {formatDateM(ot.FechaVencimiento)}</h1>
+                            </div>
+
                         </div>
                         <FormatSendPdf />
                         <DateTablePdf />
@@ -93,7 +101,7 @@ function OrdenTrabajo() {
                     </>
                 )}
             </div>
-            {ot && ot.contractName && <ContractPDF contractName={ot.contractName} />}
+            {ot && ot.contractName && ot.contractName !== `{"label":"Ninguno"}` && <ContractPDF contractName={ot.contractName} />}
         </>
     );
 }
