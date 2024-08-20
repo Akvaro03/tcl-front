@@ -20,21 +20,17 @@ function ListClients() {
     const [toasts, setToasts] = useState([]);
 
     useEffect(() => {
-        fetchAsyncUrl("/getClients")
-            .then(data => {
-                data = data.sort((a, b) => a.idEditable > b.idEditable ? 1 : -1)
-                setClients(data)
-                setClientsFiltered(data)
-            })
+        reload()
     }, [])
-    const reload = () => {
+    const reload = (isReload) => {
         setTimeout(() => {
             fetchAsyncUrl("/getClients")
                 .then(data => {
+                    data = data.sort((a, b) => a.idEditable > b.idEditable ? 1 : -1)
                     setClients(data)
                     setClientsFiltered(data)
                 })
-        }, 1000);
+        }, isReload ? 1200 : 0);
     }
     const filterData = (value, type) => {
         if (type === "name") {
@@ -46,7 +42,7 @@ function ListClients() {
         }
     }
     const message = (text) => {
-        classToastList.addToast(setToasts, text )
+        classToastList.addToast(setToasts, text)
     }
     return (
         <>
@@ -62,7 +58,7 @@ function ListClients() {
             </Fab>
             {isForm && (
                 <ModalPortal type={"form"}>
-                    <FormCreateClient message={message} close={setIsForm} reload={reload} data={isForm === true ? false : isForm} />
+                    <FormCreateClient message={message} close={setIsForm} reload={() => reload(true)} data={isForm === true ? false : isForm} />
                 </ModalPortal>
             )}
             <ToastList

@@ -3,7 +3,7 @@ import { Alert, Fade } from "@mui/material";
 import { useEffect, useState } from "react";
 import classToastList from "../../classes/classToastList";
 function Alerts({ text: { text } }) {
-    const [className, setClassName] = useState(Style.AlertStyleDefault)
+    const [className] = useState(Style.AlertStyleDefault)
     const [isVisible, setIsVisible] = useState(true)
     const states = {
         "abbr max": <AlertCustomError text={"Abreviación solo puede tener un carácter"} />,
@@ -14,7 +14,7 @@ function Alerts({ text: { text } }) {
         "id used": <AlertCustomError text={"Ese id ya está en uso"} />,
         "error": <AlertCustomError text={"Hubo un error desconocido"} />,
         "error email": <AlertCustomError text={"Error en el email"} />,
-        
+
         "ok Config": <AlertCustomSucces text={"Se guardó la configuración"} />,
         "ok history": <AlertCustomSucces text={"Se guardaron los cambios"} />,
         "ok loadedImage": <AlertCustomSucces text={"Se cargó la imagen"} />,
@@ -28,7 +28,7 @@ function Alerts({ text: { text } }) {
         "ok ot": <AlertCustomSucces text={"Se guardó la OT"} />,
         "ok edit": <AlertCustomSucces text={"Se editó"} />,
         "ok": <AlertCustomSucces text={"Se guardó"} />,
-        
+
         "missed Type": <AlertCustomError text={"Completa el campo Tipo"} />,
         "missed Client": <AlertCustomError text={"Completa el campo Cliente"} />,
         "missed contractSelect": <AlertCustomError text={"Completa el campo Contrato"} />,

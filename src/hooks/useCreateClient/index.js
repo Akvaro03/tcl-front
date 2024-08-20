@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { default as editClientDb } from '../../db/editClient';
 import addClient from "../../db/addClient";
+import deleteClientDb from "../../db/deleteClient";
 
-function useCreateClient(data) {
+function useCreateClient(data, close, reload) {
     const [client, setClient] = useState({ ...initialClient, ...data, Contacts: data ? JSON.parse(data.Contacts) : [], Document: data ? JSON.parse(data.Document) : { type: '', value: '' } })
     const editClient = (category, value) => {
         setClient(prev => ({ ...prev, [category]: value }))
@@ -24,6 +25,12 @@ function useCreateClient(data) {
         return Object.values(client).every(valor => valor !== undefined && valor !== null && valor !== '');
     }
 
+    const deleteClient = () => {
+        deleteClientDb({ id: client.idEditable })
+        close()
+        reload()
+    }
+
     const submitClient = () => {
 
         if (!verifyClient()) {
@@ -43,7 +50,7 @@ function useCreateClient(data) {
         return addClient(clientFormatted)
     }
 
-    return { client, editClient, resetClient, getClient, verifyClient, submitClient }
+    return { client, deleteClient, editClient, resetClient, getClient, verifyClient, submitClient }
 }
 const filterContacts = (Contacts) => Contacts ? Contacts.filter(e => (
     e.type.length > 0 && e.contact.length > 0

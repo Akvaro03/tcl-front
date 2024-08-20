@@ -1,9 +1,9 @@
 import Style from "./Remito.module.css"
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import formatDateM from "../../hooks/formatDateM";
-import postData from "../../db/postData";
-import { Box, Typography } from "@mui/material";
-import getIp from "../../hooks/getIp";
+// import postData from "../../db/postData";
+// import { Box, Typography } from "@mui/material";
+// import getIp from "../../hooks/getIp";
 import useGetDataPdf from "../customHooks/useGetDataPdf";
 import HeaderPdf from "../components/headerPdf";
 import CompanyDataPdf from "../components/companyDataPdf";

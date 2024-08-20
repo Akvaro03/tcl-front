@@ -78,7 +78,7 @@ export default function AddContact({ close, save, prevContacts }) {
                 </Box>
                 <Box margin={"15px 0"} height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
                     <Button size="small" variant="outlined" onClick={() => close(false)}>Cerrar</Button>
-                    <Button size="large" variant="contained" onClick={() => save(Contacts)}>Guardar</Button>
+                    <Button size="large" variant="contained" onClick={() => { save(Contacts); close() }}>Guardar</Button>
                 </Box>
             </FormPrototype>
         </ModalPortal>

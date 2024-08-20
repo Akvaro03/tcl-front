@@ -8,18 +8,15 @@ import useCreateClient from '../../../hooks/useCreateClient';
 import AddContact from '../../addContact';
 
 function FormCreateClient({ close, reload, data, message }) {
-    const { client, submitClient, editClient, resetClient } = useCreateClient(data)
+    const { client, submitClient, editClient, resetClient, deleteClient } = useCreateClient(data, close, reload)
     const [addContact, setAddContact] = useState(false)
 
     const handleSubmit = async () => {
         let resultClient = await submitClient();
-        console.log(resultClient)
         message(resultClient)
         if (resultClient !== "name used" && resultClient !== "id used" && resultClient !== "missed data") {
-            console.log("entro")
-            close && reload()
-            close && close()
             reload()
+            close && close()
             resetClient()
         }
         return
@@ -27,7 +24,7 @@ function FormCreateClient({ close, reload, data, message }) {
 
     const inputClient = new inputClass(handleSubmit)
     return (
-        <FormPrototype close={close} tittle={data ? "Editar Cliente" : "Crear Cliente"} width='60%' >
+        <FormPrototype close={close} tittle={data ? "Editar Cliente" : "Crear Cliente"} onDelete={data ? deleteClient : null} width='60%' >
             <form className={Style.FormClient}>
                 <div className={Style.DataInputs}>
                     <div className={Style.Input}>
@@ -79,7 +76,7 @@ function FormCreateClient({ close, reload, data, message }) {
                         <div className={Style.NDocument}>
                             <div className={Style.InputTittleDocument}>
                                 <p>ID fiscal:</p>
-                            </div> 
+                            </div>
                             <div className={Style.CustomInput}>
                                 {inputClient.getInput(client.Document.value, (value) => editClient("Document", { ...client.Document, value }))}
                             </div>
@@ -91,7 +88,7 @@ function FormCreateClient({ close, reload, data, message }) {
                         <AddIcon />
                     </div>
                     <p>
-                        Agregar contactos 
+                        Agregar contactos
                     </p>
                     <p>
                         {` (${client?.Contacts?.length})`}
