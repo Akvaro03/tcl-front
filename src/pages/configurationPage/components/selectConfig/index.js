@@ -36,6 +36,7 @@ function SelectConfig() {
         getContracts()
     }, [])
     const addAlert = (newAlert) => {
+        console.log(newAlert)
         classToastList.addToast(setMessageList, newAlert)
     }
     const getActivities = (wait) => {
@@ -105,7 +106,7 @@ function SelectConfig() {
             )}
             {isFormConfig && (
                 <ModalPortal type={"form"}>
-                    <FormConfiguration menssage={addAlert} close={setIsFormConfig} />
+                    <FormConfiguration message={addAlert} close={setIsFormConfig} />
                 </ModalPortal>
             )}
 

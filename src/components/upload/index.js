@@ -1,13 +1,18 @@
-
 import EditIcon from '@mui/icons-material/Edit';
 import { Box } from '@mui/material';
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./upload.css"
 
-
 function Upload({ data, setFile, loadImage = () => { } }) {
-    const [dataFile, setDataFile] = useState(data ? data : "")
+    const [dataFile, setDataFile] = useState("");
+
     const imageUploadRef = useRef(null);
+
+    useEffect(() => {
+        if (data) {
+            setDataFile(data);
+        }
+    }, [data]);
 
     const handleBrowser = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -16,9 +21,9 @@ function Upload({ data, setFile, loadImage = () => { } }) {
                 setDataFile(e.target.result);
             };
             reader.readAsDataURL(e.target.files[0]);
+            setFile(e.target.files[0]);
+            loadImage();
         }
-        setFile(e.target.files[0])
-        loadImage()
     };
 
     return (
@@ -31,7 +36,9 @@ function Upload({ data, setFile, loadImage = () => { } }) {
                         accept=".png, .jpg, .jpeg"
                         onChange={handleBrowser}
                     />
-                    <Box sx={{ display: "flex", alignItems: "center" }} onClick={() => imageUploadRef.current.click()}>{<EditIcon />}</Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }} onClick={() => imageUploadRef.current.click()}>
+                        <EditIcon />
+                    </Box>
                 </div>
                 <div className="avatar-preview">
                     <div
@@ -42,4 +49,5 @@ function Upload({ data, setFile, loadImage = () => { } }) {
         </div>
     );
 }
+
 export default Upload;
