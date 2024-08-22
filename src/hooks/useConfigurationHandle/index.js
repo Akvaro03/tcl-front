@@ -35,7 +35,7 @@ function useConfigurationHandle(createAlert, close) {
         formData.append('companyLogo', configData.companyLogoFile)
         formData.append('nameCompany', configData.nameCompany)
         try {
-            await axios.post('http://localhost:4000/postConfig', formData, {
+            await axios.post(`${getIp()}:4000/postConfig`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
