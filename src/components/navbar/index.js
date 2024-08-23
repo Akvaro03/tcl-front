@@ -17,24 +17,25 @@ function ResponsiveAppBar() {
 
   const [Config, setConfig] = useState()
   const urlPath = window.location.pathname;
+
+
   useEffect(() => {
-    const getConfig = async () => {
-      const responseConfig = await fetchAsyncUrl('/getConfig').catch(err => console.log("Hubo un problema con el servidor"))
-      if (responseConfig) {
-        setConfig(responseConfig)
-        fetch(`${getIp()}:4000/getBrowserLogo`)
-          .then(response => response.blob())
-          .then(blob => {
-            const url = URL.createObjectURL(blob);
-            changeFavicon(url);
-          });
-      }
-      if (!responseConfig) {
-        setConfig("No cargo")
-      }
-    }
-    getConfig()
+    fetchAsyncUrl('/getConfig')
+      .then(data => {
+        if (!data?.error) {
+          setConfig(data)
+          fetch(`${getIp()}:4000/getBrowserLogo`)
+            .then(response => response.blob())
+            .then(blob => {
+              const url = URL.createObjectURL(blob);
+              changeFavicon(url);
+            });
+          return
+        }
+        setConfig("No hay compañía cargada")
+      })
   }, [])
+
   let Pages = [];
   let user;
   let userNameLogin;
@@ -235,24 +236,24 @@ const linkAdminWithOutFactura = [
     "url": "/createOt"
   },
 ]
-const linkAdmin = [
-  {
-    "name": "Listado OTs",
-    "url": "/OtList"
-  },
-  {
-    "name": "Listado Clientes",
-    "url": "/listClients"
-  },
-  {
-    "name": "Nueva Factura",
-    "url": "/createFact"
-  },
-  {
-    "name": "Nueva OT",
-    "url": "/createOt"
-  },
-]
+// const linkAdmin = [
+//   {
+//     "name": "Listado OTs",
+//     "url": "/OtList"
+//   },
+//   {
+//     "name": "Listado Clientes",
+//     "url": "/listClients"
+//   },
+//   {
+//     "name": "Nueva Factura",
+//     "url": "/createFact"
+//   },
+//   {
+//     "name": "Nueva OT",
+//     "url": "/createOt"
+//   },
+// ]
 const linkDirectorWithOutFactura = [
   {
     "name": "Listado OTs",
@@ -267,24 +268,24 @@ const linkDirectorWithOutFactura = [
     "url": "/createOt"
   },
 ]
-const linkDirector = [
-  {
-    "name": "Listado OTs",
-    "url": "/OtList"
-  },
-  {
-    "name": "Listado Clientes",
-    "url": "/listClients"
-  },
-  {
-    "name": "Nueva Factura",
-    "url": "/createFact"
-  },
-  {
-    "name": "Nueva OT",
-    "url": "/createOt"
-  },
-]
+// const linkDirector = [
+//   {
+//     "name": "Listado OTs",
+//     "url": "/OtList"
+//   },
+//   {
+//     "name": "Listado Clientes",
+//     "url": "/listClients"
+//   },
+//   {
+//     "name": "Nueva Factura",
+//     "url": "/createFact"
+//   },
+//   {
+//     "name": "Nueva OT",
+//     "url": "/createOt"
+//   },
+// ]
 const linkAdminSystem = [
   {
     "name": "Configuraciones",
@@ -295,39 +296,8 @@ const linkAdminSystem = [
     "url": "/AllUser"
   },
 ]
-// const linkAdmin = [
-//   {
-//     "name": "Lista OT",
-//     "url": "/OtList"
-//   },
-//   {
-//     "name": "Tareas asignadas",
-//     "url": "/OtAsingPages"
-//   },
-//   {
-//     "name": "Crear OT",
-//     "url": "/createOt"
-//   },
-//   {
-//     "name": "Crear FACT",
-//     "url": "/createFact"
-//   },
-//   {
-//     "name": "Clientes",
-//     "url": "/listClients"
-//   },
-//   {
-//     "name": "Usuarios",
-//     "url": "/AllUser"
-//   },
-//   {
-//     "name": "Estadisticas",
-//     "url": "/estadisticas"
-//   },
-//   {
-//     "name": "Config",
-//     "url": "/configuración"
-//   }]
+
+
 const changeFavicon = (url) => {
   const favicon = document.querySelector('link[rel="icon"]');
   favicon.href = url;
