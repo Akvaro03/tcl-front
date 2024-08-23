@@ -6,7 +6,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import ModalPortal from "../modelPortal";
 import FormPrototype from "../formPrototype";
-import formatDateM from "../../hooks/formatDateM";
+import formatDateToZero from "../../hooks/formatDateToZero";
 function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
     const [date, setDate] = useState(dayjs(Date.now()))
     const types = ["DFR", "Retiro", "Entrega"]
@@ -44,7 +44,7 @@ function AddAvailability({ addAvailability, isDeletable, saveAvailability }) {
                         </LocalizationProvider>
                     </Box>
                     <Box height={"30%"} display={"flex"} width={"100%"} gap={"15px"} alignItems={"center"} justifyContent={"center"}>
-                        <Button size="large" variant="contained" onClick={() => saveAvailability({ type, date: formatDateM(date) })}>Guardar</Button>
+                        <Button size="large" variant="contained" onClick={() => saveAvailability({ type, date: formatDateToZero(date) })}>Guardar</Button>
                     </Box>
                 </Box>
             </FormPrototype>

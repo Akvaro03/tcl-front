@@ -7,13 +7,13 @@ import axios from "axios";
  */
 
 function useConfigurationHandle(createAlert, close) {
-    const { data: nameCompanyData, isLoading: isLoadingCompany } = useFetchUrl("/getConfig")
+    const { data: nameCompanyData } = useFetchUrl("/getConfig")
     const [configData, setConfigData] = useState(initialConfig)
 
     useEffect(() => {
         setConfigData(
             {
-                nameCompany: nameCompanyData ? nameCompanyData : "",
+                nameCompany: nameCompanyData && !nameCompanyData.error ? nameCompanyData : "",
                 companyLogoFile: `${getIp()}:4000/getCompanyLogo`,
                 browserLogoFile: `${getIp()}:4000/getCompanyLogo`
             })
