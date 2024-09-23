@@ -1,4 +1,4 @@
-const ip = "http://192.168.0.201";
+const ip = "http://192.168.0.193";
 
 export default function getIp() {
     return ip;
