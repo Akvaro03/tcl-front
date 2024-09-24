@@ -55,7 +55,6 @@ function CompanyDataPdf({ ot, location, contact, client, document }) {
                             <div className={Style.dataContent} key={key}>
                                 <p className={Style.dataLabel}>Telefono:</p>
                                 <p className={Style.dataValue}>{contactValue.cell}</p>
-
                             </div>
                         ))}
                     </div>
