@@ -83,7 +83,6 @@ const handleReload = async (setUser, setOts, states) => {
 
 const fetchOts = async (userName, states) => {
   let json = await fetchAsyncUrl("/getOT");
-  newFilter(json);
   json = await filterByState(
     json,
     states ? states : ["created", "Created", "Started"]
@@ -123,13 +122,8 @@ const filterByState = (ots, states) => {
       }
       return null;
     })
-    .filter((ot) => ot !== null); // Filtramos las OTs que no tengan actividades válidas
-};
-
-const newFilter = (json) => {
-  console.log(
-    json.filter((OT) => OT.Activities).map((OT) => JSON.parse(OT.Activities))
-  );
+    .filter((ot) => ot !== null) // Filtramos las OTs que no tengan actividades válidas
+    .filter((ot) => ot.Auth === "1"); // Filtramos las OTs que no estén aprobadas
 };
 
 const getUserData = async () => {
