@@ -35,7 +35,7 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
             .catch((error) => {
                 console.error("Error deleting OT:", error);
             });
-        setOpen(false); // Close the dialog after deletion
+        handleDialog()
     };
 
     const handlePriority = () => {
@@ -53,6 +53,7 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
     const toggleAnulado = () => {
         const newAuth = data.Auth === "-1" ? "0" : "-1";
         handleChangeAuth(data, newAuth);
+        handleDialog()
     };
 
     const isAdminOrDirector = rol === "Director" || rol === "Administracion";
