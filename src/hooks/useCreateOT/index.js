@@ -87,7 +87,7 @@ const useCreateOT = (props = null) => {
         IdClient: OTClear.Client?.idEditable || "",
         Activities: OTClear.Activities
           ? JSON.stringify(OTClear.Activities.map((key) => allActivities[key]))
-          : null,
+          : "[]",
         Identificación: `${OTClear.OTKey} ${isNullUndefined(
           OTClear.Type?.abbreviation
         )} ${isNullUndefined(OTClear.Client?.KeyUnique)}`,

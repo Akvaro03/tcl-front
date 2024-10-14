@@ -15,7 +15,7 @@ function ClientContactComponent({ contacts, saveChanges }) {
     )
     if (!contacts | !contacts[0]) return (
         <>
-            {permissions.editActv(rol) && (
+            {permissions.addContactOt(rol) && (
                 <ButtonEdit />
             )}
             {addContact && (
@@ -42,7 +42,7 @@ function ClientContactComponent({ contacts, saveChanges }) {
                     </div>
                 </div>
             ))}
-            {permissions.editActv(rol) && (
+            {permissions.addContactOt(rol) && (
                 <ButtonEdit />
             )}
             {addContact && (
