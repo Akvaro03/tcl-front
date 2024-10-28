@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import React, { Suspense } from 'react';
 import OrdenTrabajo from "../pdf/OrdenTrabajo";
 import OtDataPage from "../pages/otDataPage";
+import AssignedOt from "../pages/assignedOT";
 //Components
 //Pages
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
@@ -72,6 +73,17 @@ export const routes = createBrowserRouter([
                 <Suspense fallback={<LoadingCircle />}>
                     <Await resolve={OtAsingPages}>
                         <OtAsingPages />
+                    </Await>
+                </Suspense>
+            </ProtectedRoute>
+    },
+    {
+        path: "/OtAsingPages2",
+        element:
+            <ProtectedRoute type={permissions.asingActv}>
+                <Suspense fallback={<LoadingCircle />}>
+                    <Await resolve={AssignedOt}>
+                        <AssignedOt />
                     </Await>
                 </Suspense>
             </ProtectedRoute>
