@@ -13,7 +13,6 @@ import AssignedOt from "../pages/assignedOT";
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
 const StatisticsPage = React.lazy(() => import('../pages/statisticsPage')); // Lazy-loaded
 const CreateOtPage = React.lazy(() => import('../pages/createOtPage')); // Lazy-loaded
-const OtAsingPages = React.lazy(() => import('../pages/otAsignados')); // Lazy-loaded
 const CreateFact = React.lazy(() => import('../pages/createFact')); // Lazy-loaded
 const AllUser = React.lazy(() => import('../pages/allUsers')); // Lazy-loaded
 const Etiquetas = React.lazy(() => import('../pdf/Etiqueta')); // Lazy-loaded
@@ -68,17 +67,6 @@ export const routes = createBrowserRouter([
     // },
     {
         path: "/OtAsingPages",
-        element:
-            <ProtectedRoute type={permissions.asingActv}>
-                <Suspense fallback={<LoadingCircle />}>
-                    <Await resolve={OtAsingPages}>
-                        <OtAsingPages />
-                    </Await>
-                </Suspense>
-            </ProtectedRoute>
-    },
-    {
-        path: "/OtAsingPages2",
         element:
             <ProtectedRoute type={permissions.asingActv}>
                 <Suspense fallback={<LoadingCircle />}>

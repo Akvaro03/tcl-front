@@ -5,4 +5,4 @@ function changeActOt(dataToSend, id, tittle = "", comment = "") {
     editDb.postData("editOtActivities", dataToSend)
 }
 
-export default changeActOt;
+export default changeActOt; 

@@ -1,22 +1,37 @@
-import { Fade } from "@mui/material";
 import ResponsiveAppBar from "../../components/navbar";
 import Style from "./assignedOT.module.css";
 import ListPrototype from "../../components/listPrototype";
 import TableActivityWorkers from "../../components/tables/TableActivityWorkers";
 import useListActivities from "../../hooks/useListActivities";
 import headerList from "../../classes/headerList";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 function AssignedOt() {
-  const { activities } = useListActivities();
+  const {
+    activities,
+    changeStateActivity,
+    changeFilterFinished,
+    isFilterFinished,
+  } = useListActivities();
   return (
     <>
       <ResponsiveAppBar />
       <div className={Style.BodyCreateOt}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              value={isFilterFinished}
+              onChange={() => changeFilterFinished()}
+            />
+          }
+          label="Terminadas"
+        />
+
         <ListPrototype
           Table={TableActivityWorkers}
           header={headersOt.getHeader()}
           list={activities}
-          height={"90%"}
+          height={"80%"}
         />
       </div>
     </>

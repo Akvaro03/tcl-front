@@ -1,45 +1,92 @@
 import { useEffect, useState } from "react";
-import getUser from "../getUser";
 import fetchAsyncUrl from "../fetchAsyncUrl";
-import { Fab } from "@mui/material";
+import getUser from "../getUser";
+import changeStateActivityOT from "../../db/changeStateActivityOT";
+
 function useListActivities() {
-  const [activities, setActivities] = useState([
-    { OT: "A", activity: "actividades", state: "End", button: "aa" },
-  ]);
-  const [user, setUser] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [reset, setReset] = useState(false);
+  const [isFilterFinished, SetIsFilterFinished] = useState(false);
+
+  const changeStateActivity = ({ OT, state, activity, idOT }) => {
+    if (state === "End") {
+      return;
+    }
+    const newState = state === "CREATED" ? "Started" : "End";
+    changeStateActivityOT(
+      { id: OT, activity, newState },
+      idOT,
+      "Se modifico la actividad"
+    );
+    setTimeout(() => {
+      setReset((prev) => !prev);
+    }, 500);
+  };
+  const changeFilterFinished = () => {
+    SetIsFilterFinished((prev) => !prev);
+  };
 
   useEffect(() => {
     const newUser = getUser();
-    setUser(newUser);
     fetchAsyncUrl("/getOT")
       .then((data) => filterNullActivities(data))
       .then((data) => formatActivitiesListOt(data))
       .then((data) => filterActivitiesByName(data, newUser.name))
       .then((data) => filterNullActivities(data))
-      .then((data) => console.log(data))
-  }, []);
+      .then((data) => formatOTActivities(data))
+      .then((data) =>
+        data.map((activity) => ({
+          ...activity,
+          onclick: changeStateActivity,
+        }))
+      )
+      .then((data) => {
+        console.log(data)
+        return filterActiviesByState(data, isFilterFinished)
+      })
+      .then((data) => setActivities(data));
+  }, [reset, isFilterFinished]);
 
-  return { activities };
+  return {
+    activities,
+    changeStateActivity,
+    isFilterFinished,
+    changeFilterFinished,
+  };
 }
-
+const filterActiviesByState = (listOT, filter) =>
+  listOT.filter((activity) => (activity.state !== "End" && !filter) | ( filter) );
+// Función para eliminar actividades nulas
 const filterNullActivities = (listOT) =>
-  listOT.filter(
-    (data) => data.Activities !== null && data.Activities !== undefined
-  );
-const formatActivitiesListOt = (listOt) =>
-  listOt.map((data) => {
-    return { ...data, Activities: JSON.parse(data.Activities) };
-  });
+  listOT.filter((data) => data.Activities);
 
+// Función para parsear JSON dentro de las actividades
+const formatActivitiesListOt = (listOt) =>
+  listOt.map((data) => ({
+    ...data,
+    Activities: JSON.parse(data.Activities),
+  }));
+
+// Función para filtrar actividades por usuario
 const filterActivitiesByName = (listOT, nameUser) =>
   listOT.map((OT) => {
     const Activities = OT.Activities.filter(
-      (activity) => activity.users !== undefined
-    )
-      .map((ot) => {
-        return { ...ot, users: JSON.parse(ot.users) };
-      })
-      .filter((activity) => activity.users.includes(nameUser));
-    return { ...OT, Activities: Activities[0] ? Activities : null };
+      (activity) => activity.users && activity.users.includes(nameUser)
+    ).map((activity) => ({
+      ...activity,
+      users: JSON.parse(activity.users),
+    }));
+    return { ...OT, Activities: Activities.length ? Activities : null };
   });
+
+// Función para formatear las actividades de OT
+const formatOTActivities = (listOT) =>
+  listOT.flatMap((OT) =>
+    OT.Activities.map((activity) => ({
+      OT: OT.OTKey,
+      idOT: OT.id,
+      activity: activity.name,
+      state: activity.state,
+    }))
+  );
 export default useListActivities;

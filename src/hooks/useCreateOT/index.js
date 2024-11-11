@@ -36,6 +36,7 @@ const useCreateOT = (props = null) => {
   useEffect(() => {
     getOTkey(OT.Date).then((data) => editOT("OTKey", data));
   }, [OT.Date]);
+
   const verifyOT = (propertiesVerify = initialPropertiesVerify) => {
     const ot = clearOt();
     const allProperty = Object.getOwnPropertyNames(ot);
@@ -46,6 +47,7 @@ const useCreateOT = (props = null) => {
     }
     return true; // Retorna true si todas las propiedades están presentes
   };
+  
   const getOt = () => {
     try {
       const OTClear = clearOt();
