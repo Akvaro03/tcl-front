@@ -7,7 +7,6 @@
     position: sticky;
     top: 30px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: 15px;
 }
 
 .contentHistory::-webkit-scrollbar {
@@ -18,3 +17,14 @@
     display: none;
     /* Ocultar scroll */
 }
+
+.tittleHistory{
+    font-size: 3vmin !important;
+}
+
+@media only screen and (max-width: 1000px) {
+    .contentHistory {
+        width: 100%;
+    }
+  }
+  
