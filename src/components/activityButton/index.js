@@ -1,7 +1,6 @@
 import Style from "./activityButton.module.css"
 
 function ActivityButton({ activity, onClick, isClickable }) {
-    console.log(isClickable)
     const styles = `${Style.activityButton} ${getStyle(activity)}`
     if (!isClickable) return (
         <p

@@ -31,7 +31,6 @@ function useOtData() {
             .then(data => {
                 setOt(data)
                 setChanges(data.Changes)
-                console.log(data)
             })
     }, [id, reset])
     const formatOt = (ot) => {
@@ -90,6 +89,7 @@ function useOtData() {
         setIsEditing(prev => !prev)
     }
     const handlePrintOt = () => {
+        console.log("first")
         setIsPrint(prev => !prev)
     }
     return { ot, changes, messageList, isEditing, isPrint, handleEditingOt, handleChangeOt, handlePriority, handlePrintOt }
