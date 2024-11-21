@@ -17,12 +17,12 @@ import AddContact from "../../addContact";
 
 function FormCreateClient({ close, reload, data, message }) {
   const { client, submitClient, editClient, resetClient, deleteClient } =
-    useCreateClient(data, close, reload);
+    useCreateClient(data, close, reload,message);
   const [addContact, setAddContact] = useState(false);
 
   const handleSubmit = async () => {
     let resultClient = await submitClient();
-    message(resultClient);
+    // message(resultClient);
     if (
       resultClient !== "name used" &&
       resultClient !== "id used" &&

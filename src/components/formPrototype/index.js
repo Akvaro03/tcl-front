@@ -14,6 +14,9 @@ export default function FormPrototype({
 }) {
   const [isDeleting, setIsDeleting] = useState(false);
   // Memoiza la función que pasas al listener
+  const handleDeletingClient = () => {
+    setIsDeleting(prev => !prev)
+  }
   const handleKeyDown = useCallback(
     (e) => {
       if (close) {
@@ -87,7 +90,7 @@ export default function FormPrototype({
         </Box>
       </Fade>
       <ConfirmationComponent
-        close={close}
+        close={handleDeletingClient}
         funcToDo={onDelete}
         isVisible={isDeleting}
       />

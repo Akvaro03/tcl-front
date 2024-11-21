@@ -40,6 +40,7 @@ function Alerts({ text: { text } }) {
         "missed Description": <AlertCustomError text={"Completa Item, Importe y Descripción"} />,
         "missed Contacts": <AlertCustomError text={"Completa todos los campos"} />,
         "missed Contact": <AlertCustomError text={"El cliente no tiene contactos asociados"} />,
+        "keyUnique length": <AlertCustomError text={"El código tiene que ser de 3 o 4 letras"} />,
     }
     useEffect(() => {
         setTimeout(() => {

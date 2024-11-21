@@ -3,7 +3,7 @@ import { default as editClientDb } from "../../db/editClient";
 import addClient from "../../db/addClient";
 import deleteClientDb from "../../db/deleteClient";
 
-function useCreateClient(data, close, reload) {
+function useCreateClient(data, close, reload, makeAlert) {
   const [client, setClient] = useState({
     ...initialClient,
     ...data,
@@ -25,20 +25,19 @@ function useCreateClient(data, close, reload) {
     return {
       ...client,
       Document: JSON.stringify(client.Document),
+      Name: client.Name.toUpperCase(),
+      KeyUnique: client.KeyUnique.toUpperCase(),
       Contacts: JSON.stringify(filterContacts(client.Contacts)),
     };
   };
 
   const verifyClient = () => {
     if (3 > client.KeyUnique.length || client.KeyUnique.length > 4) {
-      console.log("El codigo tiene que tener entre 3 a 4 caracteres");
+      makeAlert("keyUnique length");
       return false;
     }
     if (!client.Contacts[0]) {
-      console.log(client.Contacts);
-      return false;
-    }
-    if (client) {
+      makeAlert("missed Contact");
       return false;
     }
     return Object.values(client).every(
