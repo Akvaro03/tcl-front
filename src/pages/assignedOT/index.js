@@ -44,6 +44,7 @@ function AssignedOt() {
 }
 
 const headersOt = new headerList();
+headersOt.addHeader("", "5%");
 headersOt.addHeader("OT", "15%");
 headersOt.addHeader("ACTIVIDADES", "15%");
 headersOt.addHeader("ESTADO", "15%");

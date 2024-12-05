@@ -41,7 +41,7 @@ function useListActivities() {
         }))
       )
       .then((data) => {
-        return filterActiviesByState(data, isFilterFinished)
+        return filterActiviesByState(data, isFilterFinished);
       })
       .then((data) => setActivities(data));
   }, [reset, isFilterFinished]);
@@ -54,7 +54,7 @@ function useListActivities() {
   };
 }
 const filterActiviesByState = (listOT, filter) =>
-  listOT.filter((activity) => (activity.state !== "End" && !filter) | ( filter) );
+  listOT.filter((activity) => (activity.state !== "End" && !filter) | filter);
 // Función para eliminar actividades nulas
 const filterNullActivities = (listOT) =>
   listOT.filter((data) => data.Activities);
@@ -86,6 +86,7 @@ const formatOTActivities = (listOT) =>
       idOT: OT.id,
       activity: activity.name,
       state: activity.state,
+      priority: OT.priority,
     }))
   );
 export default useListActivities;
