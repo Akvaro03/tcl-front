@@ -28,6 +28,7 @@ function FormCreateClient({ close, reload, data, message }) {
       resultClient !== "id used" &&
       resultClient !== "missed data"
     ) {
+      message(resultClient);
       reload();
       close && close();
       resetClient();

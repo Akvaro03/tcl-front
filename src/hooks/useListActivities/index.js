@@ -41,7 +41,6 @@ function useListActivities() {
         }))
       )
       .then((data) => {
-        console.log(data)
         return filterActiviesByState(data, isFilterFinished)
       })
       .then((data) => setActivities(data));

@@ -5,6 +5,7 @@ import TableActivityWorkers from "../../components/tables/TableActivityWorkers";
 import useListActivities from "../../hooks/useListActivities";
 import headerList from "../../classes/headerList";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function AssignedOt() {
   const {
@@ -13,6 +14,9 @@ function AssignedOt() {
     changeFilterFinished,
     isFilterFinished,
   } = useListActivities();
+  
+  const navigate = useNavigate()
+
   return (
     <>
       <ResponsiveAppBar />
@@ -30,6 +34,7 @@ function AssignedOt() {
         <ListPrototype
           Table={TableActivityWorkers}
           header={headersOt.getHeader()}
+          clickable={(data) => navigate(`/ot/${data.idOT}`)}
           list={activities}
           height={"80%"}
         />

@@ -89,7 +89,6 @@ function useOtData() {
         setIsEditing(prev => !prev)
     }
     const handlePrintOt = () => {
-        console.log("first")
         setIsPrint(prev => !prev)
     }
     return { ot, changes, messageList, isEditing, isPrint, handleEditingOt, handleChangeOt, handlePriority, handlePrintOt }

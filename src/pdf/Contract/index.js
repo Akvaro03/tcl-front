@@ -3,7 +3,6 @@ import getIp from "../../hooks/getIp";
 
 function ContractPDF({ contractName }) {
     const [Contract, setContract] = useState()
-    console.log(contractName)
     useEffect(() => {
         const getContract = async () => {
             const response = await fetch(`${getIp()}:4000/getContract`, {

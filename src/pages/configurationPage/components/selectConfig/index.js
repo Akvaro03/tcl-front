@@ -36,7 +36,6 @@ function SelectConfig() {
         getContracts()
     }, [])
     const addAlert = (newAlert) => {
-        console.log(newAlert)
         classToastList.addToast(setMessageList, newAlert)
     }
     const getActivities = (wait) => {

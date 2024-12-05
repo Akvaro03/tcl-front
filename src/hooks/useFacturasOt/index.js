@@ -13,11 +13,9 @@ function useFacturaOT(facturas, saveChanges) {
         handleUi("edit", false)
     }
     const editFactura = (editFactura) => {
-        console.log(editFactura)
     }
     const payFactura = (payFactura, dayPaid) => {
         const dateFormated = new Date(dayPaid).getTime()
-        console.log("pagar factura")
         EditPay({ datePay: dateFormated, id: payFactura })
         handleUi("edit", false)
     }
