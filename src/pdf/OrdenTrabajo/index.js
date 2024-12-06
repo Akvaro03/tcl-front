@@ -39,9 +39,13 @@ function OrdenTrabajo() {
             <ProductDataPdF ot={ot} />
             <EstimatedDatePdf ot={ot} />
             <Box className={Style.items}>
-              <Box className={Style.itemHeader}>
-                <Typography ml={-13}>Item</Typography>
-                <Typography ml={6}>Descripción</Typography>
+              <Box
+                sx={{ display: "flex", justifyContent: "space-between" }}
+                padding={0.7}
+                borderBottom={"1px solid black"}
+              >
+                <Typography>Item</Typography>
+                <Typography>Descripción</Typography>
                 <Typography> Monto (sin IVA)</Typography>
               </Box>
               <Box sx={{ minHeight: "250px" }} className={Style.itemsContent}>
@@ -54,7 +58,7 @@ function OrdenTrabajo() {
                           wordBreak: "break-word", // Permite romper palabras largas
                           whiteSpace: "normal", // Asegura que el texto se divida si es necesario
                         }}
-                        ml={-1}
+                        ml={-2}
                         fontSize={14}
                       >
                         {data.item}
@@ -66,6 +70,7 @@ function OrdenTrabajo() {
                           whiteSpace: "normal", // Asegura que el texto se divida si es necesario
                         }}
                         fontSize={14}
+                        mr={2}
                       >
                         {data.Description}
                       </Typography>
