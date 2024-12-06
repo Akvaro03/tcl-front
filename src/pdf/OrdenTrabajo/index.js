@@ -40,20 +40,28 @@ function OrdenTrabajo() {
             <EstimatedDatePdf ot={ot} />
             <Box className={Style.items}>
               <Box className={Style.itemHeader}>
-                <p>Item</p>
-                <p>Descripción</p>
-                <p></p>
-                <p> Monto (sin IVA)</p>
+                <Typography ml={-13}>Item</Typography>
+                <Typography ml={6}>Descripción</Typography>
+                <Typography> Monto (sin IVA)</Typography>
               </Box>
               <Box sx={{ minHeight: "250px" }} className={Style.itemsContent}>
                 {description &&
                   description.map((data, key) => (
                     <Box className={Style.product} key={key}>
-                      <Typography fontSize={14}>{data.item}</Typography>
                       <Typography
                         sx={{
-                          marginLeft: "10px",
-                          maxWidth: "400px", // Asegura el ancho máximo de 660px
+                          maxWidth: "50px", // Asegura el ancho máximo de 660px
+                          wordBreak: "break-word", // Permite romper palabras largas
+                          whiteSpace: "normal", // Asegura que el texto se divida si es necesario
+                        }}
+                        ml={-1}
+                        fontSize={14}
+                      >
+                        {data.item}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          maxWidth: "420px", // Asegura el ancho máximo de 660px
                           wordBreak: "break-word", // Permite romper palabras largas
                           whiteSpace: "normal", // Asegura que el texto se divida si es necesario
                         }}
@@ -61,8 +69,14 @@ function OrdenTrabajo() {
                       >
                         {data.Description}
                       </Typography>
-                      <p></p>
-                      <Typography fontSize={15}>
+                      <Typography
+                        sx={{
+                          maxWidth: "100px", // Asegura el ancho máximo de 660px
+                          wordBreak: "break-word", // Permite romper palabras largas
+                          whiteSpace: "normal", // Asegura que el texto se divida si es necesario
+                        }}
+                        fontSize={15}
+                      >
                         {data.import > 0 && formatMoney.format(data.import)}
                       </Typography>
                     </Box>

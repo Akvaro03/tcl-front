@@ -4,9 +4,9 @@ import { Box } from "@mui/material";
 function CompanyDataPdf({ ot, location, contact, client, document }) {
   return (
     <Box className={Style.companyData}>
-      <Box>
+      <Box sx={{ minHeight: "90px" }}>
         <Typography fontSize={15}>Empresa: {ot.Client}</Typography>
-        <Box sx={{ maxWidth: "360px" }}>
+        <Box sx={{ maxWidth: "400px" }}>
           <Typography fontSize={15}>Dirección: {`${location}`}</Typography>
         </Box>
         <Typography fontSize={15}>

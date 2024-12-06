@@ -81,7 +81,7 @@ body {
 .total {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 7px;
 }
 .itemHeader {
   border-bottom: 1px solid black;

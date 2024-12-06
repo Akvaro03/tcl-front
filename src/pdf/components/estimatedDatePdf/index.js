@@ -19,12 +19,12 @@ function EstimatedDatePdf({ ot }) {
         </Typography>
         <Typography
           variant="p"
-          minWidth={"90px"}
+          minWidth={"130px"}
           margin={"0px"}
           padding={"1px"}
           gutterBottom
           border={"1px solid black"}
-          width={"50px"}
+          width={"80px"}
           textAlign={"center "}
         >
           {ot.Cotizacion}
