@@ -14,8 +14,8 @@ function HeaderPdf({ name = "no hay nombre", ot }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginLeft: "20px",
-          marginRight: "15px",
+          marginLeft: "10px",
+          marginRight: "5px",
         }}
       >
         <Typography sx={{ fontWeight: "bold" }}>
@@ -42,8 +42,8 @@ function HeaderPdf({ name = "no hay nombre", ot }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginLeft: "20px",
-          marginRight: "20px",
+          marginLeft: "10px",
+          marginRight: "10px",
         }}
         // border={"1px solid black"}
       >
@@ -55,7 +55,9 @@ function HeaderPdf({ name = "no hay nombre", ot }) {
             alignItems: "center",
           }}
         >
-          <Typography sx={{ marginRight: "10px" }}>NÚMERO:</Typography>
+          <Typography fontSize={15} sx={{ marginRight: "10px" }}>
+            NÚMERO:
+          </Typography>
           <Typography
             variant="p"
             gutterBottom
