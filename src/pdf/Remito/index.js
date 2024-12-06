@@ -66,7 +66,8 @@ function Remito() {
                 wordBreak: "break-word", // Permite romper palabras largas
                 whiteSpace: "normal", // Asegura que el texto se divida si es necesario
               }}
-              className={Style.observationsContent}
+              //   className={Style.observationsContent}
+              ml={1.1}
             >
               {ot.Observations}
             </Typography>
@@ -81,7 +82,10 @@ function Remito() {
             <Typography ml={1} fontSize={15}>
               Fecha de vencimiento del certificado:
             </Typography>
-            <h1> {formatDateM(ot.FechaVencimiento)}</h1>
+            <Typography fontSize={15} mr={1}>
+              {" "}
+              {formatDateM(ot.FechaVencimiento)}
+            </Typography>
           </Box>
           <FormatSendPdf />
           {/* <DateTablePdf /> */}

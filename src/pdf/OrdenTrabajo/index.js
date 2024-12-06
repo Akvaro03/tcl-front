@@ -48,7 +48,7 @@ function OrdenTrabajo() {
                 <Typography>Descripción</Typography>
                 <Typography> Monto (sin IVA)</Typography>
               </Box>
-              <Box sx={{ minHeight: "250px" }} className={Style.itemsContent}>
+              <Box sx={{ minHeight: "300px" }} className={Style.itemsContent}>
                 {description &&
                   description.map((data, key) => (
                     <Box className={Style.product} key={key}>
@@ -59,7 +59,7 @@ function OrdenTrabajo() {
                           whiteSpace: "normal", // Asegura que el texto se divida si es necesario
                         }}
                         ml={-2}
-                        fontSize={14}
+                        fontSize={15}
                       >
                         {data.item}
                       </Typography>
@@ -69,7 +69,7 @@ function OrdenTrabajo() {
                           wordBreak: "break-word", // Permite romper palabras largas
                           whiteSpace: "normal", // Asegura que el texto se divida si es necesario
                         }}
-                        fontSize={14}
+                        fontSize={15}
                         mr={2}
                       >
                         {data.Description}
@@ -96,7 +96,7 @@ function OrdenTrabajo() {
                   </Box>
                 )}
               </Box>
-              <Box sx={{ minHeight: "200px" }}>
+              <Box sx={{ minHeight: "150px" }}>
                 <Box
                   borderTop={"1px solid black"}
                   className={Style.observationsTittle}
