@@ -33,16 +33,34 @@ function Remito() {
           <EstimatedDatePdf ot={ot} />
           <Box
             sx={{
-              minHeight: "345px", // Asegura el ancho máximo de 660px
+              minHeight: "349px", // Asegura el ancho máximo de 660px
               wordBreak: "break-word", // Permite romper palabras largas
               whiteSpace: "normal", // Asegura que el texto se divida si es necesario
             }}
             className={Style.items}
           >
-            <div className={Style.itemHeader}>
-              <p>Item</p>
-              <p>Descripción</p>
-            </div>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+              padding={0.7}
+              borderBottom={"1px solid black"}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexGrow: 1,
+                  justifyContent: "left",
+                }}
+              >
+                <Typography fontSize={15}>Item</Typography>
+                <Typography fontSize={15} ml={10}>
+                  Descripción
+                </Typography>
+              </Box>
+            </Box>
             <div className={Style.itemsContent}>
               {description !== undefined &&
                 description.map((data, key) => (
@@ -53,7 +71,24 @@ function Remito() {
                 ))}
             </div>
           </Box>
-          <Box sx={{ minHeight: "200px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              textAlign: "center",
+              fontStyle: "italic",
+            }}
+            borderBottom={"1px solid black"}
+          >
+            <Typography fontSize={15} sx={{ fontWeight: "bold" }}>
+              Los productos a ensayar/calibrar son desarrollos propietarios
+              ajenos. Nuestra actividad técnica, es reservada y confidencial.
+              Respetar en todo momento esa condición.
+            </Typography>
+          </Box>
+
+          <Box sx={{ minHeight: "150px" }}>
             <Box className={Style.observationsTittle}>
               <Typography ml={1} fontSize={15}>
                 {" "}

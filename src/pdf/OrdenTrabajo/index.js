@@ -40,15 +40,39 @@ function OrdenTrabajo() {
             <EstimatedDatePdf ot={ot} />
             <Box className={Style.items}>
               <Box
-                sx={{ display: "flex", justifyContent: "space-between" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  // alignItems: "center",
+                }}
                 padding={0.7}
                 borderBottom={"1px solid black"}
               >
-                <Typography>Item</Typography>
-                <Typography>Descripción</Typography>
-                <Typography> Monto (sin IVA)</Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 1,
+                    justifyContent: "left",
+                  }}
+                >
+                  <Typography fontSize={15}>Item</Typography>
+                  <Typography fontSize={15} ml={10}>
+                    Descripción
+                  </Typography>
+                </Box>
+                <Typography
+                  fontSize={15}
+                  sx={{ textAlign: "right", marginLeft: "auto" }}
+                >
+                  Monto (sin IVA)
+                </Typography>
               </Box>
-              <Box sx={{ minHeight: "300px" }} className={Style.itemsContent}>
+
+              <Box
+                sx={{
+                  minHeight: "300px",
+                }}
+              >
                 {description &&
                   description.map((data, key) => (
                     <Box className={Style.product} key={key}>
@@ -65,12 +89,14 @@ function OrdenTrabajo() {
                       </Typography>
                       <Typography
                         sx={{
+                          display: "flex",
                           maxWidth: "420px", // Asegura el ancho máximo de 660px
                           wordBreak: "break-word", // Permite romper palabras largas
                           whiteSpace: "normal", // Asegura que el texto se divida si es necesario
+                          textAlign: "left", // Alinea el texto al lado izquierdo
                         }}
                         fontSize={15}
-                        mr={2}
+                        ml={1}
                       >
                         {data.Description}
                       </Typography>
