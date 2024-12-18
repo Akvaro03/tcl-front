@@ -1,9 +1,8 @@
-import classToastList from "../../classes/classToastList";
 import ResponsiveAppBar from "../../components/navbar";
 import FormPay from "../../components/forms/formPay";
 import ToastList from "../../components/toastList";
 import Style from "./createFact.module.css"
-import addPay from "../../db/addPay";
+// import addPay from "../../db/addPay";
 import { useState } from "react";
 import useFacturaOT from "../../hooks/useFacturasOt";
 

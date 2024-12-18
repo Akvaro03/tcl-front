@@ -1,8 +1,5 @@
 import { Box, Button, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import isUserAssigned from "../../../hooks/isUserAssigned";
 import DeleteIcon from '@mui/icons-material/Delete';
-import isActivitiesEnd from "../../../hooks/isActivitiesEnd";
-import getStateActivity from "../../../hooks/getStateActivity";
 import formatDateM from "../../../hooks/formatDateM";
 import changeAuth from "../../../db/changeAuth";
 import messageHistory from "../../../hooks/messageHistory";
@@ -56,7 +53,6 @@ export default function TableOT({ data, Colum, dataHover, recharge }) {
         handleDialog()
     };
 
-    const isAdminOrDirector = rol === "Director" || rol === "Administracion";
     const isDirector = rol === "Director";
 
     return (

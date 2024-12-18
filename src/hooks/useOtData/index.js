@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { json, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import getOneOt from "../../db/getOneOt";
 import ClassPriorityOt from "../../classes/priorityOt";
 import classToastList from "../../classes/classToastList";

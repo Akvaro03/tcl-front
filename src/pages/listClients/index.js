@@ -4,14 +4,13 @@ import ResponsiveAppBar from "../../components/navbar";
 import ModalPortal from "../../components/modelPortal";
 import AddIcon from "@mui/icons-material/Add";
 import Style from "./listClients.module.css";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Fab } from "@mui/material";
 import ListPrototype from "../../components/listPrototype";
 import headerList from "../../classes/headerList";
 import TableClients from "../../components/tables/TableClients";
 import classToastList from "../../classes/classToastList";
 import ToastList from "../../components/toastList";
-import fetchAsyncUrl from "../../hooks/fetchAsyncUrl";
 import useListClients from "../../hooks/useListClients";
 
 function ListClients() {

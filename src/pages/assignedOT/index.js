@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 function AssignedOt() {
   const {
     activities,
-    changeStateActivity,
     changeFilterFinished,
     isFilterFinished,
   } = useListActivities();

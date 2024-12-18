@@ -13,7 +13,7 @@ import AssignedOt from "../pages/assignedOT";
 const ConfigurationPage = React.lazy(() => import('../pages/configurationPage')); // Lazy-loaded
 const StatisticsPage = React.lazy(() => import('../pages/statisticsPage')); // Lazy-loaded
 const CreateOtPage = React.lazy(() => import('../pages/createOtPage')); // Lazy-loaded
-const CreateFact = React.lazy(() => import('../pages/createFact')); // Lazy-loaded
+// const CreateFact = React.lazy(() => import('../pages/createFact')); // Lazy-loaded
 const AllUser = React.lazy(() => import('../pages/allUsers')); // Lazy-loaded
 const Etiquetas = React.lazy(() => import('../pdf/Etiqueta')); // Lazy-loaded
 const LoginPage = React.lazy(() => import('../pages/login')); // Lazy-loaded

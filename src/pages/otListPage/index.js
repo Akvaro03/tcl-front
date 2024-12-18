@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Skeleton } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, Skeleton } from "@mui/material";
 import ListPrototype from "../../components/listPrototype";
 import ResponsiveAppBar from "../../components/navbar";
 import TableOT from "../../components/tables/TableOt";
@@ -12,8 +12,8 @@ import FormPay from "../../components/forms/formPay";
 import { useNavigate } from 'react-router-dom';
 
 function OtListPage() {
-    const { ot, filterValues, allTypes, allClients, allStates, allProduct, reloadOT, filterFacturaOt, filterClient, filterState, filterType, filterProduct } = useListOt()
-    const { facturas, isFormated, allFactura, filterValueFactura, isEditFactura, handleIsEditFactura, reloadFactura, filterFactura, saveFactura } = useListFactura(ot)
+    const { ot, filterValues, allTypes, allClients, allStates, allProduct, reloadOT,  filterClient, filterState, filterType, filterProduct } = useListOt()
+    const { facturas, isFormated,  filterValueFactura, isEditFactura, handleIsEditFactura, reloadFactura, saveFactura } = useListFactura(ot)
     const resetAll = () => {
         reloadOT()
         reloadFactura()

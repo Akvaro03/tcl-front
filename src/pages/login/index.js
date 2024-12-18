@@ -4,11 +4,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { sendDataEnter } from "../../hooks/sendDataEnter";
 import Visibility from '@mui/icons-material/Visibility';
 import ResponsiveAppBar from "../../components/navbar";
-import ModalPortal from "../../components/modelPortal";
 import typesUsers from "../../classes/typesUsers";
 import { useNavigate } from "react-router-dom";
 import saveLogin from "../../hooks/saveLogin";
-import Alerts from "../../components/alerts";
 import getUser from "../../hooks/getUser";
 import Style from './login.module.css'
 import login from "../../db/login";

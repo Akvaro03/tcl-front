@@ -5,7 +5,6 @@ import ModalPortal from "../../components/modelPortal";
 import ResponsiveAppBar from "../../components/navbar";
 import headerList from "../../classes/headerList";
 import AddIcon from '@mui/icons-material/Add';
-import Alerts from "../../components/alerts";
 import { useEffect, useState } from "react";
 import Style from "./allUsers.module.css"
 import { Fab } from "@mui/material";
